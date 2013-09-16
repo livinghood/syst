@@ -1,0 +1,17 @@
+F:\dokument\Visual Studio 2010\Projects\Prototyper\Prototyper\obj\x86\Debug\ResolveAssemblyReference.cache
+F:\dokument\Visual Studio 2010\Projects\Prototyper\Prototyper\obj\x86\Debug\Personalhantering.baml
+F:\dokument\Visual Studio 2010\Projects\Prototyper\Prototyper\obj\x86\Debug\Produkthantering.baml
+F:\dokument\Visual Studio 2010\Projects\Prototyper\Prototyper\obj\x86\Debug\Logga in.baml
+F:\dokument\Visual Studio 2010\Projects\Prototyper\Prototyper\obj\x86\Debug\Kundhantering.baml
+F:\dokument\Visual Studio 2010\Projects\Prototyper\Prototyper\obj\x86\Debug\Produktregister.baml
+F:\dokument\Visual Studio 2010\Projects\Prototyper\Prototyper\obj\x86\Debug\Personalhantering.g.cs
+F:\dokument\Visual Studio 2010\Projects\Prototyper\Prototyper\obj\x86\Debug\Produkthantering.g.cs
+F:\dokument\Visual Studio 2010\Projects\Prototyper\Prototyper\obj\x86\Debug\Logga in.g.cs
+F:\dokument\Visual Studio 2010\Projects\Prototyper\Prototyper\obj\x86\Debug\Kundhantering.g.cs
+F:\dokument\Visual Studio 2010\Projects\Prototyper\Prototyper\obj\x86\Debug\Produktregister.g.cs
+F:\dokument\Visual Studio 2010\Projects\Prototyper\Prototyper\obj\x86\Debug\App.g.cs
+F:\dokument\Visual Studio 2010\Projects\Prototyper\Prototyper\obj\x86\Debug\Prototyper_MarkupCompile.cache
+F:\dokument\Visual Studio 2010\Projects\Prototyper\Prototyper\obj\x86\Debug\Prototyper.g.resources
+F:\dokument\Visual Studio 2010\Projects\Prototyper\Prototyper\obj\x86\Debug\Prototyper.Properties.Resources.resources
+F:\dokument\Visual Studio 2010\Projects\Prototyper\Prototyper\obj\x86\Debug\GenerateResource.read.1.tlog
+F:\dokument\Visual Studio 2010\Projects\Prototyper\Prototyper\obj\x86\Debug\GenerateResource.write.1.tlog

@@ -1,0 +1,15 @@
+﻿<Window x:Class="Prototyper.Produktregister"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Personalregister" Height="496" Width="592">
+    <Grid>
+        <ListView Height="358" HorizontalAlignment="Left" Margin="12,58,0,0" Name="listView1" VerticalAlignment="Top" Width="546">
+        </ListView>
+        <Button Content="Välj personal" Height="23" HorizontalAlignment="Left" Margin="483,422,0,0" Name="button1" VerticalAlignment="Top" Width="75" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="290,13,0,0" Name="textBox1" VerticalAlignment="Top" Width="187" />
+        <Button Content="Sök" Height="23" HorizontalAlignment="Left" Margin="483,12,0,0" Name="button2" VerticalAlignment="Top" Width="75" />
+        <Label Content="Personalregister" Height="39" HorizontalAlignment="Left" Margin="12,13,0,0" Name="label1" VerticalAlignment="Top" FontSize="20" />
+        <Button Content="Ändra personaluppgifter" Height="23" HorizontalAlignment="Left" Margin="12,422,0,0" Name="button3" VerticalAlignment="Top" Width="145" IsEnabled="False" />
+        <Button Content="Lägg till personal" Height="23" HorizontalAlignment="Left" Margin="379,422,0,0" Name="button4" VerticalAlignment="Top" Width="98" />
+    </Grid>
+</Window>
