@@ -14,21 +14,13 @@ using System.Windows.Shapes;
 namespace BUPPrototyper
 {
     /// <summary>
-    /// Interaction logic for LoggaIn.xaml
+    /// Interaction logic for DirektKostnadPerAktivitet.xaml
     /// </summary>
-    public partial class LoggaIn : Window
+    public partial class DirektKostnadPerAktivitet : Window
     {
-        public LoggaIn()
+        public DirektKostnadPerAktivitet()
         {
             InitializeComponent();
-        }
-
-        private void btnLogIn_Click(object sender, RoutedEventArgs e)
-        {
-            if (tbPassword.Equals("nisse") && tbUserName.Equals("Nisse"))
-            {
-                MessageBox.Show("");
-            }
         }
     }
 }
