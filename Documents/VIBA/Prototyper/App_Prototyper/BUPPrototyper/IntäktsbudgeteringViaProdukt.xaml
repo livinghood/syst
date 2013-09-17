@@ -18,15 +18,13 @@
         </DataGrid>
         <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="597,411,0,0" x:Name="button1" VerticalAlignment="Top" Width="75" />
         <Button Content="Spara" Height="23" HorizontalAlignment="Right" Margin="0,411,10,0" x:Name="button2" VerticalAlignment="Top" Width="75" />
-        <Button Content="Exportera till excel" Height="23" HorizontalAlignment="Left" Margin="194,411,0,0" x:Name="button3" VerticalAlignment="Top" Width="116" />
+        <Button Content="Exportera till Excel" Height="23" HorizontalAlignment="Left" Margin="194,411,0,0" x:Name="button3" VerticalAlignment="Top" Width="116" />
         <Button Content="Bildskärmsrapport" Height="23" HorizontalAlignment="Left" Margin="315,411,0,0" x:Name="button4" VerticalAlignment="Top" Width="104" />
         <Button Content="Skriv ut" Height="23" HorizontalAlignment="Left" Margin="113,411,0,0" x:Name="button5" VerticalAlignment="Top" Width="75" />
         <Button Content="Export av textfil" Height="23" HorizontalAlignment="Left" Margin="10,411,0,0" x:Name="button6" VerticalAlignment="Top" Width="97" />
         <Button Content="Lås budget" Height="23" HorizontalAlignment="Left" Margin="677,10,0,0" x:Name="button7" VerticalAlignment="Top" Width="75" />
-        <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,12,431,0" x:Name="comboBox1" SelectedIndex="0" Text="Välj..." VerticalAlignment="Top" Width="230">
-            <ComboBoxItem Content="Välj..." />
-        </ComboBox>
         <Label Content="Välj produkt" Height="28" HorizontalAlignment="Left" Margin="12,12,0,0" x:Name="label1" VerticalAlignment="Top" />
+        <Button Content="Hämta produkt" HorizontalAlignment="Left" Margin="87,18,0,0" VerticalAlignment="Top" Width="111"/>
 
     </Grid>
 </Window>

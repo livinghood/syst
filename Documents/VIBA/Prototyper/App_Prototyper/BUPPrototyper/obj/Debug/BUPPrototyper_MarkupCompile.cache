@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Johan\Documents\Visual Studio 2012\Projects\BUPPrototyper\BUPPrototyper\obj\Debug\
+C:\Users\Malin\Documents\GitHub\syst\Documents\VIBA\Prototyper\Prototyper_jl_20131116_v2\BUPPrototyper\obj\Debug\
 BUPPrototyper
 none
 false
 DEBUG;TRACE
-C:\Users\Johan\Documents\Visual Studio 2012\Projects\BUPPrototyper\BUPPrototyper\App.xaml
-10519621780
+C:\Users\Malin\Documents\GitHub\syst\Documents\VIBA\Prototyper\Prototyper_jl_20131116_v2\BUPPrototyper\App.xaml
+11519047240
 
-14-651847425
-16397830405
-Aktivitetshantering.xaml;IntäktsbudgeteringViaKund.xaml;IntäktsbudgeteringViaProdukt.xaml;Kundhantering.xaml;Kundregister.xaml;LoggaIn.xaml;MainWindow.xaml;Personalhantering.xaml;Produkthantering.xaml;UppföljningOchPrognostiseringAvIntäkter.xaml;
+15-1762060180
+162069342228
+Aktivitetshantering.xaml;DirektKostnadPerAktivitet.xaml;IntäktsbudgeteringViaKund.xaml;IntäktsbudgeteringViaProdukt.xaml;Kundhantering.xaml;Kundregister.xaml;LoggaIn.xaml;MainWindow.xaml;Personalhantering.xaml;Produkthantering.xaml;UppföljningOchPrognostiseringAvIntäkter.xaml;
 
 False
 
