@@ -1,0 +1,9 @@
+﻿<Window x:Class="BUPPrototyper.DirektKostnadPerAktivitet"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="DirektKostnadPerAktivitet" Height="632.564" Width="900.48">
+    <Grid>
+        <DataGrid HorizontalAlignment="Left" Margin="74,123,0,0" VerticalAlignment="Top" Height="284" Width="670"/>
+
+    </Grid>
+</Window>
