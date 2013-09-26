@@ -1,0 +1,24 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="BUPPrototyper.LoggaIn"
+        Title="LoggaIn" Height="400" Width="400" Background="{DynamicResource CoolBackground}">
+    <Grid Background="#FFF0F0F0">
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="146,160,0,0" x:Name="textBox1" VerticalAlignment="Top" Width="173" />
+        <Label Content="Användarnamn" Height="28" HorizontalAlignment="Left" Margin="47,160,0,0" x:Name="label1" VerticalAlignment="Top" Width="94" />
+        <Label Content="Lösenord" Height="28" HorizontalAlignment="Left" Margin="47,193,0,0" x:Name="label2" VerticalAlignment="Top" Width="94" />
+        <Label Content="IT-service" Height="28" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="label3" VerticalAlignment="Top" Width="70" FontWeight="Bold" />
+        <Label Content="BUP-system" Height="39" Margin="138,100,131,0" x:Name="label4" VerticalAlignment="Top" FontSize="20" Foreground="#FF004683" FontWeight="Bold" />
+        <PasswordBox HorizontalAlignment="Left" Margin="146,193,0,0" VerticalAlignment="Top" Width="173" Height="23"/>
+        <Button Content="Logga in" HorizontalAlignment="Left" Margin="244,221,0,0" VerticalAlignment="Top" Width="75">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFB4B4B4" Offset="0"/>
+                    <GradientStop Color="Red" Offset="1"/>
+                    <GradientStop Color="#FF7C7C7C" Offset="0.992"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+
+    </Grid>
+</Window>
