@@ -1,0 +1,276 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{82E85B8E-4547-42B7-98BF-076847268148}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BUPSystem</RootNamespace>
+    <AssemblyName>BUPSystem</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <ExpressionBlendVersion>5.0.40218.0</ExpressionBlendVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="LoggaIn.xaml.cs">
+      <DependentUpon>LoggaIn.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Uppföljning\UppföljningOchPrognostiseringAvIntäkter.xaml.cs">
+      <DependentUpon>UppföljningOchPrognostiseringAvIntäkter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Kostnadsbudgetering\ÅrsarbetarePerAktivitet.xaml.cs">
+      <DependentUpon>ÅrsarbetarePerAktivitet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Kostnadsbudgetering\ÅrsarbetarePerProdukt.xaml.cs">
+      <DependentUpon>ÅrsarbetarePerProdukt.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Aktivitet\Aktivitetshantering.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Aktivitet\Aktivitetsregister.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Användare\Användarhantering.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Användare\Användarregister.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LoggaIn.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Uppföljning\BudgeteratResultat.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Kostnadsbudgetering\DirektaKostnaderPerAktivitetsAvdelning.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Kostnadsbudgetering\DirektaKostnaderPerProduktAvdelning.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Intäktsbudgetering\IntäktsbudgeteringViaKund.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Intäktsbudgetering\IntäktsbudgeteringViaProdukt.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Konto\Kontohantering.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Konto\Kontoregister.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Kund\Kundhantering.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Kund\Kundregister.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="Aktivitet\Aktivitetshantering.xaml.cs">
+      <DependentUpon>Aktivitetshantering.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Aktivitet\Aktivitetsregister.xaml.cs">
+      <DependentUpon>Aktivitetsregister.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Användare\Användarhantering.xaml.cs">
+      <DependentUpon>Användarhantering.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Användare\Användarregister.xaml.cs">
+      <DependentUpon>Användarregister.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Uppföljning\BudgeteratResultat.xaml.cs">
+      <DependentUpon>BudgeteratResultat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Kostnadsbudgetering\DirektaKostnaderPerAktivitetsAvdelning.xaml.cs">
+      <DependentUpon>DirektaKostnaderPerAktivitetsAvdelning.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Kostnadsbudgetering\DirektaKostnaderPerProduktAvdelning.xaml.cs">
+      <DependentUpon>DirektaKostnaderPerProduktAvdelning.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Intäktsbudgetering\IntäktsbudgeteringViaKund.xaml.cs">
+      <DependentUpon>IntäktsbudgeteringViaKund.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Intäktsbudgetering\IntäktsbudgeteringViaProdukt.xaml.cs">
+      <DependentUpon>IntäktsbudgeteringViaProdukt.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Konto\Kontohantering.xaml.cs">
+      <DependentUpon>Kontohantering.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Konto\Kontoregister.xaml.cs">
+      <DependentUpon>Kontoregister.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Kund\Kundhantering.xaml.cs">
+      <DependentUpon>Kundhantering.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Kund\Kundregister.xaml.cs">
+      <DependentUpon>Kundregister.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Personal\Personalhantering.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Personal\Personalregister.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Produkt\ProduktgruppKategori.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Produkt\Produktgruppsregister.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Produkt\Produkthantering.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Produkt\Produktkategoriregister.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Produkt\Produktregister.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Uppföljning\UppföljningOchPrognostiseringAvIntäkter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Kostnadsbudgetering\ÅrsarbetarePerAktivitet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Kostnadsbudgetering\ÅrsarbetarePerProdukt.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Personal\Personalhantering.xaml.cs">
+      <DependentUpon>Personalhantering.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Personal\Personalregister.xaml.cs">
+      <DependentUpon>Personalregister.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Produkt\ProduktgruppKategori.xaml.cs">
+      <DependentUpon>ProduktgruppKategori.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Produkt\Produktgruppsregister.xaml.cs">
+      <DependentUpon>Produktgruppsregister.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Produkt\Produkthantering.xaml.cs">
+      <DependentUpon>Produkthantering.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Produkt\Produktkategoriregister.xaml.cs">
+      <DependentUpon>Produktkategoriregister.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Produkt\Produktregister.xaml.cs">
+      <DependentUpon>Produktregister.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Images\customer.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

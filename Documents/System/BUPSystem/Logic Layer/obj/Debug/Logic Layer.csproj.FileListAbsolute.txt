@@ -1,0 +1,4 @@
+C:\Users\Johan\Documents\Visual Studio 2012\Projects\BUPSystem\Logic Layer\bin\Debug\Logic Layer.dll
+C:\Users\Johan\Documents\Visual Studio 2012\Projects\BUPSystem\Logic Layer\bin\Debug\Logic Layer.pdb
+C:\Users\Johan\Documents\Visual Studio 2012\Projects\BUPSystem\Logic Layer\obj\Debug\Logic Layer.dll
+C:\Users\Johan\Documents\Visual Studio 2012\Projects\BUPSystem\Logic Layer\obj\Debug\Logic Layer.pdb
