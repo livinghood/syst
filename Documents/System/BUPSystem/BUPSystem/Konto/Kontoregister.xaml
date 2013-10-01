@@ -18,6 +18,7 @@
         <Button Content="Välj konto" Height="23" HorizontalAlignment="Left" Margin="392,270,0,0" x:Name="button1" VerticalAlignment="Top" Width="75" />
         <Button Content="Ändra kontouppgifter" Height="23" HorizontalAlignment="Left" Margin="10,270,0,0" x:Name="button3" VerticalAlignment="Top" Width="121" IsEnabled="False" />
         <Button Content="Lägg till nytt konto" Height="23" HorizontalAlignment="Left" Margin="263,270,0,0" x:Name="button4" VerticalAlignment="Top" Width="124" />
+        <Button Content="Ta bort" Height="23" HorizontalAlignment="Left" Margin="136,271,0,0" x:Name="button5_Copy" VerticalAlignment="Top" Width="75" />
 
     </Grid>
 </Window>

@@ -18,6 +18,7 @@
         <Button Content="Välj aktivitet" Height="23" HorizontalAlignment="Left" Margin="392,270,0,0" x:Name="button1" VerticalAlignment="Top" Width="75" />
         <Button Content="Ändra aktivitesuppgifter" Height="23" HorizontalAlignment="Left" Margin="10,270,0,0" x:Name="button3" VerticalAlignment="Top" Width="142" IsEnabled="False" />
         <Button Content="Lägg till ny aktivitet" Height="23" HorizontalAlignment="Left" Margin="274,270,0,0" x:Name="button4" VerticalAlignment="Top" Width="113" />
+        <Button Content="Ta bort" Height="23" HorizontalAlignment="Left" Margin="157,271,0,0" x:Name="button5_Copy" VerticalAlignment="Top" Width="75" />
 
     </Grid>
 </Window>
