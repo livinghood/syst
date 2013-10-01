@@ -111,6 +111,70 @@ namespace BUPPrototyper {
         #line default
         #line hidden
         
+        
+        #line 29 "..\..\..\Intäktsbudgetering\IntäktsbudgeteringViaKund.xaml"
+        [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        internal System.Windows.Controls.Label label2;
+        
+        #line default
+        #line hidden
+        
+        
+        #line 30 "..\..\..\Intäktsbudgetering\IntäktsbudgeteringViaKund.xaml"
+        [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        internal System.Windows.Controls.Label label3;
+        
+        #line default
+        #line hidden
+        
+        
+        #line 31 "..\..\..\Intäktsbudgetering\IntäktsbudgeteringViaKund.xaml"
+        [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        internal System.Windows.Controls.Label label4;
+        
+        #line default
+        #line hidden
+        
+        
+        #line 32 "..\..\..\Intäktsbudgetering\IntäktsbudgeteringViaKund.xaml"
+        [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        internal System.Windows.Controls.Label label5;
+        
+        #line default
+        #line hidden
+        
+        
+        #line 33 "..\..\..\Intäktsbudgetering\IntäktsbudgeteringViaKund.xaml"
+        [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        internal System.Windows.Controls.Label label6;
+        
+        #line default
+        #line hidden
+        
+        
+        #line 34 "..\..\..\Intäktsbudgetering\IntäktsbudgeteringViaKund.xaml"
+        [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        internal System.Windows.Controls.Label label7;
+        
+        #line default
+        #line hidden
+        
+        
+        #line 35 "..\..\..\Intäktsbudgetering\IntäktsbudgeteringViaKund.xaml"
+        [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        internal System.Windows.Controls.Label label8;
+        
+        #line default
+        #line hidden
+        
+        
+        #line 36 "..\..\..\Intäktsbudgetering\IntäktsbudgeteringViaKund.xaml"
+        [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        internal System.Windows.Controls.Label label9;
+        
+        #line default
+        #line hidden
+        
         private bool _contentLoaded;
         
         /// <summary>
@@ -167,6 +231,30 @@ namespace BUPPrototyper {
             return;
             case 9:
             this.button7_Copy = ((System.Windows.Controls.Button)(target));
+            return;
+            case 10:
+            this.label2 = ((System.Windows.Controls.Label)(target));
+            return;
+            case 11:
+            this.label3 = ((System.Windows.Controls.Label)(target));
+            return;
+            case 12:
+            this.label4 = ((System.Windows.Controls.Label)(target));
+            return;
+            case 13:
+            this.label5 = ((System.Windows.Controls.Label)(target));
+            return;
+            case 14:
+            this.label6 = ((System.Windows.Controls.Label)(target));
+            return;
+            case 15:
+            this.label7 = ((System.Windows.Controls.Label)(target));
+            return;
+            case 16:
+            this.label8 = ((System.Windows.Controls.Label)(target));
+            return;
+            case 17:
+            this.label9 = ((System.Windows.Controls.Label)(target));
             return;
             }
             this._contentLoaded = true;

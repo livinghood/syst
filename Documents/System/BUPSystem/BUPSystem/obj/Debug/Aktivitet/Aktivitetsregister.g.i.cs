@@ -87,6 +87,14 @@ namespace BUPPrototyper {
         #line default
         #line hidden
         
+        
+        #line 21 "..\..\..\Aktivitet\Aktivitetsregister.xaml"
+        [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        internal System.Windows.Controls.Button button5_Copy;
+        
+        #line default
+        #line hidden
+        
         private bool _contentLoaded;
         
         /// <summary>
@@ -134,6 +142,9 @@ namespace BUPPrototyper {
             return;
             case 6:
             this.button4 = ((System.Windows.Controls.Button)(target));
+            return;
+            case 7:
+            this.button5_Copy = ((System.Windows.Controls.Button)(target));
             return;
             }
             this._contentLoaded = true;

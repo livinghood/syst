@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="IntäktsbudgeteringViaKund" Height="475" Width="774">
     <Grid>
-        <DataGrid AutoGenerateColumns="False" Height="342" HorizontalAlignment="Left" x:Name="dataGrid1" VerticalAlignment="Top" Width="766" Margin="0,43,0,0">
+        <DataGrid AutoGenerateColumns="False" Height="312" HorizontalAlignment="Left" x:Name="dataGrid1" VerticalAlignment="Top" Width="766" Margin="0,43,0,0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Produkt ID" MinWidth="40" Width="100" />
                 <DataGridTextColumn Header="Namn" MinWidth="80" Width="120" />
@@ -26,6 +26,14 @@
         <Button Content="Välj kund" Height="23" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="button7_Copy" VerticalAlignment="Top" Width="73" />
         <Label Content="kundnamn" HorizontalAlignment="Left" Margin="168,10,0,0" VerticalAlignment="Top"/>
         <Label Content="kund id" HorizontalAlignment="Left" Margin="99,10,0,0" VerticalAlignment="Top"/>
+        <Label Height="28" HorizontalAlignment="Left" Margin="84,364,0,0" x:Name="label2" VerticalAlignment="Top" Content="Summa" />
+        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="139,364,0,0" x:Name="label3" VerticalAlignment="Top" />
+        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="194,364,0,0" x:Name="label4" VerticalAlignment="Top" />
+        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="260,364,0,0" x:Name="label5" VerticalAlignment="Top" />
+        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="315,364,0,0" x:Name="label6" VerticalAlignment="Top" />
+        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="386,364,0,0" x:Name="label7" VerticalAlignment="Top" />
+        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="463,364,0,0" x:Name="label8" VerticalAlignment="Top" />
+        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="542,364,0,0" x:Name="label9" VerticalAlignment="Top" />
 
     </Grid>
 </Window>

@@ -140,3 +140,6 @@ C:\Users\Johan\Desktop\Prototyper_jl_20131116_v2\BUPPrototyper\obj\Debug\Årsarb
 C:\Users\Johan\Desktop\Prototyper_jl_20131116_v2\BUPPrototyper\obj\Debug\ÅrsarbetarePerProdukt.g.cs
 C:\Users\Johan\Desktop\Prototyper_jl_20131116_v2\BUPPrototyper\obj\Debug\BudgeteratResultat.baml
 C:\Users\Johan\Desktop\Prototyper_jl_20131116_v2\BUPPrototyper\obj\Debug\BudgeteratResultat.g.cs
+C:\Users\Johan\Documents\GitHub\syst\Documents\VIBA\Prototyper\BUPPrototyper\bin\Debug\BUPPrototyper.exe.config
+C:\Users\Johan\Documents\GitHub\syst\Documents\VIBA\Prototyper\BUPPrototyper\obj\Debug\BUPPrototyper.exe
+C:\Users\Johan\Documents\GitHub\syst\Documents\VIBA\Prototyper\BUPPrototyper\obj\Debug\BUPPrototyper.pdb
