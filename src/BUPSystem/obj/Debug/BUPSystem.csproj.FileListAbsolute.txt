@@ -187,3 +187,5 @@ C:\GIT\syst\src\BUPSystem\obj\Debug\BUPSystem_MarkupCompile.cache
 C:\GIT\syst\src\BUPSystem\obj\Debug\BUPSystem.g.resources
 C:\GIT\syst\src\BUPSystem\obj\Debug\BUPSystem.Properties.Resources.resources
 C:\GIT\syst\src\BUPSystem\obj\Debug\BUPSystem.csproj.GenerateResource.Cache
+C:\GIT\syst\src\BUPSystem\bin\Debug\Logic Layer.dll
+C:\GIT\syst\src\BUPSystem\bin\Debug\Logic Layer.pdb

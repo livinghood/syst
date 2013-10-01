@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomerNamespace\Customer.cs" />
     <Compile Include="LogicController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
