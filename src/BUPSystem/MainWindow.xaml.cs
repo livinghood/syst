@@ -91,9 +91,54 @@ namespace BUPSystem
             aktivitetsregister.ShowDialog();
         }
 
-        private void btn_DKPAA_Click(object sender, RoutedEventArgs e)
+        private void btnDKPAA_Click(object sender, RoutedEventArgs e)
         {
+            Kostnadsbudgetering.DirektaKostnaderPerAktivitetsAvdelning dkpaa =
+                new Kostnadsbudgetering.DirektaKostnaderPerAktivitetsAvdelning();
+            dkpaa.ShowDialog();
+        }
 
+        private void btnDKPPA_Click(object sender, RoutedEventArgs e)
+        {
+            Kostnadsbudgetering.DirektaKostnaderPerProduktDriftAvdelning dkppa =
+                new Kostnadsbudgetering.DirektaKostnaderPerProduktDriftAvdelning();
+            dkppa.ShowDialog();
+        }
+
+        private void btnIVK_Click(object sender, RoutedEventArgs e)
+        {
+            Intäktsbudgetering.IntäktsbudgeteringViaKund ivk = new Intäktsbudgetering.IntäktsbudgeteringViaKund();
+            ivk.ShowDialog();
+        }
+
+        private void btnIVP_Click(object sender, RoutedEventArgs e)
+        {
+            Intäktsbudgetering.IntäktsbudgeteringViaProdukt ivp = new Intäktsbudgetering.IntäktsbudgeteringViaProdukt();
+            ivp.ShowDialog();
+        }
+
+        private void btnProduktgrupp_Click(object sender, RoutedEventArgs e)
+        {
+            Produkt.Produktgruppsregister pgr = new Produkt.Produktgruppsregister();
+            pgr.ShowDialog();
+        }
+
+        private void btnBudgeteratResultat_Click(object sender, RoutedEventArgs e)
+        {
+            Uppföljning.BudgeteratResultat budgeteratResultat = new Uppföljning.BudgeteratResultat();
+            budgeteratResultat.ShowDialog();
+        }
+
+        private void btnProduktKategori_Click(object sender, RoutedEventArgs e)
+        {
+            Produkt.Produktkategoriregister pkr = new Produkt.Produktkategoriregister();
+            pkr.ShowDialog();
+        }
+
+        private void btnUppföljningAvIntäkter_Click(object sender, RoutedEventArgs e)
+        {
+            Uppföljning.UppföljningAvIntäkter uai = new Uppföljning.UppföljningAvIntäkter();
+            uai.ShowDialog();
         }
     }
 }
