@@ -1,0 +1,9 @@
+C:\Users\Johan\Documents\Visual Studio 2012\Projects\BUPSystem\Database Layer\bin\Debug\Database Layer.dll
+C:\Users\Johan\Documents\Visual Studio 2012\Projects\BUPSystem\Database Layer\bin\Debug\Database Layer.pdb
+C:\Users\Johan\Documents\Visual Studio 2012\Projects\BUPSystem\Database Layer\obj\Debug\Database Layer.dll
+C:\Users\Johan\Documents\Visual Studio 2012\Projects\BUPSystem\Database Layer\obj\Debug\Database Layer.pdb
+C:\GIT\syst\src\Database Layer\bin\Debug\Database Layer.dll
+C:\GIT\syst\src\Database Layer\bin\Debug\Database Layer.pdb
+C:\GIT\syst\src\Database Layer\obj\Debug\Database Layer.csprojResolveAssemblyReference.cache
+C:\GIT\syst\src\Database Layer\obj\Debug\Database Layer.dll
+C:\GIT\syst\src\Database Layer\obj\Debug\Database Layer.pdb
