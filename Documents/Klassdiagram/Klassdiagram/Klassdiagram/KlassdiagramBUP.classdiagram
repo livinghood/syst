@@ -1,5 +1,77 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="6118a715-37ad-4b2e-b7fd-23e398e3b0ed" name="KlassdiagramBUP" linkedPackageId="0c9713e2-d232-4d35-83b5-96126a25ec8a" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <appliedStereotypesInternal>
+    <stereotypeInstance Id="e9539dc8-34c3-43d0-abc4-3bb1246d00c5" name="namespace" profile="CSharpProfile">
+      <elementDefinition Id="e94f6044-2c8d-46b0-815a-4829ba6f2660" />
+      <propertyInstances>
+        <stereotypeInstanceHasPropertyInstances Id="140ca177-89b0-4a48-af9c-8a16e66838f1">
+          <propertyInstance Id="6c37677b-e5cb-41c8-bd12-3306632aa142" name="BaseName">
+            <elementDefinition Id="894056f2-9c8b-458c-aa40-e79ed9f573fb" />
+          </propertyInstance>
+          <elementDefinition Id="fc86aab1-515e-47c0-86b0-a77c96b74af7" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances Id="10771c39-0a68-495e-9c7f-c9da6d75c34d">
+          <propertyInstance Id="83b6b5a4-6e96-4ce4-addf-9d61a3490212" name="ClrAttributes">
+            <elementDefinition Id="c2556b59-96aa-4f42-8f69-6933bb2ad1ce" />
+          </propertyInstance>
+          <elementDefinition Id="1d3331d4-0bdf-471f-971f-8acb4cb7b574" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances Id="9ebee62a-5fd0-4748-9a79-95bdb8e685a0">
+          <propertyInstance Id="dc237831-0928-40ee-9339-489a576fc412" name="Usings">
+            <elementDefinition Id="06c69ec8-4a8d-4a85-b9c3-466885379bbe" />
+          </propertyInstance>
+          <elementDefinition Id="3bb3ad3f-8297-4ae8-b5a3-9c45a43b85d7" />
+        </stereotypeInstanceHasPropertyInstances>
+      </propertyInstances>
+    </stereotypeInstance>
+    <stereotypeInstance Id="b3817dd7-6c54-4a62-b2a1-ec07c77be4bb" name="TextTemplateBindings" profile="TextTemplateBindings">
+      <elementDefinition Id="bf304928-2f5e-4301-a3c4-e28c073b8a98" />
+      <propertyInstances>
+        <stereotypeInstanceHasPropertyInstances Id="3ca18749-a1bf-48cd-bfb8-9ceb4b2df3b7">
+          <propertyInstance Id="cb5ccc78-b2aa-44e2-9845-71826582b2a0" name="Alias" value="ClassTemplate|EnumTemplate|InterfaceTemplate|StructTemplate">
+            <elementDefinition Id="8adda287-a02d-40cd-a304-e8ddc91a749e" />
+          </propertyInstance>
+          <elementDefinition Id="cab4b930-5b22-489e-abf4-70681d1bb28a" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances Id="216f4b16-21c5-41f5-8d8c-0d2f39b617ca">
+          <propertyInstance Id="b746a25d-cf52-416e-b213-4be2fe3e4e84" name="TemplateFilePath" value="ClassTemplate=C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 11.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\ClassTemplate.t4|EnumTemplate=C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 11.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\EnumTemplate.t4|InterfaceTemplate=C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 11.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\InterfaceTemplate.t4|StructTemplate=C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 11.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\StructTemplate.t4">
+            <elementDefinition Id="ba4df808-d5e0-489c-8d1f-64ddb0453b3e" />
+          </propertyInstance>
+          <elementDefinition Id="f4ee8bed-8a3c-4f93-9951-7b635884d8b6" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances Id="94b90c5c-49c6-4afd-8f03-3687d395d6f9">
+          <propertyInstance Id="a79a46b5-0422-4272-9776-dc1ce15bb2be" name="ProjectPath" value="ClassTemplate=..\KlassdiagramLib\KlassdiagramLib.csproj|EnumTemplate=..\KlassdiagramLib\KlassdiagramLib.csproj|InterfaceTemplate=..\KlassdiagramLib\KlassdiagramLib.csproj|StructTemplate=..\KlassdiagramLib\KlassdiagramLib.csproj">
+            <elementDefinition Id="a59209b3-7b70-4b24-b4aa-57d9b1088361" />
+          </propertyInstance>
+          <elementDefinition Id="05c42036-2cfa-49da-9f7e-a15e6f226618" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances Id="32a62b5f-24d8-451a-85fb-15710331624d">
+          <propertyInstance Id="ab48165a-d689-47bb-8281-4027dbce1663" name="TargetDirectory" value="ClassTemplate=GeneratedCode\{PackageStructure}|EnumTemplate=GeneratedCode\{PackageStructure}|InterfaceTemplate=GeneratedCode\{PackageStructure}|StructTemplate=GeneratedCode\{PackageStructure}">
+            <elementDefinition Id="adf61aeb-ee63-422b-8719-ef8453ee68e5" />
+          </propertyInstance>
+          <elementDefinition Id="38c7fc93-a876-47fe-a188-7528c39b182d" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances Id="672d855e-d673-4cbf-8f7e-b468e0bd6c8c">
+          <propertyInstance Id="0eda6422-b841-4733-a183-cc47b227978b" name="TargetName" value="ClassTemplate={Name}|EnumTemplate={Name}|InterfaceTemplate={Name}|StructTemplate={Name}">
+            <elementDefinition Id="e655afb9-78d3-4c2d-8af9-af5ab704a3d2" />
+          </propertyInstance>
+          <elementDefinition Id="41796649-4c23-4264-a91e-015a98f543a5" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances Id="b2a0fc38-b8a4-478b-95e2-e02edb9cba3a">
+          <propertyInstance Id="fccce5d9-54e3-4c43-af69-e14d04fc9e18" name="Overwrite" value="ClassTemplate=True|EnumTemplate=True|InterfaceTemplate=True|StructTemplate=True">
+            <elementDefinition Id="7d9bc71a-aa68-4805-bd8e-141110078203" />
+          </propertyInstance>
+          <elementDefinition Id="e0ab166c-a7d0-49ab-83cf-742c91e6c305" />
+        </stereotypeInstanceHasPropertyInstances>
+        <stereotypeInstanceHasPropertyInstances Id="69d5470b-02cc-45a0-99d3-eb69b48ca103">
+          <propertyInstance Id="84a201b1-dc1d-4aed-a3a4-e48d947a9203" name="Parameters">
+            <elementDefinition Id="445630f1-8930-445b-a022-853135962d00" />
+          </propertyInstance>
+          <elementDefinition Id="07f6d595-877d-45c0-836d-61b25bca9aee" />
+        </stereotypeInstanceHasPropertyInstances>
+      </propertyInstances>
+    </stereotypeInstance>
+  </appliedStereotypesInternal>
   <packagedElements>
     <logicalClassDesignerModelHasTypes>
       <class Id="c5c040a1-4dc2-4ada-93e6-32c464177b97" name="Customer" isAbstract="false" isLeaf="false" isActiveClass="false">
@@ -726,188 +798,6 @@
       </referencedType>
     </packageHasNamedElement>
     <logicalClassDesignerModelHasTypes>
-      <class Id="e799b4da-7cf3-4087-a8b4-9011d64bd8d2" name="LogicController" isAbstract="false" isLeaf="false" isActiveClass="false">
-        <elementDefinition Id="c6892207-1a27-4872-b753-5ad10799d512" />
-        <targetEnds>
-          <association Id="34a95988-76f7-4711-b3b0-9040d3c7a519" isDerived="false" sourceEndRoleName="LogicController" targetEndRoleName="ManagerProduct" isLeaf="false" isAbstract="false">
-            <classMoniker Id="98a5a31d-5325-43c3-8364-43d630edd18e" LastKnownName="ManagerProduct" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd Id="262f019a-f87b-4feb-ad08-15486d48791b" name="LogicController" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="3ee3e6f8-6c0b-459f-b0aa-fcfb1208a312" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd Id="0d01f9a4-32c7-48ab-b41a-b585a1474ec4" name="ManagerProduct" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                  <elementDefinition Id="195c2b1c-9be5-414b-9012-522976a74ef3" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-            <elementDefinition Id="e963f971-11a6-4819-8f6e-136f2c0278dc" />
-          </association>
-          <association Id="bb9eccd9-76af-44a7-8700-a42e21f55281" isDerived="false" sourceEndRoleName="LogicController" targetEndRoleName="ManagerGroupCategory" isLeaf="false" isAbstract="false">
-            <classMoniker Id="4a109a01-6ddc-48a5-b30a-b8f944286045" LastKnownName="ManagerGroupCategory" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd Id="db839d60-3aa8-4291-81df-749e83ad8c27" name="LogicController" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="29fe02d1-3533-403c-80a6-0b1b4771038a" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd Id="c35fb33a-c0d9-45f6-b2d8-8c632414e059" name="ManagerGroupCategory" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                  <elementDefinition Id="cfede62c-5ad7-41e0-8d91-4d0147309f45" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-            <elementDefinition Id="b350ac65-6a94-4c00-bc50-0be05e6704cc" />
-          </association>
-          <association Id="60076e29-23f5-4d30-8b36-7a143e66e519" isDerived="false" sourceEndRoleName="LogicController" targetEndRoleName="ManagerEmployee" isLeaf="false" isAbstract="false">
-            <classMoniker Id="813385c1-1f99-49d0-a49e-6437aabb6593" LastKnownName="ManagerEmployee" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd Id="585b0b8e-ae6d-474b-bb42-e5b852f0d5cf" name="LogicController" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="63a15b01-fdf5-436a-a7b0-2241e94cb987" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd Id="9f38a160-2acd-43ed-971c-566247a04bab" name="ManagerEmployee" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                  <elementDefinition Id="9679eb3d-e816-4583-8cfd-a8ac10ce04e5" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-            <elementDefinition Id="de6b2083-ff11-4de3-8108-539a62323bdc" />
-          </association>
-          <association Id="d5fb14ac-7379-426c-aaa6-610e968825f3" isDerived="false" sourceEndRoleName="LogicController" targetEndRoleName="ManagerUserAccount" isLeaf="false" isAbstract="false">
-            <classMoniker Id="86a58558-e57f-4c9e-bab5-6869fe9e6b3a" LastKnownName="ManagerUserAccount" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd Id="0078daa3-cbba-47a0-ae94-d9ddc626e1e7" name="LogicController" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="d39b64d7-0d2c-4c24-9f88-fdf552e85a2f" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd Id="dfccaabd-0475-4d32-bbde-dca88a1a8a13" name="ManagerUserAccount" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                  <elementDefinition Id="64c76dfe-68b9-4ad9-9de0-969184d64f25" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-            <elementDefinition Id="7d5b217a-60a3-4bb9-8e6e-ee7fe10f6712" />
-          </association>
-          <association Id="3408d896-9b2f-4886-818f-3aaebaa6ef8f" isDerived="false" sourceEndRoleName="LogicController" targetEndRoleName="ManagerActivity" isLeaf="false" isAbstract="false">
-            <classMoniker Id="dc4b27cd-c619-4a03-b5e0-e25738e5837d" LastKnownName="ManagerActivity" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd Id="fe812b50-41e2-4ef4-9676-cb9de3cab618" name="LogicController" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="36402624-3344-4a35-b48b-ee58194c61a9" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd Id="7566a8a8-f292-4d87-a062-3667cedff121" name="ManagerActivity" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                  <elementDefinition Id="dd3cbfe0-ee84-4a2c-88dd-a32d5dbeab5b" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-            <elementDefinition Id="47fb2900-b27f-4b23-b896-4ee4f94acca0" />
-          </association>
-          <association Id="c3559ecf-c26b-477c-9206-a1de70b51da8" isDerived="false" sourceEndRoleName="LogicController" targetEndRoleName="ManagerAccount" isLeaf="false" isAbstract="false">
-            <classMoniker Id="675fa18b-f430-42cd-a069-15742b8e88cc" LastKnownName="ManagerAccount" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd Id="fa1ce2fe-033b-4127-aeb3-2981d3fd5ba8" name="LogicController" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="48490158-4804-4b50-9f53-aab877caba83" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd Id="aeed8a63-e227-4d79-8af2-f5a21984c9fa" name="ManagerAccount" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                  <elementDefinition Id="5713d8ec-ee32-451c-aaa9-af85598c5231" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-            <elementDefinition Id="2a652eb0-11a8-4a44-9132-03dc116632c4" />
-          </association>
-          <association Id="606764e7-94e7-416a-8002-13ca644ad071" isDerived="false" sourceEndRoleName="LogicController" targetEndRoleName="ManagerCustomer" isLeaf="false" isAbstract="false">
-            <classMoniker Id="4835dc28-e2d2-47aa-bc6c-b4df2413f32f" LastKnownName="ManagerCustomer" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd Id="37add123-f074-43e5-85df-c16f1d9ce0fc" name="LogicController" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="110201f5-a023-4a9d-94fc-91a432eb307c" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd Id="16950691-19b1-4cfa-83b8-6b7c9fd48573" name="ManagerCustomer" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                  <elementDefinition Id="e102db35-50b9-4177-b82a-78c4d8665c9a" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-            <elementDefinition Id="b17b9db6-8dd8-474a-8a3f-fa0937b83095" />
-          </association>
-          <association Id="10f2f057-8f1e-404b-8126-9d681ed28e1c" isDerived="false" sourceEndRoleName="LogicController" targetEndRoleName="ManagerExpense" isLeaf="false" isAbstract="false">
-            <classMoniker Id="0545c89f-1b91-4bdf-a624-022df27e3d72" LastKnownName="ManagerExpense" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd Id="c7559e1a-88d2-40a9-9382-60d35981a64b" name="LogicController" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="5a198f09-5306-4279-a804-079b07194abb" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd Id="e27b9682-ec87-432f-a244-53ec68185412" name="ManagerExpense" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                  <elementDefinition Id="45b14c2b-4c6a-4665-ab62-b2a131ad582d" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-            <elementDefinition Id="fd7bc767-6c44-4b86-8d7c-eaff478865d6" />
-          </association>
-          <association Id="b0373e5d-4ac9-4cb5-98bc-9367f0376ea3" isDerived="false" sourceEndRoleName="LogicController" targetEndRoleName="ManagerIncome" isLeaf="false" isAbstract="false">
-            <classMoniker Id="0c08291b-8905-41ab-8cf4-31da75808578" LastKnownName="ManagerIncome" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd Id="b287200e-fe2e-47c4-a636-ad7fb6839d71" name="LogicController" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="2083263d-0872-40cc-9fb9-1aa70e2832d0" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd Id="f17b659a-6eae-4ccf-ae96-ed78f5023173" name="ManagerIncome" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                  <elementDefinition Id="1f95b831-21ce-4c12-ade5-7007d3aa009d" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-            <elementDefinition Id="18dce7ac-40fd-4b21-bca2-2ca89f0160f5" />
-          </association>
-          <association Id="bcf22a72-d56d-4ca6-aeea-f48300d37eee" isDerived="false" sourceEndRoleName="LogicController" targetEndRoleName="ManagerForecast" isLeaf="false" isAbstract="false">
-            <classMoniker Id="4324dbd7-92e9-4849-a95a-b02f9bcb01b1" LastKnownName="ManagerForecast" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd Id="4248aa44-f146-4cc6-964c-b2d907fd0aad" name="LogicController" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="1b9bac08-e576-441a-94b6-6d60f9389ecd" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd Id="36dcb0f9-3ddf-4292-987b-b7837ece6679" name="ManagerForecast" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                  <elementDefinition Id="ea0a14fe-29b5-44b3-99fd-841eb286b2d8" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-            <elementDefinition Id="7347f302-80ba-4191-8dc1-0afbf576e849" />
-          </association>
-        </targetEnds>
-        <ownedOperationsInternal>
-          <operation Id="d441a6c5-1bd5-4cf8-82a5-7e3239910170" name="ControlUserAuthority" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
-            <elementDefinition Id="ac6ec05e-313e-48da-bedd-c9bbf8cf69eb" />
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter Id="66cb6b5a-f812-43db-aad1-69b0f9a071d4" name="userAccount" direction="In">
-                  <elementDefinition Id="c86397f6-fdb5-41e2-8510-3ba4b9825282" />
-                  <type_NamedElement>
-                    <referencedTypeMoniker Id="283cf54b-abf3-4972-9bad-6461ed37fd8f" LastKnownName="ManagerUserAccount" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-        </ownedOperationsInternal>
-      </class>
-    </logicalClassDesignerModelHasTypes>
-    <logicalClassDesignerModelHasTypes>
       <class Id="0c08291b-8905-41ab-8cf4-31da75808578" name="ManagerIncome" isAbstract="false" isLeaf="false" isActiveClass="false">
         <elementDefinition Id="8191b525-b378-431a-b7ec-5baa12ef2e9c" />
         <targetEnds>
@@ -1306,22 +1196,6 @@
             </relationshipOwnedElementsInternal>
             <elementDefinition Id="6a0c8b5a-2d8d-4216-9066-1b7172979431" />
           </association>
-          <association Id="caeea4e4-1f67-4fd3-91fa-34859e2cf911" isDerived="false" sourceEndRoleName="ManagerUserAccount" targetEndRoleName="LogicController" isLeaf="false" isAbstract="false">
-            <classMoniker Id="e799b4da-7cf3-4087-a8b4-9011d64bd8d2" LastKnownName="LogicController" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd Id="06b5c8aa-e1c2-4045-9895-fa477cd785fa" name="ManagerUserAccount" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="655169c3-f537-48c5-91cd-589941b3ad13" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd Id="801b2125-fcd1-48c2-ab71-df4e6cefc5f4" name="LogicController" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                  <elementDefinition Id="dac9cd7c-ca83-4c91-87ce-51feffcd19ce" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-            <elementDefinition Id="fed5fe2e-b993-4570-b8ec-1a2a5c1b8616" />
-          </association>
         </targetEnds>
         <ownedOperationsInternal>
           <operation Id="668c2a2e-74f4-4f5e-9959-b60b92c660e5" name="CreateUserAccount" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
@@ -1571,11 +1445,6 @@
         </ownedOperationsInternal>
       </class>
     </logicalClassDesignerModelHasTypes>
-    <packageHasNamedElement>
-      <referencedType Id="283cf54b-abf3-4972-9bad-6461ed37fd8f" name="ManagerUserAccount" isAbstract="false" isLeaf="false" cachedFullName="Klassdiagram::ManagerUserAccount">
-        <elementDefinition Id="2e096210-73ac-421a-9551-62296340abaa" />
-      </referencedType>
-    </packageHasNamedElement>
     <logicalClassDesignerModelHasTypes>
       <class Id="4324dbd7-92e9-4849-a95a-b02f9bcb01b1" name="ManagerForecast" isAbstract="false" isLeaf="false" isActiveClass="false">
         <elementDefinition Id="22351ac8-b883-4466-99a6-a32c266c738d" />
@@ -1624,6 +1493,18 @@
           <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
         </profileInstance>
         <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="a1057c56-1258-4a78-965d-028e348cb7c9">
+        <profileInstance Id="d4322c16-455a-468a-a17b-e21b2fcee17d" name="CSharpProfile">
+          <elementDefinition Id="a6e9cba2-e00f-48db-a505-9c10d7cb2587" />
+        </profileInstance>
+        <elementDefinition Id="702e19b8-e982-4344-982e-45f937bb2041" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="fc819360-03e6-4a12-b547-e0df90a9b8cc">
+        <profileInstance Id="261a0e49-cccb-448a-844c-3572fdf5f609" name="TextTemplateBindings">
+          <elementDefinition Id="6838910b-980e-4903-9053-6d2297b12fb2" />
+        </profileInstance>
+        <elementDefinition Id="fa755ad3-e96a-4335-a796-61edbb664c4e" />
       </packageHasProfileInstances>
     </profileInstances>
   </package>
