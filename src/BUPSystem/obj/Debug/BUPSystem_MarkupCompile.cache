@@ -1,0 +1,20 @@
+﻿BUPSystem
+
+
+winexe
+C#
+.cs
+C:\GIT\syst\src\BUPSystem\obj\Debug\
+BUPSystem
+none
+false
+DEBUG;TRACE
+C:\GIT\syst\src\BUPSystem\App.xaml
+27908878858
+
+31525451959
+13706795464
+Activity\Activity management.xaml;Activity\Activity register.xaml;Employee\Employee management.xaml;User\User management.xaml;User\User register.xaml;Revenue budgeting\Non budgeted products.xaml;Login.xaml;Follow-up\Revenue follow-up.xaml;Follow-up\Budgeted result.xaml;Cost budgeting\Direct costs per activity department.xaml;Cost budgeting\Direct costs per product department .xaml.xaml;Revenue budgeting\Revenue budgeting via customer.xaml;Revenue budgeting\Revenue budgeting via product.xaml;Account\Account management.xaml;Account\Account register.xaml;Customer\Customer management.xaml;Customer\Customer register.xaml;MainWindow.xaml;Employee\Employee register.xaml;Product\Productgroup Category.xaml;Product\Product group register.xaml;Product\Product management.xaml;Product\Product category register.xaml;Product\Product register.xaml;Follow-up\Follow-up and forecasting.xaml;Cost budgeting\Annual employee per activity.xaml;Cost budgeting\Annual employee per product.xaml;
+
+False
+

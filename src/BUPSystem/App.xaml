@@ -40,7 +40,7 @@
         						</LinearGradientBrush>
         					</Grid.Background>
         					<Image Source="pack://siteoforigin:,,,/Images/customer.ico" Stretch="Fill" Margin="10,10,10,30"/>
-        					<Label Content="Kundhantering" Margin="0,90,0,0" VerticalAlignment="Center" Height="30" HorizontalAlignment="Center" Foreground="White"/>
+        					<Label Content="CustomerManagement" Margin="0,90,0,0" VerticalAlignment="Center" Height="30" HorizontalAlignment="Center" Foreground="White"/>
         					<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
         				</Grid>
         				<ControlTemplate.Triggers>
