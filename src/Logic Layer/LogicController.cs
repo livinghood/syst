@@ -21,13 +21,18 @@ namespace Logic_Layer
 
         public ObservableCollection<CustomerNamespace.Customer> CustomerList { get; set; }
 
+        public ObservableCollection<EmployeeNamespace.Employee> EmployeeList { get; set; }
+
         /// <summary>
         /// Empty constructor.
         /// </summary>
         /// <remarks></remarks>
         private LogicController()
         {
-
+            CustomerList = new ObservableCollection<CustomerNamespace.Customer>
+            {
+                new CustomerNamespace.Customer(4, CustomerNamespace.CustomerCategorys.Offentlig, "tja")
+            };
         }
 
         /// <summary>

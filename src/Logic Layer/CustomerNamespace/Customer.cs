@@ -27,12 +27,12 @@ namespace Logic_Layer.CustomerNamespace
         /// <summary>
         /// Constructor for creating a customer
         /// </summary>
-        /// <param name="customerID"></param>
+        /// <param name="customerId"></param>
         /// <param name="customerCategory"></param>
         /// <param name="customerName"></param>
-        public Customer(int customerID, CustomerCategorys customerCategory, string customerName)
+        public Customer(int customerId, CustomerCategorys customerCategory, string customerName)
         {
-            CustomerID = customerID;
+            CustomerID = customerId;
             CustomerCategory = customerCategory;
             CustomerName = customerName;
         }

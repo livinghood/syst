@@ -54,78 +54,92 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="LoggaIn.xaml.cs">
-      <DependentUpon>LoggaIn.xaml</DependentUpon>
+    <Compile Include="Employee\Employee management.xaml.cs">
+      <DependentUpon>Employee management.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Uppföljning\UppföljningAvIntäkter.xaml.cs">
-      <DependentUpon>UppföljningAvIntäkter.xaml</DependentUpon>
+    <Compile Include="Revenue budgeting\Non budgeted products.xaml.cs">
+      <DependentUpon>Non budgeted products.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Uppföljning\UppföljningOchPrognostiseringAvIntäkter.xaml.cs">
-      <DependentUpon>UppföljningOchPrognostiseringAvIntäkter.xaml</DependentUpon>
+    <Compile Include="Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Kostnadsbudgetering\ÅrsarbetarePerAktivitet.xaml.cs">
-      <DependentUpon>ÅrsarbetarePerAktivitet.xaml</DependentUpon>
+    <Compile Include="Follow-up\Revenue follow-up.xaml.cs">
+      <DependentUpon>Revenue follow-up.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Kostnadsbudgetering\ÅrsarbetarePerProdukt.xaml.cs">
-      <DependentUpon>ÅrsarbetarePerProdukt.xaml</DependentUpon>
+    <Compile Include="Follow-up\Follow-up and forecasting.xaml.cs">
+      <DependentUpon>Follow-up and forecasting.xaml</DependentUpon>
     </Compile>
-    <Page Include="Aktivitet\Aktivitetshantering.xaml">
+    <Compile Include="Cost budgeting\Annual employee per activity.xaml.cs">
+      <DependentUpon>Annual employee per activity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Cost budgeting\Annual employee per product.xaml.cs">
+      <DependentUpon>Annual employee per product.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Activity\Activity management.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Aktivitet\Aktivitetsregister.xaml">
+    <Page Include="Activity\Activity register.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Användare\Användarhantering.xaml">
+    <Page Include="Employee\Employee management.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Användare\Användarregister.xaml">
+    <Page Include="User\User management.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="LoggaIn.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Uppföljning\UppföljningAvIntäkter.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Uppföljning\BudgeteratResultat.xaml">
+    <Page Include="User\User register.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Kostnadsbudgetering\DirektaKostnaderPerAktivitetsAvdelning.xaml">
+    <Page Include="Revenue budgeting\Non budgeted products.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Follow-up\Revenue follow-up.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Follow-up\Budgeted result.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Kostnadsbudgetering\DirektaKostnaderPerProduktAvdelning.xaml">
+    <Page Include="Cost budgeting\Direct costs per activity department.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Intäktsbudgetering\IntäktsbudgeteringViaKund.xaml">
+    <Page Include="Cost budgeting\Direct costs per product department .xaml.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Intäktsbudgetering\IntäktsbudgeteringViaProdukt.xaml">
+    <Page Include="Revenue budgeting\Revenue budgeting via customer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Konto\Kontohantering.xaml">
+    <Page Include="Revenue budgeting\Revenue budgeting via product.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Konto\Kontoregister.xaml">
+    <Page Include="Account\Account management.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Kund\Kundhantering.xaml">
+    <Page Include="Account\Account register.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Kund\Kundregister.xaml">
+    <Page Include="Customer\Customer management.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Customer\Customer register.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -133,115 +147,108 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Aktivitet\Aktivitetshantering.xaml.cs">
-      <DependentUpon>Aktivitetshantering.xaml</DependentUpon>
+    <Compile Include="Activity\Activity management.xaml.cs">
+      <DependentUpon>Activity management.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Aktivitet\Aktivitetsregister.xaml.cs">
-      <DependentUpon>Aktivitetsregister.xaml</DependentUpon>
+    <Compile Include="Activity\Activity register.xaml.cs">
+      <DependentUpon>Activity register.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Användare\Användarhantering.xaml.cs">
-      <DependentUpon>Användarhantering.xaml</DependentUpon>
+    <Compile Include="User\User management.xaml.cs">
+      <DependentUpon>User management.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Användare\Användarregister.xaml.cs">
-      <DependentUpon>Användarregister.xaml</DependentUpon>
+    <Compile Include="User\User register.xaml.cs">
+      <DependentUpon>User register.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Uppföljning\BudgeteratResultat.xaml.cs">
-      <DependentUpon>BudgeteratResultat.xaml</DependentUpon>
+    <Compile Include="Follow-up\Budgeted result.xaml.cs">
+      <DependentUpon>Budgeted result.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Kostnadsbudgetering\DirektaKostnaderPerAktivitetsAvdelning.xaml.cs">
-      <DependentUpon>DirektaKostnaderPerAktivitetsAvdelning.xaml</DependentUpon>
+    <Compile Include="Cost budgeting\Direct costs per activity department.xaml.cs">
+      <DependentUpon>Direct costs per activity department.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Kostnadsbudgetering\DirektaKostnaderPerProduktAvdelning.xaml.cs">
-      <DependentUpon>DirektaKostnaderPerProduktAvdelning.xaml</DependentUpon>
+    <Compile Include="Cost budgeting\Direct costs per product department .xaml.xaml.cs">
+      <DependentUpon>Direct costs per product department .xaml.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Intäktsbudgetering\IntäktsbudgeteringViaKund.xaml.cs">
-      <DependentUpon>IntäktsbudgeteringViaKund.xaml</DependentUpon>
+    <Compile Include="Revenue budgeting\Revenue budgeting via customer.xaml.cs">
+      <DependentUpon>Revenue budgeting via customer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Intäktsbudgetering\IntäktsbudgeteringViaProdukt.xaml.cs">
-      <DependentUpon>IntäktsbudgeteringViaProdukt.xaml</DependentUpon>
+    <Compile Include="Revenue budgeting\Revenue budgeting via product.xaml.cs">
+      <DependentUpon>Revenue budgeting via product.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Konto\Kontohantering.xaml.cs">
-      <DependentUpon>Kontohantering.xaml</DependentUpon>
+    <Compile Include="Account\Account management.xaml.cs">
+      <DependentUpon>Account management.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Konto\Kontoregister.xaml.cs">
-      <DependentUpon>Kontoregister.xaml</DependentUpon>
+    <Compile Include="Account\Account register.xaml.cs">
+      <DependentUpon>Account register.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Kund\Kundhantering.xaml.cs">
-      <DependentUpon>Kundhantering.xaml</DependentUpon>
+    <Compile Include="Customer\Customer management.xaml.cs">
+      <DependentUpon>Customer management.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Kund\Kundregister.xaml.cs">
-      <DependentUpon>Kundregister.xaml</DependentUpon>
+    <Compile Include="Customer\Customer register.xaml.cs">
+      <DependentUpon>Customer register.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Personal\Personalhantering.xaml">
+    <Page Include="Employee\Employee register.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Personal\Personalregister.xaml">
+    <Page Include="Product\Productgroup Category.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Produkt\ProduktgruppKategori.xaml">
+    <Page Include="Product\Product group register.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Produkt\Produktgruppsregister.xaml">
+    <Page Include="Product\Product management.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Produkt\Produkthantering.xaml">
+    <Page Include="Product\Product category register.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Produkt\Produktkategoriregister.xaml">
+    <Page Include="Product\Product register.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Produkt\Produktregister.xaml">
+    <Page Include="Follow-up\Follow-up and forecasting.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Uppföljning\UppföljningOchPrognostiseringAvIntäkter.xaml">
+    <Page Include="Cost budgeting\Annual employee per activity.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Kostnadsbudgetering\ÅrsarbetarePerAktivitet.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Kostnadsbudgetering\ÅrsarbetarePerProdukt.xaml">
+    <Page Include="Cost budgeting\Annual employee per product.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Personal\Personalhantering.xaml.cs">
-      <DependentUpon>Personalhantering.xaml</DependentUpon>
+    <Compile Include="Employee\Employee register.xaml.cs">
+      <DependentUpon>Employee register.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Personal\Personalregister.xaml.cs">
-      <DependentUpon>Personalregister.xaml</DependentUpon>
+    <Compile Include="Product\Productgroup Category.xaml.cs">
+      <DependentUpon>Productgroup Category.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Produkt\ProduktgruppKategori.xaml.cs">
-      <DependentUpon>ProduktgruppKategori.xaml</DependentUpon>
+    <Compile Include="Product\Product group register.xaml.cs">
+      <DependentUpon>Product group register.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Produkt\Produktgruppsregister.xaml.cs">
-      <DependentUpon>Produktgruppsregister.xaml</DependentUpon>
+    <Compile Include="Product\Product management.xaml.cs">
+      <DependentUpon>Product management.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Produkt\Produkthantering.xaml.cs">
-      <DependentUpon>Produkthantering.xaml</DependentUpon>
+    <Compile Include="Product\Product category register.xaml.cs">
+      <DependentUpon>Product category register.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Produkt\Produktkategoriregister.xaml.cs">
-      <DependentUpon>Produktkategoriregister.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Produkt\Produktregister.xaml.cs">
-      <DependentUpon>Produktregister.xaml</DependentUpon>
+    <Compile Include="Product\Product register.xaml.cs">
+      <DependentUpon>Product register.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

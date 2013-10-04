@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BUPSystem.Account;
+using BUPSystem.Activity;
+using BUPSystem.Customer;
+using BUPSystem.Product;
+using BUPSystem.User;
 
 namespace BUPSystem
 {
@@ -20,15 +26,15 @@ namespace BUPSystem
     /// </summary>
     public partial class MainWindow : Window
     {
-        private LoggaIn loggaIn = new LoggaIn();
+        private readonly Login login = new Login();
 
         public MainWindow()
         {
             InitializeComponent();
             this.Hide();
-            loggaIn.ShowDialog();
+            login.ShowDialog();
 
-            if (loggaIn.Authenticated)
+            if (login.Authenticated)
             {
                 this.Show();
             }
@@ -36,108 +42,108 @@ namespace BUPSystem
 
         private void btnKundhantering_Click(object sender, RoutedEventArgs e)
         {
-            Kund.Kundregister kundregister = new Kund.Kundregister();
-            kundregister.ShowDialog();
+            CustomerRegister customerRegister = new CustomerRegister();
+            customerRegister.ShowDialog();
         }
 
         private void btnProdukthantering_Click(object sender, RoutedEventArgs e)
         {
-            Produkt.Produktregister produktregister = new Produkt.Produktregister();
-            produktregister.ShowDialog();
+            ProductRegister productRegister = new ProductRegister();
+            productRegister.ShowDialog();
         }
 
         private void btnKontohantering_Click(object sender, RoutedEventArgs e)
         {
-            Konto.Kontoregister kontoregister = new Konto.Kontoregister();
-            kontoregister.ShowDialog();
+            AccountRegister accountRegister = new AccountRegister();
+            accountRegister.ShowDialog();
         }
 
         private void btnPersonalhantering_Click(object sender, RoutedEventArgs e)
         {
-            Personal.Personalregister personalregister = new Personal.Personalregister();
-            personalregister.ShowDialog();
+            Employee.EmployeeRegister employeeRegister = new Employee.EmployeeRegister();
+            employeeRegister.ShowDialog();
         }
 
         private void btnAnvändarhantering_Click(object sender, RoutedEventArgs e)
         {
-            Användare.Användarregister användarregister = new Användare.Användarregister();
-            användarregister.ShowDialog();
+            UserRegister userRegister = new UserRegister();
+            userRegister.ShowDialog();
         }
 
         private void btnUppföljning_Click(object sender, RoutedEventArgs e)
         {
-            Uppföljning.UppföljningOchPrognostiseringAvIntäkter uppföljningOchPrognos =
-                new Uppföljning.UppföljningOchPrognostiseringAvIntäkter();
+            Uppföljning.FollowUpAndForecasting uppföljningOchPrognos =
+                new Uppföljning.FollowUpAndForecasting();
             uppföljningOchPrognos.ShowDialog();
         }
 
         private void btnÅrsarbetarePerProdukt_Click(object sender, RoutedEventArgs e)
         {
-            Kostnadsbudgetering.ÅrsarbetareViaProdukt årsArbetarePerProdukt =
-                new Kostnadsbudgetering.ÅrsarbetareViaProdukt();
-            årsArbetarePerProdukt.ShowDialog();
+            Kostnadsbudgetering.AnnualEmployeeViaProduct årsArbetarePerProduct =
+                new Kostnadsbudgetering.AnnualEmployeeViaProduct();
+            årsArbetarePerProduct.ShowDialog();
         }
 
         private void btnÅrsarbetarePerAktivitet_Click(object sender, RoutedEventArgs e)
         {
-            Kostnadsbudgetering.ÅrsarbetereViaAktivitet årsarbetarePerAktivitet =
-                new Kostnadsbudgetering.ÅrsarbetereViaAktivitet();
+            Kostnadsbudgetering.AnnualEmployeePerActivity årsarbetarePerAktivitet =
+                new Kostnadsbudgetering.AnnualEmployeePerActivity();
             årsarbetarePerAktivitet.ShowDialog();
         }
 
         private void btnAktivitetshantering_Click(object sender, RoutedEventArgs e)
         {
-            Aktivitet.Aktivitetsregister aktivitetsregister = new Aktivitet.Aktivitetsregister();
-            aktivitetsregister.ShowDialog();
+            ActivityRegister activityRegister = new ActivityRegister();
+            activityRegister.ShowDialog();
         }
 
         private void btnDKPAA_Click(object sender, RoutedEventArgs e)
         {
-            Kostnadsbudgetering.DirektaKostnaderPerAktivitetsAvdelning dkpaa =
-                new Kostnadsbudgetering.DirektaKostnaderPerAktivitetsAvdelning();
+            Kostnadsbudgetering.DirectCostsPerActivityDepartment dkpaa =
+                new Kostnadsbudgetering.DirectCostsPerActivityDepartment();
             dkpaa.ShowDialog();
         }
 
         private void btnDKPPA_Click(object sender, RoutedEventArgs e)
         {
-            Kostnadsbudgetering.DirektaKostnaderPerProduktDriftAvdelning dkppa =
-                new Kostnadsbudgetering.DirektaKostnaderPerProduktDriftAvdelning();
+            Kostnadsbudgetering.DirectCostsPerProductDepartment dkppa =
+                new Kostnadsbudgetering.DirectCostsPerProductDepartment();
             dkppa.ShowDialog();
         }
 
         private void btnIVK_Click(object sender, RoutedEventArgs e)
         {
-            Intäktsbudgetering.IntäktsbudgeteringViaKund ivk = new Intäktsbudgetering.IntäktsbudgeteringViaKund();
+            Revenue_budgeting.RevenueBudgetingViaCustomer ivk = new Revenue_budgeting.RevenueBudgetingViaCustomer();
             ivk.ShowDialog();
         }
 
         private void btnIVP_Click(object sender, RoutedEventArgs e)
         {
-            Intäktsbudgetering.IntäktsbudgeteringViaProdukt ivp = new Intäktsbudgetering.IntäktsbudgeteringViaProdukt();
+            Revenue_budgeting.RevenueBudgetingViaProduct ivp = new Revenue_budgeting.RevenueBudgetingViaProduct();
             ivp.ShowDialog();
         }
 
         private void btnProduktgrupp_Click(object sender, RoutedEventArgs e)
         {
-            Produkt.Produktgruppsregister pgr = new Produkt.Produktgruppsregister();
+            ProductGroupRegister pgr = new ProductGroupRegister();
             pgr.ShowDialog();
         }
 
         private void btnBudgeteratResultat_Click(object sender, RoutedEventArgs e)
         {
-            Uppföljning.BudgeteratResultat budgeteratResultat = new Uppföljning.BudgeteratResultat();
-            budgeteratResultat.ShowDialog();
+            Uppföljning.BudgetedResult budgetedResult = new Uppföljning.BudgetedResult();
+            budgetedResult.ShowDialog();
         }
 
         private void btnProduktKategori_Click(object sender, RoutedEventArgs e)
         {
-            Produkt.Produktkategoriregister pkr = new Produkt.Produktkategoriregister();
+            ProductCategoryRegister pkr = new ProductCategoryRegister();
             pkr.ShowDialog();
         }
 
         private void btnUppföljningAvIntäkter_Click(object sender, RoutedEventArgs e)
         {
-            Uppföljning.UppföljningAvIntäkter uai = new Uppföljning.UppföljningAvIntäkter();
+            Uppföljning.RevenueFollowUp uai = new Uppföljning.RevenueFollowUp();
             uai.ShowDialog();
         }
     }

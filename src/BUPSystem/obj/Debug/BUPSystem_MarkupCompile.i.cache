@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\GIT\syst\src\BUPSystem\App.xaml
-26-737850277
+27908878858
 
-34-1217956747
+3571062464
 13706795464
-Aktivitet\Aktivitetshantering.xaml;Aktivitet\Aktivitetsregister.xaml;Användare\Användarhantering.xaml;Användare\Användarregister.xaml;LoggaIn.xaml;Uppföljning\UppföljningAvIntäkter.xaml;Uppföljning\BudgeteratResultat.xaml;Kostnadsbudgetering\DirektaKostnaderPerAktivitetsAvdelning.xaml;Kostnadsbudgetering\DirektaKostnaderPerProduktAvdelning.xaml;Intäktsbudgetering\IntäktsbudgeteringViaKund.xaml;Intäktsbudgetering\IntäktsbudgeteringViaProdukt.xaml;Konto\Kontohantering.xaml;Konto\Kontoregister.xaml;Kund\Kundhantering.xaml;Kund\Kundregister.xaml;MainWindow.xaml;Personal\Personalhantering.xaml;Personal\Personalregister.xaml;Produkt\ProduktgruppKategori.xaml;Produkt\Produktgruppsregister.xaml;Produkt\Produkthantering.xaml;Produkt\Produktkategoriregister.xaml;Produkt\Produktregister.xaml;Uppföljning\UppföljningOchPrognostiseringAvIntäkter.xaml;Kostnadsbudgetering\ÅrsarbetarePerAktivitet.xaml;Kostnadsbudgetering\ÅrsarbetarePerProdukt.xaml;
+Activity\Activity management.xaml;Activity\Activity register.xaml;Employee\Employee management.xaml;User\User management.xaml;User\User register.xaml;Revenue budgeting\Non budgeted products.xaml;Login.xaml;Follow-up\Revenue follow-up.xaml;Follow-up\Budgeted result.xaml;Cost budgeting\Direct costs per activity department.xaml;Cost budgeting\Direct costs per product department .xaml.xaml;Revenue budgeting\Revenue budgeting via customer.xaml;Revenue budgeting\Revenue budgeting via product.xaml;Account\Account management.xaml;Account\Account register.xaml;Customer\Customer management.xaml;Customer\Customer register.xaml;MainWindow.xaml;Employee\Employee register.xaml;Product\Productgroup Category.xaml;Product\Product group register.xaml;Product\Product management.xaml;Product\Product category register.xaml;Product\Product register.xaml;Follow-up\Follow-up and forecasting.xaml;Cost budgeting\Annual employee per activity.xaml;Cost budgeting\Annual employee per product.xaml;
 
 False
 

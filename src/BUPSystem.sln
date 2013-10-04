@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BUPSystem", "BUPSystem\BUPS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic Layer", "Logic Layer\Logic Layer.csproj", "{20FC05C7-A2EF-4538-BB58-264331BA35A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database Layer", "Database Layer\Database Layer.csproj", "{1B533F88-10F5-40D6-9AE1-1AEDA17F5FB4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data Layer", "Database Layer\Data Layer.csproj", "{1B533F88-10F5-40D6-9AE1-1AEDA17F5FB4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
