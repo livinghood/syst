@@ -19,9 +19,18 @@ namespace Logic_Layer
         /// </summary>
         private static readonly Lazy<LogicController> instance = new Lazy<LogicController>(() => new LogicController());
 
+        /// <summary>
+        /// Lists 
+        /// </summary>
         public ObservableCollection<CustomerNamespace.Customer> CustomerList { get; set; }
 
         public ObservableCollection<EmployeeNamespace.Employee> EmployeeList { get; set; }
+
+        public ObservableCollection<ProductNamespace.Product> ProductList { get; set; }
+
+        public ObservableCollection<ProductNamespace.ProductCategorys> ProductCategoryList { get; set; }
+
+        public ObservableCollection<ProductNamespace.ProductGroups> ProductGroupsList { get; set; }
 
         /// <summary>
         /// Empty constructor.
@@ -29,6 +38,7 @@ namespace Logic_Layer
         /// <remarks></remarks>
         private LogicController()
         {
+            // test
             CustomerList = new ObservableCollection<CustomerNamespace.Customer>
             {
                 new CustomerNamespace.Customer(4, CustomerNamespace.CustomerCategorys.Offentlig, "tja")

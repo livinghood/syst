@@ -7,17 +7,14 @@
         <GroupBox Header="Standarduppgifter" Height="140" HorizontalAlignment="Left" Margin="10,56,0,0" x:Name="groupBox1" VerticalAlignment="Top" Width="362">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="48*" />
-                    <ColumnDefinition Width="298*" />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <TextBox Height="23" HorizontalAlignment="Left" Margin="62,15,0,0" x:Name="textBox1" VerticalAlignment="Top" Width="230" Grid.Column="1" />
-                <Label Content="Kundnamn" Height="28" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="label2" VerticalAlignment="Top" Grid.ColumnSpan="2" />
-                <Label Content="Kundkategori" Height="28" HorizontalAlignment="Left" Margin="10,43,0,0" x:Name="label3" VerticalAlignment="Top" Grid.ColumnSpan="2" />
-                <ComboBox Height="23" HorizontalAlignment="Left" Margin="62,48,0,0" x:Name="comboBox1" VerticalAlignment="Top" Width="229" Text="Välj..." SelectedIndex="0" Grid.Column="1">
-                    <ComboBoxItem Content="Välj..." />
-                </ComboBox>
-                <TextBox Grid.Column="1" HorizontalAlignment="Right" Height="23" Margin="0,81,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="229"/>
-                <Label Content="Kund ID" Height="28" HorizontalAlignment="Left" Margin="10,76,0,0" x:Name="label3_Copy" VerticalAlignment="Top" Grid.ColumnSpan="2" />
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="111,15,0,0" x:Name="tbCustomerName" VerticalAlignment="Top" Width="230" Text="{Binding CustomerName}" />
+                <Label Content="Kundnamn" Height="28" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="label2" VerticalAlignment="Top" />
+                <Label Content="Kundkategori" Height="28" HorizontalAlignment="Left" Margin="10,43,0,0" x:Name="label3" VerticalAlignment="Top" />
+                <ComboBox Height="23" HorizontalAlignment="Left" Margin="111,48,0,0" x:Name="cbCustomerCategory" VerticalAlignment="Top" Width="229" Text="Välj..." SelectedIndex="0" IsSynchronizedWithCurrentItem="False"/>
+                <TextBox x:Name="tbCustomerId" HorizontalAlignment="Right" Height="23" Margin="0,81,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="229" Text="{Binding CustomerID}"/>
+                <Label Content="Kund ID" Height="28" HorizontalAlignment="Left" Margin="10,76,0,0" x:Name="label3_Copy" VerticalAlignment="Top" />
             </Grid>
         </GroupBox>
         <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="297,201,0,0" x:Name="button4" VerticalAlignment="Top" Width="75" />
