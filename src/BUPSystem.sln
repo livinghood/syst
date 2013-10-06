@@ -4,8 +4,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BUPSystem", "BUPSystem\BUPSystem.csproj", "{82E85B8E-4547-42B7-98BF-076847268148}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic Layer", "Logic Layer\Logic Layer.csproj", "{20FC05C7-A2EF-4538-BB58-264331BA35A2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1B533F88-10F5-40D6-9AE1-1AEDA17F5FB4} = {1B533F88-10F5-40D6-9AE1-1AEDA17F5FB4}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data Layer", "Database Layer\Data Layer.csproj", "{1B533F88-10F5-40D6-9AE1-1AEDA17F5FB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Entity\Common.csproj", "{B5079B7F-A660-421A-83AD-72DF7D254CD6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +30,10 @@ Global
 		{1B533F88-10F5-40D6-9AE1-1AEDA17F5FB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B533F88-10F5-40D6-9AE1-1AEDA17F5FB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B533F88-10F5-40D6-9AE1-1AEDA17F5FB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5079B7F-A660-421A-83AD-72DF7D254CD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5079B7F-A660-421A-83AD-72DF7D254CD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5079B7F-A660-421A-83AD-72DF7D254CD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5079B7F-A660-421A-83AD-72DF7D254CD6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using Logic_Layer;
+using Common;
 
 namespace BUPSystem.Customer
 {
@@ -9,11 +10,11 @@ namespace BUPSystem.Customer
     /// </summary>
     public partial class CustomerRegister : Window
     {
-        public ObservableCollection<Logic_Layer.CustomerNamespace.Customer> CustomerList
+        public ObservableCollection<Common.Customer> CustomerList
         {
             get
             {
-                return LogicController.Instance.CustomerList;
+                return new ObservableCollection<Common.Customer>(CustomerManager.Instance.getCustomers());
             }
         }
 
@@ -29,8 +30,7 @@ namespace BUPSystem.Customer
 
         private void btnRemove_Click(object sender, RoutedEventArgs e)
         {
-            CustomerList.Add(new Logic_Layer.CustomerNamespace.Customer(6,
-                Logic_Layer.CustomerNamespace.CustomerCategorys.Näringsliv, "hej"));
+
         }
 
         /// <summary>

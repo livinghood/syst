@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -39,13 +40,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomerNamespace\Customer.cs" />
-    <Compile Include="EmployeeNamespace\Employee.cs" />
-    <Compile Include="LogicController.cs" />
+    <Compile Include="CustomerManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="ProductNamespace\" />
+    <ProjectReference Include="..\Database Layer\Data Layer.csproj">
+      <Project>{1b533f88-10f5-40d6-9ae1-1aeda17f5fb4}</Project>
+      <Name>Data Layer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Entity\Common.csproj">
+      <Project>{b5079b7f-a660-421a-83ad-72df7d254cd6}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -280,6 +280,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Entity\Common.csproj">
+      <Project>{b5079b7f-a660-421a-83ad-72df7d254cd6}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Logic Layer\Logic Layer.csproj">
       <Project>{20fc05c7-a2ef-4538-bb58-264331ba35a2}</Project>
       <Name>Logic Layer</Name>
