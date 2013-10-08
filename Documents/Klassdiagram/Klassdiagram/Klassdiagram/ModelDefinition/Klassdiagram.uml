@@ -131,9 +131,9 @@
             aggregation="None"
             isComposite="false">
             <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="220a3521-e091-4221-bae9-3ef9018e845c"
-                LastKnownName="Integer"
+              <undefinedTypeMoniker
+                Id="b108f9b4-5471-4d05-a98a-84fb34e05a8a"
+                LastKnownName="string"
                 LastKnownLocation="Klassdiagram.uml" />
             </type_NamedElement>
           </property>
@@ -509,9 +509,9 @@
             aggregation="None"
             isComposite="false">
             <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="220a3521-e091-4221-bae9-3ef9018e845c"
-                LastKnownName="Integer"
+              <undefinedTypeMoniker
+                Id="b108f9b4-5471-4d05-a98a-84fb34e05a8a"
+                LastKnownName="string"
                 LastKnownLocation="Klassdiagram.uml" />
             </type_NamedElement>
           </property>
@@ -797,9 +797,9 @@
             aggregation="None"
             isComposite="false">
             <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="220a3521-e091-4221-bae9-3ef9018e845c"
-                LastKnownName="Integer"
+              <undefinedTypeMoniker
+                Id="b108f9b4-5471-4d05-a98a-84fb34e05a8a"
+                LastKnownName="string"
                 LastKnownLocation="Klassdiagram.uml" />
             </type_NamedElement>
           </property>
@@ -968,9 +968,9 @@
             aggregation="None"
             isComposite="false">
             <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="220a3521-e091-4221-bae9-3ef9018e845c"
-                LastKnownName="Integer"
+              <undefinedTypeMoniker
+                Id="b108f9b4-5471-4d05-a98a-84fb34e05a8a"
+                LastKnownName="string"
                 LastKnownLocation="Klassdiagram.uml" />
             </type_NamedElement>
           </property>
@@ -1032,9 +1032,9 @@
             aggregation="None"
             isComposite="false">
             <type_NamedElement>
-              <primitiveTypeMoniker
-                Id="220a3521-e091-4221-bae9-3ef9018e845c"
-                LastKnownName="Integer"
+              <undefinedTypeMoniker
+                Id="b108f9b4-5471-4d05-a98a-84fb34e05a8a"
+                LastKnownName="string"
                 LastKnownLocation="Klassdiagram.uml" />
             </type_NamedElement>
           </property>
@@ -1344,6 +1344,42 @@
                 LastKnownLocation="Klassdiagram.uml" />
             </type_NamedElement>
           </property>
+          <property
+            Id="e67b85ab-fac7-41aa-b49a-51e5f21dc672"
+            name="ForecastMonitorID"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <primitiveTypeMoniker
+                Id="220a3521-e091-4221-bae9-3ef9018e845c"
+                LastKnownName="Integer"
+                LastKnownLocation="Klassdiagram.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="6ec0253f-0878-4ff0-b2eb-89a09f0ff695"
+            name="ForecastLock"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <primitiveTypeMoniker
+                Id="8943dc84-709e-4f62-b15a-a3273aa6f165"
+                LastKnownName="Boolean"
+                LastKnownLocation="Klassdiagram.uml" />
+            </type_NamedElement>
+          </property>
         </ownedAttributesInternal>
         <ownedOperationsInternal>
           <operation
@@ -1453,7 +1489,7 @@
           </property>
           <property
             Id="6c1e2d23-856c-41a4-a6f1-31e5c928b594"
-            name="OperationLock"
+            name="ProductionLock"
             isLeaf="false"
             isStatic="false"
             isReadOnly="false"
@@ -3443,6 +3479,11 @@
             isQuery="false" />
         </ownedOperationsInternal>
       </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="b108f9b4-5471-4d05-a98a-84fb34e05a8a"
+        name="string" />
     </packageHasNamedElement>
   </packagedElements>
   <primitiveType
