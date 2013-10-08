@@ -41,16 +41,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountNamespace\Account.cs" />
+    <Compile Include="AccountNamespace\AccountManagement.cs" />
     <Compile Include="CustomerNamespace\Customer.cs" />
     <Compile Include="CustomerNamespace\CustomerCategories.cs" />
     <Compile Include="CustomerNamespace\CustomerManagement.cs" />
     <Compile Include="EmployeeNamespace\Employee.cs" />
+    <Compile Include="EmployeeNamespace\EmployeeManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ActivityNamespace\Activity.cs" />
     <Compile Include="ActivityNamespace\ActivityManagement.cs" />
     <Compile Include="ProductNamespace\Product.cs" />
     <Compile Include="ProductNamespace\ProductCategorys.cs" />
     <Compile Include="ProductNamespace\ProductGroups.cs" />
+    <Compile Include="UserNamespace\User.cs" />
+    <Compile Include="UserNamespace\UserManagement.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Database Layer\Data Layer.csproj">

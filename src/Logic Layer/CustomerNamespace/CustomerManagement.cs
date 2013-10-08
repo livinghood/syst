@@ -5,6 +5,9 @@ using Database_Layer;
 
 namespace Logic_Layer.CustomerNamespace
 {
+    /// <summary>
+    /// Management class for customers
+    /// </summary>
     public class CustomerManagement
     {
         /// <summary>
@@ -13,11 +16,6 @@ namespace Logic_Layer.CustomerNamespace
         private static readonly Lazy<CustomerManagement> instance = new Lazy<CustomerManagement>(() => new CustomerManagement());
 
         /// <summary>
-        /// CustomerRepository object for handling data
-        /// </summary>
-        private readonly IRepository<Customer> objCustomerRepository = new Repository<Customer>();
-        
-        /// <summary>
         /// The instance property
         /// </summary>
         public static CustomerManagement Instance
@@ -25,16 +23,32 @@ namespace Logic_Layer.CustomerNamespace
             get { return instance.Value; }
         }
 
+        /// <summary>
+        /// CustomerRepository object for handling data
+        /// </summary>
+        private readonly IRepository<Customer> objCustomerRepository = new Repository<Customer>();
+
+        /// <summary>
+        /// Get a list of all customers
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<Customer> GetCustomers()
         {
             return from c in objCustomerRepository.FindAll() select c;
         }
 
+        /// <summary>
+        /// Create a new customer
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="category"></param>
         public void CreateCustomer(string id, string name, CustomerCategories category)
         {
-            Customer customer = new Customer {CustomerID = id, CustomerName = name, CustomerCategory = category};
-            Repository<Customer> customerManagement = new Repository<Customer>();
-            customerManagement.Add(customer);
+            int customerId = Convert.ToInt32(id);
+            Customer customer = new Customer {CustomerID = customerId, CustomerName = name, CustomerCategory = category};
+            Repository<Customer> repository = new Repository<Customer>();
+            repository.Add(customer);
         }
     }
 }

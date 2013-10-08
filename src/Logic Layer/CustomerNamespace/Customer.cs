@@ -14,7 +14,7 @@ namespace Logic_Layer.CustomerNamespace
     public class Customer
     {
         [Column]
-        public string CustomerID { get; set; }
+        public int CustomerID { get; set; }
 
         [Column]
         public string CustomerName { get; set; }
