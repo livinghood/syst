@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using Logic_Layer;
-using Common;
 
 namespace BUPSystem.Customer
 {
@@ -10,11 +9,11 @@ namespace BUPSystem.Customer
     /// </summary>
     public partial class CustomerRegister : Window
     {
-        public ObservableCollection<Common.Customer> CustomerList
+        public ObservableCollection<Logic_Layer.CustomerNamespace.Customer> CustomerList
         {
             get
             {
-                return new ObservableCollection<Common.Customer>(CustomerManager.Instance.getCustomers());
+                return new ObservableCollection<Logic_Layer.CustomerNamespace.Customer>(CustomerManager.Instance.getCustomers());
             }
         }
 

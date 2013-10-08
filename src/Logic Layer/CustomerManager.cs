@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Linq;
 using System.Collections;
-using Common;
 using Database_Layer;
 
 namespace Logic_Layer
@@ -20,7 +19,7 @@ namespace Logic_Layer
         /// <summary>
         /// CustomerRepository object for handling data
         /// </summary>
-        CustomerRepository objCustomerRepository = new CustomerRepository();
+        IRepository<CustomerNamespace.Customer> objCustomerRepository = new Repository<CustomerNamespace.Customer>();
         
         /// <summary>
         /// The instance property
@@ -30,13 +29,9 @@ namespace Logic_Layer
             get { return instance.Value; }
         }
 
-        public IEnumerable<Customer> getCustomers()
+        public IEnumerable<CustomerNamespace.Customer> getCustomers()
         {
-            return from c in objCustomerRepository.getCustomers() select c;
-        }
-        public IEnumerable<Customer> getCustomer(int id)
-        {
-            return from c in objCustomerRepository.getCustomers() where c.CustomerID == id select c;
+            return from c in objCustomerRepository.FindAll() select c;
         }
     }
 }

@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomerManager.cs" />
+    <Compile Include="CustomerNamespace\Customer.cs" />
+    <Compile Include="CustomerNamespace\CustomerCategories.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
@@ -48,10 +50,6 @@
     <ProjectReference Include="..\Database Layer\Data Layer.csproj">
       <Project>{1b533f88-10f5-40d6-9ae1-1aeda17f5fb4}</Project>
       <Name>Data Layer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Entity\Common.csproj">
-      <Project>{b5079b7f-a660-421a-83ad-72df7d254cd6}</Project>
-      <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
