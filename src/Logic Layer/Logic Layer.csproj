@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivityNamespace\Activity.cs" />
+    <Compile Include="ActivityNamespace\ActivityManagement.cs" />
     <Compile Include="CustomerNamespace\Customer.cs" />
     <Compile Include="EmployeeNamespace\Employee.cs" />
     <Compile Include="LogicController.cs" />

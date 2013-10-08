@@ -57,9 +57,6 @@ namespace BUPSystem.Customer
         private void btnChange_Click(object sender, RoutedEventArgs e)
         {
             CustomerManagement customerManagement = new CustomerManagement(CustomerList[lvCustomerList.SelectedIndex]);
-
-            // Kod som lägger in vald kunds uppgifter i kundhanteringsfönstret
-
             customerManagement.ShowDialog();
         }
     }

@@ -32,6 +32,8 @@ namespace Logic_Layer
 
         public ObservableCollection<ProductNamespace.ProductGroups> ProductGroupsList { get; set; }
 
+        
+
         /// <summary>
         /// Empty constructor.
         /// </summary>
@@ -42,6 +44,11 @@ namespace Logic_Layer
             CustomerList = new ObservableCollection<CustomerNamespace.Customer>
             {
                 new CustomerNamespace.Customer(4, CustomerNamespace.CustomerCategorys.Offentlig, "tja")
+            };
+
+            ActivityList = new ObservableCollection<ActivityNamespace.Activity>
+            {
+                new ActivityNamespace.Activity(4, "test", ActivityNamespace.ActivityDepartments.AO)
             };
         }
 
