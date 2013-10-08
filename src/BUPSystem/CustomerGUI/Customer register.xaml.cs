@@ -1,20 +1,19 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
-using BUPSystem.CustomerGUI;
-using Logic_Layer;
+using Logic_Layer.CustomerNamespace;
 
-namespace BUPSystem.Customer
+namespace BUPSystem.CustomerGUI
 {
     /// <summary>
     /// Interaction logic for CustomerRegister.xaml
     /// </summary>
     public partial class CustomerRegister : Window
     {
-        public ObservableCollection<Logic_Layer.CustomerNamespace.Customer> CustomerList
+        public ObservableCollection<Customer> CustomerList
         {
             get
             {
-                return new ObservableCollection<Logic_Layer.CustomerNamespace.Customer>(CustomerManager.Instance.getCustomers());
+                return new ObservableCollection<Customer>(CustomerManagement.Instance.GetCustomers());
             }
         }
 

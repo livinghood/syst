@@ -1,35 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.Linq;
-using System.Collections;
 using Database_Layer;
 
-namespace Logic_Layer
+namespace Logic_Layer.CustomerNamespace
 {
-    public class CustomerManager
+    public class CustomerManagement
     {
         /// <summary>
         /// Lazy Instance of CustomerManager singelton
         /// </summary>
-        private static readonly Lazy<CustomerManager> instance = new Lazy<CustomerManager>(() => new CustomerManager());
+        private static readonly Lazy<CustomerManagement> instance = new Lazy<CustomerManagement>(() => new CustomerManagement());
 
         /// <summary>
         /// CustomerRepository object for handling data
         /// </summary>
-        IRepository<CustomerNamespace.Customer> objCustomerRepository = new Repository<CustomerNamespace.Customer>();
+        private readonly IRepository<Customer> objCustomerRepository = new Repository<Customer>();
         
         /// <summary>
         /// The instance property
         /// </summary>
-        public static CustomerManager Instance
+        public static CustomerManagement Instance
         {
             get { return instance.Value; }
         }
 
-        public IEnumerable<CustomerNamespace.Customer> getCustomers()
+        public IEnumerable<Customer> GetCustomers()
         {
             return from c in objCustomerRepository.FindAll() select c;
         }

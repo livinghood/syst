@@ -11,7 +11,7 @@ namespace BUPSystem.CustomerGUI
     /// </summary>
     public partial class CustomerManager : Window
     {
-        readonly List<CustomerCategorys> list = new List<CustomerCategorys>(Enum.GetValues(typeof(CustomerCategorys)).Cast<CustomerCategorys>());
+        readonly List<CustomerCategories> list = new List<CustomerCategories>(Enum.GetValues(typeof(CustomerCategories)).Cast<CustomerCategories>());
 
         public CustomerManager()
         {
@@ -28,7 +28,7 @@ namespace BUPSystem.CustomerGUI
 
             cbCustomerCategory.ItemsSource = list;
 
-            cbCustomerCategory.SelectedIndex = customer.CustomerCategory == CustomerCategorys.Näringsliv ? 0 : 1;           
+            cbCustomerCategory.SelectedIndex = customer.CustomerCategory == CustomerCategories.Näringsliv ? 0 : 1;           
         }
     }
 }
