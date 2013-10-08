@@ -19,7 +19,7 @@ namespace Logic_Layer.ProductNamespace
     /// </summary>
     public class Product
     {
-        public int ProductID { get; set; }
+        public string ProductID { get; set; }
         public string ProductName { get; set; }
         public ProductGroups ProductGroup { get; set; }
         public ProductCategorys ProductCategory { get; set; }
@@ -32,7 +32,7 @@ namespace Logic_Layer.ProductNamespace
         /// <param name="productGroup"></param>
         /// <param name="productCategory"></param>
         /// <param name="productDepartment"></param>
-        public Product(int productID, string productName, ProductGroups productGroup, ProductCategorys productCategory,
+        public Product(string productID, string productName, ProductGroups productGroup, ProductCategorys productCategory,
             ProductDepartments productDepartment)
         {
             ProductID = productID;

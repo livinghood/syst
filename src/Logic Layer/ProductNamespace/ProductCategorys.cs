@@ -11,14 +11,14 @@ namespace Logic_Layer.ProductNamespace
     public class ProductCategorys
     {
         public string ProductCategoryName { get; set; }
-        public int ProductCategoryID { get; set; }
+        public string ProductCategoryID { get; set; }
 
         /// <summary>
         /// Constructor with two parameters
         /// </summary>
         /// <param name="productCategoryName"></param>
         /// <param name="productCategoryId"></param>
-        public ProductCategorys(string productCategoryName, int productCategoryId)
+        public ProductCategorys(string productCategoryName, string productCategoryId)
         {
             ProductCategoryName = productCategoryName;
             ProductCategoryID = productCategoryId;

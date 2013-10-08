@@ -7,11 +7,14 @@ using System.Data.Linq.Mapping;
 
 namespace Logic_Layer.CustomerNamespace
 {
+    /// <summary>
+    /// Defines a customer
+    /// </summary>
     [Table(Name = "Customer")]
     public class Customer
     {
         [Column]
-        public int CustomerID { get; set; }
+        public string CustomerID { get; set; }
 
         [Column]
         public string CustomerName { get; set; }
@@ -19,5 +22,4 @@ namespace Logic_Layer.CustomerNamespace
         public CustomerCategories CustomerCategory { get; set; }
 
     }
-
 }

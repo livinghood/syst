@@ -21,7 +21,7 @@ namespace Logic_Layer.ActivityNamespace
     /// </summary>
     public class Activity
     {
-        public int ActivityId { get; set; }
+        public string ActivityId { get; set; }
         public string ActivityName { get; set; }
         public ActivityDepartments ActivityDepartment { get; set; }
 
@@ -31,7 +31,7 @@ namespace Logic_Layer.ActivityNamespace
         /// <param name="activityId"></param>
         /// <param name="activityName"></param>
         /// <param name="activityDepartment"></param>
-        public Activity(int activityId, string activityName, ActivityDepartments activityDepartment)
+        public Activity(string activityId, string activityName, ActivityDepartments activityDepartment)
         {
             ActivityId = activityId;
             ActivityName = activityName;

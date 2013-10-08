@@ -15,7 +15,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BUPSystem.Account;
 using BUPSystem.ActivityGUI;
-using BUPSystem.Customer;
 using BUPSystem.CustomerGUI;
 using BUPSystem.EmployeeGUI;
 using BUPSystem.Product;

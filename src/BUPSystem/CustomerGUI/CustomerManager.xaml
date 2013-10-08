@@ -17,8 +17,8 @@
                 <Label Content="Kund ID" Height="28" HorizontalAlignment="Left" Margin="10,76,0,0" x:Name="label3_Copy" VerticalAlignment="Top" />
             </Grid>
         </GroupBox>
-        <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="297,201,0,0" x:Name="button4" VerticalAlignment="Top" Width="75" />
-        <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="217,201,0,0" x:Name="button5" VerticalAlignment="Top" Width="75" />
+        <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="297,201,0,0" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click" />
+        <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="217,201,0,0" x:Name="btnCancel" VerticalAlignment="Top" Width="75" />
 
     </Grid>
 </Window>
