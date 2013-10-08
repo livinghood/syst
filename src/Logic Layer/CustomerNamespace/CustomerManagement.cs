@@ -29,6 +29,11 @@ namespace Logic_Layer.CustomerNamespace
         private readonly IRepository<Customer> objCustomerRepository = new Repository<Customer>();
 
         /// <summary>
+        /// Instance of Repository class
+        /// </summary>
+        private readonly Repository<Customer> repository = new Repository<Customer>();
+
+        /// <summary>
         /// Get a list of all customers
         /// </summary>
         /// <returns></returns>
@@ -45,10 +50,24 @@ namespace Logic_Layer.CustomerNamespace
         /// <param name="category"></param>
         public void CreateCustomer(string id, string name, CustomerCategories category)
         {
-            int customerId = Convert.ToInt32(id);
-            Customer customer = new Customer {CustomerID = customerId, CustomerName = name, CustomerCategory = category};
-            Repository<Customer> repository = new Repository<Customer>();
+            Customer customer = new Customer { CustomerID = id, CustomerName = name, CustomerCategory = category };
             repository.Add(customer);
+            repository.Commit();
+
+            customer.CustomerName = "Changed";
+            repository.Commit();
+
+        }
+
+        public void DeleteCustomer(Customer customer)
+        {
+            repository.Delete(customer);
+            repository.Commit();
+        }
+
+        public void UpdateCustomer(Customer customer)
+        {
+            repository.Commit();
         }
     }
 }

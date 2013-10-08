@@ -29,6 +29,7 @@ namespace Database_Layer
         {
             var table = this.LookupTableFor(typeof(T));
 
+            table.Attach(item);
             table.DeleteOnSubmit(item);
         }
 
@@ -63,6 +64,18 @@ namespace Database_Layer
             var table = this.LookupTableFor(typeof(T));
 
             table.InsertOnSubmit(item);
+        }
+
+        public void Update(T item)
+        {
+            var table = this.LookupTableFor(typeof(T));
+
+            //if (table.GetOriginalEntityState(item) == null)
+            //{
+            //    table.Attach(item);
+            //}
+
+
         }
 
         private ITable LookupTableFor(Type entityType)

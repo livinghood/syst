@@ -13,6 +13,9 @@ namespace BUPSystem.CustomerGUI
     {
         readonly List<CustomerCategories> list = new List<CustomerCategories>(Enum.GetValues(typeof(CustomerCategories)).Cast<CustomerCategories>());
 
+        private Customer customer;
+        private bool changeExistingCustomer;
+
         public CustomerManager()
         {
             InitializeComponent();
@@ -24,7 +27,11 @@ namespace BUPSystem.CustomerGUI
         {
             InitializeComponent();
 
+            changeExistingCustomer = true;
+
             DataContext = customer;
+
+            this.customer = customer;
 
             cbCustomerCategory.ItemsSource = list;
 
@@ -33,8 +40,15 @@ namespace BUPSystem.CustomerGUI
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            CustomerManagement.Instance.CreateCustomer(tbCustomerId.Text, tbCustomerName.Text,
-                list[cbCustomerCategory.SelectedIndex]);
+            if (!changeExistingCustomer)
+            {
+                CustomerManagement.Instance.CreateCustomer(tbCustomerId.Text, tbCustomerName.Text,
+                    list[cbCustomerCategory.SelectedIndex]);
+            }
+            else
+            {
+                CustomerManagement.Instance.UpdateCustomer(customer);
+            }          
         }
     }
 }

@@ -13,12 +13,15 @@ namespace Logic_Layer.CustomerNamespace
     [Table(Name = "Customer")]
     public class Customer
     {
-        [Column]
-        public int CustomerID { get; set; }
+        // Primary key must be specified
+        [Column(IsPrimaryKey=true)]
+        public string CustomerID { get; set; }
 
         [Column]
         public string CustomerName { get; set; }
 
+        // Enum types needs to be saved as a nvarchar
+        [Column(DbType="NVarChar(10)")]
         public CustomerCategories CustomerCategory { get; set; }
 
     }

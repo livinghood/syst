@@ -30,6 +30,7 @@ namespace BUPSystem.CustomerGUI
         private void btnRemove_Click(object sender, RoutedEventArgs e)
         {
 
+            CustomerManagement.Instance.DeleteCustomer(CustomerList[lvCustomerList.SelectedIndex]);
         }
 
         /// <summary>
@@ -57,6 +58,8 @@ namespace BUPSystem.CustomerGUI
         {
             CustomerManager customerManager = new CustomerManager(CustomerList[lvCustomerList.SelectedIndex]);
             customerManager.ShowDialog();
+
+            // Att göra: lägga till label som bekräftar om kund har lagts till/ ändrats eller tagit bort
         }
     }
 }
