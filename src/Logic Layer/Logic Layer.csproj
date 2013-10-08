@@ -40,9 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomerManager.cs" />
     <Compile Include="CustomerNamespace\Customer.cs" />
     <Compile Include="CustomerNamespace\CustomerCategories.cs" />
+    <Compile Include="CustomerNamespace\CustomerManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ActivityNamespace\Activity.cs" />
     <Compile Include="ActivityNamespace\ActivityManagement.cs" />
