@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Linq.Mapping;
 
-namespace Logic_Layer.CustomerNamespace
+namespace Common
 {
     [Table(Name = "Customer")]
     public class Customer

@@ -13,7 +13,7 @@ namespace BUPSystem.Customer
         {
             get
             {
-                return LogicController.Instance.CustomerList;
+                return new ObservableCollection<Logic_Layer.CustomerNamespace.Customer>(CustomerManager.Instance.getCustomers());
             }
         }
 
@@ -29,8 +29,7 @@ namespace BUPSystem.Customer
 
         private void btnRemove_Click(object sender, RoutedEventArgs e)
         {
-            CustomerList.Add(new Logic_Layer.CustomerNamespace.Customer(6,
-                Logic_Layer.CustomerNamespace.CustomerCategorys.Näringsliv, "hej"));
+
         }
 
         /// <summary>
