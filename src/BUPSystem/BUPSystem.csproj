@@ -54,8 +54,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Employee\Employee management.xaml.cs">
-      <DependentUpon>Employee management.xaml</DependentUpon>
+    <Compile Include="EmployeeGUI\EmployeeManager.xaml.cs">
+      <DependentUpon>EmployeeManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="Revenue budgeting\Non budgeted products.xaml.cs">
       <DependentUpon>Non budgeted products.xaml</DependentUpon>
@@ -75,23 +75,23 @@
     <Compile Include="Cost budgeting\Annual employee per product.xaml.cs">
       <DependentUpon>Annual employee per product.xaml</DependentUpon>
     </Compile>
-    <Page Include="Activity\Activity management.xaml">
+    <Page Include="ActivityGUI\ActivityManager.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Activity\Activity register.xaml">
+    <Page Include="ActivityGUI\Activity register.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Employee\Employee management.xaml">
+    <Page Include="EmployeeGUI\EmployeeManager.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="User\User management.xaml">
+    <Page Include="UserGUI\User management.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="User\User register.xaml">
+    <Page Include="UserGUI\User register.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -127,19 +127,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Account\Account management.xaml">
+    <Page Include="AccountGUI\AccountManager.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Account\Account register.xaml">
+    <Page Include="AccountGUI\Account register.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Customer\Customer management.xaml">
+    <Page Include="CustomerGUI\CustomerManager.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Customer\Customer register.xaml">
+    <Page Include="CustomerGUI\Customer register.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -147,16 +147,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Activity\Activity management.xaml.cs">
-      <DependentUpon>Activity management.xaml</DependentUpon>
+    <Compile Include="ActivityGUI\ActivityManager.xaml.cs">
+      <DependentUpon>ActivityManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Activity\Activity register.xaml.cs">
+    <Compile Include="ActivityGUI\Activity register.xaml.cs">
       <DependentUpon>Activity register.xaml</DependentUpon>
     </Compile>
-    <Compile Include="User\User management.xaml.cs">
+    <Compile Include="UserGUI\User management.xaml.cs">
       <DependentUpon>User management.xaml</DependentUpon>
     </Compile>
-    <Compile Include="User\User register.xaml.cs">
+    <Compile Include="UserGUI\User register.xaml.cs">
       <DependentUpon>User register.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
@@ -178,43 +178,43 @@
     <Compile Include="Revenue budgeting\Revenue budgeting via product.xaml.cs">
       <DependentUpon>Revenue budgeting via product.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Account\Account management.xaml.cs">
-      <DependentUpon>Account management.xaml</DependentUpon>
+    <Compile Include="AccountGUI\AccountManager.xaml.cs">
+      <DependentUpon>AccountManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Account\Account register.xaml.cs">
+    <Compile Include="AccountGUI\Account register.xaml.cs">
       <DependentUpon>Account register.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Customer\Customer management.xaml.cs">
-      <DependentUpon>Customer management.xaml</DependentUpon>
+    <Compile Include="CustomerGUI\CustomerManager.xaml.cs">
+      <DependentUpon>CustomerManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Customer\Customer register.xaml.cs">
+    <Compile Include="CustomerGUI\Customer register.xaml.cs">
       <DependentUpon>Customer register.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Employee\Employee register.xaml">
+    <Page Include="EmployeeGUI\Employee register.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Product\Productgroup Category.xaml">
+    <Page Include="ProductGUI\Productgroup Category.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Product\Product group register.xaml">
+    <Page Include="ProductGUI\Product group register.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Product\Product management.xaml">
+    <Page Include="ProductGUI\ProductManager.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Product\Product category register.xaml">
+    <Page Include="ProductGUI\Product category register.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Product\Product register.xaml">
+    <Page Include="ProductGUI\Product register.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -232,22 +232,22 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Employee\Employee register.xaml.cs">
+    <Compile Include="EmployeeGUI\Employee register.xaml.cs">
       <DependentUpon>Employee register.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Product\Productgroup Category.xaml.cs">
+    <Compile Include="ProductGUI\Productgroup Category.xaml.cs">
       <DependentUpon>Productgroup Category.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Product\Product group register.xaml.cs">
+    <Compile Include="ProductGUI\Product group register.xaml.cs">
       <DependentUpon>Product group register.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Product\Product management.xaml.cs">
-      <DependentUpon>Product management.xaml</DependentUpon>
+    <Compile Include="ProductGUI\ProductManager.xaml.cs">
+      <DependentUpon>ProductManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Product\Product category register.xaml.cs">
+    <Compile Include="ProductGUI\Product category register.xaml.cs">
       <DependentUpon>Product category register.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Product\Product register.xaml.cs">
+    <Compile Include="ProductGUI\Product register.xaml.cs">
       <DependentUpon>Product register.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">

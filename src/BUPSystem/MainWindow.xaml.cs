@@ -14,8 +14,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BUPSystem.Account;
-using BUPSystem.Activity;
+using BUPSystem.ActivityGUI;
 using BUPSystem.Customer;
+using BUPSystem.CustomerGUI;
+using BUPSystem.EmployeeGUI;
 using BUPSystem.Product;
 using BUPSystem.User;
 
@@ -60,7 +62,7 @@ namespace BUPSystem
 
         private void btnPersonalhantering_Click(object sender, RoutedEventArgs e)
         {
-            Employee.EmployeeRegister employeeRegister = new Employee.EmployeeRegister();
+            EmployeeRegister employeeRegister = new EmployeeRegister();
             employeeRegister.ShowDialog();
         }
 

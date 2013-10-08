@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
+using BUPSystem.CustomerGUI;
 using Logic_Layer;
 
 namespace BUPSystem.Customer
@@ -39,8 +40,8 @@ namespace BUPSystem.Customer
         /// <param name="e"></param>
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            CustomerManagement customerManagement = new CustomerManagement();
-            customerManagement.ShowDialog();
+            CustomerManager customerManager = new CustomerManager();
+            customerManager.ShowDialog();
         }
 
         private void btnSelect_Click(object sender, RoutedEventArgs e)
@@ -55,11 +56,8 @@ namespace BUPSystem.Customer
 
         private void btnChange_Click(object sender, RoutedEventArgs e)
         {
-            CustomerManagement customerManagement = new CustomerManagement();
-
-            // Kod som lägger in vald kunds uppgifter i kundhanteringsfönstret
-
-            customerManagement.ShowDialog();
+            CustomerManager customerManager = new CustomerManager(CustomerList[lvCustomerList.SelectedIndex]);
+            customerManager.ShowDialog();
         }
     }
 }

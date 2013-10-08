@@ -1,4 +1,4 @@
-﻿<Window x:Class="BUPSystem.Employee.EmployeeRegister"
+﻿<Window x:Class="BUPSystem.EmployeeGUI.EmployeeRegister"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="EmployeeRegister" Height="335" Width="485">

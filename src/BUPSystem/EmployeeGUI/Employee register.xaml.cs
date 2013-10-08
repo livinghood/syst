@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace BUPSystem.Employee
+namespace BUPSystem.EmployeeGUI
 {
     /// <summary>
     /// Interaction logic for EmployeeRegister.xaml

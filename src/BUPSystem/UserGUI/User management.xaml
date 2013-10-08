@@ -1,9 +1,9 @@
-﻿<Window x:Class="BUPSystem.User.UserManagement"
+﻿<Window x:Class="BUPSystem.UserGUI.UserManager"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="UserManagement" Height="300" Width="390">
+        Title="UserManager" Height="300" Width="390">
     <Grid>
-        <Label Content="UserManagement" Height="41" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="label1" VerticalAlignment="Top" FontSize="20" />
+        <Label Content="UserManager" Height="41" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="label1" VerticalAlignment="Top" FontSize="20" />
         <GroupBox Header="Standarduppgifter" Height="175" HorizontalAlignment="Left" Margin="10,56,0,0" x:Name="groupBox1" VerticalAlignment="Top" Width="362">
             <Grid>
                 <Grid.ColumnDefinitions>
