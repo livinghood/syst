@@ -43,9 +43,7 @@ namespace Logic_Layer
         /// <summary>
         /// Create a new account
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="name"></param>
-        /// <param name="category"></param>
+        /// <param name="account"></param>
         public void CreateAccount(Account account)
         {
             db.Account.Add(account);
@@ -53,9 +51,9 @@ namespace Logic_Layer
         }
 
         /// <summary>
-        /// Delete a account
+        /// Delete an account
         /// </summary>
-        /// <param name="customer"></param>
+        /// <param name="account"></param>
         public void DeleteAccount(Account account)
         {
             db.Account.Remove(account);
@@ -63,9 +61,8 @@ namespace Logic_Layer
         }
 
         /// <summary>
-        /// Update a account
+        /// Update the database
         /// </summary>
-        /// <param name="customer"></param>
         public void UpdateAccount()
         {
             db.SaveChanges();
