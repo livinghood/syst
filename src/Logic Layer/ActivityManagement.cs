@@ -1,12 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Logic_Layer.ActivityNamespace
+namespace Logic_Layer
 {
+    public enum ActivityDepartments
+    {
+        AO,
+        FO
+    }
+
     public class ActivityManagement
     {
         /// <summary>

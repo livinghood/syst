@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="ActivityRegister" Height="335" Width="485">
     <Grid>
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="200,16,0,0" x:Name="textBox1" VerticalAlignment="Top" Width="187" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="200,16,0,0" x:Name="tbSearch" VerticalAlignment="Top" Width="187" />
         <Button Content="Sök" Height="23" HorizontalAlignment="Left" Margin="392,16,0,0" x:Name="btnSearch" VerticalAlignment="Top" Width="75" />
         <Label Content="ActivityRegister" Height="39" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="label1" VerticalAlignment="Top" FontSize="20" />
         <ListView x:Name="lvActivityRegister" HorizontalAlignment="Left" Height="205" Margin="10,54,0,0" VerticalAlignment="Top" Width="456" ItemsSource="{Binding ActivityList}">

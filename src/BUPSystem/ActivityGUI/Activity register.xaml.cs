@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
+using Logic_Layer;
 
 namespace BUPSystem.ActivityGUI
 {
@@ -8,11 +9,11 @@ namespace BUPSystem.ActivityGUI
     /// </summary>
     public partial class ActivityRegister : Window
     {
-        public ObservableCollection<Logic_Layer.Activity> ActivityList
+        public ObservableCollection<Activity> ActivityList
         {
             get
             {
-                return Logic_Layer.ActivityNamespace.ActivityManagement.Instance.ActivityList;
+                return ActivityManagement.Instance.ActivityList;
             }
         }
 
@@ -44,8 +45,8 @@ namespace BUPSystem.ActivityGUI
         /// <param name="e"></param>
         private void btnChange_Click(object sender, RoutedEventArgs e)
         {
-           // ActivityManager am = new ActivityManager(ActivityList[lvActivityRegister.SelectedIndex]);
-           // am.ShowDialog();
+            ActivityManager am = new ActivityManager(ActivityList[lvActivityRegister.SelectedIndex]);
+            am.ShowDialog();
         }
     }
 }
