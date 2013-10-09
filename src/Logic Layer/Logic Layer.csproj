@@ -128,9 +128,6 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ActivityManagement.cs" />
-    <Compile Include="sysdiagrams.cs">
-      <DependentUpon>BUPdb.tt</DependentUpon>
-    </Compile>
     <Compile Include="UserAccount.cs">
       <DependentUpon>BUPdb.tt</DependentUpon>
     </Compile>
@@ -145,8 +142,6 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>BUPdb.Designer.cs</LastGenOutput>
     </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="BUPdb.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>BUPdb.edmx</DependentUpon>

@@ -45,7 +45,6 @@ namespace Logic_Layer
         public DbSet<ProductCategory> ProductCategory { get; set; }
         public DbSet<ProductGroup> ProductGroup { get; set; }
         public DbSet<ProductPlacement> ProductPlacement { get; set; }
-        public DbSet<sysdiagrams> sysdiagrams { get; set; }
         public DbSet<UserAccount> UserAccount { get; set; }
     }
 }

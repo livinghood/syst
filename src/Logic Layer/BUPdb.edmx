@@ -26,7 +26,6 @@
           <EntitySet Name="ProductCategory" EntityType="BUPmodel.Store.ProductCategory" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ProductGroup" EntityType="BUPmodel.Store.ProductGroup" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ProductPlacement" EntityType="BUPmodel.Store.ProductPlacement" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="sysdiagrams" EntityType="BUPmodel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="UserAccount" EntityType="BUPmodel.Store.UserAccount" store:Type="Tables" Schema="dbo" />
           <AssociationSet Name="FK_Activity_Department" Association="BUPmodel.Store.FK_Activity_Department">
             <End Role="Department" EntitySet="Department" />
@@ -143,7 +142,7 @@
             <PropertyRef Name="ActivityID" />
             <PropertyRef Name="ExpenseBudgetID" />
           </Key>
-          <Property Name="EmployeeID" Type="numeric" Nullable="false" />
+          <Property Name="EmployeeID" Type="bigint" Nullable="false" />
           <Property Name="ActivityID" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="ExpenseBudgetID" Type="int" Nullable="false" />
           <Property Name="ActivityAllocate" Type="decimal" Nullable="false" />
@@ -199,7 +198,7 @@
           <Key>
             <PropertyRef Name="EmployeeID" />
           </Key>
-          <Property Name="EmployeeID" Type="numeric" Nullable="false" />
+          <Property Name="EmployeeID" Type="bigint" Nullable="false" />
           <Property Name="EmployeeName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="MonthSallary" Type="int" Nullable="false" />
           <Property Name="EmployeementRate" Type="int" Nullable="false" />
@@ -210,7 +209,7 @@
             <PropertyRef Name="EmployeeID" />
             <PropertyRef Name="DepartmentID" />
           </Key>
-          <Property Name="EmployeeID" Type="numeric" Nullable="false" />
+          <Property Name="EmployeeID" Type="bigint" Nullable="false" />
           <Property Name="DepartmentID" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="EmployeeAllocate" Type="decimal" Nullable="false" />
         </EntityType>
@@ -306,26 +305,16 @@
             <PropertyRef Name="ProductID" />
             <PropertyRef Name="ExpenseBudgetID" />
           </Key>
-          <Property Name="EmployeeID" Type="numeric" Nullable="false" />
+          <Property Name="EmployeeID" Type="bigint" Nullable="false" />
           <Property Name="ProductID" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="ExpenseBudgetID" Type="int" Nullable="false" />
           <Property Name="ProductAllocate" Type="decimal" Nullable="false" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="128" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="UserAccount">
           <Key>
             <PropertyRef Name="UserName" />
           </Key>
-          <Property Name="EmployeeID" Type="numeric" />
+          <Property Name="EmployeeID" Type="bigint" />
           <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="PermissionLevel" Type="int" Nullable="false" />
@@ -632,7 +621,6 @@
           <EntitySet Name="ProductCategory" EntityType="BUPmodel.ProductCategory" />
           <EntitySet Name="ProductGroup" EntityType="BUPmodel.ProductGroup" />
           <EntitySet Name="ProductPlacement" EntityType="BUPmodel.ProductPlacement" />
-          <EntitySet Name="sysdiagrams" EntityType="BUPmodel.sysdiagrams" />
           <EntitySet Name="UserAccount" EntityType="BUPmodel.UserAccount" />
           <AssociationSet Name="FK_DirectActivityCost_Account" Association="BUPmodel.FK_DirectActivityCost_Account">
             <End Role="Account" EntitySet="Account" />
@@ -754,7 +742,7 @@
             <PropertyRef Name="ActivityID" />
             <PropertyRef Name="ExpenseBudgetID" />
           </Key>
-          <Property Name="EmployeeID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="EmployeeID" Type="Int64" Nullable="false" />
           <Property Name="ActivityID" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="ExpenseBudgetID" Type="Int32" Nullable="false" />
           <Property Name="ActivityAllocate" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
@@ -823,7 +811,7 @@
           <Key>
             <PropertyRef Name="EmployeeID" />
           </Key>
-          <Property Name="EmployeeID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="EmployeeID" Type="Int64" Nullable="false" />
           <Property Name="EmployeeName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="MonthSallary" Type="Int32" Nullable="false" />
           <Property Name="EmployeementRate" Type="Int32" Nullable="false" />
@@ -838,7 +826,7 @@
             <PropertyRef Name="EmployeeID" />
             <PropertyRef Name="DepartmentID" />
           </Key>
-          <Property Name="EmployeeID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="EmployeeID" Type="Int64" Nullable="false" />
           <Property Name="DepartmentID" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="EmployeeAllocate" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <NavigationProperty Name="Department" Relationship="BUPmodel.FK_EmployeePlacement_Department" FromRole="EmployeePlacement" ToRole="Department" />
@@ -954,7 +942,7 @@
             <PropertyRef Name="ProductID" />
             <PropertyRef Name="ExpenseBudgetID" />
           </Key>
-          <Property Name="EmployeeID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="EmployeeID" Type="Int64" Nullable="false" />
           <Property Name="ProductID" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="ExpenseBudgetID" Type="Int32" Nullable="false" />
           <Property Name="ProductAllocate" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
@@ -962,21 +950,11 @@
           <NavigationProperty Name="ExpenseBudget" Relationship="BUPmodel.FK_ProductPlacement_ExpenseBudget" FromRole="ProductPlacement" ToRole="ExpenseBudget" />
           <NavigationProperty Name="Product" Relationship="BUPmodel.FK_ProductPlacement_Product" FromRole="ProductPlacement" ToRole="Product" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
         <EntityType Name="UserAccount">
           <Key>
             <PropertyRef Name="UserName" />
           </Key>
-          <Property Name="EmployeeID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="EmployeeID" Type="Int64" />
           <Property Name="Password" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="PermissionLevel" Type="Int32" Nullable="false" />
@@ -1458,17 +1436,6 @@
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
                 <ScalarProperty Name="ExpenseBudgetID" ColumnName="ExpenseBudgetID" />
                 <ScalarProperty Name="ProductAllocate" ColumnName="ProductAllocate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="BUPmodel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

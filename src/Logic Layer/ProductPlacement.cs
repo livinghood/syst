@@ -14,7 +14,7 @@ namespace Logic_Layer
     
     public partial class ProductPlacement
     {
-        public decimal EmployeeID { get; set; }
+        public long EmployeeID { get; set; }
         public string ProductID { get; set; }
         public int ExpenseBudgetID { get; set; }
         public decimal ProductAllocate { get; set; }

@@ -14,7 +14,7 @@ namespace Logic_Layer
     
     public partial class UserAccount
     {
-        public Nullable<decimal> EmployeeID { get; set; }
+        public Nullable<long> EmployeeID { get; set; }
         public string Password { get; set; }
         public string UserName { get; set; }
         public int PermissionLevel { get; set; }

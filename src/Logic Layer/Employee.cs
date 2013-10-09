@@ -22,7 +22,7 @@ namespace Logic_Layer
             this.UserAccount = new HashSet<UserAccount>();
         }
     
-        public decimal EmployeeID { get; set; }
+        public long EmployeeID { get; set; }
         public string EmployeeName { get; set; }
         public int MonthSallary { get; set; }
         public int EmployeementRate { get; set; }

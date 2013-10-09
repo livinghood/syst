@@ -14,7 +14,7 @@ namespace Logic_Layer
     
     public partial class ActivityPlacement
     {
-        public decimal EmployeeID { get; set; }
+        public long EmployeeID { get; set; }
         public string ActivityID { get; set; }
         public int ExpenseBudgetID { get; set; }
         public decimal ActivityAllocate { get; set; }
