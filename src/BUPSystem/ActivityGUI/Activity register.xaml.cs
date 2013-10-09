@@ -13,7 +13,7 @@ namespace BUPSystem.ActivityGUI
         {
             get
             {
-                return ActivityManagement.Instance.ActivityList;
+                return new ObservableCollection<Activity>(ActivityManagement.Instance.GetActivities());
             }
         }
 

@@ -12,25 +12,59 @@ namespace BUPSystem.ActivityGUI
     /// </summary>
     public partial class ActivityManager : Window
     {
-        readonly ObservableCollection<ActivityDepartments> departmentsList = new ObservableCollection<ActivityDepartments>(Enum.GetValues(typeof(ActivityDepartments)).Cast<ActivityDepartments>());
+        private readonly IEnumerable<string> departmentsList = ActivityManagement.Instance.GetDepartmentNames();
+        private bool changeExistingActivity;
+
+        ObservableCollection<string> list = new ObservableCollection<string>();
 
         public ActivityManager()
         {
+         
+
+            foreach (var item in departmentsList)
+            {
+                list.Add(item);
+            }
+
+
             InitializeComponent();
 
-            cbActivityDepartment.ItemsSource = departmentsList;
+            changeExistingActivity = false;
+
+            cbActivityDepartment.ItemsSource = list;
         }
 
         public ActivityManager(Activity activity)
-        {
+        {           
+            foreach (var item in departmentsList)
+            {
+                list.Add(item);
+            }
+
+
             InitializeComponent();
 
-            cbActivityDepartment.ItemsSource = departmentsList;
+            changeExistingActivity = true;
+
+            cbActivityDepartment.ItemsSource = list;
 
             DataContext = activity;
 
             cbActivityDepartment.SelectedIndex = 
                 activity.DepartmentID.EndsWith("AO") ? 0 : 1;
+        }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            if (!changeExistingActivity)
+            {
+                ActivityManagement.Instance.CreateActivity(tbID.Text, tbName.Text,
+                    list[cbActivityDepartment.SelectedIndex]);
+            }
+            else
+            {
+                CustomerManagement.Instance.UpdateCustomer();
+            }  
         }
     }
 }
