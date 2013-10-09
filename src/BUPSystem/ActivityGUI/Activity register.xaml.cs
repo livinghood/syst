@@ -8,7 +8,7 @@ namespace BUPSystem.ActivityGUI
     /// </summary>
     public partial class ActivityRegister : Window
     {
-        public ObservableCollection<Logic_Layer.ActivityNamespace.Activity> ActivityList
+        public ObservableCollection<Logic_Layer.Activity> ActivityList
         {
             get
             {
@@ -44,8 +44,8 @@ namespace BUPSystem.ActivityGUI
         /// <param name="e"></param>
         private void btnChange_Click(object sender, RoutedEventArgs e)
         {
-            ActivityManager am = new ActivityManager(ActivityList[lvActivityRegister.SelectedIndex]);
-            am.ShowDialog();
+           // ActivityManager am = new ActivityManager(ActivityList[lvActivityRegister.SelectedIndex]);
+           // am.ShowDialog();
         }
     }
 }

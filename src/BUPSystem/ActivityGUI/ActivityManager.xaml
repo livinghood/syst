@@ -17,7 +17,7 @@
                 <TextBox Height="23" HorizontalAlignment="Left" Margin="128,43,0,0" x:Name="tbID" VerticalAlignment="Top" Width="208" Text="{Binding ActivityId}" />
             </Grid>
         </GroupBox>
-        <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="297,189,0,0" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click" />
+        <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="297,189,0,0" x:Name="btnSave" VerticalAlignment="Top" Width="75" />
         <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="215,189,0,0" x:Name="btnCancel" VerticalAlignment="Top" Width="75" />
 
     </Grid>

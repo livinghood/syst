@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Database_Layer;
 
-namespace Logic_Layer.CustomerNamespace
+namespace Logic_Layer
 {
     /// <summary>
     /// Management class for customers
@@ -16,6 +15,11 @@ namespace Logic_Layer.CustomerNamespace
         private static readonly Lazy<CustomerManagement> instance = new Lazy<CustomerManagement>(() => new CustomerManagement());
 
         /// <summary>
+        /// Database context
+        /// </summary>
+        private DatabaseConnection db = new DatabaseConnection();
+
+        /// <summary>
         /// The instance property
         /// </summary>
         public static CustomerManagement Instance
@@ -23,15 +27,6 @@ namespace Logic_Layer.CustomerNamespace
             get { return instance.Value; }
         }
 
-        /// <summary>
-        /// CustomerRepository object for handling data
-        /// </summary>
-        private readonly IRepository<Customer> objCustomerRepository = new Repository<Customer>();
-
-        /// <summary>
-        /// Instance of Repository class
-        /// </summary>
-        private readonly Repository<Customer> repository = new Repository<Customer>();
 
         /// <summary>
         /// Get a list of all customers
@@ -39,7 +34,11 @@ namespace Logic_Layer.CustomerNamespace
         /// <returns></returns>
         public IEnumerable<Customer> GetCustomers()
         {
-            return from c in objCustomerRepository.FindAll() select c;
+            IEnumerable<Customer> customers = from c in db.Customer
+                                             orderby c.CustomerName
+                                             select c;
+
+            return customers;
         }
 
         /// <summary>
@@ -50,24 +49,28 @@ namespace Logic_Layer.CustomerNamespace
         /// <param name="category"></param>
         public void CreateCustomer(string id, string name, CustomerCategories category)
         {
-            Customer customer = new Customer { CustomerID = id, CustomerName = name, CustomerCategory = category };
-            repository.Add(customer);
-            repository.Commit();
-
-            customer.CustomerName = "Changed";
-            repository.Commit();
-
+            Customer newCustomer = new Customer { CustomerID = id, CustomerName = name, CustomerCategory = category.ToString() };
+            db.Customer.Add(newCustomer);
+            db.SaveChanges();
         }
 
+        /// <summary>
+        /// Delete a customer
+        /// </summary>
+        /// <param name="customer"></param>
         public void DeleteCustomer(Customer customer)
         {
-            repository.Delete(customer);
-            repository.Commit();
+            db.Customer.Remove(customer);
+            db.SaveChanges();
         }
 
-        public void UpdateCustomer(Customer customer)
+        /// <summary>
+        /// Update a customer
+        /// </summary>
+        /// <param name="customer"></param>
+        public void UpdateCustomer()
         {
-            repository.Commit();
+            db.SaveChanges();
         }
     }
 }

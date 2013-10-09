@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using Logic_Layer.CustomerNamespace;
+using Logic_Layer;
 
 namespace BUPSystem.CustomerGUI
 {
@@ -35,7 +35,7 @@ namespace BUPSystem.CustomerGUI
 
             cbCustomerCategory.ItemsSource = list;
 
-            cbCustomerCategory.SelectedIndex = customer.CustomerCategory == CustomerCategories.Näringsliv ? 0 : 1;           
+            cbCustomerCategory.SelectedIndex = customer.CustomerCategory == CustomerCategories.Näringsliv.ToString() ? 0 : 1;           
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
@@ -47,7 +47,7 @@ namespace BUPSystem.CustomerGUI
             }
             else
             {
-                CustomerManagement.Instance.UpdateCustomer(customer);
+                CustomerManagement.Instance.UpdateCustomer();
             }          
         }
     }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
-using Logic_Layer.CustomerNamespace;
+using Logic_Layer;
 
 namespace BUPSystem.CustomerGUI
 {
