@@ -91,12 +91,12 @@ namespace Logic_Layer
         /// <summary>
         /// Create a new EmployeePlacement
         /// </summary>
-        /// <param name="eId"></param>
-        /// <param name="dId"></param>
+        /// <param name="employeeId"></param>
+        /// <param name="departmentId"></param>
         /// <param name="allocate"></param>
-        public void CreateEmployeePlacement(long eId, string dId, decimal allocate)
+        public void CreateEmployeePlacement(long employeeId, string departmentId, decimal allocate)
         {
-            EmployeePlacement newEmployeePlacement = new EmployeePlacement { EmployeeID = eId, DepartmentID = dId, EmployeeAllocate = allocate };
+            EmployeePlacement newEmployeePlacement = new EmployeePlacement { EmployeeID = employeeId, DepartmentID = departmentId, EmployeeAllocate = allocate };
             db.EmployeePlacement.Add(newEmployeePlacement);
             db.SaveChanges();
         }

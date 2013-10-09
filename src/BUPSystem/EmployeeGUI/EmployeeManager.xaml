@@ -3,11 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="EmployeeManager" Height="350" Width="630">
     <Grid>
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="141,213,0,0" x:Name="tbEmployeeVacancy" VerticalAlignment="Top" Width="160" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="141,61,0,0" x:Name="tbEmployeeID" VerticalAlignment="Top" Width="160" TextChanged="tbEmployeeID_TextChanged" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="141,213,0,0" x:Name="tbEmployeeVacancy" VerticalAlignment="Top" Width="160" TextChanged="tbEmployeeVacancy_TextChanged" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="141,61,0,0" x:Name="tbEmployeeID"  VerticalAlignment="Top" Width="160" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="141,99,0,0" x:Name="tbEmployeeName" VerticalAlignment="Top" Width="160" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="141,135,0,0" x:Name="tbEmployeeSallary" VerticalAlignment="Top" Width="160" />
-        <TextBox Height="23" Margin="141,175,0,0" x:Name="tbEmployeeRate" VerticalAlignment="Top" HorizontalAlignment="Left" Width="160" />
+        <TextBox Height="23" Margin="141,175,0,0" x:Name="tbEmployeeRate" VerticalAlignment="Top" HorizontalAlignment="Left" Width="160" TextChanged="tbEmployeeRate_TextChanged" />
         <Label Content="Personnummer" Height="28" HorizontalAlignment="Left" Margin="10,59,0,0" x:Name="label1" VerticalAlignment="Top" />
         <Label Content="Namn" Height="28" HorizontalAlignment="Left" Margin="10,97,0,0" x:Name="label2" VerticalAlignment="Top" />
         <Label Content="Månadslön" Height="28" HorizontalAlignment="Left" Margin="10,135,0,0" x:Name="label3" VerticalAlignment="Top" />
@@ -27,7 +27,7 @@
         <Label Content="Diff" Height="28" HorizontalAlignment="Left" Margin="332,245,0,0" x:Name="tbDiff" VerticalAlignment="Top" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="441,247,0,0" x:Name="textBox12" VerticalAlignment="Top" Width="160" />
         <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="532,284,-7,-38" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click" />
-        <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="447,284,0,-38" x:Name="btnCancel" VerticalAlignment="Top" Width="75" />
+        <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="447,284,0,-38" x:Name="btnCancel" VerticalAlignment="Top" Width="75" IsCancel="True" />
         <Label Content="EmployeeManager" FontSize="20" Height="44" HorizontalAlignment="Left" Margin="10,12,0,0" x:Name="label13" VerticalAlignment="Top" />
         <ComboBox x:Name="cbNoIdea" HorizontalAlignment="Left" Margin="141,251,0,0" VerticalAlignment="Top" Width="160"/>
 
