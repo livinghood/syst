@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Logic_Layer;
 
 namespace BUPSystem.ProductGUI
 {
@@ -10,6 +11,17 @@ namespace BUPSystem.ProductGUI
         public ProductManager()
         {
             InitializeComponent();
+        }
+
+        private void btnProductGroup_Click(object sender, RoutedEventArgs e)
+        {
+            ProductGroupRegister pgr = new ProductGroupRegister();
+            pgr.ShowDialog();
+        }
+
+        private void btnSelect_Click(object sender, RoutedEventArgs e)
+        {
+            ProductManagement.Instance.CreateProduct(tbProductID.Text, tbProductName.Text, depa)
         }
     }
 }

@@ -18,6 +18,7 @@ using BUPSystem.ActivityGUI;
 using BUPSystem.CustomerGUI;
 using BUPSystem.EmployeeGUI;
 using BUPSystem.Product;
+using BUPSystem.ProductGUI;
 using BUPSystem.User;
 
 namespace BUPSystem
