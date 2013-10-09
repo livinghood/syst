@@ -48,5 +48,15 @@ namespace BUPSystem.ActivityGUI
             ActivityManager am = new ActivityManager(ActivityList[lvActivityRegister.SelectedIndex]);
             am.ShowDialog();
         }
+
+        /// <summary>
+        /// Select an activity to be deleted
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            ActivityManagement.Instance.DeleteActivity(ActivityList[lvActivityRegister.SelectedIndex]);
+        }
     }
 }

@@ -27,7 +27,6 @@ namespace Logic_Layer
             get { return instance.Value; }
         }
 
-
         /// <summary>
         /// Get a list of all customers
         /// </summary>
@@ -67,7 +66,6 @@ namespace Logic_Layer
         /// <summary>
         /// Update a customer
         /// </summary>
-        /// <param name="customer"></param>
         public void UpdateCustomer()
         {
             db.SaveChanges();

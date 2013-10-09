@@ -17,15 +17,16 @@ namespace BUPSystem.ActivityGUI
 
         ObservableCollection<string> list = new ObservableCollection<string>();
 
+        /// <summary>
+        /// Standard constructor
+        /// </summary>
         public ActivityManager()
         {
-         
-
+            // Items from IEnumerable must be placed in a List in order for the combobox index to work
             foreach (var item in departmentsList)
             {
                 list.Add(item);
             }
-
 
             InitializeComponent();
 
@@ -34,13 +35,17 @@ namespace BUPSystem.ActivityGUI
             cbActivityDepartment.ItemsSource = list;
         }
 
+        /// <summary>
+        /// Constructor called when editing an existing activity
+        /// </summary>
+        /// <param name="activity"></param>
         public ActivityManager(Activity activity)
-        {           
+        {   
+            // Items from IEnumerable must be placed in a List in order for the combobox index to work
             foreach (var item in departmentsList)
             {
                 list.Add(item);
             }
-
 
             InitializeComponent();
 
@@ -54,6 +59,11 @@ namespace BUPSystem.ActivityGUI
                 activity.DepartmentID.EndsWith("AO") ? 0 : 1;
         }
 
+        /// <summary>
+        /// Saves a new activity or changes made to an existing activity
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             if (!changeExistingActivity)
@@ -63,8 +73,13 @@ namespace BUPSystem.ActivityGUI
             }
             else
             {
-                CustomerManagement.Instance.UpdateCustomer();
+                ActivityManagement.Instance.Update();
             }  
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

@@ -61,16 +61,34 @@ namespace Logic_Layer
 
         public void CreateActivity(string id, string name, string activityDepartments)
         {
-            string activityID = id.ToUpper();
+            string activityId = id.ToUpper();
 
             if (activityDepartments.Equals("AO"))          
-                activityID += "AO";
+                activityId += "AO";
             
             else
-                activityID += "FO";
+                activityId += "FO";
 
-            Activity activity = new Activity { ActivityID = activityID, ActivityName = name, DepartmentID = activityDepartments };
+            Activity activity = new Activity { ActivityID = activityId, ActivityName = name, DepartmentID = activityDepartments };
             db.Activity.Add(activity);
+            db.SaveChanges();
+        }
+
+        /// <summary>
+        /// Delete an activity
+        /// </summary>
+        /// <param name="activity"></param>
+        public void DeleteActivity(Activity activity)
+        {
+            db.Activity.Remove(activity);
+            db.SaveChanges();
+        }
+
+        /// <summary>
+        /// Update an activity
+        /// </summary>
+        public void Update()
+        {
             db.SaveChanges();
         }
     }
