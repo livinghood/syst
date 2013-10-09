@@ -46,10 +46,9 @@ namespace Logic_Layer
         /// <param name="id"></param>
         /// <param name="name"></param>
         /// <param name="category"></param>
-        public void CreateAccount(int id, string name, int amount)
+        public void CreateAccount(Account account)
         {
-            Account newAccount = new Account { AccountID = id, AccountName = name , AccountCost = amount};
-            db.Account.Add(newAccount);
+            db.Account.Add(account);
             db.SaveChanges();
         }
 
