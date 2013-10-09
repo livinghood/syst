@@ -41,12 +41,21 @@ namespace Logic_Layer
             return products;
         }
 
+        public IEnumerable<Department> GetDepartments()
+        {
+            IEnumerable<Department> departments = from d in db.Department
+                                            orderby d.DepartmentID
+                                            select d;
+
+            return departments;
+        }
+
         /// <summary>
         /// Create a new product
         /// </summary>
-        public void CreateProduct(string id, string name, ProductGroup productGroup , Department department)
+        public void CreateProduct(string id, string name, Department department)
         {
-            Product newProduct = new Product {ProductID = id, ProductName = name, ProductGroupID = productGroup.ProductGroupID, DepartmentID = department.DepartmentID };
+            Product newProduct = new Product {ProductID = id, ProductName = name, ProductGroupID = ProductGroup.ProductGroupID, DepartmentID = department.DepartmentID };
             db.Product.Add(newProduct);
             db.SaveChanges();
         }
