@@ -9,11 +9,16 @@ namespace BUPSystem.CustomerGUI
     /// </summary>
     public partial class CustomerRegister : Window
     {
+        // Member list with all the accounts
+        ObservableCollection<Logic_Layer.Customer> m_CustomerList = new ObservableCollection<Logic_Layer.Customer>(CustomerManagement.Instance.GetCustomers());
+
+
+
         public ObservableCollection<Customer> CustomerList
         {
             get
             {
-                return new ObservableCollection<Customer>(CustomerManagement.Instance.GetCustomers());
+                return m_CustomerList;
             }
         }
 
@@ -29,8 +34,11 @@ namespace BUPSystem.CustomerGUI
 
         private void btnRemove_Click(object sender, RoutedEventArgs e)
         {
-
+            // Delete the customer from the database
             CustomerManagement.Instance.DeleteCustomer(CustomerList[lvCustomerList.SelectedIndex]);
+            // Delete the account from our account list
+            m_CustomerList.Remove(CustomerList[lvCustomerList.SelectedIndex]);
+
         }
 
         /// <summary>
@@ -40,8 +48,20 @@ namespace BUPSystem.CustomerGUI
         /// <param name="e"></param>
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
+            // Initilize a new window for adding a new customer
             CustomerManager customerManager = new CustomerManager();
+
+            // Show the window
             customerManager.ShowDialog();
+
+            // If the users presses OK, add the new customer
+            if (customerManager.DialogResult.Equals(true))
+            {
+                // Add the customer to the database
+                CustomerManagement.Instance.CreateCustomer(customerManager.Customer);
+                // Add the customer to our list
+                m_CustomerList.Add(customerManager.Customer);
+            }
         }
 
         private void btnSelect_Click(object sender, RoutedEventArgs e)
@@ -56,10 +76,18 @@ namespace BUPSystem.CustomerGUI
 
         private void btnChange_Click(object sender, RoutedEventArgs e)
         {
-            CustomerManager customerManager = new CustomerManager(CustomerList[lvCustomerList.SelectedIndex]);
+            // Initilize a new window for editing a customer
+            CustomerGUI.CustomerManager customerManager = new CustomerGUI.CustomerManager(CustomerList[lvCustomerList.SelectedIndex]);
+
+            // Show the window
             customerManager.ShowDialog();
 
-            // Att göra: lägga till label som bekräftar om kund har lagts till/ ändrats eller tagit bort
+            // If the users presses OK, update the item
+            if (customerManager.DialogResult.Equals(true))
+            {
+                // Update the database context
+                CustomerManagement.Instance.UpdateCustomer();
+            }
         }
     }
 }

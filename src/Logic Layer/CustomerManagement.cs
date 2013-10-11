@@ -47,10 +47,9 @@ namespace Logic_Layer
         /// <param name="id"></param>
         /// <param name="name"></param>
         /// <param name="category"></param>
-        public void CreateCustomer(string id, string name, CustomerCategories category)
+        public void CreateCustomer(Customer customer)
         {
-            Customer newCustomer = new Customer { CustomerID = id, CustomerName = name, CustomerCategory = category.ToString() };
-            db.Customer.Add(newCustomer);
+            db.Customer.Add(customer);
             db.SaveChanges();
         }
 

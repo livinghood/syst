@@ -1,7 +1,7 @@
 ﻿<Window x:Class="BUPSystem.CustomerGUI.CustomerManager"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="CustomerManager" Height="265" Width="390">
+        Title="CustomerManager" Height="265" Width="390" x:Name="customerManager">
     <Grid>
         <Label Content="CustomerManager" Height="41" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="label1" VerticalAlignment="Top" FontSize="20" />
         <GroupBox Header="Standarduppgifter" Height="140" HorizontalAlignment="Left" Margin="10,56,0,0" x:Name="groupBox1" VerticalAlignment="Top" Width="362">
@@ -9,16 +9,16 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <TextBox Height="23" HorizontalAlignment="Left" Margin="111,15,0,0" x:Name="tbCustomerName" VerticalAlignment="Top" Width="230" Text="{Binding CustomerName}" />
-                <Label Content="Kundnamn" Height="28" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="label2" VerticalAlignment="Top" />
-                <Label Content="Kundkategori" Height="28" HorizontalAlignment="Left" Margin="10,43,0,0" x:Name="label3" VerticalAlignment="Top" />
-                <ComboBox Height="23" HorizontalAlignment="Left" Margin="111,48,0,0" x:Name="cbCustomerCategory" VerticalAlignment="Top" Width="229" Text="Välj..." SelectedIndex="0" IsSynchronizedWithCurrentItem="False"/>
-                <TextBox x:Name="tbCustomerId" HorizontalAlignment="Right" Height="23" Margin="0,81,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="229" Text="{Binding CustomerID}"/>
-                <Label Content="Kund ID" Height="28" HorizontalAlignment="Left" Margin="10,76,0,0" x:Name="label3_Copy" VerticalAlignment="Top" />
+                <TextBox x:Name="tbCustomerId" HorizontalAlignment="Right" Height="23" Margin="0,12,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="229" Text="{Binding CustomerID,UpdateSourceTrigger=Explicit}"/>
+                <Label Content="Kund ID" Height="28" HorizontalAlignment="Left" Margin="10,11,0,0" x:Name="label3_Copy" VerticalAlignment="Top" />
+                <Label Content="Kundkategori" Height="28" HorizontalAlignment="Left" Margin="9,46,0,0" x:Name="label3" VerticalAlignment="Top" />
+                <ComboBox Height="23" HorizontalAlignment="Left" Margin="111,48,0,0" x:Name="cbCustomerCategory" VerticalAlignment="Top" Width="229" Text="Välj..." SelectedIndex="0" SelectedItem="{Binding Path=CustomerCategory, Mode=TwoWay,UpdateSourceTrigger=Explicit}" />
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="111,85,0,0" x:Name="tbCustomerName" VerticalAlignment="Top" Width="230" Text="{Binding CustomerName,UpdateSourceTrigger=Explicit}" />
+                <Label Content="Kundnamn" Height="28" HorizontalAlignment="Left" Margin="9,84,0,0" x:Name="label2" VerticalAlignment="Top" />
             </Grid>
         </GroupBox>
         <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="297,201,0,0" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click" />
-        <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="217,201,0,0" x:Name="btnCancel" VerticalAlignment="Top" Width="75" />
+        <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="217,201,0,0" x:Name="btnCancel" VerticalAlignment="Top" Width="75" IsCancel="True" />
 
     </Grid>
 </Window>
