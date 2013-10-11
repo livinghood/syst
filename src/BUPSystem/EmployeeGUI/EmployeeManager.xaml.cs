@@ -44,12 +44,15 @@ namespace BUPSystem.EmployeeGUI
             if (!changeExistingEmployee)
             {
                 long employeeId = long.Parse(tbEmployeeID.Text);
-                if (ControlDepartments(employeeId) == true)
-                {
+                bool createNewPlacement = false; //To be able to use same operation as a control and to create new DepartmentPlacement
+                if (ControlDepartments(employeeId, createNewPlacement) == true) //createNewPlacement = false, only checks if at least 1 textbox got data
+                {//if at least 1 textbox got data
+                    createNewPlacement = true; //createNewPlacement = true
                     int sallery = int.Parse(tbEmployeeSallary.Text);
                     int employeeRate = int.Parse(tbEmployeeRate.Text);
                     decimal vacancy = decimal.Parse(tbEmployeeVacancy.Text);
                     EmployeeManagement.Instance.CreateEmployee(employeeId, tbEmployeeName.Text, sallery, employeeRate, vacancy);
+                    ControlDepartments(employeeId, createNewPlacement); //Creates a new placement
                 }
             }
             else
@@ -63,31 +66,43 @@ namespace BUPSystem.EmployeeGUI
         /// </summary>
         /// <param name="employeeId"></param>
         /// <returns>false if no field got data, else true</returns>
-        private bool ControlDepartments(long employeeId)
+        private bool ControlDepartments(long employeeId, bool createNew)
         {
             decimal allocate;
             if (tbAdmAvd.Text.Trim().Length > 0 && tbAdmAvd.Text != "0")
             {
-                allocate = decimal.Parse(tbAdmAvd.Text);
-                EmployeeManagement.Instance.CreateEmployeePlacement(employeeId, "Administrativ", allocate);
+                if (createNew == true)
+                {
+                    allocate = decimal.Parse(tbAdmAvd.Text);
+                    EmployeeManagement.Instance.CreateEmployeePlacement(employeeId, "AO", allocate);
+                }
                 return true;
             }
             if (tbDriftAvd.Text.Trim().Length > 0 && tbDriftAvd.Text != "0")
             {
-                allocate = decimal.Parse(tbDriftAvd.Text);
-                EmployeeManagement.Instance.CreateEmployeePlacement(employeeId, "Drift", allocate);
+                if (createNew == true)
+                {
+                    allocate = decimal.Parse(tbDriftAvd.Text);
+                    EmployeeManagement.Instance.CreateEmployeePlacement(employeeId, "DA", allocate);
+                }
                 return true;
             }
             if (tbSellAvd.Text.Trim().Length > 0 && tbSellAvd.Text != "0")
             {
-                allocate = decimal.Parse(tbSellAvd.Text);
-                EmployeeManagement.Instance.CreateEmployeePlacement(employeeId, "Försäljning", allocate);
+                if (createNew == true)
+                {
+                    allocate = decimal.Parse(tbSellAvd.Text);
+                    EmployeeManagement.Instance.CreateEmployeePlacement(employeeId, "FO", allocate);
+                }
                 return true;
             }
             if (tbProdAvd.Text.Trim().Length > 0 && tbProdAvd.Text != "0")
             {
-                allocate = decimal.Parse(tbProdAvd.Text);
-                EmployeeManagement.Instance.CreateEmployeePlacement(employeeId, "Produktion", allocate);
+                if (createNew == true)
+                {
+                    allocate = decimal.Parse(tbProdAvd.Text);
+                    EmployeeManagement.Instance.CreateEmployeePlacement(employeeId, "UF", allocate);
+                }
                 return true;
             }
             else

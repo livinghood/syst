@@ -44,7 +44,7 @@ namespace BUPSystem.EmployeeGUI
             EmployeeManager employeeManager = new EmployeeManager(EmployeeList[lvEmployeeList.SelectedIndex]);
             employeeManager.ShowDialog();
 
-            // Att göra: lägga till label som bekräftar om kund har lagts till/ ändrats eller tagit bort
+            // Att göra: lägga till label som bekräftar om anställd har lagts till/ ändrats eller tagit bort
         }
     }
 }
