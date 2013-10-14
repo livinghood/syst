@@ -43,16 +43,33 @@ namespace BUPSystem.EmployeeGUI
         {
             if (!changeExistingEmployee)
             {
-                long employeeId = long.Parse(tbEmployeeID.Text);
+                long l_employeeId;
+                bool success = long.TryParse(tbEmployeeID.Text, out l_employeeId);
+                if (!success) return; //if tryparse fails, abort
+                
                 bool createNewPlacement = false; //To be able to use same operation as a control and to create new DepartmentPlacement
-                if (ControlDepartments(employeeId, createNewPlacement) == true) //createNewPlacement = false, only checks if at least 1 textbox got data
+                
+                if (ControlDepartments(l_employeeId, createNewPlacement)) //createNewPlacement = false, only checks if at least 1 textbox got data
                 {//if at least 1 textbox got data
                     createNewPlacement = true; //createNewPlacement = true
-                    int sallery = int.Parse(tbEmployeeSallary.Text);
-                    int employeeRate = int.Parse(tbEmployeeRate.Text);
-                    decimal vacancy = decimal.Parse(tbEmployeeVacancy.Text);
-                    EmployeeManagement.Instance.CreateEmployee(employeeId, tbEmployeeName.Text, sallery, employeeRate, vacancy);
-                    ControlDepartments(employeeId, createNewPlacement); //Creates a new placement
+
+                    int i_sallery;
+                    success = int.TryParse(tbEmployeeSallary.Text, out i_sallery);
+                    i_sallery = FalseReturnZero(success, i_sallery);//if tryparse fails, int = 0
+
+                    int i_employeeRate;
+                    success = int.TryParse(tbEmployeeRate.Text, out i_employeeRate);
+                    i_employeeRate = FalseReturnZero(success, i_employeeRate);//if tryparse fails, int = 0
+
+                    decimal d_vacancy;
+                    int i_vacancy;
+                    success = int.TryParse(tbEmployeeVacancy.Text, out i_vacancy);
+                    i_vacancy = FalseReturnZero(success, i_vacancy);//if tryparse fails, int = 0
+                    d_vacancy = i_vacancy / 100;
+
+
+                    EmployeeManagement.Instance.CreateEmployee(l_employeeId, tbEmployeeName.Text, i_sallery, i_employeeRate, d_vacancy);
+                    ControlDepartments(l_employeeId, createNewPlacement); //Creates a new placement
                 }
             }
             else
@@ -69,47 +86,51 @@ namespace BUPSystem.EmployeeGUI
         private bool ControlDepartments(long employeeId, bool createNew)
         {
             decimal allocate;
+            bool ok = false;
             if (tbAdmAvd.Text.Trim().Length > 0 && tbAdmAvd.Text != "0")
             {
-                if (createNew == true)
+                if (createNew)
                 {
                     allocate = decimal.Parse(tbAdmAvd.Text);
                     EmployeeManagement.Instance.CreateEmployeePlacement(employeeId, "AO", allocate);
+                    //Create new placement with employeeid, departmentid and allocated time
                 }
-                return true;
+                ok = true;
             }
             if (tbDriftAvd.Text.Trim().Length > 0 && tbDriftAvd.Text != "0")
             {
-                if (createNew == true)
+                if (createNew)
                 {
                     allocate = decimal.Parse(tbDriftAvd.Text);
                     EmployeeManagement.Instance.CreateEmployeePlacement(employeeId, "DA", allocate);
+                    //Create new placement with employeeid, departmentid and allocated time
                 }
-                return true;
+                ok = true;
             }
             if (tbSellAvd.Text.Trim().Length > 0 && tbSellAvd.Text != "0")
             {
-                if (createNew == true)
+                if (createNew)
                 {
                     allocate = decimal.Parse(tbSellAvd.Text);
                     EmployeeManagement.Instance.CreateEmployeePlacement(employeeId, "FO", allocate);
+                    //Create new placement with employeeid, departmentid and allocated time
                 }
-                return true;
+                ok = true;
             }
             if (tbProdAvd.Text.Trim().Length > 0 && tbProdAvd.Text != "0")
             {
-                if (createNew == true)
+                if (createNew)
                 {
                     allocate = decimal.Parse(tbProdAvd.Text);
                     EmployeeManagement.Instance.CreateEmployeePlacement(employeeId, "UF", allocate);
+                    //Create new placement with employeeid, departmentid and allocated time
                 }
-                return true;
+                ok = true;
             }
-            else
-            {
-                MessageBox.Show("Måste placeras på en avdelning");
-                return false;
-            }
+            if (!ok)
+                MessageBox.Show("Måste placeras på minst en avdelning");
+
+            return ok;
         }
 
         /// <summary>
@@ -137,34 +158,109 @@ namespace BUPSystem.EmployeeGUI
         /// </summary>
         private void CalculateAnnualEmployee()
         {
-            if (tbEmployeeRate.Text == "")
+            int i_rate;
+            bool success = int.TryParse(tbEmployeeRate.Text, out i_rate);
+            i_rate = FalseReturnZero(success, i_rate);//if tryparse fails, int = 0
+
+            int i_vacancy;
+            success = int.TryParse(tbEmployeeVacancy.Text, out i_vacancy);
+            i_vacancy = FalseReturnZero(success, i_vacancy);//if tryparse fails, int = 0
+
+            tbAnnualEmployee.Text = (i_rate - i_vacancy).ToString();
+        }
+
+        /// <summary>
+        /// Updates tbDiff when text changes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tbAdmAvd_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateDiff();
+        }
+
+        /// <summary>
+        /// Updates tbDiff when text changes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tbDriftAvd_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateDiff();
+        }
+
+        /// <summary>
+        /// Updates tbDiff when text changes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tbSellAvd_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateDiff();
+        }
+
+        /// <summary>
+        /// Updates tbDiff when text changes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tbProdAvd_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateDiff();
+        }
+
+        /// <summary>
+        /// caclulates the textbox tbDiff
+        /// </summary>
+        private void UpdateDiff()
+        {
+            int i_adm;
+            bool success = int.TryParse(tbAdmAvd.Text, out i_adm);
+            i_adm = FalseReturnZero(success, i_adm);//if tryparse fails, int = 0
+
+            int i_drift;
+            success = int.TryParse(tbDriftAvd.Text, out i_drift);
+            i_drift = FalseReturnZero(success, i_drift);//if tryparse fails, int = 0
+
+            int i_sell;
+            success = int.TryParse(tbSellAvd.Text, out i_sell);
+            i_sell = FalseReturnZero(success, i_sell);//if tryparse fails, int = 0
+
+            int i_prod;
+            success = int.TryParse(tbProdAvd.Text, out i_prod);
+            i_prod = FalseReturnZero(success, i_prod);//if tryparse fails, int = 0
+
+            int i_annual;
+            success = int.TryParse(tbAnnualEmployee.Text, out i_annual);//will always be a number so wont need tryparse
+            i_annual = FalseReturnZero(success, i_annual);
+
+            tbDiff.Text = (i_annual - i_adm - i_drift - i_sell - i_prod).ToString();//calculate Diff
+        }
+
+        /// <summary>
+        /// Made for returning 0 if tryparse fails
+        /// </summary>
+        /// <param name="success">tryparse success</param>
+        /// <param name="number">the number to tryparse</param>
+        /// <returns>if = true, returns the parameter number. if = false, returns 0</returns>
+        private int FalseReturnZero(bool success, int number)
+        {
+            if (success)
             {
-                tbAnnualEmployee.Text = "";
+                return number;
             }
             else
             {
-                int rate = int.Parse(tbEmployeeRate.Text);
-                int vacancy;
-
-                if (tbEmployeeVacancy.Text == "")
-                {
-                    vacancy = 0;
-                }
-                else
-                {
-                    vacancy = int.Parse(tbEmployeeVacancy.Text);
-                }
-
-                tbAnnualEmployee.Text = (rate - vacancy).ToString();
-            }
+                number = 0;
+                return number;
+            } 
         }
 
-        //private void NumberValidationTextBox(object sender, System.Windows.Input.TextCompositionEventArgs e)
-        //{
-        //    Regex regex = new Regex("[^0-9]+");
-        //    e.Handled = regex.IsMatch(e.Text);
-        //}
-
+        private void NumberValidationTextBox(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
 
     }
 }

@@ -31,9 +31,9 @@ namespace Logic_Layer
         /// <returns></returns>
         public IEnumerable<Employee> GetEmployee()
         {
-            IEnumerable<Employee> employees = from c in db.Employee
-                                              orderby c.EmployeeName
-                                              select c;
+            IEnumerable<Employee> employees = from e in db.Employee
+                                              orderby e.EmployeeName
+                                              select e;
 
             return employees;
         }
@@ -96,7 +96,7 @@ namespace Logic_Layer
         /// <param name="allocate"></param>
         public void CreateEmployeePlacement(long employeeId, string departmentId, decimal allocate)
         {
-            EmployeePlacement newEmployeePlacement = new EmployeePlacement { EmployeeID = employeeId, DepartmentID = departmentId, EmployeeAllocate = allocate };
+            EmployeePlacement newEmployeePlacement = new EmployeePlacement { EmployeeID = employeeId, DepartmentID = departmentId, EmployeeAllocate = allocate};
             db.EmployeePlacement.Add(newEmployeePlacement);
             db.SaveChanges();
         }
