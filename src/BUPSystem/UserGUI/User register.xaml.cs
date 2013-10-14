@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using Logic_Layer;
+using Logic_Layer.General_Logic;
 using System.Collections.ObjectModel;
 
 namespace BUPSystem.UserGUI
