@@ -71,6 +71,13 @@ namespace Logic_Layer
             db.SaveChanges();
         }
 
+        public void AddAccount(UserAccount useraccount)
+        {
+            UserAccounts.Add(useraccount);
+            db.UserAccount.Add(useraccount);
+            db.SaveChanges();
+        }
+
         /// <summary>
         /// Delete an account
         /// </summary>

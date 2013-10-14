@@ -3,7 +3,6 @@ using System.Linq;
 using System.Windows;
 using Logic_Layer;
 using System.Collections.ObjectModel;
-using Logic_Layer.General_Logic;
 
 namespace BUPSystem.UserGUI
 {
@@ -42,6 +41,7 @@ namespace BUPSystem.UserGUI
 
             if (um.DialogResult == true)
             {
+                UserManagement.Instance.AddAccount(um.UserAccount);
                 lblInfo.Content = "Ny användare skapad";
             }
         }
@@ -86,6 +86,7 @@ namespace BUPSystem.UserGUI
 
                 if (um.DialogResult.Equals(true))
                 {
+                    UserManagement.Instance.UpdateUserAccount();
                     lblInfo.Content = "Användaren uppdaterades";
                 }
             }

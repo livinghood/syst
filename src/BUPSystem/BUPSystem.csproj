@@ -75,6 +75,9 @@
     <Compile Include="Cost budgeting\Annual employee per product.xaml.cs">
       <DependentUpon>Annual employee per product.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserGUI\UserManager.xaml.cs">
+      <DependentUpon>UserManager.xaml</DependentUpon>
+    </Compile>
     <Page Include="ActivityGUI\ActivityManager.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -84,10 +87,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="EmployeeGUI\EmployeeManager.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UserGUI\User management.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -152,9 +151,6 @@
     </Compile>
     <Compile Include="ActivityGUI\Activity register.xaml.cs">
       <DependentUpon>Activity register.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserGUI\User management.xaml.cs">
-      <DependentUpon>User management.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserGUI\User register.xaml.cs">
       <DependentUpon>User register.xaml</DependentUpon>
@@ -227,6 +223,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Cost budgeting\Annual employee per product.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserGUI\UserManager.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

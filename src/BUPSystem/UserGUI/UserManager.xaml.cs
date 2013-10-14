@@ -25,8 +25,10 @@ namespace BUPSystem.UserGUI
         public UserManager()
         {
             InitializeComponent();
-
-            DataContext = this;
+            cbPermissionLevel.ItemsSource = PermissionLevels;
+            Logic_Layer.UserAccount ua = new UserAccount();
+            DataContext = ua;
+            UserAccount = ua;
         }
 
         /// <summary>
@@ -42,9 +44,7 @@ namespace BUPSystem.UserGUI
 
             // Can't be edited since it's a primary key in the database
             tbUsername.IsEnabled = false;
-
             DataContext = userAccount;
-
             UserAccount = userAccount;
         }
 
@@ -55,30 +55,9 @@ namespace BUPSystem.UserGUI
         /// <param name="e"></param>
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            // A new user account will be created
-            if (UserAccount == null)
-            {
-                UserManagement.Instance.CreateUserAccount(tbUsername.Text, tbPassword.Text,
-                    cbPermissionLevel.SelectedIndex);
-            }
-
-            // An existing user account will be updated
-            else
-            {
-                UserManagement.Instance.UpdateUserAccount();
-            }
-
+            tbPassword.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            cbPermissionLevel.GetBindingExpression(ComboBox.SelectedIndexProperty).UpdateSource();     
             DialogResult = true;
-            Close();
-        }
-
-        /// <summary>
-        /// Closes the window
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnCancel_Click(object sender, RoutedEventArgs e)
-        {
             Close();
         }
 

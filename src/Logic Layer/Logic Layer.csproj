@@ -132,6 +132,7 @@
       <DependentUpon>BUPdb.tt</DependentUpon>
     </Compile>
     <Compile Include="UserManagement.cs" />
+    <Compile Include="UserPermissionLevels.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
