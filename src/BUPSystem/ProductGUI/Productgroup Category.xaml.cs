@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using Logic_Layer;
 
 namespace BUPSystem.ProductGUI
@@ -8,20 +9,25 @@ namespace BUPSystem.ProductGUI
     /// </summary>
     public partial class ProductGroupCategory : Window
     {
-        private bool changeExisting;
+        public ProductCategory ProductCategory { get; set; }
+        public ProductGroup ProductGroup { get; set; }
 
+        /// <summary>
+        /// Constructor called when creating a new product category or 
+        /// product group
+        /// </summary>
         public ProductGroupCategory()
         {
             InitializeComponent();
-
-            changeExisting = false;
         }
 
+        /// <summary>
+        /// Constructor called when editing a product category
+        /// </summary>
+        /// <param name="category"></param>
         public ProductGroupCategory(ProductCategory category)
         {
             InitializeComponent();
-
-            changeExisting = true;
 
             btnSelect.Visibility = Visibility.Collapsed;
             rbProductGroup.IsEnabled = false;
@@ -30,55 +36,76 @@ namespace BUPSystem.ProductGUI
             tbName.Text = category.ProductCategoryName;
         }
 
+        /// <summary>
+        /// Constructor called when editing a product group
+        /// </summary>
+        /// <param name="group"></param>
         public ProductGroupCategory(ProductGroup group)
         {
             InitializeComponent();
-
-            changeExisting = true;
 
             tbID.Text = group.ProductGroupID;
             tbName.Text = group.ProductGroupName;
         }
 
+        /// <summary>
+        /// Saves the data
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (!changeExisting)
-            {                
-                if (rbProductGroup.IsChecked.HasValue && rbProductGroup.IsChecked.Value)
-                {
-                    ProductGroupManagement.Instance.CreateProductGroup(tbID.Text, tbName.Text);
-                }
-                
-                else if (rbProductCategory.IsChecked.HasValue && rbProductCategory.IsChecked.Value)
-                {
-                    ProductCategoryManagement.Instance.CreateProductCategory(tbID.Text, tbName.Text);
-                }
-            }
-
-            else
+            // Product category
+            if (rbProductGroup.IsChecked.HasValue && rbProductGroup.IsChecked.Value)
             {
-                if (rbProductGroup.IsChecked.HasValue && rbProductGroup.IsChecked.Value)
-                {
-                    ProductGroupManagement.Instance.UpdateProductGroup();
-                }
+                Logic_Layer.ProductGroup pg = new Logic_Layer.ProductGroup();
+                ProductGroup = pg;
 
-                else if (rbProductCategory.IsChecked.HasValue && rbProductCategory.IsChecked.Value)
-                {
-                    ProductCategoryManagement.Instance.UpdateProductCategory();
-                }
+                tbID.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+                tbName.GetBindingExpression(TextBox.TextProperty).UpdateSource();
             }
+
+            // Product group
+            else if (rbProductCategory.IsChecked.HasValue && rbProductCategory.IsChecked.Value)
+            {
+                Logic_Layer.ProductCategory pc = new Logic_Layer.ProductCategory();
+                ProductCategory = pc;
+
+                tbID.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+                tbName.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            }
+
+            DialogResult = true;
+            Close();
         }
 
+        /// <summary>
+        /// Hides the select category button since we're 
+        /// creating a category and it can't be connected to another category
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void rbProductCategory_Click(object sender, RoutedEventArgs e)
         {
             btnSelect.Visibility = Visibility.Collapsed;
         }
 
+        /// <summary>
+        /// Makes sure the select category button is visible if we're creating a product group
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void rbProductGroup_Click(object sender, RoutedEventArgs e)
         {
             btnSelect.Visibility = Visibility.Visible;
         }
 
+        /// <summary>
+        /// Opens the product category register window for selection of a product category to
+        /// associate a product group to
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSelect_Click(object sender, RoutedEventArgs e)
         {
             ProductCategoryRegister pgr = new ProductCategoryRegister();

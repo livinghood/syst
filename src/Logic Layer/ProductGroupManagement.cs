@@ -64,6 +64,16 @@ namespace Logic_Layer
             db.SaveChanges();
         }
 
+        public void AddProductGroup(ProductGroup productGroup)
+        {
+            productGroup.ProductCategory = ProductCategory;
+            productGroup.ProductCategoryID = ProductCategory.ProductCategoryID;
+            db.ProductGroup.Add(productGroup);
+            db.SaveChanges();
+            ProductGroups.Add(productGroup);
+        }
+
+
         /// <summary>
         /// Delete a customer
         /// </summary>
@@ -71,6 +81,7 @@ namespace Logic_Layer
         {
             db.ProductGroup.Remove(group);
             db.SaveChanges();
+            ProductGroups.Remove(group);
         }
 
         /// <summary>

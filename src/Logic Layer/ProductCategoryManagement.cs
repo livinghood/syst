@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,8 @@ namespace Logic_Layer
         /// </summary>
         private static readonly Lazy<ProductCategoryManagement> instance = new Lazy<ProductCategoryManagement>(() => new ProductCategoryManagement());
 
+        public ObservableCollection<ProductCategory> ProductCategories { get; set; } 
+
         /// <summary>
         /// The instance property
         /// </summary>
@@ -25,6 +28,11 @@ namespace Logic_Layer
         /// Database context
         /// </summary>
         private readonly DatabaseConnection db = new DatabaseConnection();
+
+        public ProductCategoryManagement()
+        {
+            ProductCategories = new ObservableCollection<ProductCategory>(GetProductCategories());
+        }
 
         /// <summary>
         /// Get a list of all product categories
@@ -48,11 +56,19 @@ namespace Logic_Layer
             db.SaveChanges();
         }
 
+        public void AddProductCategory(ProductCategory pc)
+        {
+            ProductCategories.Add(pc);
+            db.ProductCategory.Add(pc);
+            db.SaveChanges();
+        }
+
         /// <summary>
         /// Delete a product category
         /// </summary>
         public void DeleteProductCategory(ProductCategory category)
         {
+            ProductCategories.Remove(category);
             db.ProductCategory.Remove(category);
             db.SaveChanges();
         }

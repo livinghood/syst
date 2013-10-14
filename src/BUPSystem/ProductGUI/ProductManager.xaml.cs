@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Controls;
 using Logic_Layer;
 
 namespace BUPSystem.ProductGUI
@@ -12,8 +13,12 @@ namespace BUPSystem.ProductGUI
     {
         public Product Product { get; set; }
 
+        private bool changeExisting;
+
         // Hold a selected product group from product group register
-        private ProductGroup productGroup;
+        public ProductGroup ProductGroup  { get; set; }
+
+        public string ProductionDepartmentID { get; set; }
 
         public ObservableCollection<string> ProductionDepartments
         {
@@ -26,7 +31,11 @@ namespace BUPSystem.ProductGUI
         public ProductManager()
         {
             InitializeComponent();
-            DataContext = this;
+            cbDepartment.ItemsSource = ProductionDepartments;
+
+            Logic_Layer.Product product = new Logic_Layer.Product();
+            DataContext = product;
+            Product = product;
         }
 
         /// <summary>
@@ -37,9 +46,13 @@ namespace BUPSystem.ProductGUI
         {
             InitializeComponent();
             tbProductID.IsEnabled = false;
+            btnProductGroup.IsEnabled = false;
             cbDepartment.ItemsSource = ProductionDepartments;
             DataContext = product;
             Product = product;
+            ProductGroup = product.ProductGroup;
+
+            changeExisting = true;
         }
 
         /// <summary>
@@ -51,11 +64,11 @@ namespace BUPSystem.ProductGUI
         private void btnProductGroup_Click(object sender, RoutedEventArgs e)
         {
             ProductGroupRegister pgr = new ProductGroupRegister();
-           
+
             if (pgr.ShowDialog() == true)
             {
-                productGroup = pgr.ProductGroup;
-            }                  
+                ProductGroup = pgr.ProductGroup;
+            }
         }
 
         /// <summary>
@@ -66,29 +79,22 @@ namespace BUPSystem.ProductGUI
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             // A new product is to be created
-            if (Product == null)
+            if (!changeExisting)
             {
                 ProductManagement.Instance.CreateProduct(tbProductID.Text, tbProductName.Text,
-                    ProductionDepartments[cbDepartment.SelectedIndex], productGroup);
+                    ProductionDepartments[cbDepartment.SelectedIndex], ProductGroup);
             }
 
             // An existing product was edited
             else
             {
-                ProductManagement.Instance.UpdateProduct();
+                Product.DepartmentID = ProductionDepartments[cbDepartment.SelectedIndex];
+                Product.ProductGroup = ProductGroup;
+                Product.ProductName = tbProductName.Text;
+                Product.ProductID = tbProductID.Text;
             }
 
             DialogResult = true;
-            Close();
-        }
-
-        /// <summary>
-        /// Closes the window
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnCancel_Click(object sender, RoutedEventArgs e)
-        {
             Close();
         }
     }

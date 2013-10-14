@@ -68,10 +68,23 @@ namespace Logic_Layer
         /// </summary>
         public void CreateProduct(string id, string name, string departmentID, ProductGroup group)
         {
-            Product newProduct = new Product { ProductID = id, ProductName = name, ProductGroupID = group.ProductGroupID, DepartmentID = departmentID };
+            Product newProduct = new Product
+            {
+                ProductID = id,
+                ProductName = name,
+                ProductGroupID = group.ProductGroupID, 
+                DepartmentID = departmentID
+            };
             db.Product.Add(newProduct);
             db.SaveChanges();
             Products.Add(newProduct);
+        }
+
+        public void AddProduct(Product product)
+        {
+            Products.Add(product);
+            db.Product.Add(product);
+            db.SaveChanges();
         }
 
         /// <summary>
