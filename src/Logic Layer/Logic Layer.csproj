@@ -111,6 +111,8 @@
     <Compile Include="ForecastMonth.cs">
       <DependentUpon>BUPdb.tt</DependentUpon>
     </Compile>
+    <Compile Include="General Logic\Search.cs" />
+    <Compile Include="General Logic\Sort.cs" />
     <Compile Include="IncomeProductCustomer.cs">
       <DependentUpon>BUPdb.tt</DependentUpon>
     </Compile>
@@ -128,14 +130,12 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ActivityManagement.cs" />
-    <Compile Include="General\Search.cs" />
-    <Compile Include="General\Sort.cs" />
     <Compile Include="UserAccount.cs">
       <DependentUpon>BUPdb.tt</DependentUpon>
     </Compile>
     <Compile Include="UserManagement.cs" />
     <Compile Include="UserPermissionLevels.cs" />
-    <Compile Include="Validation\Person.cs" />
+    <Compile Include="Validation\Customer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
@@ -161,6 +161,7 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
