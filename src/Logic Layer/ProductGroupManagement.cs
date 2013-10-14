@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,8 @@ namespace Logic_Layer
     public class ProductGroupManagement
     {
         public ProductCategory ProductCategory { get; set; }
+
+        public ObservableCollection<ProductGroup> ProductGroups { get; set; }
 
         /// <summary>
         /// Lazy Instance of CustomerManager singelton
@@ -26,6 +29,14 @@ namespace Logic_Layer
         public static ProductGroupManagement Instance
         {
             get { return instance.Value; }
+        }
+
+        /// <summary>
+        /// Constructor with initialization of ProductGroups list
+        /// </summary>
+        public ProductGroupManagement()
+        {
+            ProductGroups = new ObservableCollection<ProductGroup>(GetProductGroups());
         }
 
         /// <summary>

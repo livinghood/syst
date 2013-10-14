@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using Logic_Layer;
-using Logic_Layer.ActivityNamespace;
 
 namespace BUPSystem.ProductGUI
 {
@@ -11,33 +10,86 @@ namespace BUPSystem.ProductGUI
     /// </summary>
     public partial class ProductManager : Window
     {
+        public Product Product { get; set; }
 
-        private readonly IEnumerable<Department> departmentsList = ProductManagement.Instance.GetDepartments();
-        private bool changeExistingActivity;
+        // Hold a selected product group from product group register
+        private ProductGroup productGroup;
 
-        ObservableCollection<Department> list = new ObservableCollection<Department>();
+        public ObservableCollection<string> ProductionDepartments
+        {
+            get { return new ObservableCollection<string>(ProductManagement.Instance.GetProductDepartments()); }
+        }
 
+        /// <summary>
+        /// Constructor called when creating a new product
+        /// </summary>
         public ProductManager()
         {
             InitializeComponent();
-
-            // Items from IEnumerable must be placed in a List in order for the combobox index to work
-            foreach (var item in departmentsList)
-            {
-                list.Add(item);
-            }
+            DataContext = this;
         }
 
+        /// <summary>
+        /// Constructor called when changing data of an existing product
+        /// </summary>
+        /// <param name="product"></param>
+        public ProductManager(Product product)
+        {
+            InitializeComponent();
+            tbProductID.IsEnabled = false;
+            cbDepartment.ItemsSource = ProductionDepartments;
+            DataContext = product;
+            Product = product;
+        }
+
+        /// <summary>
+        /// Opens product gropup register for selection of a product group which
+        /// the product is to be associated to
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnProductGroup_Click(object sender, RoutedEventArgs e)
         {
             ProductGroupRegister pgr = new ProductGroupRegister();
-            pgr.ShowDialog();
+           
+            if (pgr.ShowDialog() == true)
+            {
+                productGroup = pgr.ProductGroup;
+            }                  
         }
 
-        private void btnSelect_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Saves the data
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            ProductManagement.Instance.CreateProduct(tbProductID.Text, tbProductName.Text,
-                list[cbDepartment.SelectedIndex]);
+            // A new product is to be created
+            if (Product == null)
+            {
+                ProductManagement.Instance.CreateProduct(tbProductID.Text, tbProductName.Text,
+                    ProductionDepartments[cbDepartment.SelectedIndex], productGroup);
+            }
+
+            // An existing product was edited
+            else
+            {
+                ProductManagement.Instance.UpdateProduct();
+            }
+
+            DialogResult = true;
+            Close();
+        }
+
+        /// <summary>
+        /// Closes the window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Logic_Layer
 {
+    /// <summary>
+    /// Class for management of products
+    /// </summary>
     public class ProductManagement
     {
-        public ProductGroup ProductGroup { get; set; }
+        public ObservableCollection<Product> Products { get; set; }
+
         /// <summary>
         /// Lazy Instance of ProductManagement singelton
         /// </summary>
@@ -27,6 +32,13 @@ namespace Logic_Layer
             get { return instance.Value; }
         }
 
+        /// <summary>
+        /// Constructor with initialization of products list
+        /// </summary>
+        public ProductManagement()
+        {
+            Products = new ObservableCollection<Product>(GetProducts());
+        }
 
         /// <summary>
         /// Get a list of all products
@@ -34,30 +46,32 @@ namespace Logic_Layer
         /// <returns></returns>
         public IEnumerable<Product> GetProducts()
         {
-            IEnumerable<Product> products = from p in db.Product
-                                              orderby p.ProductName
-                                              select p;
-
+            var products = from p in db.Product
+                           orderby p.ProductName
+                           select p;
             return products;
         }
 
-        public IEnumerable<Department> GetDepartments()
+        public IEnumerable<string> GetProductDepartments()
         {
-            IEnumerable<Department> departments = from d in db.Department
-                                            orderby d.DepartmentID
-                                            select d;
+            var departments = from d in db.Department
+                           orderby d.DepartmentID 
+                              where d.DepartmentID == "DA" 
+                              || d.DepartmentID == "UF"
 
+                           select d.DepartmentID;
             return departments;
         }
 
         /// <summary>
         /// Create a new product
         /// </summary>
-        public void CreateProduct(string id, string name, Department department)
+        public void CreateProduct(string id, string name, string departmentID, ProductGroup group)
         {
-            Product newProduct = new Product {ProductID = id, ProductName = name, ProductGroupID = ProductGroup.ProductGroupID, DepartmentID = department.DepartmentID };
+            Product newProduct = new Product { ProductID = id, ProductName = name, ProductGroupID = group.ProductGroupID, DepartmentID = departmentID };
             db.Product.Add(newProduct);
             db.SaveChanges();
+            Products.Add(newProduct);
         }
 
         /// <summary>
@@ -67,6 +81,7 @@ namespace Logic_Layer
         {
             db.Product.Remove(product);
             db.SaveChanges();
+            Products.Remove(product);
         }
 
         /// <summary>

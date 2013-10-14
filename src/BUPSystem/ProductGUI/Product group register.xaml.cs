@@ -9,6 +9,9 @@ namespace BUPSystem.ProductGUI
     /// </summary>
     public partial class ProductGroupRegister : Window
     {
+        // Property to hold a product group when it's to be selected from product manager
+        public ProductGroup ProductGroup { get; set; }
+
         public ObservableCollection<ProductGroup> GroupsList
         {
             get
@@ -43,7 +46,10 @@ namespace BUPSystem.ProductGUI
 
         private void btnSelect_Click(object sender, RoutedEventArgs e)
         {
-            ProductManagement.Instance.ProductGroup = GroupsList[lvProductGroups.SelectedIndex];
+            ProductGroup = GroupsList[lvProductGroups.SelectedIndex];
+            
+            DialogResult = true;
+            Close();
         }
     }
 }
