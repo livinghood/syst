@@ -7,10 +7,5 @@ using System.ComponentModel;
 
 namespace Logic_Layer.Validation
 {
-    public class Customer : IDataErrorInfo
-    {
 
-       
-
-    }
 }
