@@ -122,9 +122,12 @@
     <Compile Include="ProductCategory.cs">
       <DependentUpon>BUPdb.tt</DependentUpon>
     </Compile>
+    <Compile Include="ProductCategoryManagement.cs" />
     <Compile Include="ProductGroup.cs">
       <DependentUpon>BUPdb.tt</DependentUpon>
     </Compile>
+    <Compile Include="ProductGroupManagement.cs" />
+    <Compile Include="ProductManagement.cs" />
     <Compile Include="ProductPlacement.cs">
       <DependentUpon>BUPdb.tt</DependentUpon>
     </Compile>
