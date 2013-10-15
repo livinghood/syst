@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
+using Logic_Layer;
 
 namespace BUPSystem.ActivityGUI
 {
@@ -8,12 +9,10 @@ namespace BUPSystem.ActivityGUI
     /// </summary>
     public partial class ActivityRegister : Window
     {
-        public ObservableCollection<Logic_Layer.Activity> ActivityList
+        public ObservableCollection<Activity> ActivityList
         {
-            get
-            {
-                return Logic_Layer.ActivityNamespace.ActivityManagement.Instance.ActivityList;
-            }
+            get { return ActivityManagement.Instance.Activities; }
+            set { ActivityManagement.Instance.Activities = value; }
         }
 
         /// <summary>
@@ -22,7 +21,6 @@ namespace BUPSystem.ActivityGUI
         public ActivityRegister()
         {
             InitializeComponent();
-
             DataContext = this;
         }
 
@@ -35,6 +33,11 @@ namespace BUPSystem.ActivityGUI
         {
             ActivityManager am = new ActivityManager();
             am.ShowDialog();
+            if (am.DialogResult == true)
+            {
+                ActivityManagement.Instance.AddActicity(am.Activity);
+                //lblInfo.Content = "Ny användare skapad";
+            }
         }
 
         /// <summary>
@@ -44,8 +47,44 @@ namespace BUPSystem.ActivityGUI
         /// <param name="e"></param>
         private void btnChange_Click(object sender, RoutedEventArgs e)
         {
-           // ActivityManager am = new ActivityManager(ActivityList[lvActivityRegister.SelectedIndex]);
-           // am.ShowDialog();
+            // Make sure the sure the user has selected an item in the listview
+            if (lvActivityRegister.SelectedItem != null)
+            {
+                ActivityManager am = new ActivityManager(ActivityList[lvActivityRegister.SelectedIndex]);
+                am.ShowDialog();
+
+                if (am.DialogResult == true)
+                {
+                    ActivityManagement.Instance.Update();
+                    //lblInfo.Content = "Ny användare skapad";
+                }
+            }
+            else
+                MessageBox.Show("Markera en aktivitet i listan", "Ingen vald aktivitet");     
+        }
+
+        /// <summary>
+        /// Select an activity to be deleted
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            // Make sure the sure the user has selected an item in the listview
+            if (lvActivityRegister.SelectedItem != null)
+            {
+                // Confirm that the user wishes to delete
+                MessageBoxResult mbr = MessageBox.Show("Vill du verkligen ta bort den här aktiviteten?",
+                    "Ta bort aktivitet", MessageBoxButton.YesNo);
+
+                if (mbr == MessageBoxResult.Yes)
+                {
+                    ActivityManagement.Instance.DeleteActivity(ActivityList[lvActivityRegister.SelectedIndex]);
+                    //lblInfo.Content = "Användaren togs bort";
+                }
+            }
+            else
+                MessageBox.Show("Markera en aktivitet att ta bort", "Ingen vald aktivitet");
         }
     }
 }

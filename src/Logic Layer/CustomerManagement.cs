@@ -93,7 +93,6 @@ namespace Logic_Layer
         /// <summary>
         /// Update a customer
         /// </summary>
-        /// <param name="customer"></param>
         public void UpdateCustomer()
         {
             db.SaveChanges();
