@@ -134,6 +134,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ActivityManagement.cs" />
+    <Compile Include="RevenueManagement.cs" />
     <Compile Include="UserAccount.cs">
       <DependentUpon>BUPdb.tt</DependentUpon>
     </Compile>
