@@ -10,6 +10,7 @@ using System.Windows;
 namespace Logic_Layer
 {
     public class RevenueManagement
+
     {
         /// <summary>
         /// Lazy Instance of CustomerManager singelton
