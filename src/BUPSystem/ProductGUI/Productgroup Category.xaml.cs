@@ -55,7 +55,7 @@ namespace BUPSystem.ProductGUI
         /// <param name="e"></param>
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            // Product category
+            // TheProduct category
             if (rbProductGroup.IsChecked.HasValue && rbProductGroup.IsChecked.Value)
             {
                 Logic_Layer.ProductGroup pg = new Logic_Layer.ProductGroup();
@@ -65,7 +65,7 @@ namespace BUPSystem.ProductGUI
                 tbName.GetBindingExpression(TextBox.TextProperty).UpdateSource();
             }
 
-            // Product group
+            // TheProduct group
             else if (rbProductCategory.IsChecked.HasValue && rbProductCategory.IsChecked.Value)
             {
                 Logic_Layer.ProductCategory pc = new Logic_Layer.ProductCategory();
