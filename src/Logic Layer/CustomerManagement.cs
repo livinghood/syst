@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Logic_Layer
@@ -27,6 +29,15 @@ namespace Logic_Layer
             get { return instance.Value; }
         }
 
+        public ObservableCollection<Customer> Customers { get; set; }
+
+        /// <summary>
+        /// Constructor with initialization of UserAccounts list
+        /// </summary>
+        CustomerManagement()
+        {
+            Customers = new ObservableCollection<Customer>(GetCustomers());
+        }
 
         /// <summary>
         /// Get a list of all customers
@@ -42,6 +53,20 @@ namespace Logic_Layer
         }
 
         /// <summary>
+        /// Get a specific customers
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Customer> GetCustomer(string id)
+        {
+            IEnumerable<Customer> customers = from c in db.Customer
+                                              where c.CustomerID.Contains(id)
+                                             select c;
+
+            return customers;
+        }
+
+
+        /// <summary>
         /// Create a new customer
         /// </summary>
         /// <param name="id"></param>
@@ -49,6 +74,7 @@ namespace Logic_Layer
         /// <param name="category"></param>
         public void CreateCustomer(Customer customer)
         {
+            Customers.Add(customer);
             db.Customer.Add(customer);
             db.SaveChanges();
         }
@@ -59,6 +85,7 @@ namespace Logic_Layer
         /// <param name="customer"></param>
         public void DeleteCustomer(Customer customer)
         {
+            Customers.Remove(customer);
             db.Customer.Remove(customer);
             db.SaveChanges();
         }

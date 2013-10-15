@@ -9,17 +9,11 @@ namespace BUPSystem.CustomerGUI
     /// </summary>
     public partial class CustomerRegister : Window
     {
-        // Member list with all the accounts
-        ObservableCollection<Logic_Layer.Customer> m_CustomerList = new ObservableCollection<Logic_Layer.Customer>(CustomerManagement.Instance.GetCustomers());
-
-
 
         public ObservableCollection<Customer> CustomerList
         {
-            get
-            {
-                return m_CustomerList;
-            }
+            get { return CustomerManagement.Instance.Customers; }
+            set { CustomerManagement.Instance.Customers = value; }
         }
 
         public CustomerRegister()
@@ -36,8 +30,6 @@ namespace BUPSystem.CustomerGUI
         {
             // Delete the customer from the database
             CustomerManagement.Instance.DeleteCustomer(CustomerList[lvCustomerList.SelectedIndex]);
-            // Delete the account from our account list
-            m_CustomerList.Remove(CustomerList[lvCustomerList.SelectedIndex]);
 
         }
 
@@ -59,8 +51,6 @@ namespace BUPSystem.CustomerGUI
             {
                 // Add the customer to the database
                 CustomerManagement.Instance.CreateCustomer(customerManager.Customer);
-                // Add the customer to our list
-                m_CustomerList.Add(customerManager.Customer);
             }
         }
 
