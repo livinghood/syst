@@ -30,9 +30,17 @@ namespace Logic_Layer
         /// <summary>
         /// Database context
         /// </summary>
-        private DatabaseConnection db = new DatabaseConnection();
+        private readonly DatabaseConnection db = new DatabaseConnection();
 
-        public ObservableCollection<Activity> ActivityList { get; set; }
+        public ObservableCollection<Activity> Activities { get; set; }
+
+        /// <summary>
+        /// Standard constructor with initialization of activties list
+        /// </summary>
+        public ActivityManagement()
+        {
+            Activities = new ObservableCollection<Activity>(GetActivities());
+        }
 
         /// <summary>
         /// Get department names for use in ActivityGUI
@@ -40,10 +48,10 @@ namespace Logic_Layer
         /// <returns></returns>
         public IEnumerable<string> GetDepartmentNames()
         {
-            IEnumerable<string> departments = from d in db.Department
-                                              orderby d.DepartmentID
-                                              select d.DepartmentID;
-            return departments;
+            return from d in db.Department
+                   where d.DepartmentID == "FO" || d.DepartmentID == "AO"
+                   orderby d.DepartmentID
+                   select d.DepartmentID;
         }
 
         /// <summary>
@@ -52,26 +60,31 @@ namespace Logic_Layer
         /// <returns></returns>
         public IEnumerable<Activity> GetActivities()
         {
-            IEnumerable<Activity> activity = from a in db.Activity
-                                              orderby a.ActivityName
-                                              select a;
-
-            return activity;
+            return from a in db.Activity
+                   orderby a.ActivityName
+                   select a;
         }
 
-        public void CreateActivity(string id, string name, string activityDepartments)
+        /// <summary>
+        /// Add new activity
+        /// </summary>
+        /// <param name="activity"></param>
+        public void AddActicity(Activity activity)
         {
-            string activityId = id.ToUpper();
+            string id = activity.ActivityID;
 
-            if (activityDepartments.Equals("AO"))          
-                activityId += "AO";
-            
+            if (activity.DepartmentID.Equals("AO"))
+                id += "AO";
+
             else
-                activityId += "FO";
+                id += "FO";
 
-            Activity activity = new Activity { ActivityID = activityId, ActivityName = name, DepartmentID = activityDepartments };
+            activity.ActivityID = id;
+
             db.Activity.Add(activity);
             db.SaveChanges();
+            Activities.Add(activity);
+
         }
 
         /// <summary>
@@ -80,6 +93,7 @@ namespace Logic_Layer
         /// <param name="activity"></param>
         public void DeleteActivity(Activity activity)
         {
+            Activities.Remove(activity);
             db.Activity.Remove(activity);
             db.SaveChanges();
         }

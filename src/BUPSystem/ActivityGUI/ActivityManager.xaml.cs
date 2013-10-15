@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using Logic_Layer;
 
 namespace BUPSystem.ActivityGUI
@@ -12,27 +13,22 @@ namespace BUPSystem.ActivityGUI
     /// </summary>
     public partial class ActivityManager : Window
     {
-        private readonly IEnumerable<string> departmentsList = ActivityManagement.Instance.GetDepartmentNames();
-        private bool changeExistingActivity;
+        public Logic_Layer.Activity Activity { get; set; }
 
-        ObservableCollection<string> list = new ObservableCollection<string>();
+        readonly ObservableCollection<string> departmentNames =
+            new ObservableCollection<string>(ActivityManagement.Instance.GetDepartmentNames());
 
         /// <summary>
         /// Standard constructor
         /// </summary>
         public ActivityManager()
         {
-            // Items from IEnumerable must be placed in a List in order for the combobox index to work
-            foreach (var item in departmentsList)
-            {
-                list.Add(item);
-            }
-
             InitializeComponent();
+            cbActivityDepartment.ItemsSource = departmentNames;
 
-            changeExistingActivity = false;
-
-            cbActivityDepartment.ItemsSource = list;
+            Logic_Layer.Activity activity = new Activity();
+            DataContext = activity;
+            Activity = activity;
         }
 
         /// <summary>
@@ -41,22 +37,11 @@ namespace BUPSystem.ActivityGUI
         /// <param name="activity"></param>
         public ActivityManager(Activity activity)
         {   
-            // Items from IEnumerable must be placed in a List in order for the combobox index to work
-            foreach (var item in departmentsList)
-            {
-                list.Add(item);
-            }
-
             InitializeComponent();
-
-            changeExistingActivity = true;
-
-            cbActivityDepartment.ItemsSource = list;
-
+            tbID.IsEnabled = false;
+            cbActivityDepartment.ItemsSource = departmentNames;
             DataContext = activity;
-
-            cbActivityDepartment.SelectedIndex = 
-                activity.DepartmentID.EndsWith("AO") ? 0 : 1;
+            Activity = activity;
         }
 
         /// <summary>
@@ -66,20 +51,12 @@ namespace BUPSystem.ActivityGUI
         /// <param name="e"></param>
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (!changeExistingActivity)
-            {
-                ActivityManagement.Instance.CreateActivity(tbID.Text, tbName.Text,
-                    list[cbActivityDepartment.SelectedIndex]);
-            }
-            else
-            {
-                ActivityManagement.Instance.Update();
-            }  
-        }
+            tbID.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            tbName.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            cbActivityDepartment.GetBindingExpression(ComboBox.SelectedItemProperty).UpdateSource();
 
-        private void btnCancel_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
+            DialogResult = true;
+            Close();
         }
     }
 }
