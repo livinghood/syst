@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using Logic_Layer;
-using Logic_Layer.UserNamespace;
 
 namespace BUPSystem.ProductGUI
 {
