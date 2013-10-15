@@ -70,7 +70,7 @@ namespace BUPSystem.EmployeeGUI
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             if (!changeExistingEmployee)
-            {
+            {//Create new employee
                 long l_employeeId;
                 bool success = long.TryParse(tbEmployeeID.Text, out l_employeeId);
                 if (!success) return; //if tryparse fails, abort
@@ -81,19 +81,13 @@ namespace BUPSystem.EmployeeGUI
                 {//if at least 1 textbox got data
                     createNewPlacement = true; //createNewPlacement = true
 
-                    int i_sallery;
-                    success = int.TryParse(tbEmployeeSallary.Text, out i_sallery);
-                    i_sallery = FalseReturnZero(success, i_sallery);//if tryparse fails, int = 0
+                    int i_sallery = ConvertStringToInt(tbEmployeeSallary.Text);
 
-                    int i_employeeRate;
-                    success = int.TryParse(tbEmployeeRate.Text, out i_employeeRate);
-                    i_employeeRate = FalseReturnZero(success, i_employeeRate);//if tryparse fails, int = 0
+                    int i_employeeRate = ConvertStringToInt(tbEmployeeVacancy.Text);
 
                     decimal d_vacancy;
-                    int i_vacancy;
-                    success = int.TryParse(tbEmployeeVacancy.Text, out i_vacancy);
-                    i_vacancy = FalseReturnZero(success, i_vacancy);//if tryparse fails, int = 0
-                    d_vacancy = i_vacancy / 100;
+                    int i_vacancy = ConvertStringToInt(tbEmployeeVacancy.Text);
+                    d_vacancy = i_vacancy / 100;    //to get %
 
 
                     EmployeeManagement.Instance.CreateEmployee(l_employeeId, tbEmployeeName.Text, i_sallery, i_employeeRate, d_vacancy);
@@ -101,20 +95,38 @@ namespace BUPSystem.EmployeeGUI
                 }
             }
             else
-            {
+            {// Update employee
                 tbEmployeeID.GetBindingExpression(TextBox.TextProperty).UpdateSource();
                 tbEmployeeName.GetBindingExpression(TextBox.TextProperty).UpdateSource();
                 tbEmployeeSallary.GetBindingExpression(TextBox.TextProperty).UpdateSource();
                 tbEmployeeRate.GetBindingExpression(TextBox.TextProperty).UpdateSource();
 
-                int i_vacancy;
-                bool success = int.TryParse(tbEmployeeVacancy.Text, out i_vacancy);
-                i_vacancy = FalseReturnZero(success, i_vacancy);//if tryparse fails, int = 0
+                int i_vacancy = ConvertStringToInt(tbEmployeeVacancy.Text);
 
                 Employee.VacancyDeduction = i_vacancy / 100;
+
+                tbAdmAvd.GetBindingExpression(TextBox.TemplateProperty).UpdateSource();
+                tbDriftAvd.GetBindingExpression(TextBox.TemplateProperty).UpdateSource();
+                tbSellAvd.GetBindingExpression(TextBox.TemplateProperty).UpdateSource();
+                tbProdAvd.GetBindingExpression(TextBox.TemplateProperty).UpdateSource();
+
                 DialogResult = true;
             }
             this.Close();
+        }
+
+        /// <summary>
+        /// Converts string to int with tryparse, if it fails it returns int = 0
+        /// </summary>
+        /// <param name="text">Textbox text</param>
+        /// <returns>int converted from textbox.text</returns>
+        private int ConvertStringToInt(string text)
+        {
+            int i;
+            bool success = int.TryParse(text, out i);
+            if (!success)
+                i = 0;
+            return i;
         }
 
         /// <summary>
@@ -197,13 +209,9 @@ namespace BUPSystem.EmployeeGUI
         /// </summary>
         private void CalculateAnnualEmployee()
         {
-            int i_rate;
-            bool success = int.TryParse(tbEmployeeRate.Text, out i_rate);
-            i_rate = FalseReturnZero(success, i_rate);//if tryparse fails, int = 0
+            int i_rate = ConvertStringToInt(tbEmployeeRate.Text);
 
-            int i_vacancy;
-            success = int.TryParse(tbEmployeeVacancy.Text, out i_vacancy);
-            i_vacancy = FalseReturnZero(success, i_vacancy);//if tryparse fails, int = 0
+            int i_vacancy = ConvertStringToInt(tbEmployeeVacancy.Text);
 
             tbAnnualEmployee.Text = (i_rate - i_vacancy).ToString();
         }
@@ -253,46 +261,17 @@ namespace BUPSystem.EmployeeGUI
         /// </summary>
         private void UpdateDiff()
         {
-            int i_adm;
-            bool success = int.TryParse(tbAdmAvd.Text, out i_adm);
-            i_adm = FalseReturnZero(success, i_adm);//if tryparse fails, int = 0
+            int i_adm = ConvertStringToInt(tbAdmAvd.Text);
 
-            int i_drift;
-            success = int.TryParse(tbDriftAvd.Text, out i_drift);
-            i_drift = FalseReturnZero(success, i_drift);//if tryparse fails, int = 0
+            int i_drift = ConvertStringToInt(tbDriftAvd.Text);
 
-            int i_sell;
-            success = int.TryParse(tbSellAvd.Text, out i_sell);
-            i_sell = FalseReturnZero(success, i_sell);//if tryparse fails, int = 0
+            int i_sell = ConvertStringToInt(tbSellAvd.Text);
 
-            int i_prod;
-            success = int.TryParse(tbProdAvd.Text, out i_prod);
-            i_prod = FalseReturnZero(success, i_prod);//if tryparse fails, int = 0
+            int i_prod = ConvertStringToInt(tbProdAvd.Text);
 
-            int i_annual;
-            success = int.TryParse(tbAnnualEmployee.Text, out i_annual);//will always be a number so wont need tryparse
-            i_annual = FalseReturnZero(success, i_annual);
+            int i_annual = ConvertStringToInt(tbAnnualEmployee.Text);
 
             tbDiff.Text = (i_annual - i_adm - i_drift - i_sell - i_prod).ToString();//calculate Diff
-        }
-
-        /// <summary>
-        /// Made for returning 0 if tryparse fails
-        /// </summary>
-        /// <param name="success">tryparse success</param>
-        /// <param name="number">the number to tryparse</param>
-        /// <returns>if = true, returns the parameter number. if = false, returns 0</returns>
-        private int FalseReturnZero(bool success, int number)
-        {
-            if (success)
-            {
-                return number;
-            }
-            else
-            {
-                number = 0;
-                return number;
-            } 
         }
 
         private void NumberValidationTextBox(object sender, System.Windows.Input.TextCompositionEventArgs e)
