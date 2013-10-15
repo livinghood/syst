@@ -13,7 +13,7 @@ namespace BUPSystem.ProductGUI
     {
         public Product Product { get; set; }
 
-        private bool changeExisting;
+        private readonly bool changeExisting;
 
         // Hold a selected product group from product group register
         public ProductGroup ProductGroup  { get; set; }
@@ -56,7 +56,7 @@ namespace BUPSystem.ProductGUI
         }
 
         /// <summary>
-        /// Opens product gropup register for selection of a product group which
+        /// Opens product group register for selection of a product group which
         /// the product is to be associated to
         /// </summary>
         /// <param name="sender"></param>

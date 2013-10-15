@@ -85,5 +85,10 @@ namespace BUPSystem.ProductGUI
             else
                 MessageBox.Show("Markera en produkt att ta bort", "Ingen vald produkt");
         }
+
+        private void gvchProductID_Click(object sender, RoutedEventArgs e)
+        {
+            // Sort...
+        }
     }
 }
