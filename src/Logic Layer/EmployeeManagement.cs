@@ -104,10 +104,18 @@ namespace Logic_Layer
         /// <summary>
         /// Delete a EmployeePlacement
         /// </summary>
-        /// <param name="employeePlacement"></param>
-        public void DeleteEmployeePlacement(EmployeePlacement employeePlacement)
+        /// <param name="employeePlacements"></param>
+        public void DeleteEmployeePlacement(Employee employee)
         {
-            db.EmployeePlacement.Remove(employeePlacement);
+            var tempPlacementList = new List<EmployeePlacement>();
+            foreach (EmployeePlacement employeeplacement in employee.EmployeePlacement)
+            {//Kan inte ta bort ur samma lista som den itererar igenom, addar därför till en temporär lista
+                tempPlacementList.Add(employeeplacement);
+            }
+            foreach (var tempPlacement in tempPlacementList)
+            {//Tar bort från databasen via den temporära listan
+                db.EmployeePlacement.Remove(tempPlacement);
+            }
             db.SaveChanges();
         }
 

@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using Logic_Layer;
+using System.ComponentModel;
+using System.Windows.Data;
 
 namespace BUPSystem.EmployeeGUI
 {
@@ -36,7 +38,11 @@ namespace BUPSystem.EmployeeGUI
 
         private void btnRemove_Click(object sender, RoutedEventArgs e)
         {
+            EmployeeManagement.Instance.DeleteEmployeePlacement(EmployeeList[lvEmployeeList.SelectedIndex]);
             EmployeeManagement.Instance.DeleteEmployee(EmployeeList[lvEmployeeList.SelectedIndex]);
+           
+            //ICollectionView view = CollectionViewSource.GetDefaultView(EmployeeList);
+            //view.Refresh();
         }
 
         private void btnChange_Click(object sender, RoutedEventArgs e)

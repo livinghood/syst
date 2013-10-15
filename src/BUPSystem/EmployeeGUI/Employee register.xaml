@@ -9,9 +9,9 @@
         <ListView x:Name="lvEmployeeList" HorizontalAlignment="Left" Height="205" Margin="10,54,0,0" VerticalAlignment="Top" Width="456" ItemsSource="{Binding EmployeeList}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="150" Header="Personnummer"/>
-                    <GridViewColumn Width="150" Header="Namn"/>
-                    <GridViewColumn Width="150" Header="Avdelning"/>
+                    <GridViewColumn Width="150" DisplayMemberBinding="{Binding EmployeeID}" Header="Personnummer"/>
+                    <GridViewColumn Width="150" DisplayMemberBinding="{Binding EmployeeName}" Header="Namn"/>
+                    <GridViewColumn Width="150" DisplayMemberBinding="{Binding EmployeementRate}" Header="Avdelning"/>
                 </GridView>
             </ListView.View>
         </ListView>

@@ -32,6 +32,42 @@ namespace BUPSystem.EmployeeGUI
             DataContext = employee;
 
             this.employee = employee;
+
+            FillFieldsUpdate(employee);
+
+        }
+
+        private void FillFieldsUpdate(Employee employee)
+        {
+            tbEmployeeID.Text = employee.EmployeeID.ToString();
+            tbEmployeeName.Text = employee.EmployeeName;
+            tbEmployeeSallary.Text = employee.MonthSallary.ToString();
+            tbEmployeeRate.Text = employee.EmployeementRate.ToString();
+            tbEmployeeVacancy.Text = employee.VacancyDeduction.ToString();
+            CalculateAnnualEmployee();
+            foreach (EmployeePlacement emp in employee.EmployeePlacement)
+            {
+                if (emp.DepartmentID.Equals("AO"))
+                {
+                    tbAdmAvd.Text = emp.EmployeeAllocate.ToString();
+                }
+                if (emp.DepartmentID.Equals("DA"))
+                {
+                    tbDriftAvd.Text = emp.EmployeeAllocate.ToString();
+                }
+                if (emp.DepartmentID.Equals("FO"))
+                {
+                    tbSellAvd.Text = emp.EmployeeAllocate.ToString();
+                }
+                if (emp.DepartmentID.Equals("UF"))
+                {
+                    tbProdAvd.Text = emp.EmployeeAllocate.ToString();
+                }
+            }
+
+            UpdateDiff();
+            //Employee newEmployee = new Employee(tbEmployeeID.Text, );
+            
         }
 
         /// <summary>
@@ -75,7 +111,9 @@ namespace BUPSystem.EmployeeGUI
             else
             {
                 EmployeeManagement.Instance.UpdateEmployee();
-            }          
+            }
+
+            this.Close();
         }
 
         /// <summary>
