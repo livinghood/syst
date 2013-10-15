@@ -3,21 +3,21 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="DirectCostsPerProductDepartment" Height="470" Width="789">
     <Grid>
-        <DataGrid AutoGenerateColumns="False" Height="318" HorizontalAlignment="Left" x:Name="dataGrid1" VerticalAlignment="Top" Width="781" Margin="0,36,0,0">
+        <DataGrid AutoGenerateColumns="False" Height="318" HorizontalAlignment="Left" x:Name="dgDCPPD" VerticalAlignment="Top" Width="781" Margin="0,36,0,0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Konto" MinWidth="40" />
                 <DataGridTextColumn Header="Kontonamn" MinWidth="40" />
                 <DataGridTextColumn Header="Produkt" MinWidth="40" />
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Skapa Exceldokument" Height="23" HorizontalAlignment="Left" Margin="90,406,0,0" x:Name="button3" VerticalAlignment="Top" Width="116" />
-        <Button Content="Skriv ut" Height="23" HorizontalAlignment="Left" Margin="10,406,0,0" x:Name="button5" VerticalAlignment="Top" Width="75" />
+        <Button Content="Skapa Exceldokument" Height="23" HorizontalAlignment="Left" Margin="90,406,0,0" x:Name="btnExcel" VerticalAlignment="Top" Width="116" Click="btnExcel_Click" />
+        <Button Content="Skriv ut" Height="23" HorizontalAlignment="Left" Margin="10,406,0,0" x:Name="btnPrint" VerticalAlignment="Top" Width="75" Click="btnPrint_Click" />
         <Label Height="28" HorizontalAlignment="Left" Margin="103,359,0,0" x:Name="label2" VerticalAlignment="Top" Content="Summa" />
-        <Button Content="Välj konto" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="Välj produkt" HorizontalAlignment="Left" Margin="235,10,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="Spara" HorizontalAlignment="Left" Margin="692,409,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="Avbryt" HorizontalAlignment="Left" Margin="612,409,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="Lås kostnadbudget" HorizontalAlignment="Left" Margin="667,10,0,0" VerticalAlignment="Top" Width="104"/>
+        <Button x:Name="btnSelectAccount" Content="Välj konto" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="btnSelectAccount_Click"/>
+        <Button x:Name="btnSelectProduct" Content="Välj produkt" HorizontalAlignment="Left" Margin="235,10,0,0" VerticalAlignment="Top" Width="75" Click="btnSelectProduct_Click"/>
+        <Button x:Name="btnSave" Content="Spara" HorizontalAlignment="Left" Margin="692,409,0,0" VerticalAlignment="Top" Width="75" Click="btnSave_Click"/>
+        <Button x:Name="btnCancel" Content="Avbryt" HorizontalAlignment="Left" Margin="612,409,0,0" VerticalAlignment="Top" Width="75" IsCancel="True" Click="btnCancel_Click"/>
+        <Button x:Name="btnLock" Content="Lås kostnadbudget" HorizontalAlignment="Left" Margin="651,10,0,0" VerticalAlignment="Top" Width="120" Click="btnLock_Click"/>
 
     </Grid>
 </Window>

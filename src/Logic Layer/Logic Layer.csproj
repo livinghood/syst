@@ -72,6 +72,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BUPdb.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Cost Budgeting Logic\DCPPDManagement.cs" />
     <Compile Include="CostProduct.cs">
       <DependentUpon>BUPdb.tt</DependentUpon>
     </Compile>
