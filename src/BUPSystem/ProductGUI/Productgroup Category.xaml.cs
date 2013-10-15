@@ -12,6 +12,8 @@ namespace BUPSystem.ProductGUI
         public ProductCategory ProductCategory { get; set; }
         public ProductGroup ProductGroup { get; set; }
 
+        private bool editExisting;
+
         /// <summary>
         /// Constructor called when creating a new product category or 
         /// product group
@@ -19,6 +21,8 @@ namespace BUPSystem.ProductGUI
         public ProductGroupCategory()
         {
             InitializeComponent();
+
+            editExisting = false;
         }
 
         /// <summary>
@@ -32,8 +36,15 @@ namespace BUPSystem.ProductGUI
             btnSelect.Visibility = Visibility.Collapsed;
             rbProductGroup.IsEnabled = false;
 
+            rbProductCategory.IsChecked = true;
             tbID.Text = category.ProductCategoryID;
+            tbID.IsEnabled = false;
             tbName.Text = category.ProductCategoryName;
+            ProductCategory = category;
+            DataContext = category;
+
+            editExisting = true;
+
         }
 
         /// <summary>
@@ -44,8 +55,14 @@ namespace BUPSystem.ProductGUI
         {
             InitializeComponent();
 
+            rbProductGroup.IsChecked = true;
             tbID.Text = group.ProductGroupID;
+            tbID.IsEnabled = false;
             tbName.Text = group.ProductGroupName;
+            ProductGroup = group;
+            DataContext = group;
+
+            editExisting = true;
         }
 
         /// <summary>
@@ -55,25 +72,47 @@ namespace BUPSystem.ProductGUI
         /// <param name="e"></param>
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            // TheProduct category
-            if (rbProductGroup.IsChecked.HasValue && rbProductGroup.IsChecked.Value)
+            if (!editExisting)
             {
-                Logic_Layer.ProductGroup pg = new Logic_Layer.ProductGroup();
-                ProductGroup = pg;
+                // TheProduct category
+                if (rbProductGroup.IsChecked.HasValue && rbProductGroup.IsChecked.Value)
+                {
+                    Logic_Layer.ProductGroup pg = new Logic_Layer.ProductGroup();
+                    ProductGroup = pg;
+                    DataContext = pg;
 
-                tbID.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-                tbName.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+                    ProductGroup.ProductGroupID = tbID.Text;
+                    ProductGroup.ProductGroupName = tbName.Text;
+                }
+
+                // TheProduct group
+                else if (rbProductCategory.IsChecked.HasValue && rbProductCategory.IsChecked.Value)
+                {
+                    Logic_Layer.ProductCategory pc = new Logic_Layer.ProductCategory();
+                    ProductCategory = pc;
+                    DataContext = pc;
+
+                    ProductCategory.ProductCategoryID = tbID.Text;
+                    ProductCategory.ProductCategoryName = tbName.Text;
+                }
+            }
+            else
+            {
+                // TheProduct category
+                if (rbProductGroup.IsChecked.HasValue && rbProductGroup.IsChecked.Value)
+                {
+                    ProductGroup.ProductGroupID = tbID.Text;
+                    ProductGroup.ProductGroupName = tbName.Text;
+                }
+
+                // TheProduct group
+                else if (rbProductCategory.IsChecked.HasValue && rbProductCategory.IsChecked.Value)
+                {
+                    ProductCategory.ProductCategoryID = tbID.Text;
+                    ProductCategory.ProductCategoryName = tbName.Text;
+                }
             }
 
-            // TheProduct group
-            else if (rbProductCategory.IsChecked.HasValue && rbProductCategory.IsChecked.Value)
-            {
-                Logic_Layer.ProductCategory pc = new Logic_Layer.ProductCategory();
-                ProductCategory = pc;
-
-                tbID.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-                tbName.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-            }
 
             DialogResult = true;
             Close();

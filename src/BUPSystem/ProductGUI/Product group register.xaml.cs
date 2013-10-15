@@ -23,7 +23,6 @@ namespace BUPSystem.ProductGUI
         public ProductGroupRegister()
         {
             InitializeComponent();
-
             DataContext = this;
         }
         /// <summary>
@@ -54,6 +53,7 @@ namespace BUPSystem.ProductGUI
                 if (pgc.DialogResult == true)
                 {
                     ProductGroupManagement.Instance.UpdateProductGroup();
+                    lvProductGroups.Items.Refresh();
                 }
             }
             else
@@ -75,8 +75,17 @@ namespace BUPSystem.ProductGUI
 
                 if (mbr == MessageBoxResult.Yes)
                 {
-                    ProductGroupManagement.Instance.DeleteProductGroup(GroupsList[lvProductGroups.SelectedIndex]);
-                    //lblInfo.Content = "Användaren togs bort";
+                    // Check that the product group is not associated to any products before removing
+                    bool empty = ProductGroupManagement.Instance.IsProductGroupEmpty(GroupsList[lvProductGroups.SelectedIndex]);
+
+                    if (empty)
+                    {
+                        ProductGroupManagement.Instance.DeleteProductGroup(GroupsList[lvProductGroups.SelectedIndex]);
+                        //lblInfo.Content = "Användaren togs bort";
+                    }
+                    else
+                        MessageBox.Show("Det finns produkter som är kopplade till den här produktgruppen." +
+                                        "Ta bort dessa produkter först", "Kan inte ta bort");
                 }
             }
             else
@@ -92,7 +101,6 @@ namespace BUPSystem.ProductGUI
             if (lvProductGroups.SelectedItem != null)
             {
                 ProductGroup = GroupsList[lvProductGroups.SelectedIndex];
-
                 DialogResult = true;
                 Close();
             }

@@ -54,11 +54,11 @@ namespace BUPSystem.ProductGUI
                 if (pgc.DialogResult == true)
                 {
                     ProductCategoryManagement.Instance.UpdateProductCategory();
+                    lvProductCategories.Items.Refresh();
                 }
             }
             else
                 MessageBox.Show("Markera en produktkategori att redigera först", "Ingen vald produktkategori");
-
         }
 
         /// <summary>
@@ -77,12 +77,21 @@ namespace BUPSystem.ProductGUI
 
                 if (mbr == MessageBoxResult.Yes)
                 {
-                    ProductCategoryManagement.Instance.DeleteProductCategory(CategoriesList[lvProductCategories.SelectedIndex]);
-                    //lblInfo.Content = "Användaren togs bort";
+                    // Check that the product category is not associated to any product groups before removing
+                    bool empty = ProductCategoryManagement.Instance.IsProductCategoryEmpty(CategoriesList[lvProductCategories.SelectedIndex]);
+
+                    if (empty)
+                    {
+                        ProductCategoryManagement.Instance.DeleteProductCategory(CategoriesList[lvProductCategories.SelectedIndex]);
+                        //lblInfo.Content = "Användaren togs bort";
+                    }
+                    else
+                        MessageBox.Show("Det finns produktgrupper som är kopplade till den här produktkategorin." +
+                                        "Ta bort dessa produktgrupper först", "Kan inte ta bort");
                 }
             }
             else
-                MessageBox.Show("Markera en produktkategori att ta bort", "Ingen vald produktkategori"); 
+                MessageBox.Show("Markera en produktkategori att ta bort", "Ingen vald produktkategori");
         }
 
         /// <summary>
@@ -96,6 +105,8 @@ namespace BUPSystem.ProductGUI
             if (lvProductCategories.SelectedItem != null)
             {
                 ProductGroupManagement.Instance.ProductCategory = CategoriesList[lvProductCategories.SelectedIndex];
+                DialogResult = true;
+                Close();
             }
             else
                 MessageBox.Show("Markera en kategori i listan först.", "Välj en kategori");

@@ -80,5 +80,18 @@ namespace Logic_Layer
         {
             db.SaveChanges();
         }
+
+        /// <summary>
+        /// Check if a product category is connected to any product groups
+        /// </summary>
+        /// <param name="productCategory"></param>
+        /// <returns></returns>
+        public bool IsProductCategoryEmpty(ProductCategory productCategory)
+        {
+            var query = from p in db.ProductGroup
+                        where p.ProductCategoryID.Equals(productCategory.ProductCategoryID)
+                        select p;
+            return !query.Any();
+        }
     }
 }

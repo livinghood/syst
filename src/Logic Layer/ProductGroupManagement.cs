@@ -46,8 +46,8 @@ namespace Logic_Layer
         public IEnumerable<ProductGroup> GetProductGroups()
         {
             IEnumerable<ProductGroup> groups = from g in db.ProductGroup
-                                              orderby g.ProductGroupID
-                                              select g;
+                                               orderby g.ProductGroupID
+                                               select g;
 
             return groups;
         }
@@ -66,7 +66,6 @@ namespace Logic_Layer
 
         public void AddProductGroup(ProductGroup productGroup)
         {
-            productGroup.ProductCategory = ProductCategory;
             productGroup.ProductCategoryID = ProductCategory.ProductCategoryID;
             db.ProductGroup.Add(productGroup);
             db.SaveChanges();
@@ -90,6 +89,19 @@ namespace Logic_Layer
         public void UpdateProductGroup()
         {
             db.SaveChanges();
+        }
+
+        /// <summary>
+        /// Check if a product group is connected to any products
+        /// </summary>
+        /// <param name="productGroup"></param>
+        /// <returns></returns>
+        public bool IsProductGroupEmpty(ProductGroup productGroup)
+        {
+            var query = from p in db.Product
+                        where p.ProductGroupID.Equals(productGroup.ProductGroupID)
+                        select p;
+            return !query.Any();
         }
     }
 }
