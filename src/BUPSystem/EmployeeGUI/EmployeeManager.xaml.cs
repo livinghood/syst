@@ -14,13 +14,16 @@ namespace BUPSystem.EmployeeGUI
     public partial class EmployeeManager : Window
     {
 
-        private Employee employee;
+        public Employee Employee {get; set;}
 
         private bool changeExistingEmployee;
 
         public EmployeeManager()
         {
             InitializeComponent();
+            Employee em = new Employee();
+            DataContext = em;
+            Employee = em;
         }
 
         public EmployeeManager(Employee employee)
@@ -31,43 +34,32 @@ namespace BUPSystem.EmployeeGUI
 
             DataContext = employee;
 
-            this.employee = employee;
+            this.Employee = employee;
 
-            FillFieldsUpdate(employee);
+            tbEmployeeID.IsEnabled = false;
+            
+            DataContext = employee;
 
-        }
-
-        private void FillFieldsUpdate(Employee employee)
-        {
-            tbEmployeeID.Text = employee.EmployeeID.ToString();
-            tbEmployeeName.Text = employee.EmployeeName;
-            tbEmployeeSallary.Text = employee.MonthSallary.ToString();
-            tbEmployeeRate.Text = employee.EmployeementRate.ToString();
-            tbEmployeeVacancy.Text = employee.VacancyDeduction.ToString();
-            CalculateAnnualEmployee();
             foreach (EmployeePlacement emp in employee.EmployeePlacement)
             {
                 if (emp.DepartmentID.Equals("AO"))
                 {
-                    tbAdmAvd.Text = emp.EmployeeAllocate.ToString();
+                    grdAdm.DataContext = emp;
                 }
                 if (emp.DepartmentID.Equals("DA"))
                 {
-                    tbDriftAvd.Text = emp.EmployeeAllocate.ToString();
+                    grdDrift.DataContext = emp;
                 }
                 if (emp.DepartmentID.Equals("FO"))
                 {
-                    tbSellAvd.Text = emp.EmployeeAllocate.ToString();
+                    grdSell.DataContext = emp;
                 }
                 if (emp.DepartmentID.Equals("UF"))
                 {
-                    tbProdAvd.Text = emp.EmployeeAllocate.ToString();
+                    grdProd.DataContext = emp;
                 }
             }
 
-            UpdateDiff();
-            //Employee newEmployee = new Employee(tbEmployeeID.Text, );
-            
         }
 
         /// <summary>
@@ -110,9 +102,18 @@ namespace BUPSystem.EmployeeGUI
             }
             else
             {
-                EmployeeManagement.Instance.UpdateEmployee();
-            }
+                tbEmployeeID.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+                tbEmployeeName.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+                tbEmployeeSallary.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+                tbEmployeeRate.GetBindingExpression(TextBox.TextProperty).UpdateSource();
 
+                int i_vacancy;
+                bool success = int.TryParse(tbEmployeeVacancy.Text, out i_vacancy);
+                i_vacancy = FalseReturnZero(success, i_vacancy);//if tryparse fails, int = 0
+
+                Employee.VacancyDeduction = i_vacancy / 100;
+                DialogResult = true;
+            }
             this.Close();
         }
 

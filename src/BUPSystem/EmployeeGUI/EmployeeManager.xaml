@@ -3,11 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="EmployeeManager" Height="350" Width="630">
     <Grid>
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="141,61,0,0" x:Name="tbEmployeeID"  VerticalAlignment="Top" Width="160" PreviewTextInput="NumberValidationTextBox" MaxLength="12" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="141,99,0,0" x:Name="tbEmployeeName" VerticalAlignment="Top" Width="160" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="141,135,0,0" x:Name="tbEmployeeSallary" VerticalAlignment="Top" Width="160" MaxLength="10" PreviewTextInput="NumberValidationTextBox" />
-        <TextBox Height="23" Margin="141,175,0,0" x:Name="tbEmployeeRate" VerticalAlignment="Top" HorizontalAlignment="Left" Width="160" TextChanged="tbEmployeeRate_TextChanged" MaxLength="3" PreviewTextInput="NumberValidationTextBox" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="141,213,0,0" x:Name="tbEmployeeVacancy" VerticalAlignment="Top" Width="160" TextChanged="tbEmployeeVacancy_TextChanged" MaxLength="3" PreviewTextInput="NumberValidationTextBox" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="141,61,0,0" x:Name="tbEmployeeID"  VerticalAlignment="Top" Width="160" PreviewTextInput="NumberValidationTextBox" MaxLength="12" Text="{Binding EmployeeID, UpdateSourceTrigger=Explicit}" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="141,99,0,0" x:Name="tbEmployeeName" VerticalAlignment="Top" Width="160" Text="{Binding EmployeeName, UpdateSourceTrigger=Explicit}" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="141,135,0,0" x:Name="tbEmployeeSallary" VerticalAlignment="Top" Width="160" MaxLength="10" PreviewTextInput="NumberValidationTextBox" Text="{Binding MonthSallary, UpdateSourceTrigger=Explicit}" />
+        <TextBox Height="23" Margin="141,175,0,0" x:Name="tbEmployeeRate" VerticalAlignment="Top" HorizontalAlignment="Left" Width="160" TextChanged="tbEmployeeRate_TextChanged" MaxLength="3" PreviewTextInput="NumberValidationTextBox" Text="{Binding EmployeementRate, UpdateSourceTrigger=Explicit}" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="141,213,0,0" x:Name="tbEmployeeVacancy" VerticalAlignment="Top" Width="160" TextChanged="tbEmployeeVacancy_TextChanged" MaxLength="3" PreviewTextInput="NumberValidationTextBox" Text="{Binding VacancyDeduction, UpdateSourceTrigger=Explicit}" />
         <Label Content="Personnummer" Height="28" HorizontalAlignment="Left" Margin="10,59,0,0" x:Name="label1" VerticalAlignment="Top" />
         <Label Content="Namn" Height="28" HorizontalAlignment="Left" Margin="10,97,0,0" x:Name="label2" VerticalAlignment="Top" />
         <Label Content="Månadslön" Height="28" HorizontalAlignment="Left" Margin="10,135,0,0" x:Name="label3" VerticalAlignment="Top" />
@@ -15,10 +15,18 @@
         <Label Content="Vakansavdrag" Height="28" HorizontalAlignment="Left" Margin="10,211,0,0" x:Name="label5" VerticalAlignment="Top" />
 
         <TextBox Height="23" HorizontalAlignment="Left" Margin="441,61,0,0" x:Name="tbAnnualEmployee" VerticalAlignment="Top" Width="160" IsEnabled="False" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="441,99,0,0" x:Name="tbAdmAvd" VerticalAlignment="Top" Width="160" TextChanged="tbAdmAvd_TextChanged" MaxLength="3" PreviewTextInput="NumberValidationTextBox" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="441,135,0,0" x:Name="tbDriftAvd" VerticalAlignment="Top" Width="160" TextChanged="tbDriftAvd_TextChanged" MaxLength="3" PreviewTextInput="NumberValidationTextBox" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="441,175,0,0" x:Name="tbSellAvd" VerticalAlignment="Top" Width="160" TextChanged="tbSellAvd_TextChanged" MaxLength="3" PreviewTextInput="NumberValidationTextBox" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="441,213,0,0" x:Name="tbProdAvd" VerticalAlignment="Top" Width="160" TextChanged="tbProdAvd_TextChanged" MaxLength="3" PreviewTextInput="NumberValidationTextBox" />
+        <Grid x:Name="grdAdm" HorizontalAlignment="Left" Height="33" Margin="330,97,0,0" VerticalAlignment="Top" Width="277">
+            <TextBox Height="23" HorizontalAlignment="Left" Margin="110,1,0,0" x:Name="tbAdmAvd" VerticalAlignment="Top" Width="160" TextChanged="tbAdmAvd_TextChanged" MaxLength="3" PreviewTextInput="NumberValidationTextBox" Text="{Binding EmployeeAllocate, UpdateSourceTrigger=Explicit}" />
+        </Grid>
+        <Grid x:Name="grdDrift" HorizontalAlignment="Left" Height="28" Margin="330,135,0,0" VerticalAlignment="Top" Width="282">
+            <TextBox Height="23" HorizontalAlignment="Left" Margin="110,1,0,0" x:Name="tbDriftAvd" VerticalAlignment="Top" Width="160" TextChanged="tbDriftAvd_TextChanged" MaxLength="3" PreviewTextInput="NumberValidationTextBox" Text="{Binding EmployeeAllocate, UpdateSourceTrigger=Explicit}" />
+        </Grid>
+        <Grid x:Name="grdSell" HorizontalAlignment="Left" Height="33" Margin="332,168,0,0" VerticalAlignment="Top" Width="280">
+            <TextBox Height="23" HorizontalAlignment="Left" Margin="110,1,0,0" x:Name="tbSellAvd" VerticalAlignment="Top" Width="160" TextChanged="tbSellAvd_TextChanged" MaxLength="3" PreviewTextInput="NumberValidationTextBox" Text="{Binding EmployeeAllocate, UpdateSourceTrigger=Explicit}" />
+        </Grid>
+        <Grid x:Name="grdProd" HorizontalAlignment="Left" Height="33" Margin="332,206,0,0" VerticalAlignment="Top" Width="280">
+            <TextBox Height="23" HorizontalAlignment="Left" Margin="110,1,0,0" x:Name="tbProdAvd" VerticalAlignment="Top" Width="160" TextChanged="tbProdAvd_TextChanged" MaxLength="3" PreviewTextInput="NumberValidationTextBox" Text="{Binding EmployeeAllocate, UpdateSourceTrigger=Explicit}" />
+        </Grid>
         <Label Content="Årsarbete" Height="28" HorizontalAlignment="Left" Margin="330,59,0,0" x:Name="label7" VerticalAlignment="Top" />
         <Label Content="Adm avd" Height="28" HorizontalAlignment="Left" Margin="330,97,0,0" x:Name="label8" VerticalAlignment="Top" />
         <Label Content="Drift avd" Height="28" HorizontalAlignment="Left" Margin="330,135,0,0" x:Name="label9" VerticalAlignment="Top" />
@@ -29,6 +37,5 @@
         <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="532,284,-7,-38" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click" />
         <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="447,284,0,-38" x:Name="btnCancel" VerticalAlignment="Top" Width="75" IsCancel="True" />
         <Label Content="EmployeeManager" FontSize="20" Height="44" HorizontalAlignment="Left" Margin="10,12,0,0" x:Name="label13" VerticalAlignment="Top" />
-
     </Grid>
 </Window>

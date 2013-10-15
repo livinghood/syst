@@ -47,10 +47,21 @@ namespace BUPSystem.EmployeeGUI
 
         private void btnChange_Click(object sender, RoutedEventArgs e)
         {
-            EmployeeManager employeeManager = new EmployeeManager(EmployeeList[lvEmployeeList.SelectedIndex]);
-            employeeManager.ShowDialog();
+            // Make sure the sure the user has selected an item in the listview
+            if (lvEmployeeList.SelectedItem != null)
+            {
+                // Initilize a new window for editing an employee
+                EmployeeManager em = new EmployeeManager(EmployeeList[lvEmployeeList.SelectedIndex]);
+                em.ShowDialog();
 
-            // Att göra: lägga till label som bekräftar om anställd har lagts till/ ändrats eller tagit bort
+                if (em.DialogResult.Equals(true))
+                {
+                    EmployeeManagement.Instance.UpdateEmployee();
+                    lblInfo.Content = "Användaren uppdaterades";
+                }
+            }
+            else
+                MessageBox.Show("Markera en anställd att redigera först", "Ingen vald annvändare");
         }
     }
 }
