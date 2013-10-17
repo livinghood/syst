@@ -5,6 +5,7 @@ using System.Windows;
 using Logic_Layer;
 using System.Windows.Controls;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace BUPSystem.EmployeeGUI
 {
@@ -18,6 +19,9 @@ namespace BUPSystem.EmployeeGUI
 
         private bool changeExistingEmployee;
 
+        /// <summary>
+        /// Nomral constructor
+        /// </summary>
         public EmployeeManager()
         {
             InitializeComponent();
@@ -26,19 +30,23 @@ namespace BUPSystem.EmployeeGUI
             Employee = em;
         }
 
+        /// <summary>
+        /// Constructor for changing an employee
+        /// </summary>
+        /// <param name="employee">the employee to change</param>
         public EmployeeManager(Employee employee)
         {
             InitializeComponent();
 
             changeExistingEmployee = true;
 
-            DataContext = employee;
-
             this.Employee = employee;
 
             tbEmployeeID.IsEnabled = false;
-            
+
             DataContext = employee;
+
+            tbEmployeeVacancy.Text = ((int)(employee.VacancyDeduction * 100)).ToString();
 
             foreach (EmployeePlacement emp in employee.EmployeePlacement)
             {
@@ -62,6 +70,52 @@ namespace BUPSystem.EmployeeGUI
 
         }
 
+        private void UpdatePlacements()
+        {
+            if (ConvertStringToInt(tbAdmAvd.Text) > 0)
+                ChangePlacement("AO", decimal.Parse(tbAdmAvd.Text));
+            else
+                ChangePlacement("AO", 0);
+
+            if (ConvertStringToInt(tbDriftAvd.Text) > 0)
+                ChangePlacement("DA", decimal.Parse(tbDriftAvd.Text));
+            else
+                ChangePlacement("DA", 0);
+
+            if (ConvertStringToInt(tbSellAvd.Text) > 0)
+                ChangePlacement("FO", decimal.Parse(tbSellAvd.Text));
+            else
+                ChangePlacement("FO", 0);
+
+            if (ConvertStringToInt(tbProdAvd.Text) > 0)
+                ChangePlacement("UF", decimal.Parse(tbProdAvd.Text));
+            else
+                ChangePlacement("UF", 0);
+        }
+
+        private void ChangePlacement(string departmentID, decimal allocation)
+        {
+            IEnumerable<EmployeePlacement> oldPlacements = EmployeeManagement.Instance.GetEmployeePlacements(Employee);
+            EmployeePlacement ep = oldPlacements.SingleOrDefault(e => e.DepartmentID == departmentID);
+
+            if (allocation == 0)
+            {
+                if (ep != null)
+                    EmployeeManagement.Instance.DeleteEmployeePlacement(ep);
+            }
+            else
+            {
+                if (ep == null)
+                {
+                    EmployeeManagement.Instance.CreateEmployeePlacement(Employee.EmployeeID, departmentID, allocation);
+                }
+                else
+                {
+                    ep.EmployeeAllocate = allocation;
+                }
+            }
+        }
+
         /// <summary>
         /// When Save button is pressed, if no changing, create new Employee and EmployeePlacement
         /// </summary>
@@ -70,29 +124,22 @@ namespace BUPSystem.EmployeeGUI
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             if (!changeExistingEmployee)
-            {//Create new employee
+            {
                 long l_employeeId;
-                bool success = long.TryParse(tbEmployeeID.Text, out l_employeeId);
-                if (!success) return; //if tryparse fails, abort
+                // If employeeID is invalid, terminate
+                if (!long.TryParse(tbEmployeeID.Text, out l_employeeId))
+                    return;
+
+                // If no department is set, terminate
+                if (!ControlDepartments()) 
+                    return;
+
+                decimal d_vacancy = (decimal)ConvertStringToInt(tbEmployeeVacancy.Text);
+                d_vacancy = d_vacancy / 100;
+
+                Employee = EmployeeManagement.Instance.CreateEmployee(l_employeeId, tbEmployeeName.Text, 
+                    ConvertStringToInt(tbEmployeeSallary.Text), ConvertStringToInt(tbEmployeeVacancy.Text), d_vacancy);
                 
-                bool createNewPlacement = false; //To be able to use same operation as a control and to create new DepartmentPlacement
-                
-                if (ControlDepartments(l_employeeId, createNewPlacement)) //createNewPlacement = false, only checks if at least 1 textbox got data
-                {//if at least 1 textbox got data
-                    createNewPlacement = true; //createNewPlacement = true
-
-                    int i_sallery = ConvertStringToInt(tbEmployeeSallary.Text);
-
-                    int i_employeeRate = ConvertStringToInt(tbEmployeeVacancy.Text);
-
-                    decimal d_vacancy;
-                    int i_vacancy = ConvertStringToInt(tbEmployeeVacancy.Text);
-                    d_vacancy = i_vacancy / 100;    //to get %
-
-
-                    EmployeeManagement.Instance.CreateEmployee(l_employeeId, tbEmployeeName.Text, i_sallery, i_employeeRate, d_vacancy);
-                    ControlDepartments(l_employeeId, createNewPlacement); //Creates a new placement
-                }
             }
             else
             {// Update employee
@@ -101,17 +148,12 @@ namespace BUPSystem.EmployeeGUI
                 tbEmployeeSallary.GetBindingExpression(TextBox.TextProperty).UpdateSource();
                 tbEmployeeRate.GetBindingExpression(TextBox.TextProperty).UpdateSource();
 
-                int i_vacancy = ConvertStringToInt(tbEmployeeVacancy.Text);
-
-                Employee.VacancyDeduction = i_vacancy / 100;
-
-                tbAdmAvd.GetBindingExpression(TextBox.TemplateProperty).UpdateSource();
-                tbDriftAvd.GetBindingExpression(TextBox.TemplateProperty).UpdateSource();
-                tbSellAvd.GetBindingExpression(TextBox.TemplateProperty).UpdateSource();
-                tbProdAvd.GetBindingExpression(TextBox.TemplateProperty).UpdateSource();
+                decimal d_vacancy = (decimal)ConvertStringToInt(tbEmployeeVacancy.Text);
+                Employee.VacancyDeduction = d_vacancy / 100;
 
                 DialogResult = true;
             }
+            UpdatePlacements();
             this.Close();
         }
 
@@ -134,48 +176,23 @@ namespace BUPSystem.EmployeeGUI
         /// </summary>
         /// <param name="employeeId"></param>
         /// <returns>false if no field got data, else true</returns>
-        private bool ControlDepartments(long employeeId, bool createNew)
+        private bool ControlDepartments()
         {
-            decimal allocate;
             bool ok = false;
             if (tbAdmAvd.Text.Trim().Length > 0 && tbAdmAvd.Text != "0")
             {
-                if (createNew)
-                {
-                    allocate = decimal.Parse(tbAdmAvd.Text);
-                    EmployeeManagement.Instance.CreateEmployeePlacement(employeeId, "AO", allocate);
-                    //Create new placement with employeeid, departmentid and allocated time
-                }
                 ok = true;
             }
             if (tbDriftAvd.Text.Trim().Length > 0 && tbDriftAvd.Text != "0")
             {
-                if (createNew)
-                {
-                    allocate = decimal.Parse(tbDriftAvd.Text);
-                    EmployeeManagement.Instance.CreateEmployeePlacement(employeeId, "DA", allocate);
-                    //Create new placement with employeeid, departmentid and allocated time
-                }
                 ok = true;
             }
             if (tbSellAvd.Text.Trim().Length > 0 && tbSellAvd.Text != "0")
             {
-                if (createNew)
-                {
-                    allocate = decimal.Parse(tbSellAvd.Text);
-                    EmployeeManagement.Instance.CreateEmployeePlacement(employeeId, "FO", allocate);
-                    //Create new placement with employeeid, departmentid and allocated time
-                }
                 ok = true;
             }
             if (tbProdAvd.Text.Trim().Length > 0 && tbProdAvd.Text != "0")
             {
-                if (createNew)
-                {
-                    allocate = decimal.Parse(tbProdAvd.Text);
-                    EmployeeManagement.Instance.CreateEmployeePlacement(employeeId, "UF", allocate);
-                    //Create new placement with employeeid, departmentid and allocated time
-                }
                 ok = true;
             }
             if (!ok)

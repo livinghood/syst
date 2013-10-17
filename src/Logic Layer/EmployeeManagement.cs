@@ -46,11 +46,12 @@ namespace Logic_Layer
         /// <param name="sallary"></param>
         /// <param name="employrate"></param>
         /// <param name="vacancy"></param>
-        public void CreateEmployee(long id, string name, int sallary, int employrate, decimal vacancy)
+        public Employee CreateEmployee(long id, string name, int sallary, int employrate, decimal vacancy)
         {
             Employee newEmployee = new Employee { EmployeeID = id, EmployeeName = name, MonthSallary = sallary, EmployeementRate = employrate, VacancyDeduction = vacancy };
             db.Employee.Add(newEmployee);
             db.SaveChanges();
+            return newEmployee;
         }
 
         /// <summary>
@@ -79,10 +80,10 @@ namespace Logic_Layer
         /// Get a list of all employeeplacements
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<EmployeePlacement> GetEmployeePlacement()
+        public IEnumerable<EmployeePlacement> GetEmployeePlacements(Employee employee)
         {
             IEnumerable<EmployeePlacement> placements = from c in db.EmployeePlacement
-                                                        orderby c.EmployeeID
+                                                        where c.EmployeeID == employee.EmployeeID
                                                         select c;
 
             return placements;
@@ -105,7 +106,7 @@ namespace Logic_Layer
         /// Delete a EmployeePlacement
         /// </summary>
         /// <param name="employeePlacements"></param>
-        public void DeleteEmployeePlacement(Employee employee)
+        public void DeleteEmployeePlacements(Employee employee)
         {
             var tempPlacementList = new List<EmployeePlacement>();
             foreach (EmployeePlacement employeeplacement in employee.EmployeePlacement)
@@ -116,6 +117,12 @@ namespace Logic_Layer
             {//Tar bort från databasen via den temporära listan
                 db.EmployeePlacement.Remove(tempPlacement);
             }
+            db.SaveChanges();
+        }
+
+        public void DeleteEmployeePlacement(EmployeePlacement employeePlacement)
+        {
+            db.EmployeePlacement.Remove(employeePlacement);
             db.SaveChanges();
         }
 

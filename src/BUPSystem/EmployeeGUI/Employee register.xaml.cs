@@ -26,8 +26,6 @@ namespace BUPSystem.EmployeeGUI
 
             // The datacontext must be set
             DataContext = this;
-
-            // Kod som läser in användares behörighet
         }
 
         private void btnAddEmployee_Click(object sender, RoutedEventArgs e)
@@ -38,15 +36,13 @@ namespace BUPSystem.EmployeeGUI
 
         private void btnRemove_Click(object sender, RoutedEventArgs e)
         {
-            EmployeeManagement.Instance.DeleteEmployeePlacement(EmployeeList[lvEmployeeList.SelectedIndex]);
+            EmployeeManagement.Instance.DeleteEmployeePlacements(EmployeeList[lvEmployeeList.SelectedIndex]);
             EmployeeManagement.Instance.DeleteEmployee(EmployeeList[lvEmployeeList.SelectedIndex]);
-           
-            //ICollectionView view = CollectionViewSource.GetDefaultView(EmployeeList);
-            //view.Refresh();
         }
 
         private void btnChange_Click(object sender, RoutedEventArgs e)
         {
+            Employee employee = new Employee();
             // Make sure the sure the user has selected an item in the listview
             if (lvEmployeeList.SelectedItem != null)
             {
@@ -57,11 +53,11 @@ namespace BUPSystem.EmployeeGUI
                 if (em.DialogResult.Equals(true))
                 {
                     EmployeeManagement.Instance.UpdateEmployee();
-                    lblInfo.Content = "Användaren uppdaterades";
+                    lblInfo.Content = "anställd uppdaterades";
                 }
             }
             else
-                MessageBox.Show("Markera en anställd att redigera först", "Ingen vald annvändare");
+                MessageBox.Show("Markera en anställd att redigera först", "Ingen vald anställd");
         }
     }
 }
