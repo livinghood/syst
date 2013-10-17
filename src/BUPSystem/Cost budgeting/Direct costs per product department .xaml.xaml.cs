@@ -23,7 +23,7 @@ namespace BUPSystem.Kostnadsbudgetering
 
         private void btnSelectProduct_Click(object sender, RoutedEventArgs e)
         {
-
+            ProductGUI.
         }
 
         private void btnLock_Click(object sender, RoutedEventArgs e)
@@ -49,6 +49,22 @@ namespace BUPSystem.Kostnadsbudgetering
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            BUPSystem.BUPDataSet bUPDataSet = ((BUPSystem.BUPDataSet)(this.FindResource("bUPDataSet")));
+            // Load data into the table DirectProductCost. You can modify this code as needed.
+            BUPSystem.BUPDataSetTableAdapters.DirectProductCostTableAdapter bUPDataSetDirectProductCostTableAdapter = new BUPSystem.BUPDataSetTableAdapters.DirectProductCostTableAdapter();
+            bUPDataSetDirectProductCostTableAdapter.Fill(bUPDataSet.DirectProductCost);
+            System.Windows.Data.CollectionViewSource directProductCostViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("directProductCostViewSource")));
+            directProductCostViewSource.View.MoveCurrentToFirst();
+            // Load data into the table Account. You can modify this code as needed.
+            BUPSystem.BUPDataSetTableAdapters.AccountTableAdapter bUPDataSetAccountTableAdapter = new BUPSystem.BUPDataSetTableAdapters.AccountTableAdapter();
+            bUPDataSetAccountTableAdapter.Fill(bUPDataSet.Account);
+            System.Windows.Data.CollectionViewSource accountViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("accountViewSource")));
+            accountViewSource.View.MoveCurrentToFirst();
         }
     }
 }
