@@ -19,7 +19,7 @@ namespace Logic_Layer
         /// <summary>
         /// Database context
         /// </summary>
-        private DatabaseConnection db = new DatabaseConnection();
+        private readonly DatabaseConnection db = new DatabaseConnection();
 
         /// <summary>
         /// The instance property
@@ -45,11 +45,9 @@ namespace Logic_Layer
         /// <returns></returns>
         public IEnumerable<Customer> GetCustomers()
         {
-            IEnumerable<Customer> customers = from c in db.Customer
-                                             orderby c.CustomerName
-                                             select c;
-
-            return customers;
+            return from c in db.Customer
+                   orderby c.CustomerName
+                   select c;
         }
 
         /// <summary>
@@ -58,21 +56,17 @@ namespace Logic_Layer
         /// <returns></returns>
         public IEnumerable<Customer> GetCustomer(string id)
         {
-            IEnumerable<Customer> customers = from c in db.Customer
-                                              where c.CustomerID.Contains(id)
-                                             select c;
-
-            return customers;
+            return from c in db.Customer
+                   where c.CustomerID.Contains(id)
+                   select c;
         }
 
 
         /// <summary>
         /// Create a new customer
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="name"></param>
-        /// <param name="category"></param>
-        public void CreateCustomer(Customer customer)
+        /// <param name="customer"></param>
+        public void AddCustomer(Customer customer)
         {
             Customers.Add(customer);
             db.Customer.Add(customer);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using Logic_Layer;
 
 namespace BUPSystem.CustomerGUI
@@ -13,20 +14,13 @@ namespace BUPSystem.CustomerGUI
     public partial class CustomerManager : Window
     {
         // Member account class
-        private Logic_Layer.Customer m_customer;
         // Lista på kategorier
-        readonly List<CustomerCategories> Categorylist = new List<CustomerCategories>(Enum.GetValues(typeof(CustomerCategories)).Cast<CustomerCategories>());
+        readonly List<CustomerCategories> categorylist = new List<CustomerCategories>(Enum.GetValues(typeof(CustomerCategories)).Cast<CustomerCategories>());
 
         /// <summary>
         /// Property for returning the object
         /// </summary>
-        public Logic_Layer.Customer Customer
-        {
-            get
-            {
-                return m_customer;
-            }
-        }
+        public Customer Customer { get; private set; }
 
         /// <summary>
         /// Default constructor
@@ -34,14 +28,10 @@ namespace BUPSystem.CustomerGUI
         public CustomerManager()
         {
             InitializeComponent();
-
-            cbCustomerCategory.ItemsSource = Categorylist;
-
+            cbCustomerCategory.ItemsSource = categorylist;
             Logic_Layer.Customer customer = new Logic_Layer.Customer();
-
             DataContext = customer;
-
-            this.m_customer = customer;
+            this.Customer = customer;
         }
 
         /// <summary>
@@ -54,11 +44,11 @@ namespace BUPSystem.CustomerGUI
             // Bind the datacontext to the passed on customer (all the fields will be bound to it)
             DataContext = customer;
             // Set combobox itemsource
-            cbCustomerCategory.ItemsSource = Categorylist;
+            cbCustomerCategory.ItemsSource = categorylist;
             // Set combobox selected value (ugh, ugly enum parse from string)
             cbCustomerCategory.SelectedItem = (CustomerCategories)Enum.Parse(typeof(CustomerCategories), customer.CustomerCategory, true);
             // Set the member customer object
-            this.m_customer = customer;
+            this.Customer = customer;
             // Disable the textbox for customer id as its a primary key
             tbCustomerId.IsEnabled = false;
         }
@@ -72,11 +62,11 @@ namespace BUPSystem.CustomerGUI
         {
             // Update the source object with the new values
             tbCustomerId.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-            cbCustomerCategory.GetBindingExpression(ComboBox.SelectedItemProperty).UpdateSource();
+            cbCustomerCategory.GetBindingExpression(Selector.SelectedItemProperty).UpdateSource();
             tbCustomerName.GetBindingExpression(TextBox.TextProperty).UpdateSource();
 
-            this.DialogResult = true;
-            this.Close(); 
+            DialogResult = true;
+            Close(); 
         }
     }
 }

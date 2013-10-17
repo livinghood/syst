@@ -30,7 +30,6 @@ namespace BUPSystem.CustomerGUI
         {
             // Delete the customer from the database
             CustomerManagement.Instance.DeleteCustomer(CustomerList[lvCustomerList.SelectedIndex]);
-
         }
 
         /// <summary>
@@ -50,7 +49,7 @@ namespace BUPSystem.CustomerGUI
             if (customerManager.DialogResult.Equals(true))
             {
                 // Add the customer to the database
-                CustomerManagement.Instance.CreateCustomer(customerManager.Customer);
+                CustomerManagement.Instance.AddCustomer(customerManager.Customer);
             }
         }
 
