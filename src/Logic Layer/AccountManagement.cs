@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Logic_Layer
@@ -9,6 +10,8 @@ namespace Logic_Layer
     /// </summary>
     public class AccountManagement
     {
+        public ObservableCollection<Account> Accounts { get; set; }
+
         /// <summary>
         /// Lazy Instance of AccountManagement singelton
         /// </summary>
@@ -17,7 +20,7 @@ namespace Logic_Layer
         /// <summary>
         /// Database context
         /// </summary>
-        private DatabaseConnection db = new DatabaseConnection();
+        private readonly DatabaseConnection db = new DatabaseConnection();
 
         /// <summary>
         /// The instance property
@@ -28,16 +31,20 @@ namespace Logic_Layer
         }
 
         /// <summary>
+        /// Constructor with initialization of accounts list
+        /// </summary>
+        private AccountManagement()
+        {
+            Accounts = new ObservableCollection<Account>(GetAccounts());
+        }
+
+        /// <summary>
         /// Get a list of all accounts
         /// </summary>
         /// <returns></returns>
         public IEnumerable<Account> GetAccounts()
         {
-            IEnumerable<Account> accounts = from a in db.Account
-                                              orderby a.AccountID
-                                              select a;
-
-            return accounts;
+            return db.Account.OrderBy(a => a.AccountID);
         }
 
         /// <summary>
@@ -46,6 +53,7 @@ namespace Logic_Layer
         /// <param name="account"></param>
         public void CreateAccount(Account account)
         {
+            Accounts.Add(account);
             db.Account.Add(account);
             db.SaveChanges();
         }
@@ -56,6 +64,7 @@ namespace Logic_Layer
         /// <param name="account"></param>
         public void DeleteAccount(Account account)
         {
+            Accounts.Remove(account);
             db.Account.Remove(account);
             db.SaveChanges();
         }

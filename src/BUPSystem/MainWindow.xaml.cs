@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using BUPSystem.Account;
+using BUPSystem.AccountGUI;
 using BUPSystem.ActivityGUI;
 using BUPSystem.CustomerGUI;
 using BUPSystem.EmployeeGUI;

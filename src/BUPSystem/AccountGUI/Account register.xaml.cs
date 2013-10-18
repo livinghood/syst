@@ -2,24 +2,21 @@
 using System.Windows;
 using Logic_Layer;
 
-namespace BUPSystem.Account
+namespace BUPSystem.AccountGUI
 {
     /// <summary>
     /// Interaction logic for AccountRegister.xaml
     /// </summary>
     public partial class AccountRegister : Window
     {
-        // Member list with all the accounts
-        ObservableCollection<Logic_Layer.Account> m_AccountList = new ObservableCollection<Logic_Layer.Account>(AccountManagement.Instance.GetAccounts());
-
         /// <summary>
         /// Property for retriving the list of accounts
         /// </summary>
-        public ObservableCollection<Logic_Layer.Account> AccountList
+        public ObservableCollection<Logic_Layer.Account> Accounts
         {
             get
             {
-                return m_AccountList;
+                return AccountManagement.Instance.Accounts;
             }
         }
 
@@ -51,12 +48,7 @@ namespace BUPSystem.Account
             {
                 // Add the user to the database
                 AccountManagement.Instance.CreateAccount(accountManager.Account);
-                // Add the user to our account list
-                AccountList.Add(accountManager.Account);
             }
-            
-            
-
         }
 
         /// <summary>
@@ -67,9 +59,7 @@ namespace BUPSystem.Account
         private void btnRemove_Click(object sender, RoutedEventArgs e)
         {
             // Delete the account from the database  
-            AccountManagement.Instance.DeleteAccount(AccountList[lvAccounts.SelectedIndex]);
-            // Delete the account from our account list
-            m_AccountList.Remove(AccountList[lvAccounts.SelectedIndex]);
+            AccountManagement.Instance.DeleteAccount(Accounts[lvAccounts.SelectedIndex]);
         }
 
         /// <summary>
@@ -80,7 +70,7 @@ namespace BUPSystem.Account
         private void btn_Change_Click(object sender, RoutedEventArgs e)
         {
             // Initilize a new window for editing an account
-            AccountGUI.AccountManager accountManager = new AccountGUI.AccountManager(AccountList[lvAccounts.SelectedIndex]);
+            AccountGUI.AccountManager accountManager = new AccountGUI.AccountManager(Accounts[lvAccounts.SelectedIndex]);
             
             // Show the window
             accountManager.ShowDialog();
