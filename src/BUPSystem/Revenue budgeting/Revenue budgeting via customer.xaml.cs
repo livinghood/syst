@@ -60,7 +60,6 @@ namespace BUPSystem.Revenue_budgeting
             lblCustomerID.Content = customer.CustomerID.ToString();
             lblCustomerName.Content = customer.CustomerName;
             dgIncomeProduct.IsEnabled = true;
-
         }
 
 
