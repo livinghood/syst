@@ -9,6 +9,7 @@ namespace BUPSystem.ProductGUI
     /// </summary>
     public partial class ProductRegister : Window
     {
+        public Product Product { get; set; }
         public ObservableCollection<Product> Products { get { return ProductManagement.Instance.Products; } }
         /// <summary>
         /// Standard constructor
@@ -60,7 +61,9 @@ namespace BUPSystem.ProductGUI
 
         private void btnSelect_Click(object sender, RoutedEventArgs e)
         {
-
+            Product = Products[lvProducts.SelectedIndex];
+            DialogResult = true;
+            Close();
         }
         /// <summary>
         /// Delete a product

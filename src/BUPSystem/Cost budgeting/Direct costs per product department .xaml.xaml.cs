@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using Logic_Layer;
 
 namespace BUPSystem.Kostnadsbudgetering
@@ -9,21 +13,77 @@ namespace BUPSystem.Kostnadsbudgetering
     /// </summary>
     public partial class DirectCostsPerProductDepartment : Window
     {
+        public DirectProductCost dpc { get; set; }
 
+        private Product product { get; set; }
+
+        private Account account { get; set; }
+
+        DatabaseConnection db = new DatabaseConnection();
+
+        private ObservableCollection<DirectProductCost> list;
+
+        public ObservableCollection<Logic_Layer.Account> Accounts
+        {
+            get
+            {
+                return AccountManagement.Instance.Accounts;
+            }
+        }
+
+        public ObservableCollection<Logic_Layer.Product> Products
+        {
+            get
+            {
+                return ProductManagement.Instance.Products;
+            }
+        }
 
         public DirectCostsPerProductDepartment()
         {
             InitializeComponent();
+
+            list = new ObservableCollection<DirectProductCost>(db.DirectProductCost.Local);
+            DataContext = this;
+        }
+
+
+        private void winDKPPA_Loaded(object sender, RoutedEventArgs e)
+        {
+            dgAccounts.ItemsSource = Accounts;
+            dgDPPC.ItemsSource = list;
         }
 
         private void btnSelectAccount_Click(object sender, RoutedEventArgs e)
         {
+            AccountGUI.AccountRegister ar = new AccountGUI.AccountRegister();
+            ar.ShowDialog();
 
+            if (ar.DialogResult == true)
+            {
+                account = ar.Account;
+            }
         }
 
         private void btnSelectProduct_Click(object sender, RoutedEventArgs e)
         {
-            ProductGUI.
+            ProductGUI.ProductRegister pr = new ProductGUI.ProductRegister();
+            pr.ShowDialog();
+
+            if (pr.DialogResult == true)
+            {
+                product = pr.Product;
+
+                dpc = new DirectProductCost
+                {
+                    Account = account,
+                    AccountID = account.AccountID,
+                    Product = product,
+                    ProductID = product.ProductID
+                };
+
+                list.Add(dpc);
+            }
         }
 
         private void btnLock_Click(object sender, RoutedEventArgs e)
@@ -48,23 +108,48 @@ namespace BUPSystem.Kostnadsbudgetering
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-
+            
+                    
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void dgAccounts_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            list.Clear(); 
+            account = Accounts[dgAccounts.SelectedIndex];
 
-            BUPSystem.BUPDataSet bUPDataSet = ((BUPSystem.BUPDataSet)(this.FindResource("bUPDataSet")));
-            // Load data into the table DirectProductCost. You can modify this code as needed.
-            BUPSystem.BUPDataSetTableAdapters.DirectProductCostTableAdapter bUPDataSetDirectProductCostTableAdapter = new BUPSystem.BUPDataSetTableAdapters.DirectProductCostTableAdapter();
-            bUPDataSetDirectProductCostTableAdapter.Fill(bUPDataSet.DirectProductCost);
-            System.Windows.Data.CollectionViewSource directProductCostViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("directProductCostViewSource")));
-            directProductCostViewSource.View.MoveCurrentToFirst();
-            // Load data into the table Account. You can modify this code as needed.
-            BUPSystem.BUPDataSetTableAdapters.AccountTableAdapter bUPDataSetAccountTableAdapter = new BUPSystem.BUPDataSetTableAdapters.AccountTableAdapter();
-            bUPDataSetAccountTableAdapter.Fill(bUPDataSet.Account);
-            System.Windows.Data.CollectionViewSource accountViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("accountViewSource")));
-            accountViewSource.View.MoveCurrentToFirst();
+            var query = from u in db.DirectProductCost
+                      where u.AccountID == account.AccountID
+                      select u;
+
+            foreach (var item in query)
+            {
+                list.Add(new DirectProductCost
+                {
+                    Account = account,
+                    AccountID = account.AccountID,
+                    Product = item.Product,
+                    ProductID = item.ProductID,
+                    ProductCost = item.ProductCost
+                    
+                });
+            }
+
+            dgDPPC.ItemsSource = list;
+
+
+
+            //if (dpc == null)
+            //{
+            //    dpc = new DirectProductCost();
+            //}
+            //dpc.Account = Accounts[dgAccounts.SelectedIndex];
+            //dpc.AccountID = Accounts[dgAccounts.SelectedIndex].AccountID;
+
+            //if (!list.Contains(dpc))
+            //{
+            //    list.Add(dpc);
+            //}
+            //dgDPPC.Items.Refresh();
         }
     }
 }

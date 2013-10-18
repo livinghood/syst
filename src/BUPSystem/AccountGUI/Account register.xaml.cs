@@ -20,6 +20,8 @@ namespace BUPSystem.AccountGUI
             }
         }
 
+        public Account Account { get; set; }
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -81,6 +83,13 @@ namespace BUPSystem.AccountGUI
                 // Update the database context
                 AccountManagement.Instance.UpdateAccount();
             }
+        }
+
+        private void btnSelect_Click(object sender, RoutedEventArgs e)
+        {
+            Account = Accounts[lvAccounts.SelectedIndex];
+            DialogResult = true;
+            Close();
         }
     }
 }
