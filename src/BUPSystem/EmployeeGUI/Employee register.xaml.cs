@@ -14,10 +14,8 @@ namespace BUPSystem.EmployeeGUI
 
         public ObservableCollection<Employee> EmployeeList
         {
-            get
-            {
-                return new ObservableCollection<Employee>(EmployeeManagement.Instance.GetEmployee());
-            }
+            get { return EmployeeManagement.Instance.EmployeeList; }
+            set { EmployeeManagement.Instance.EmployeeList = value; }
         }
 
         public EmployeeRegister()

@@ -138,7 +138,7 @@ namespace BUPSystem.EmployeeGUI
                 d_vacancy = d_vacancy / 100;
 
                 Employee = EmployeeManagement.Instance.CreateEmployee(l_employeeId, tbEmployeeName.Text, 
-                    ConvertStringToInt(tbEmployeeSallary.Text), ConvertStringToInt(tbEmployeeVacancy.Text), d_vacancy);
+                    ConvertStringToInt(tbEmployeeSallary.Text), ConvertStringToInt(tbEmployeeRate.Text), d_vacancy);
                 
             }
             else

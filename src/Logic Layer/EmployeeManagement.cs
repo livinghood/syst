@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ComponentModel;
+using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace Logic_Layer
 {
@@ -10,6 +13,12 @@ namespace Logic_Layer
         /// Lazy Instance of EmployeeManager singelton
         /// </summary>
         private static readonly Lazy<EmployeeManagement> instance = new Lazy<EmployeeManagement>(() => new EmployeeManagement());
+
+        public ObservableCollection<Employee> EmployeeList
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Database context
@@ -22,6 +31,11 @@ namespace Logic_Layer
         public static EmployeeManagement Instance
         {
             get { return instance.Value; }
+        }
+
+        EmployeeManagement()
+        {
+            EmployeeList = new ObservableCollection<Employee>(GetEmployee());
         }
 
 
@@ -49,6 +63,7 @@ namespace Logic_Layer
         public Employee CreateEmployee(long id, string name, int sallary, int employrate, decimal vacancy)
         {
             Employee newEmployee = new Employee { EmployeeID = id, EmployeeName = name, MonthSallary = sallary, EmployeementRate = employrate, VacancyDeduction = vacancy };
+            EmployeeList.Add(newEmployee);
             db.Employee.Add(newEmployee);
             db.SaveChanges();
             return newEmployee;
@@ -60,6 +75,7 @@ namespace Logic_Layer
         /// <param name="employee"></param>
         public void DeleteEmployee(Employee employee)
         {
+            EmployeeList.Remove(employee);
             db.Employee.Remove(employee);
             db.SaveChanges();
         }
@@ -109,6 +125,7 @@ namespace Logic_Layer
         public void DeleteEmployeePlacements(Employee employee)
         {
             var tempPlacementList = new List<EmployeePlacement>();
+
             foreach (EmployeePlacement employeeplacement in employee.EmployeePlacement)
             {//Kan inte ta bort ur samma lista som den itererar igenom, addar därför till en temporär lista
                 tempPlacementList.Add(employeeplacement);
