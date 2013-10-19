@@ -78,6 +78,12 @@
     <Compile Include="UserGUI\UserManager.xaml.cs">
       <DependentUpon>UserManager.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Validation\ComboBoxNotEmptyValidationRule.cs" />
+    <Compile Include="Validation\CheckUserIDValidationRule.cs" />
+    <Compile Include="Validation\DelayBinding.cs" />
+    <Compile Include="Validation\DelayBindingExtension.cs" />
+    <Compile Include="Validation\ErrorCollectionToVisibility.cs" />
+    <Compile Include="Validation\TextBoxNotEmptyValidationRule.cs" />
     <Page Include="ActivityGUI\ActivityManager.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -283,6 +289,7 @@
       <Name>Logic Layer</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
