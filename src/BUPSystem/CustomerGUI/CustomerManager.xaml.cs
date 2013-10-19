@@ -4,7 +4,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using Logic_Layer;
+
 
 namespace BUPSystem.CustomerGUI
 {
@@ -51,6 +53,9 @@ namespace BUPSystem.CustomerGUI
             this.Customer = customer;
             // Disable the textbox for customer id as its a primary key
             tbCustomerId.IsEnabled = false;
+            // Disable validation for customer id
+            Binding binding = BindingOperations.GetBinding(tbCustomerId, TextBox.TextProperty);
+            binding.ValidationRules.Clear();
         }
 
         /// <summary>
@@ -60,11 +65,9 @@ namespace BUPSystem.CustomerGUI
         /// <param name="e"></param>
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            // Update the source object with the new values
             tbCustomerId.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-            cbCustomerCategory.GetBindingExpression(Selector.SelectedItemProperty).UpdateSource();
-            tbCustomerName.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-
+            if (Validation.GetHasError(tbCustomerId) == true)
+                return;
             DialogResult = true;
             Close(); 
         }
