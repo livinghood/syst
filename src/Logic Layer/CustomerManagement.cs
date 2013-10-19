@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
+using System.Data.Entity;
 using System.Linq;
 
 namespace Logic_Layer
@@ -61,6 +63,15 @@ namespace Logic_Layer
                    select c;
         }
 
+        /// <summary>
+        /// Check if a specific customer exists
+        /// </summary>
+        public bool CustomerExist(string id)
+        {
+            return db.Customer.Where(c => c.CustomerID == id).Any();
+        }
+
+
 
         /// <summary>
         /// Create a new customer
@@ -90,6 +101,11 @@ namespace Logic_Layer
         public void UpdateCustomer()
         {
             db.SaveChanges();
+        }
+
+        public void ResetCustomer(Customer customerObj)
+        {
+            db.Entry(customerObj).State = EntityState.Unchanged;
         }
     }
 }
