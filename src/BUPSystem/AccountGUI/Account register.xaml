@@ -1,11 +1,11 @@
 ﻿<Window x:Class="BUPSystem.AccountGUI.AccountRegister"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="AccountRegister" Height="335" Width="485" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Kontoregister" Height="335" Width="485" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <TextBox Height="23" HorizontalAlignment="Left" Margin="200,16,0,0" x:Name="tbSearch" VerticalAlignment="Top" Width="187" TextChanged="tbSearch_TextChanged" />
         <Button Content="Sök" Height="23" HorizontalAlignment="Left" Margin="392,16,0,0" x:Name="button2" VerticalAlignment="Top" Width="75" />
-        <Label Content="AccountRegister" Height="39" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="label1" VerticalAlignment="Top" FontSize="20" />
+        <Label Content="Kontoregister" Height="39" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="label1" VerticalAlignment="Top" FontSize="20" />
         <ListView x:Name="lvAccounts" HorizontalAlignment="Left" Height="205" Margin="10,54,0,0" VerticalAlignment="Top" Width="456" ItemsSource="{Binding Accounts}" SelectedItem="{Binding SelectedAccount}">
             <ListView.View>
                 <GridView>

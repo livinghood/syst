@@ -3,9 +3,9 @@
         xmlns:z="clr-namespace:BUPSystem"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:BUPSystem"
-        Title="AccountManager" Height="266" Width="393" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Kontohantering" Height="266" Width="393" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
-        <Label Content="AccountManager" Height="41" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="label1" VerticalAlignment="Top" FontSize="20" />
+        <Label Content="Kontohantering" Height="41" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="label1" VerticalAlignment="Top" FontSize="20" />
         <GroupBox Header="Standarduppgifter" Height="140" HorizontalAlignment="Left" Margin="10,56,-80,0" x:Name="groupBox1" VerticalAlignment="Top" Width="362">
             <Grid>
                 <TextBox x:Name="tbNumber" HorizontalAlignment="Right" Height="23" Margin="0,9,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="229" >
