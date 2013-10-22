@@ -1,23 +1,32 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Logic_Layer;
+using Logic_Layer.Cost_Budgeting_Logic;
 
 namespace BUPSystem.Kostnadsbudgetering
 {
+    
     /// <summary>
     /// Interaction logic for DirectCostsPerProductDepartment.xaml
     /// </summary>
     public partial class DirectCostsPerProductDepartment : Window
     {
+        private DirectProductCost objToAdd;
+
         public DirectProductCost dpc { get; set; }
 
         private Product product { get; set; }
 
         private Account account { get; set; }
+
+        private DataTable dt;
 
         DatabaseConnection db = new DatabaseConnection();
 
@@ -45,6 +54,10 @@ namespace BUPSystem.Kostnadsbudgetering
 
             list = new ObservableCollection<DirectProductCost>(db.DirectProductCost.Local);
             DataContext = this;
+
+             dt = new DataTable();
+            dt = dgDPPC.ItemsSource as DataTable;
+            
         }
 
 
@@ -83,6 +96,7 @@ namespace BUPSystem.Kostnadsbudgetering
                 };
 
                 list.Add(dpc);
+                
             }
         }
 
@@ -108,12 +122,34 @@ namespace BUPSystem.Kostnadsbudgetering
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            
-                    
+            //foreach (var directProductCost in list)
+            //{
+            //    if (!db.DirectProductCost.ToList().Contains(directProductCost))
+            //    {
+            //        db.DirectProductCost.Add(directProductCost);                  
+            //    }
+            //}
+
+
+
+            // save modified rows in DataTable modifiedRows
+
+
+            DataTable modifiedRows = dt.GetChanges();
+            dt.AcceptChanges();
+
+
+            db.SaveChanges();
+
         }
 
         private void dgAccounts_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (dgAccounts.SelectedIndex > Accounts.Count || dgAccounts.SelectedIndex < 0)
+            {
+                return;
+            }
+
             list.Clear(); 
             account = Accounts[dgAccounts.SelectedIndex];
 
@@ -121,21 +157,32 @@ namespace BUPSystem.Kostnadsbudgetering
                       where u.AccountID == account.AccountID
                       select u;
 
+            DirectProductCost dpc = null;
+
             foreach (var item in query)
             {
-                list.Add(new DirectProductCost
+                dpc = new DirectProductCost
                 {
                     Account = account,
                     AccountID = account.AccountID,
                     Product = item.Product,
                     ProductID = item.ProductID,
                     ProductCost = item.ProductCost
-                    
-                });
+
+                };
+
+                
             }
 
-            dgDPPC.ItemsSource = list;
 
+
+                list.Add(dpc);
+
+            
+            
+            
+
+            dgDPPC.ItemsSource = list;
 
 
             //if (dpc == null)
@@ -150,6 +197,61 @@ namespace BUPSystem.Kostnadsbudgetering
             //    list.Add(dpc);
             //}
             //dgDPPC.Items.Refresh();
+        }
+
+        private void dgDPPC_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            objToAdd = dgDPPC.SelectedItem as DirectProductCost;
+        }
+
+        private void dgDPPC_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            try
+            {
+                FrameworkElement elementProductID = dgDPPC.Columns[0].GetCellContent(e.Row);
+                if (elementProductID.GetType() == typeof (TextBox))
+                {
+                    var column1 = ((TextBox) elementProductID).Text;
+                    objToAdd.ProductID = column1;
+
+                }
+
+                FrameworkElement elementProductCost = dgDPPC.Columns[1].GetCellContent(e.Row);
+                if (elementProductCost.GetType() == typeof(TextBox))
+                {
+                    var column1 = ((TextBox)elementProductCost).Text;
+                    objToAdd.ProductCost = Convert.ToInt32(column1);
+                }
+            }
+            catch(Exception ex)
+            {
+                
+            }
+        }
+
+        private void dgDPPC_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        {
+
+                var Res = MessageBox.Show("Create entry?", "Confirm", MessageBoxButton.YesNo);
+            if (Res == MessageBoxResult.Yes)
+            {
+                objToAdd.AccountID = Accounts[dgAccounts.SelectedIndex].AccountID;
+                objToAdd.ExpenseBudgetID = ExpenseBudgetManagement.Instance.GetExpenseBudgetID();
+
+
+                if ()
+                {
+                    
+                }
+                ExpenseBudget eb = new ExpenseBudget
+                {
+                    ExpenseBudgetID 
+                };
+
+                db.DirectProductCost.Add(objToAdd);
+                db.SaveChanges();
+            }
+
         }
     }
 }

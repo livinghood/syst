@@ -24,7 +24,7 @@
                 <DataGridTextColumn Binding="{Binding AccountName}" ClipboardContentBinding="{x:Null}" Header="Kontonamn"/>
             </DataGrid.Columns>
         </DataGrid>
-        <DataGrid x:Name="dgDPPC" HorizontalAlignment="Left" Margin="313,35,0,0" VerticalAlignment="Top" Height="152" Width="276" AutoGenerateColumns="False">
+        <DataGrid x:Name="dgDPPC" HorizontalAlignment="Left" Margin="313,35,0,0" VerticalAlignment="Top" Height="152" Width="276" AutoGenerateColumns="False" SelectionChanged="dgDPPC_SelectionChanged" CellEditEnding="dgDPPC_CellEditEnding" RowEditEnding="dgDPPC_RowEditEnding">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding ProductID}" ClipboardContentBinding="{x:Null}" Header="Produkt ID"/>
                 <DataGridTextColumn Binding="{Binding ProductCost}" ClipboardContentBinding="{x:Null}" Header="Kostnader"/>
