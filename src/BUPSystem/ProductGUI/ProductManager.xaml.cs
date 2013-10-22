@@ -68,6 +68,7 @@ namespace BUPSystem.ProductGUI
             if (pgr.ShowDialog() == true)
             {
                 ProductGroup = pgr.ProductGroup;
+                lblProductGroup.Content = pgr.ProductGroup.ProductGroupName;
             }
         }
 
