@@ -54,6 +54,7 @@ namespace Logic_Layer.Cost_Budgeting_Logic
         public void Create(ExpenseBudget eb)
         {
             db.ExpenseBudget.Add(eb);
+            db.SaveChanges();
         }
 
         public void Update()
@@ -61,5 +62,13 @@ namespace Logic_Layer.Cost_Budgeting_Logic
             db.SaveChanges();
         }
 
+        public bool DoesExpenseBudgetExist()
+        {
+            int id = GetExpenseBudgetID();
+            var query = from p in db.ExpenseBudget
+                        where p.ExpenseBudgetID.Equals(id)
+                        select p;
+            return query.Any();
+        }
     }
 }

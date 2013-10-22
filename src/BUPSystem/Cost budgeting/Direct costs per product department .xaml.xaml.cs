@@ -12,7 +12,7 @@ using Logic_Layer.Cost_Budgeting_Logic;
 
 namespace BUPSystem.Kostnadsbudgetering
 {
-    
+
     /// <summary>
     /// Interaction logic for DirectCostsPerProductDepartment.xaml
     /// </summary>
@@ -30,7 +30,7 @@ namespace BUPSystem.Kostnadsbudgetering
 
         DatabaseConnection db = new DatabaseConnection();
 
-        private ObservableCollection<DirectProductCost> list;
+        private readonly ObservableCollection<DirectProductCost> DirectProductCosts;
 
         public ObservableCollection<Logic_Layer.Account> Accounts
         {
@@ -52,19 +52,19 @@ namespace BUPSystem.Kostnadsbudgetering
         {
             InitializeComponent();
 
-            list = new ObservableCollection<DirectProductCost>(db.DirectProductCost.Local);
+            DirectProductCosts = new ObservableCollection<DirectProductCost>(db.DirectProductCost.Local);
             DataContext = this;
 
-             dt = new DataTable();
+            dt = new DataTable();
             dt = dgDPPC.ItemsSource as DataTable;
-            
+
         }
 
 
         private void winDKPPA_Loaded(object sender, RoutedEventArgs e)
         {
             dgAccounts.ItemsSource = Accounts;
-            dgDPPC.ItemsSource = list;
+            dgDPPC.ItemsSource = DirectProductCosts;
         }
 
         private void btnSelectAccount_Click(object sender, RoutedEventArgs e)
@@ -87,16 +87,30 @@ namespace BUPSystem.Kostnadsbudgetering
             {
                 product = pr.Product;
 
+                bool productExists = false;
+
+                // Check if user attempts to add a product that is already connected to the selected account
+                foreach (var directProductCost in DirectProductCosts.Where
+                    (directProductCost => directProductCost.ProductID.Equals(product.ProductID)))
+                {
+                    productExists = true;
+                }
+
+                if (productExists)
+                {
+                    MessageBox.Show(String.Format
+                        ("Du försöker lägga till en produkt som redan är kopplad till konto {0}.",
+                        account.AccountName), "Produkt redan kopplad");
+                    return;
+                }
+
                 dpc = new DirectProductCost
                 {
-                    Account = account,
                     AccountID = account.AccountID,
-                    Product = product,
                     ProductID = product.ProductID
                 };
 
-                list.Add(dpc);
-                
+                DirectProductCosts.Add(dpc);
             }
         }
 
@@ -122,42 +136,19 @@ namespace BUPSystem.Kostnadsbudgetering
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            //foreach (var directProductCost in list)
-            //{
-            //    if (!db.DirectProductCost.ToList().Contains(directProductCost))
-            //    {
-            //        db.DirectProductCost.Add(directProductCost);                  
-            //    }
-            //}
-
-
-
-            // save modified rows in DataTable modifiedRows
-
-
-            DataTable modifiedRows = dt.GetChanges();
-            dt.AcceptChanges();
-
-
-            db.SaveChanges();
-
+            ExpenseBudgetManagement.Instance.Update();
         }
 
         private void dgAccounts_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (dgAccounts.SelectedIndex > Accounts.Count || dgAccounts.SelectedIndex < 0)
-            {
-                return;
-            }
-
-            list.Clear(); 
+            DirectProductCosts.Clear();
             account = Accounts[dgAccounts.SelectedIndex];
 
             var query = from u in db.DirectProductCost
-                      where u.AccountID == account.AccountID
-                      select u;
+                        where u.AccountID == account.AccountID
+                        select u;
 
-            DirectProductCost dpc = null;
+            DirectProductCost dpc;
 
             foreach (var item in query)
             {
@@ -170,33 +161,9 @@ namespace BUPSystem.Kostnadsbudgetering
                     ProductCost = item.ProductCost
 
                 };
-
-                
+                DirectProductCosts.Add(dpc);
             }
-
-
-
-                list.Add(dpc);
-
-            
-            
-            
-
-            dgDPPC.ItemsSource = list;
-
-
-            //if (dpc == null)
-            //{
-            //    dpc = new DirectProductCost();
-            //}
-            //dpc.Account = Accounts[dgAccounts.SelectedIndex];
-            //dpc.AccountID = Accounts[dgAccounts.SelectedIndex].AccountID;
-
-            //if (!list.Contains(dpc))
-            //{
-            //    list.Add(dpc);
-            //}
-            //dgDPPC.Items.Refresh();
+            dgDPPC.ItemsSource = DirectProductCosts;
         }
 
         private void dgDPPC_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -209,9 +176,9 @@ namespace BUPSystem.Kostnadsbudgetering
             try
             {
                 FrameworkElement elementProductID = dgDPPC.Columns[0].GetCellContent(e.Row);
-                if (elementProductID.GetType() == typeof (TextBox))
+                if (elementProductID.GetType() == typeof(TextBox))
                 {
-                    var column1 = ((TextBox) elementProductID).Text;
+                    var column1 = ((TextBox)elementProductID).Text;
                     objToAdd.ProductID = column1;
 
                 }
@@ -223,34 +190,55 @@ namespace BUPSystem.Kostnadsbudgetering
                     objToAdd.ProductCost = Convert.ToInt32(column1);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                
+                MessageBox.Show(ex.Message, "Fel");
             }
         }
 
         private void dgDPPC_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
         {
+            
+            // Kontrollera om vi ändrar en befintlig produkt eller en ny
+            // innan expensebudget i management
+            
+            
+            ExpenseBudget eb = null;
 
-                var Res = MessageBox.Show("Create entry?", "Confirm", MessageBoxButton.YesNo);
-            if (Res == MessageBoxResult.Yes)
-            {
-                objToAdd.AccountID = Accounts[dgAccounts.SelectedIndex].AccountID;
-                objToAdd.ExpenseBudgetID = ExpenseBudgetManagement.Instance.GetExpenseBudgetID();
+             
 
 
-                if ()
+                if (!ExpenseBudgetManagement.Instance.DoesExpenseBudgetExist())
                 {
-                    
+                    eb = new ExpenseBudget
+                    {
+                        ExpenseBudgetID = ExpenseBudgetManagement.Instance.GetExpenseBudgetID(),
+                        ProductionLock = 0,
+                        SellLock = 0
+                    };
+
+                    ExpenseBudgetManagement.Instance.Create(eb);
+                    db.DirectProductCost.Add(objToAdd);
                 }
-                ExpenseBudget eb = new ExpenseBudget
+                else
                 {
-                    ExpenseBudgetID 
-                };
+                    int id = ExpenseBudgetManagement.Instance.GetExpenseBudgetID();
 
-                db.DirectProductCost.Add(objToAdd);
-                db.SaveChanges();
-            }
+                    var listOfExpenseBudgets = ExpenseBudgetManagement.Instance.GetExpenseBudgets();
+
+                    foreach (var expenseBudget in listOfExpenseBudgets.Where(expenseBudget => expenseBudget.ExpenseBudgetID.Equals(id)))
+                    {
+                        eb = expenseBudget;
+                    }
+                    ExpenseBudgetManagement.Instance.Update();
+                }
+
+                objToAdd.AccountID = Accounts[dgAccounts.SelectedIndex].AccountID;
+                objToAdd.ExpenseBudgetID = eb.ExpenseBudgetID;
+     
+                
+               
+            
 
         }
     }
