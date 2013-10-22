@@ -7,13 +7,13 @@
         <GroupBox Header="Standarduppgifter" Height="140" HorizontalAlignment="Left" Margin="12,54,0,0" x:Name="groupBox1" VerticalAlignment="Top" Width="358">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="48*" />
-                    <ColumnDefinition Width="298*" />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <TextBox Height="23" HorizontalAlignment="Left" Margin="79,20,0,0" x:Name="tbProductName" VerticalAlignment="Top" Width="213" Grid.Column="1" Text="{Binding ProductName, UpdateSourceTrigger=Explicit}" />
-                <Label Content="Produktbenämning" Height="28" HorizontalAlignment="Left" Margin="10,15,0,0" x:Name="label2" VerticalAlignment="Top" Grid.ColumnSpan="2" />
-                <Label Content="Produktgrupp" Height="28" HorizontalAlignment="Left" Margin="10,60,0,0" x:Name="label13" VerticalAlignment="Top" Grid.ColumnSpan="2" />
-                <Button x:Name="btnProductGroup" Content="Välj grupp" Grid.Column="1" HorizontalAlignment="Left" Margin="79,68,0,0" VerticalAlignment="Top" Width="75" Click="btnProductGroup_Click"/>
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="127,20,0,0" x:Name="tbProductName" VerticalAlignment="Top" Width="213" Text="{Binding ProductName, UpdateSourceTrigger=Explicit}" />
+                <Label Content="Produktbenämning" Height="28" HorizontalAlignment="Left" Margin="10,15,0,0" x:Name="label2" VerticalAlignment="Top" />
+                <Label Content="Produktgrupp" Height="28" HorizontalAlignment="Left" Margin="10,60,0,0" x:Name="label13" VerticalAlignment="Top" />
+                <Button x:Name="btnProductGroup" Content="Välj grupp" HorizontalAlignment="Left" Margin="127,68,0,0" VerticalAlignment="Top" Width="75" Click="btnProductGroup_Click"/>
+                <Label x:Name="lblProductGroup" Content="Ingen vald produkgrupp" HorizontalAlignment="Left" Margin="207,65,0,0" VerticalAlignment="Top"/>
             </Grid>
         </GroupBox>
         <GroupBox Header="Produktuppgifter" Height="131" Margin="12,215,0,0" x:Name="groupBox2" VerticalAlignment="Top" HorizontalAlignment="Left" Width="358">
