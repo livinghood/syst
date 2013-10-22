@@ -80,6 +80,8 @@
     </Compile>
     <Compile Include="Validation\ComboBoxNotEmptyValidationRule.cs" />
     <Compile Include="Validation\CheckUserIDValidationRule.cs" />
+    <Compile Include="Validation\CheckAccountIDValidationRule.cs" />
+    <Compile Include="Validation\TextIsNumberValidationRule.cs" />
     <Compile Include="Validation\DelayBinding.cs" />
     <Compile Include="Validation\DelayBindingExtension.cs" />
     <Compile Include="Validation\ErrorCollectionToVisibility.cs" />

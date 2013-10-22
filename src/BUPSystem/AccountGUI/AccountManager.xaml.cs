@@ -1,8 +1,12 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
-using System;
-using System.Text.RegularExpressions;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using Logic_Layer;
+
 namespace BUPSystem.AccountGUI
 {
     /// <summary>
@@ -10,19 +14,11 @@ namespace BUPSystem.AccountGUI
     /// </summary>
     public partial class AccountManager : Window
     {
-        // Member account class
-        private Logic_Layer.Account m_account;
-
         /// <summary>
         /// Property for returning the object
         /// </summary>
-        public Logic_Layer.Account Account
-        {
-            get 
-            { 
-                return m_account;
-            }
-        }
+        public Logic_Layer.Account Account { get; private set; }
+
 
         /// <summary>
         /// Default constructor
@@ -35,7 +31,7 @@ namespace BUPSystem.AccountGUI
 
             DataContext = account;
 
-            this.m_account = account;
+            this.Account = account;
         }
 
         /// <summary>
@@ -48,10 +44,14 @@ namespace BUPSystem.AccountGUI
 
             DataContext = account;
 
-            this.m_account = account;
+            this.Account = account;
 
             // We cant edit the primary key, disable it
             tbNumber.IsEnabled = false;
+
+            // Disable validation for account id
+            Binding binding = BindingOperations.GetBinding(tbNumber, TextBox.TextProperty);
+            binding.ValidationRules.Clear();
         }
 
         /// <summary>
@@ -62,12 +62,13 @@ namespace BUPSystem.AccountGUI
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             // Update the source object with the new values
-            tbAmount.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-            tbName.GetBindingExpression(TextBox.TextProperty).UpdateSource();
             tbNumber.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-
-            this.DialogResult = true;
-            this.Close(); 
+            
+            if (Validation.GetHasError(tbNumber) == true)
+                return;
+            
+            DialogResult = true;
+            Close();  
         }
 
     }

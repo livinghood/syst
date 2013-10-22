@@ -1,24 +1,66 @@
 ﻿<Window x:Class="BUPSystem.AccountGUI.AccountManager"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:z="clr-namespace:BUPSystem"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="AccountManager" Height="266" Width="393">
+        xmlns:local="clr-namespace:BUPSystem"
+        Title="AccountManager" Height="266" Width="393" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Label Content="AccountManager" Height="41" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="label1" VerticalAlignment="Top" FontSize="20" />
         <GroupBox Header="Standarduppgifter" Height="140" HorizontalAlignment="Left" Margin="10,56,-80,0" x:Name="groupBox1" VerticalAlignment="Top" Width="362">
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="48*" />
-                    <ColumnDefinition Width="298*" />
-                </Grid.ColumnDefinitions>
-                <TextBox x:Name="tbNumber" Grid.Column="1" HorizontalAlignment="Right" Height="23" Margin="0,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="229" Text="{Binding AccountID, UpdateSourceTrigger=Explicit}" />
-                <TextBox Height="23" HorizontalAlignment="Left" Margin="62,45,0,0" x:Name="tbName" VerticalAlignment="Top" Width="230" Grid.Column="1" Text="{Binding AccountName,UpdateSourceTrigger=Explicit}" />
+                <TextBox x:Name="tbNumber" HorizontalAlignment="Right" Height="23" Margin="0,9,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="229" >
+                    <TextBox.Text>
+                        <z:DelayBindingExtension Path="AccountID" >
+                            <z:DelayBindingExtension.ValidationRules>
+                                <local:TextBoxNotEmptyValidationRule x:Name="EmptyAccountIDValidation" ValidatesOnTargetUpdated="True" Message="Du måste skriva in ett kontonummmer."/>
+                                <local:TextIsNumberValidationRule x:Name="AccountIDIsNumberValidation" ValidatesOnTargetUpdated="True" Message="Kontonummer får bara innehålla siffror."/>
+                                <local:CheckAccountIDValidationRule x:Name="CheckAccountIDValidation" ValidatesOnTargetUpdated="True"  Message="Kontonummer måste vara unikt."/>
+                            </z:DelayBindingExtension.ValidationRules>
+                        </z:DelayBindingExtension>
+                    </TextBox.Text>
+                </TextBox>
+                <TextBox x:Name="tbName" HorizontalAlignment="Right" Height="23" Margin="0,42,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="229" >
+                    <TextBox.Text>
+                        <Binding Path="AccountName"
+                             UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <local:TextBoxNotEmptyValidationRule x:Name="CustomerNameValidation" ValidatesOnTargetUpdated="True" Message="Du måste skriva in ett kontonamn."/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
                 <Label Content="Kontonamn" Height="28" HorizontalAlignment="Left" Margin="10,42,0,0" x:Name="label2" VerticalAlignment="Top" Grid.ColumnSpan="2" />
                 <Label Content="Kontonummer" Height="28" HorizontalAlignment="Left" Margin="10,9,0,0" x:Name="label3" VerticalAlignment="Top" Grid.ColumnSpan="2" />
-                <TextBox x:Name="tbAmount" Grid.Column="1" HorizontalAlignment="Right" Height="23" Margin="0,81,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="229" Text="{Binding AccountCost,UpdateSourceTrigger=Explicit}"/>
+                <TextBox x:Name="tbAmount" HorizontalAlignment="Right" Height="23" Margin="0,79,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="229" >
+                    <TextBox.Text>
+                        <Binding Path="AccountCost"
+                             UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <local:TextIsNumberValidationRule x:Name="AccountCostIsNumberValidation" ValidatesOnTargetUpdated="True" Message="Belopp får bara innehålla siffror."/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
                 <Label Content="Belopp" Height="28" HorizontalAlignment="Left" Margin="11,79,0,0" x:Name="label3_Copy" VerticalAlignment="Top" Grid.ColumnSpan="2" />  
             </Grid>
         </GroupBox>
-        <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="297,201,-80,0" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click" />
+        <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="297,201,0,0" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="IsEnabled" Value="false" />
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding ElementName=tbNumber, Path=(Validation.HasError)}" Value="false" />
+                                <Condition Binding="{Binding ElementName=tbName, Path=(Validation.HasError)}" Value="false" />
+                                <Condition Binding="{Binding ElementName=tbAmount, Path=(Validation.HasError)}" Value="false" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="IsEnabled" Value="true" />
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
         <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="217,201,0,0" x:Name="btnCancel" VerticalAlignment="Top" Width="75" IsCancel="True" />
 
     </Grid>
