@@ -6,16 +6,15 @@
         Title="Kontohantering" Height="266" Width="393" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Label Content="Kontohantering" Height="41" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="label1" VerticalAlignment="Top" FontSize="20" />
-        <GroupBox Header="Standarduppgifter" Height="140" HorizontalAlignment="Left" Margin="10,56,-80,0" x:Name="groupBox1" VerticalAlignment="Top" Width="362">
+        <GroupBox Header="Standarduppgifter" Height="140" HorizontalAlignment="Left" Margin="10,56,0,0" x:Name="groupBox1" VerticalAlignment="Top" Width="367">
             <Grid>
                 <TextBox x:Name="tbNumber" HorizontalAlignment="Right" Height="23" Margin="0,9,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="229" >
                     <TextBox.Text>
                         <z:DelayBindingExtension Path="AccountID" >
                             <z:DelayBindingExtension.ValidationRules>
-                                <local:TextBoxNotEmptyValidationRule x:Name="EmptyAccountIDValidation" ValidatesOnTargetUpdated="True" Message="Du måste skriva in ett kontonummmer."/>
-                                <local:TextIsNumberValidationRule x:Name="AccountIDIsNumberValidation" ValidatesOnTargetUpdated="True" Message="Kontonummer får bara innehålla siffror."/>
-                                <local:CheckAccountIDValidationRule x:Name="CheckAccountIDValidation" ValidatesOnTargetUpdated="True"  Message="Kontonummer måste vara unikt."/>
-                            </z:DelayBindingExtension.ValidationRules>
+                                <local:CheckAccountIDFormatValidationRule x:Name="CheckAccountIDFormatValidation" ValidatesOnTargetUpdated="True"  Message="Kontonummer måste vara 4 siffror."/>
+                                <local:CheckAccountIDExistValidationRule x:Name="CheckAccountIDExistValidation" ValidatesOnTargetUpdated="True"  Message="Kontonummer måste vara unikt."/>
+                            </z:DelayBindingExtension.ValidationRules> 
                         </z:DelayBindingExtension>
                     </TextBox.Text>
                 </TextBox>
@@ -34,9 +33,9 @@
                 <TextBox x:Name="tbAmount" HorizontalAlignment="Right" Height="23" Margin="0,79,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="229" >
                     <TextBox.Text>
                         <Binding Path="AccountCost"
-                             UpdateSourceTrigger="PropertyChanged">
+                             UpdateSourceTrigger="PropertyChanged" TargetNullValue="">
                             <Binding.ValidationRules>
-                                <local:TextIsNumberValidationRule x:Name="AccountCostIsNumberValidation" ValidatesOnTargetUpdated="True" Message="Belopp får bara innehålla siffror."/>
+                                <local:TextIsPositiveNumberOrNullValidationRule x:Name="AccountCostIsNumberValidation" ValidatesOnTargetUpdated="True" Message="Belopp får bara innehålla siffror."/>
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox.Text>

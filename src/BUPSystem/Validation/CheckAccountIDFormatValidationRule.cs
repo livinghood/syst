@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace BUPSystem
 {
-    public class CheckAccountIDValidationRule : ValidationRule
+    public class CheckAccountIDFormatValidationRule : ValidationRule
     {
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo)
         {
@@ -16,8 +16,11 @@ namespace BUPSystem
                 int accountid;
                 if (Int32.TryParse(str, out accountid))
                 {
-                    if (AccountManagement.Instance.AccountExist(accountid))
-                        return new ValidationResult(false, Message);
+                    if (accountid >= 1000 && accountid <= 9999)
+                    {
+                        return ValidationResult.ValidResult;
+                    }
+                    return new ValidationResult(false, Message);
                 }
                 else
                 {
@@ -25,7 +28,8 @@ namespace BUPSystem
                 }
                
             }
-            return ValidationResult.ValidResult;
+            return new ValidationResult(false, Message);
+
         }
 
         public String Message { get; set; }
