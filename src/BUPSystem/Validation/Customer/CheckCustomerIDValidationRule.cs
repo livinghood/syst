@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace BUPSystem
 {
-    public class CheckUserIDValidationRule : ValidationRule
+    public class CheckCustomerIDValidationRule : ValidationRule
     {
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo)
         {

@@ -1,8 +1,8 @@
 ﻿<Window x:Class="BUPSystem.CustomerGUI.CustomerManager"
         xmlns:z="clr-namespace:BUPSystem"
+        xmlns:local="clr-namespace:BUPSystem"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:BUPSystem"
         Title="Kundhantering" Height="265" Width="429.098" x:Name="customerManager" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Label Content="Kundhantering" Height="41" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="label1" VerticalAlignment="Top" FontSize="20" />
@@ -18,7 +18,7 @@
                         <z:DelayBindingExtension Path="CustomerID" >
                             <z:DelayBindingExtension.ValidationRules>
                                 <local:TextBoxNotEmptyValidationRule x:Name="EmptyCustomerIDValidation" ValidatesOnTargetUpdated="True" Message="Du måste skriva in ett kund-id."/>
-                                <local:CheckUserIDValidationRule x:Name="CheckCustomerIDValidation" ValidatesOnTargetUpdated="True"  Message="Kund ID måste vara unikt."/>
+                                <local:CheckCustomerIDValidationRule x:Name="CheckCustomerIDValidation" ValidatesOnTargetUpdated="True"  Message="Kund ID måste vara unikt."/>
                             </z:DelayBindingExtension.ValidationRules>
                         </z:DelayBindingExtension>
                     </TextBox.Text>

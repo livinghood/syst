@@ -22,6 +22,7 @@ namespace BUPSystem.ProductGUI
         {
             InitializeComponent();
             DataContext = this;
+            btnSelect.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>

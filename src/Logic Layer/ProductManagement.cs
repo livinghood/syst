@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
+using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Logic_Layer
 {
@@ -103,6 +105,19 @@ namespace Logic_Layer
         public void UpdateProduct()
         {
             db.SaveChanges();
+        }
+
+        public void ResetProduct(Product productObj)
+        {
+            db.Entry(productObj).State = EntityState.Unchanged;
+        }
+
+        /// <summary>
+        /// Check if a specific customer exists
+        /// </summary>
+        public bool ProductExist(string id)
+        {
+            return db.Product.Where(p => p.ProductID == id).Any();
         }
     }
 }

@@ -78,15 +78,17 @@
     <Compile Include="UserGUI\UserManager.xaml.cs">
       <DependentUpon>UserManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Validation\ComboBoxNotEmptyValidationRule.cs" />
-    <Compile Include="Validation\CheckUserIDValidationRule.cs" />
-    <Compile Include="Validation\CheckAccountIDExistValidationRule.cs" />
-    <Compile Include="Validation\CheckAccountIDFormatValidationRule.cs" />
-    <Compile Include="Validation\TextIsNumberOrNullValidationRule.cs" />
+    <Compile Include="Validation\General\ComboBoxNotEmptyValidationRule.cs" />
+    <Compile Include="Validation\Customer\CheckCustomerIDValidationRule.cs" />
+    <Compile Include="Validation\Account\CheckAccountIDExistValidationRule.cs" />
+    <Compile Include="Validation\Account\CheckAccountIDFormatValidationRule.cs" />
+    <Compile Include="Validation\Product\CheckProductIDExistValidationRule.cs" />
+    <Compile Include="Validation\Product\CheckProductIDFormatValidationRule.cs" />
+    <Compile Include="Validation\General\TextIsNumberOrNullValidationRule.cs" />
     <Compile Include="Validation\DelayBinding.cs" />
     <Compile Include="Validation\DelayBindingExtension.cs" />
     <Compile Include="Validation\ErrorCollectionToVisibility.cs" />
-    <Compile Include="Validation\TextBoxNotEmptyValidationRule.cs" />
+    <Compile Include="Validation\General\TextBoxNotEmptyValidationRule.cs" />
     <Page Include="ActivityGUI\ActivityManager.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

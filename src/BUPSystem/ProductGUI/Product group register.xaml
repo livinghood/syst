@@ -16,9 +16,9 @@
             </ListView.View>
         </ListView>
         <Button Content="Välj produktgrupp" Height="23" HorizontalAlignment="Left" Margin="355,270,0,0" x:Name="btnSelect" VerticalAlignment="Top" Width="112" Click="btnSelect_Click" />
-        <Button Content="Ändra" Height="23" HorizontalAlignment="Left" Margin="171,270,0,0" x:Name="btnChange" VerticalAlignment="Top" Width="70" Click="btnChange_Click" />
+        <Button Content="Ändra" Height="23" HorizontalAlignment="Left" Margin="90,270,0,0" x:Name="btnChange" VerticalAlignment="Top" Width="70" Click="btnChange_Click" />
         <Button Content="Lägg till" Height="23" HorizontalAlignment="Left" Margin="295,270,0,0" x:Name="btnAdd" VerticalAlignment="Top" Width="55" Click="btnAdd_Click" />
-        <Button x:Name="btnDelete" Content="Ta bort" HorizontalAlignment="Left" Margin="10,274,0,0" VerticalAlignment="Top" Width="75" Click="btnDelete_Click"/>
+        <Button x:Name="btnDelete" Content="Ta bort" HorizontalAlignment="Left" Margin="10,270,0,15" Width="75" Click="btnDelete_Click"/>
 
     </Grid>
 </Window>

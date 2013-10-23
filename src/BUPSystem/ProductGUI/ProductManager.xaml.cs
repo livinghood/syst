@@ -1,8 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using Logic_Layer;
+
 
 namespace BUPSystem.ProductGUI
 {
@@ -11,12 +16,20 @@ namespace BUPSystem.ProductGUI
     /// </summary>
     public partial class ProductManager : Window
     {
+        public string m_partProductID;
+
         public Product Product { get; set; }
 
-        private readonly bool changeExisting;
-
-        // Hold a selected product group from product group register
-        public ProductGroup ProductGroup  { get; set; }
+        public string PartProductID 
+        {
+            get { return m_partProductID; }
+            set
+            {
+                m_partProductID = value;
+                // Update the main product ID
+                updateProductID();
+            }
+        }
 
         public string ProductionDepartmentID { get; set; }
 
@@ -36,6 +49,7 @@ namespace BUPSystem.ProductGUI
             Logic_Layer.Product product = new Logic_Layer.Product();
             DataContext = product;
             Product = product;
+            PartProductIDGrid.DataContext = this;
         }
 
         /// <summary>
@@ -45,14 +59,25 @@ namespace BUPSystem.ProductGUI
         public ProductManager(Product product)
         {
             InitializeComponent();
+            // We can't change the product group
+            btnProductGroup.Visibility = Visibility.Collapsed;
+            // We can't change the ID
             tbProductID.IsEnabled = false;
-            btnProductGroup.IsEnabled = false;
+            // Hide the partial ID
+            PartProductIDGrid.Visibility = Visibility.Collapsed;
+
             cbDepartment.ItemsSource = ProductionDepartments;
             DataContext = product;
             Product = product;
-            ProductGroup = product.ProductGroup;
 
-            changeExisting = true;
+            // Disable the textbox for product id as its a primary key
+            tbProductID.IsEnabled = false;
+            // Disable validation for product id and part-id
+            Binding binding = BindingOperations.GetBinding(tbProductID, TextBox.TextProperty);
+            Binding partIDbinding = BindingOperations.GetBinding(tbPartProductID, TextBox.TextProperty);
+            binding.ValidationRules.Clear();
+            partIDbinding.ValidationRules.Clear();
+            
         }
 
         /// <summary>
@@ -65,11 +90,17 @@ namespace BUPSystem.ProductGUI
         {
             ProductGroupRegister pgr = new ProductGroupRegister();
 
+            // Reset the group (fixes problem if user deletes current selected group)
+            lblProductGroup.Content = "Ingen vald produktgrupp";
+            Product.ProductGroupID = null;
+
             if (pgr.ShowDialog() == true)
             {
-                ProductGroup = pgr.ProductGroup;
+                Product.ProductGroupID = pgr.ProductGroup.ProductGroupID;
                 lblProductGroup.Content = pgr.ProductGroup.ProductGroupName;
             }
+            // Update the main product ID
+            updateProductID();
         }
 
         /// <summary>
@@ -79,24 +110,29 @@ namespace BUPSystem.ProductGUI
         /// <param name="e"></param>
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            // A new product is to be created
-            if (!changeExisting)
-            {
-                ProductManagement.Instance.CreateProduct(tbProductID.Text, tbProductName.Text,
-                    ProductionDepartments[cbDepartment.SelectedIndex], ProductGroup);
-            }
-
-            // An existing product was edited
-            else
-            {
-                Product.DepartmentID = ProductionDepartments[cbDepartment.SelectedIndex];
-                Product.ProductGroup = ProductGroup;
-                Product.ProductName = tbProductName.Text;
-                Product.ProductID = tbProductID.Text;
-            }
+            tbProductID.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            if (Validation.GetHasError(tbProductID) == true)
+                return;
 
             DialogResult = true;
             Close();
+        }
+
+        /// <summary>
+        /// Update the product ID
+        /// </summary>
+        private void updateProductID()
+        {
+            // If no part-id or productgroup is set, set to null
+            if (!String.IsNullOrEmpty(m_partProductID) && !String.IsNullOrEmpty(Product.ProductGroupID))
+            {
+                Product.ProductID = m_partProductID.ToUpper() + Product.ProductGroupID.Substring(0, 2).ToUpper();
+            }
+            else
+            {
+                Product.ProductID = null;
+            }
+            
         }
     }
 }
