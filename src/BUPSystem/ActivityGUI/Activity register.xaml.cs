@@ -15,6 +15,9 @@ namespace BUPSystem.ActivityGUI
             set { ActivityManagement.Instance.Activities = value; }
         }
 
+        // Holds an activity selected from DCPAD
+        public Activity Activity { get; set; }
+
         /// <summary>
         /// Standard constructor
         /// </summary>
@@ -85,6 +88,24 @@ namespace BUPSystem.ActivityGUI
             }
             else
                 MessageBox.Show("Markera en aktivitet att ta bort", "Ingen vald aktivitet");
+        }
+
+        /// <summary>
+        /// Assigns the property 'Activity' a selected activity to be used in other windows, e.g. DCPAD
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnSelect_Click(object sender, RoutedEventArgs e)
+        {
+            // Make sure the sure the user has selected an item in the listview
+            if (lvActivityRegister.SelectedItem != null)
+            {
+                Activity = lvActivityRegister.SelectedItem as Activity;
+                DialogResult = true;
+                Close();
+            }
+            else
+                MessageBox.Show("Markera en aktivitet i listan", "Ingen vald aktivitet");
         }
     }
 }
