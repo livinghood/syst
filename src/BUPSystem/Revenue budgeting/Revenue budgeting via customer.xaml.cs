@@ -96,10 +96,10 @@ namespace BUPSystem.Revenue_budgeting
                 {
                     if ((((TextBox)productID).Text).ToUpper().Equals(p.ProductID.ToUpper()))
                     {
-                        fi.ProductID = p.ProductID;
+                        //fi.ProductID = p.ProductID;
                         fi.ProductName = p.ProductName;
-                        //((TextBlock)productName).Text = p.ProductName;
-                        //((TextBox)productID).Text = p.ProductID;
+                        ((TextBlock)productName).Text = fi.ProductName;
+                        ((TextBox)productID).Text = p.ProductID;
                     }
                 }
                 if (productName is TextBox)
@@ -107,9 +107,9 @@ namespace BUPSystem.Revenue_budgeting
                     if ((((TextBox)productName).Text).ToUpper().Equals(p.ProductName.ToUpper()))
                     {
                         fi.ProductID = p.ProductID;
-                        fi.ProductName = "HEJ";//p.ProductName;
-                        //((TextBlock)productID).Text = p.ProductID;
-                        //((TextBox)productName).Text = p.ProductName;
+                        //fi.ProductName = p.ProductName;
+                        ((TextBlock)productID).Text = fi.ProductID;
+                        ((TextBox)productName).Text = p.ProductName;
                     }
                 }
             }
@@ -119,6 +119,11 @@ namespace BUPSystem.Revenue_budgeting
             //ProductName = ((TextBox)h).Text;
             //((TextBlock)h).Text = Budget.ToString(); //--> FUNKAR ATT TA TEXT IFRÅN EN CELL
         }
+
+        //private void dgIncomeProduct_AddingNewItem(object sender, AddingNewItemEventArgs e)
+        //{
+        //    //När man skapar nya rad
+        //}
 
         //private void dgIncomeProduct_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         //{
