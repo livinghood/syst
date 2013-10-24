@@ -6,6 +6,7 @@
 //    Manual changes to this file will be overwritten if the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Logic_Layer
 {
@@ -23,7 +24,12 @@ namespace Logic_Layer
         public Nullable<int> Hours { get; set; }
         public string Comments { get; set; }
         public string FinancialIncomeID { get; set; }
-    
+
+        [NotMapped]
+        public Nullable<int> Budget { get {return Agreement + Addition; } }
+        [NotMapped]
+        public string ProductName { get; set; }
+
         public virtual Customer Customer { get; set; }
         public virtual FinancialIncomeYear FinancialIncomeYear { get; set; }
         public virtual Product Product { get; set; }

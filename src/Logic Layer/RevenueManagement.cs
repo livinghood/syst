@@ -81,6 +81,15 @@ namespace Logic_Layer
                                               orderby f.FinancialIncomeID
                                               select f;
 
+            foreach (FinancialIncome fi in financialIncomes)
+            {
+                foreach (Product p in ProductList)
+                {
+                    if (fi.ProductID.Equals(p.ProductID))
+                        fi.ProductName = p.ProductName;
+                }
+            }
+
             return financialIncomes;
         }
 
