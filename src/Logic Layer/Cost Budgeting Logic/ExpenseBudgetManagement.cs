@@ -46,22 +46,29 @@ namespace Logic_Layer.Cost_Budgeting_Logic
             return db.ExpenseBudget.OrderBy(c => c.ExpenseBudgetID);
         }
 
+        /// <summary>
+        /// Returns the current year as ID
+        /// </summary>
+        /// <returns></returns>
         public int GetExpenseBudgetID()
         {
             return DateTime.Now.Year;
         }
 
+        /// <summary>
+        /// Creates a new expense budget
+        /// </summary>
+        /// <param name="eb"></param>
         public void Create(ExpenseBudget eb)
         {
             db.ExpenseBudget.Add(eb);
             db.SaveChanges();
         }
 
-        public void Update()
-        {
-            db.SaveChanges();
-        }
-
+        /// <summary>
+        /// Checks if an expense budget exists in the database
+        /// </summary>
+        /// <returns></returns>
         public bool DoesExpenseBudgetExist()
         {
             int id = GetExpenseBudgetID();
@@ -69,6 +76,44 @@ namespace Logic_Layer.Cost_Budgeting_Logic
                         where p.ExpenseBudgetID.Equals(id)
                         select p;
             return query.Any();
+        }
+
+        /// <summary>
+        /// Method to lock an expense budget
+        /// </summary>
+        /// <returns></returns>
+        public bool LockExpenseBudget()
+        {
+            int id = GetExpenseBudgetID();
+            var query = from p in db.ExpenseBudget
+                        where p.ExpenseBudgetID.Equals(id)
+                        select p;
+
+            var list = new List<ExpenseBudget>(query); 
+            var item = list.FirstOrDefault(i => i.ExpenseBudgetID == id);
+
+            // Found the expense budget
+            if (item != null)
+            {
+                // The first digit in production lock indicates whether DCPPD is locked or not
+                item.ProductionLock += 100;
+                db.SaveChanges();
+
+                return true;
+            }
+            return false;
+        }
+
+        public int IsExpenseBudgetLocked()
+        {
+            int id = GetExpenseBudgetID();
+            var query = from p in db.ExpenseBudget
+                        where p.ExpenseBudgetID.Equals(id)
+                        select p;
+
+            var list = new List<ExpenseBudget>(query);
+            var item = list.FirstOrDefault(i => i.ExpenseBudgetID == id);
+            return item.ProductionLock;
         }
     }
 }

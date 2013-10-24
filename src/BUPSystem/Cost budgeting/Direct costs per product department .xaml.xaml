@@ -5,29 +5,26 @@
     xmlns:system="clr-namespace:System;assembly=mscorlib"
     x:Name="winDKPPA" mc:Ignorable="d"
         x:Class="BUPSystem.Kostnadsbudgetering.DirectCostsPerProductDepartment"
-        Title="DirectCostsPerProductDepartment" Height="565.492" Width="789" Loaded="winDKPPA_Loaded">
+        Title="DirectCostsPerProductDepartment" Height="480.249" Width="640" Loaded="winDKPPA_Loaded">
     <Window.Resources>
 
     </Window.Resources>
     <Grid>
-        <Button Content="Skapa Exceldokument" Height="23" HorizontalAlignment="Left" Margin="90,406,0,0" x:Name="btnExcel" VerticalAlignment="Top" Width="116" Click="btnExcel_Click" />
-        <Button Content="Skriv ut" Height="23" HorizontalAlignment="Left" Margin="10,406,0,0" x:Name="btnPrint" VerticalAlignment="Top" Width="75" Click="btnPrint_Click" />
-        <Label Height="28" HorizontalAlignment="Left" Margin="103,359,0,0" x:Name="label2" VerticalAlignment="Top" Content="Summa" />
-        <Button x:Name="btnSelectAccount" Content="Välj konto" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="btnSelectAccount_Click"/>
-        <Button x:Name="btnSelectProduct" Content="Välj produkt" HorizontalAlignment="Left" Margin="329,10,0,0" VerticalAlignment="Top" Width="75" Click="btnSelectProduct_Click"/>
-        <Button x:Name="btnSave" Content="Spara" HorizontalAlignment="Left" Margin="692,409,0,0" VerticalAlignment="Top" Width="75" Click="btnSave_Click"/>
-        <Button x:Name="btnCancel" Content="Avbryt" HorizontalAlignment="Left" Margin="612,409,0,0" VerticalAlignment="Top" Width="75" IsCancel="True" Click="btnCancel_Click"/>
-        <Button x:Name="btnLock" Content="Lås kostnadbudget" HorizontalAlignment="Left" Margin="651,10,0,0" VerticalAlignment="Top" Width="120" Click="btnLock_Click"/>
-        <DataGrid x:Name="dgAccounts" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" Height="152" Width="230" AutoGenerateColumns="False" SelectionChanged="dgAccounts_SelectionChanged">
+        <Button Content="Skapa Exceldokument" Height="23" HorizontalAlignment="Left" Margin="90,0,0,10" x:Name="btnExcel" VerticalAlignment="Bottom" Width="116" Click="btnExcel_Click" />
+        <Button Content="Skriv ut" HorizontalAlignment="Left" Margin="10,0,0,10" x:Name="btnPrint" Width="75" Click="btnPrint_Click" Height="23" VerticalAlignment="Bottom" />
+        <Label Height="38" HorizontalAlignment="Left" Margin="460,373,0,0" x:Name="lblSum" VerticalAlignment="Top" Content="Summa:" Foreground="Crimson" FontSize="18" Width="162" />
+        <Button x:Name="btnSelectProduct" Content="Lägg till en produkt" HorizontalAlignment="Left" Margin="319,10,0,0" VerticalAlignment="Top" Width="120" Click="btnSelectProduct_Click"/>
+        <Button x:Name="btnLock" Content="Lås kostnadbudget" Margin="502,0,10,10" Click="btnLock_Click" Height="23" VerticalAlignment="Bottom"/>
+        <DataGrid x:Name="dgAccounts" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" Height="333" Width="304" AutoGenerateColumns="False" SelectionChanged="dgAccounts_SelectionChanged" HorizontalScrollBarVisibility="Disabled">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding AccountID}" ClipboardContentBinding="{x:Null}" Header="Kontonummer"/>
-                <DataGridTextColumn Binding="{Binding AccountName}" ClipboardContentBinding="{x:Null}" Header="Kontonamn"/>
+                <DataGridTextColumn Binding="{Binding AccountID}" ClipboardContentBinding="{x:Null}" Header="Kontonummer" Width="150" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding AccountName}" ClipboardContentBinding="{x:Null}" Header="Kontonamn" Width="150" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
-        <DataGrid x:Name="dgDPPC" HorizontalAlignment="Left" Margin="313,35,0,0" VerticalAlignment="Top" Height="152" Width="276" AutoGenerateColumns="False" SelectionChanged="dgDPPC_SelectionChanged" CellEditEnding="dgDPPC_CellEditEnding" RowEditEnding="dgDPPC_RowEditEnding">
+        <DataGrid x:Name="dgDPPC" Margin="319,35,10,0" VerticalAlignment="Top" Height="333" AutoGenerateColumns="False" SelectionChanged="dgDPPC_SelectionChanged" CellEditEnding="dgDPPC_CellEditEnding" RowEditEnding="dgDPPC_RowEditEnding" HorizontalScrollBarVisibility="Disabled">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding ProductID}" ClipboardContentBinding="{x:Null}" Header="Produkt ID"/>
-                <DataGridTextColumn Binding="{Binding ProductCost}" ClipboardContentBinding="{x:Null}" Header="Kostnader"/>
+                <DataGridTextColumn Binding="{Binding ProductID}" ClipboardContentBinding="{x:Null}" Header="Produkt ID" IsReadOnly="True" Width="150"/>
+                <DataGridTextColumn Binding="{Binding ProductCost}" ClipboardContentBinding="{x:Null}" Header="Kostnader" Width="150"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
