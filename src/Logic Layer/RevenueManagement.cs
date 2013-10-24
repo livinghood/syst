@@ -78,8 +78,17 @@ namespace Logic_Layer
         public IEnumerable<FinancialIncome> GetFinancialIncome()
         {
             IEnumerable<FinancialIncome> financialIncomes = from f in db.FinancialIncome
-                                              orderby f.FinancialIncomeID
+                                              orderby f.FinancialIncomeYearID
                                               select f;
+
+            foreach (FinancialIncome fi in financialIncomes)
+            {
+                foreach (Product p in ProductList)
+                {
+                    if (fi.ProductID.Equals(p.ProductID))
+                        fi.ProductName = p.ProductName;
+                }
+            }
 
             return financialIncomes;
         }
@@ -114,7 +123,7 @@ namespace Logic_Layer
         public IEnumerable<FinancialIncomeYear> GetFinancialIncomeYears(FinancialIncomeYear fIY)
         {
             IEnumerable<FinancialIncomeYear> financialIncomesyears = from f in db.FinancialIncomeYear
-                                                        where f.FinancialIncomeID == fIY.FinancialIncomeID
+                                                        where f.FinancialIncomeYearID == fIY.FinancialIncomeYearID
                                                         select f;
 
             return financialIncomesyears;

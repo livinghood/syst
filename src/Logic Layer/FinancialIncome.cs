@@ -8,6 +8,7 @@
 //------------------------------------------------------------------------------
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel;
+//Lasa in intaktsbudgetteringar, lagga till productnamn och productID och de jamfors med varandra
 
 namespace Logic_Layer
 {
