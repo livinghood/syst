@@ -5,8 +5,8 @@
     <Grid>
         <DataGrid Height="312" HorizontalAlignment="Left" x:Name="dgIncomeProduct" VerticalAlignment="Top" Width="773" Margin="0,43,0,0" ItemsSource="{Binding TempIncomeList}" AutoGenerateColumns="False" CellEditEnding="dgIncomeProduct_CellEditEnding">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Produkt ID" MinWidth="40" Width="100" Binding="{Binding ProductID}"/>
-                <DataGridTextColumn Header="Namn" MinWidth="80" Width="120" Binding="{Binding ProductName}"/>
+                <DataGridTextColumn Header="Produkt ID" MinWidth="40" Width="100" Binding="{Binding ProductID, Mode=TwoWay}"/>
+                <DataGridTextColumn Header="Namn" MinWidth="80" Width="120" Binding="{Binding ProductName, Mode=TwoWay}"/>
                 <DataGridTextColumn Header="Avtal" MinWidth="40" Width="100" Binding="{Binding Agreement}" />
                 <DataGridCheckBoxColumn Binding="{Binding GradeA}" ClipboardContentBinding="{x:Null}" Header="Grad A"/>
                 <DataGridTextColumn Header="Tillägg" MinWidth="40" Width="50" Binding="{Binding Addition}" />
