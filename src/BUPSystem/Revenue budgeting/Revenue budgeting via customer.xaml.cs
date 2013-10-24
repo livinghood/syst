@@ -86,6 +86,8 @@ namespace BUPSystem.Revenue_budgeting
 
         private void dgIncomeProduct_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
+            FinancialIncome fi = (FinancialIncome)dgIncomeProduct.SelectedItem;
+
             var productID = dgIncomeProduct.Columns[0].GetCellContent(e.Row);
             var productName = dgIncomeProduct.Columns[1].GetCellContent(e.Row);
 
@@ -95,16 +97,20 @@ namespace BUPSystem.Revenue_budgeting
                 {
                     if ((((TextBox)productID).Text).ToUpper().Equals(p.ProductID.ToUpper()))
                     {
-                        ((TextBlock)productName).Text = p.ProductName;
-                        ((TextBox)productID).Text = p.ProductID;
+                        fi.ProductID = p.ProductID;
+                        fi.ProductName = p.ProductName;
+                        //((TextBlock)productName).Text = p.ProductName;
+                        //((TextBox)productID).Text = p.ProductID;
                     }
                 }
                 if (productName is TextBox)
                 {
                     if ((((TextBox)productName).Text).ToUpper().Equals(p.ProductName.ToUpper()))
                     {
-                        ((TextBlock)productID).Text = p.ProductID;
-                        ((TextBox)productName).Text = p.ProductName;
+                        fi.ProductID = p.ProductID;
+                        fi.ProductName = "HEJ";//p.ProductName;
+                        //((TextBlock)productID).Text = p.ProductID;
+                        //((TextBox)productName).Text = p.ProductName;
                     }
                 }
             }
