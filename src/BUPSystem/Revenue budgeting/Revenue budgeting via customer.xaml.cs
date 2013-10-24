@@ -100,6 +100,7 @@ namespace BUPSystem.Revenue_budgeting
                         //fi.ProductID = p.ProductID;
                         fi.ProductName = p.ProductName;
                         ((TextBlock)productName).Text = fi.ProductName;
+                        ((TextBlock)productName).Text = p.ProductName;
                         ((TextBox)productID).Text = p.ProductID;
                     }
                 }
@@ -110,6 +111,7 @@ namespace BUPSystem.Revenue_budgeting
                         fi.ProductID = p.ProductID;
                         //fi.ProductName = p.ProductName;
                         ((TextBlock)productID).Text = fi.ProductID;
+                        ((TextBlock)productID).Text = p.ProductID;
                         ((TextBox)productName).Text = p.ProductName;
                     }
                 }
