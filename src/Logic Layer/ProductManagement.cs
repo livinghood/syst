@@ -119,5 +119,15 @@ namespace Logic_Layer
         {
             return db.Product.Where(p => p.ProductID == id).Any();
         }
+
+        /// <summary>
+        /// Method that returns a list of all non budgeted products
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Product> GetNonBudgetedProducts()
+        {
+            var budgetedProducts = db.FinancialIncome.Select(p => p.Product);
+            return Products.Where(product => !budgetedProducts.Contains(product));
+        }
     }
 }

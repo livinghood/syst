@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Logic_Layer;
 
 namespace BUPSystem.Revenue_budgeting
 {
@@ -21,14 +23,24 @@ namespace BUPSystem.Revenue_budgeting
     /// 
     public partial class NonBudgetedProducts : Window
     {
+        public ObservableCollection<Product> Products
+        {
+            get { return ProductManagement.Instance.Products; }
+            set { ProductManagement.Instance.Products = value; }
+        }
+
+        public ObservableCollection<Product> NonBudgetedProductsList { get; set; }
+
         public NonBudgetedProducts()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
-        private void btnPrint_Click(object sender, RoutedEventArgs e)
+        private void winNonBudgetedProducts_Loaded(object sender, RoutedEventArgs e)
         {
-
+            NonBudgetedProductsList = new ObservableCollection<Product>(ProductManagement.Instance.GetNonBudgetedProducts());
+            dgProducts.ItemsSource = NonBudgetedProductsList;
         }
     }
 }
