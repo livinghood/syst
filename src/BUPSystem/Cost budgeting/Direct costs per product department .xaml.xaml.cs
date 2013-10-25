@@ -12,7 +12,6 @@ using Logic_Layer.Cost_Budgeting_Logic;
 
 namespace BUPSystem.Kostnadsbudgetering
 {
-
     /// <summary>
     /// Interaction logic for DirectCostsPerProductDepartment.xaml
     /// </summary>
@@ -21,8 +20,6 @@ namespace BUPSystem.Kostnadsbudgetering
 
         private DirectProductCost objToAdd;
 
-        public ObservableCollection<DirectProductCost> itemList { get; set; }
-
         private Product product { get; set; }
 
         private Account account { get; set; }
@@ -30,25 +27,32 @@ namespace BUPSystem.Kostnadsbudgetering
         public ObservableCollection<DirectProductCost> DirectProductCosts
         {
             get { return DCPPDManagement.Instance.DirectProductCosts; }
+            set { DCPPDManagement.Instance.DirectProductCosts = value; }
         }
 
-        public ObservableCollection<Logic_Layer.Account> Accounts
+        public ObservableCollection<Account> Accounts
         {
-            get
-            {
-                return AccountManagement.Instance.Accounts;
-            }
+            get { return AccountManagement.Instance.Accounts; }
         }
 
+        /// <summary>
+        /// Standard constructor
+        /// </summary>
         public DirectCostsPerProductDepartment()
         {
             InitializeComponent();
             DataContext = this;
         }
 
+        /// <summary>
+        /// Method used to make some initial preparations
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void winDKPPA_Loaded(object sender, RoutedEventArgs e)
         {
             dgAccounts.ItemsSource = Accounts;
+
             //brnLock är alltid låst från början. Enablas när produktionschefen loggar in, 
             //utifall den är låst i databasen(100, 101) så diseables knappen för honom också.
 
@@ -60,6 +64,11 @@ namespace BUPSystem.Kostnadsbudgetering
             }
         }
 
+        /// <summary>
+        /// Connect a new product to the selected account
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSelectProduct_Click(object sender, RoutedEventArgs e)
         {
             ProductGUI.ProductRegister pr = new ProductGUI.ProductRegister();
@@ -117,25 +126,25 @@ namespace BUPSystem.Kostnadsbudgetering
             }
         }
 
-        private void btnPrint_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnExcel_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
+        /// <summary>
+        /// Change selected account
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgAccounts_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DirectProductCosts.Clear();
             account = dgAccounts.SelectedItem as Account;
-            itemList = new ObservableCollection<DirectProductCost>(DCPPDManagement.Instance.GetAccounts(account));
-            dgDPPC.ItemsSource = itemList;
+            DirectProductCosts = new ObservableCollection<DirectProductCost>(DCPPDManagement.Instance.GetAccounts(account));
+            dgDPPC.ItemsSource = DirectProductCosts;
             lblSum.Content = "Summa: " + DCPPDManagement.Instance.CalculateSum(account);
         }
 
+        /// <summary>
+        /// Change selected DirectProductCost
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgDPPC_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (dgDPPC.SelectedItem != null)
@@ -144,6 +153,11 @@ namespace BUPSystem.Kostnadsbudgetering
             }
         }
 
+        /// <summary>
+        /// Allows editing of cells
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgDPPC_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             try
@@ -169,6 +183,11 @@ namespace BUPSystem.Kostnadsbudgetering
             }
         }
 
+        /// <summary>
+        /// Saves edited row changes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgDPPC_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
         {
             DCPPDManagement.Instance.SaveEditing(objToAdd, dgAccounts.SelectedItem as Account);
