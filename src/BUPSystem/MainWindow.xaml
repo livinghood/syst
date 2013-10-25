@@ -35,11 +35,12 @@
         <Button x:Name="btnAktivitetshantering" Content="Aktivtetshantering" HorizontalAlignment="Left" Height="100" Margin="542,220,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnAktivitetshantering_Click"/>
         <Button x:Name="btnIVP" Content="IVP" HorizontalAlignment="Left" Height="100" Margin="542,349,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnIVP_Click"/>
         <Button x:Name="btnDKPAA" Content="DKPAA" HorizontalAlignment="Left" Height="100" Margin="142,349,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnDKPAA_Click"/>
-        <Button x:Name="btnDKPPA" Content="DKPAA&#xD;&#xA;" HorizontalAlignment="Left" Height="100" Margin="268,349,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnDKPPA_Click"/>
+        <Button x:Name="btnDKPPA" Content="DKPPA&#xA;" HorizontalAlignment="Left" Height="100" Margin="268,349,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnDKPPA_Click"/>
         <Button x:Name="btnIVK" Content="IVK" HorizontalAlignment="Left" Height="100" Margin="407,349,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnIVK_Click"/>
         <Button x:Name="btnProduktgrupp" Content="Produktgrupp" HorizontalAlignment="Left" Height="100" Margin="277,77,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnProduktgrupp_Click"/>
         <Button x:Name="btnBudgeteratResultat" Content="Budgeterat Resultat" HorizontalAlignment="Left" Height="100" Margin="277,489,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnBudgeteratResultat_Click"/>
         <Button x:Name="btnProduktKategori" Content="Produktkategori" HorizontalAlignment="Left" Height="100" Margin="407,77,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnProduktKategori_Click"/>
         <Button x:Name="btnUppföljningAvIntäkter" Content="Uppföljning &#xD;&#xA;av intäkter" HorizontalAlignment="Left" Height="100" Margin="142,615,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnUppföljningAvIntäkter_Click"/>
+        <Button x:Name="btnNonBudgetedProducts" Content="Ej budgeterade&#xD;&#xA; produkter" HorizontalAlignment="Left" Height="100" Margin="277,615,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnNonBudgetedProducts_Click"/>
     </Grid>
 </Window>
