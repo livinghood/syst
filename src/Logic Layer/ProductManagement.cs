@@ -57,11 +57,11 @@ namespace Logic_Layer
         public IEnumerable<string> GetProductDepartments()
         {
             var departments = from d in db.Department
-                           orderby d.DepartmentID 
-                              where d.DepartmentID == "DA" 
+                              orderby d.DepartmentID
+                              where d.DepartmentID == "DA"
                               || d.DepartmentID == "UF"
 
-                           select d.DepartmentID;
+                              select d.DepartmentID;
             return departments;
         }
 
@@ -74,7 +74,7 @@ namespace Logic_Layer
             {
                 ProductID = id,
                 ProductName = name,
-                ProductGroupID = group.ProductGroupID, 
+                ProductGroupID = group.ProductGroupID,
                 DepartmentID = departmentID
             };
             db.Product.Add(newProduct);
@@ -124,10 +124,17 @@ namespace Logic_Layer
         /// Method that returns a list of all non budgeted products
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Product> GetNonBudgetedProducts()
+        public IEnumerable<Product> GetNonBudgetedProducts(string department)
         {
-            var budgetedProducts = db.FinancialIncome.Select(p => p.Product);
-            return Products.Where(product => !budgetedProducts.Contains(product));
+            var budgetedProducts = from p in db.FinancialIncome
+                                   where p.Product.DepartmentID == department
+                                   select p.ProductID;
+
+            var allProducts = from p in db.Product
+                              where p.DepartmentID == department
+                              select p;
+
+            return allProducts.Where(product => !budgetedProducts.Contains(product.ProductID));
         }
     }
 }
