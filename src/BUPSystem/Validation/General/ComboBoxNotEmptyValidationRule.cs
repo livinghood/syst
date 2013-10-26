@@ -8,12 +8,7 @@ namespace BUPSystem
     {
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo)
         {
-            if (value == null)
-            {
-                    return new ValidationResult(false, Message);
-                    
-            }
-            return ValidationResult.ValidResult;
+            return value == null ? new ValidationResult(false, Message) : ValidationResult.ValidResult;
         }
 
         public String Message { get; set; }

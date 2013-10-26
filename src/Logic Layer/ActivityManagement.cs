@@ -60,9 +60,7 @@ namespace Logic_Layer
         /// <returns></returns>
         public IEnumerable<Activity> GetActivities()
         {
-            return from a in db.Activity
-                   orderby a.ActivityName
-                   select a;
+            return db.Activity.OrderBy(a => a.ActivityName);
         }
 
         /// <summary>
@@ -84,7 +82,6 @@ namespace Logic_Layer
             db.Activity.Add(activity);
             db.SaveChanges();
             Activities.Add(activity);
-
         }
 
         /// <summary>

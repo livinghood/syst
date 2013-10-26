@@ -66,7 +66,7 @@ namespace Logic_Layer
         /// </summary>
         public bool AccountExist(int id)
         {
-            return db.Account.Where(a => a.AccountID == id).Any();
+            return db.Account.Any(a => a.AccountID == id);
         }
         
         /// <summary>

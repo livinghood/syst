@@ -64,7 +64,7 @@ namespace BUPSystem.AccountGUI
             // Update the source object with the new values
             tbNumber.GetBindingExpression(TextBox.TextProperty).UpdateSource();
             
-            if (Validation.GetHasError(tbNumber) == true)
+            if (Validation.GetHasError(tbNumber))
                 return;
             
             DialogResult = true;

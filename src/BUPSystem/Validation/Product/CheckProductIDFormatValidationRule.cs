@@ -16,14 +16,7 @@ namespace BUPSystem
             {
                 if (Regex.IsMatch(str, @"^[a-zA-Z]+$"))
                 {
-                    if (str.Length != 4)
-                    {
-                        return new ValidationResult(false, "Skriv in ID (4 bokstäver)");
-                    }
-                    else
-                    {
-                        return ValidationResult.ValidResult;
-                    }
+                    return str.Length != 4 ? new ValidationResult(false, "Skriv in ID (4 bokstäver)") : ValidationResult.ValidResult;
                 }
             }
             return new ValidationResult(false, "Skriv in ID (4 bokstäver)");

@@ -48,29 +48,13 @@ namespace Logic_Layer
         /// <returns></returns>
         public IEnumerable<UserAccount> GetUserAccounts()
         {
-            IEnumerable<UserAccount> accounts = from u in db.UserAccount
-                                            orderby u.EmployeeID
-                                            select u;
-            return accounts;
+            return db.UserAccount.OrderBy(u => u.EmployeeID);
         }
 
         /// <summary>
-        /// Create a new account
+        /// Add created account to database
         /// </summary>
-        public void CreateUserAccount(string userName, string password, int permissionLevel)
-        {
-            UserAccount account = new UserAccount
-            {
-                UserName = userName,
-                Password = password,
-                PermissionLevel = permissionLevel
-            };
-
-            UserAccounts.Add(account);
-            db.UserAccount.Add(account);
-            db.SaveChanges();
-        }
-
+        /// <param name="useraccount"></param>
         public void AddAccount(UserAccount useraccount)
         {
             UserAccounts.Add(useraccount);

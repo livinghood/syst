@@ -67,30 +67,17 @@ namespace BUPSystem.EmployeeGUI
                     grdProd.DataContext = emp;
                 }
             }
-
         }
 
         private void UpdatePlacements()
         {
-            if (ConvertStringToInt(tbAdmAvd.Text) > 0)
-                ChangePlacement("AO", decimal.Parse(tbAdmAvd.Text));
-            else
-                ChangePlacement("AO", 0);
+            ChangePlacement("AO", ConvertStringToInt(tbAdmAvd.Text) > 0 ? decimal.Parse(tbAdmAvd.Text) : 0);
 
-            if (ConvertStringToInt(tbDriftAvd.Text) > 0)
-                ChangePlacement("DA", decimal.Parse(tbDriftAvd.Text));
-            else
-                ChangePlacement("DA", 0);
+            ChangePlacement("DA", ConvertStringToInt(tbDriftAvd.Text) > 0 ? decimal.Parse(tbDriftAvd.Text) : 0);
 
-            if (ConvertStringToInt(tbSellAvd.Text) > 0)
-                ChangePlacement("FO", decimal.Parse(tbSellAvd.Text));
-            else
-                ChangePlacement("FO", 0);
+            ChangePlacement("FO", ConvertStringToInt(tbSellAvd.Text) > 0 ? decimal.Parse(tbSellAvd.Text) : 0);
 
-            if (ConvertStringToInt(tbProdAvd.Text) > 0)
-                ChangePlacement("UF", decimal.Parse(tbProdAvd.Text));
-            else
-                ChangePlacement("UF", 0);
+            ChangePlacement("UF", ConvertStringToInt(tbProdAvd.Text) > 0 ? decimal.Parse(tbProdAvd.Text) : 0);
         }
 
         private void ChangePlacement(string departmentID, decimal allocation)
@@ -134,7 +121,7 @@ namespace BUPSystem.EmployeeGUI
                 if (!ControlDepartments()) 
                     return;
 
-                decimal d_vacancy = (decimal)ConvertStringToInt(tbEmployeeVacancy.Text);
+                decimal d_vacancy = ConvertStringToInt(tbEmployeeVacancy.Text);
                 d_vacancy = d_vacancy / 100;
 
                 Employee = EmployeeManagement.Instance.CreateEmployee(l_employeeId, tbEmployeeName.Text, 
@@ -148,7 +135,7 @@ namespace BUPSystem.EmployeeGUI
                 tbEmployeeSallary.GetBindingExpression(TextBox.TextProperty).UpdateSource();
                 tbEmployeeRate.GetBindingExpression(TextBox.TextProperty).UpdateSource();
 
-                decimal d_vacancy = (decimal)ConvertStringToInt(tbEmployeeVacancy.Text);
+                decimal d_vacancy = ConvertStringToInt(tbEmployeeVacancy.Text);
                 Employee.VacancyDeduction = d_vacancy / 100;
 
                 DialogResult = true;
@@ -174,27 +161,14 @@ namespace BUPSystem.EmployeeGUI
         /// <summary>
         /// Control wich departments that got filled textboxes and create EmployeePlacement with right departments/departments
         /// </summary>
-        /// <param name="employeeId"></param>
         /// <returns>false if no field got data, else true</returns>
         private bool ControlDepartments()
         {
-            bool ok = false;
-            if (tbAdmAvd.Text.Trim().Length > 0 && tbAdmAvd.Text != "0")
-            {
-                ok = true;
-            }
-            if (tbDriftAvd.Text.Trim().Length > 0 && tbDriftAvd.Text != "0")
-            {
-                ok = true;
-            }
-            if (tbSellAvd.Text.Trim().Length > 0 && tbSellAvd.Text != "0")
-            {
-                ok = true;
-            }
-            if (tbProdAvd.Text.Trim().Length > 0 && tbProdAvd.Text != "0")
-            {
-                ok = true;
-            }
+            bool ok = tbAdmAvd.Text.Trim().Length > 0 && tbAdmAvd.Text != "0" 
+                || tbDriftAvd.Text.Trim().Length > 0 && tbDriftAvd.Text != "0" 
+                || tbSellAvd.Text.Trim().Length > 0 && tbSellAvd.Text != "0" 
+                || tbProdAvd.Text.Trim().Length > 0 && tbProdAvd.Text != "0";
+
             if (!ok)
                 MessageBox.Show("Måste placeras på minst en avdelning");
 
@@ -230,7 +204,7 @@ namespace BUPSystem.EmployeeGUI
 
             int i_vacancy = ConvertStringToInt(tbEmployeeVacancy.Text);
 
-            tbAnnualEmployee.Text = (i_rate - i_vacancy).ToString();
+            tbAnnualEmployee.Text = (i_rate - i_vacancy).ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -288,7 +262,7 @@ namespace BUPSystem.EmployeeGUI
 
             int i_annual = ConvertStringToInt(tbAnnualEmployee.Text);
 
-            tbDiff.Text = (i_annual - i_adm - i_drift - i_sell - i_prod).ToString();//calculate Diff
+            tbDiff.Text = (i_annual - i_adm - i_drift - i_sell - i_prod).ToString(CultureInfo.InvariantCulture);//calculate Diff
         }
 
         private void NumberValidationTextBox(object sender, System.Windows.Input.TextCompositionEventArgs e)

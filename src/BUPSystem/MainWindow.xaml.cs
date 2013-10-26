@@ -147,5 +147,11 @@ namespace BUPSystem
             Uppföljning.RevenueFollowUp uai = new Uppföljning.RevenueFollowUp();
             uai.ShowDialog();
         }
+
+        private void btnNonBudgetedProducts_Click(object sender, RoutedEventArgs e)
+        {
+            Revenue_budgeting.NonBudgetedProducts nbp = new Revenue_budgeting.NonBudgetedProducts();
+            nbp.ShowDialog();
+        }
     }
 }

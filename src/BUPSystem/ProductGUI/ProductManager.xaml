@@ -91,7 +91,7 @@
                 </TextBox>
             </Grid>
         </GroupBox>
-        <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="297,398,0,0" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click">
+        <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="297,403,0,0" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="IsEnabled" Value="false" />
@@ -111,7 +111,7 @@
                 </Style>
             </Button.Style>
         </Button>
-        <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="217,398,0,0" x:Name="btnCancel" VerticalAlignment="Top" Width="75" IsCancel="True" />
+        <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="217,403,0,0" x:Name="btnCancel" VerticalAlignment="Top" Width="75" IsCancel="True" />
 
     </Grid>
 </Window>

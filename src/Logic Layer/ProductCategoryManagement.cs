@@ -41,22 +41,13 @@ namespace Logic_Layer
         /// <returns></returns>
         public IEnumerable<ProductCategory> GetProductCategories()
         {
-            IEnumerable<ProductCategory> categories = from c in db.ProductCategory
-                                              orderby c.ProductCategoryID
-                                              select c;
-            return categories;
+            return db.ProductCategory.OrderBy(c => c.ProductCategoryID);
         }
 
         /// <summary>
-        /// Create a new product category
+        /// Add created product category to database
         /// </summary>
-        public void CreateProductCategory(string id, string name)
-        {
-            ProductCategory productCategory = new ProductCategory { ProductCategoryID = id, ProductCategoryName = name };
-            db.ProductCategory.Add(productCategory);
-            db.SaveChanges();
-        }
-
+        /// <param name="pc"></param>
         public void AddProductCategory(ProductCategory pc)
         {
             ProductCategories.Add(pc);
@@ -89,9 +80,7 @@ namespace Logic_Layer
         /// <returns></returns>
         public bool IsProductCategoryEmpty(ProductCategory productCategory)
         {
-            var query = from p in db.ProductGroup
-                        where p.ProductCategoryID.Equals(productCategory.ProductCategoryID)
-                        select p;
+            var query = db.ProductGroup.Where(p => p.ProductCategoryID.Equals(productCategory.ProductCategoryID));
             return !query.Any();
         }
 

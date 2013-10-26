@@ -95,7 +95,7 @@ namespace BUPSystem.CustomerGUI
 
         private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
         {
-            if (!this.IsInitialized) return;    // get out of here if the window is not initialized
+            if (!IsInitialized) return;    // get out of here if the window is not initialized
 
             string propertyName = (sender as GridViewColumnHeader).Tag.ToString();
 
@@ -108,8 +108,8 @@ namespace BUPSystem.CustomerGUI
             // if already sorted by this column, reverse the direction
             if (view.SortDescriptions.Count > 0 && view.SortDescriptions[0].PropertyName == propertyName)
             {
-                if (view.SortDescriptions[0].Direction == ListSortDirection.Ascending) direction = ListSortDirection.Descending;
-                else direction = ListSortDirection.Ascending;
+                direction = view.SortDescriptions[0].Direction == ListSortDirection.Ascending 
+                    ? ListSortDirection.Descending : ListSortDirection.Ascending;
             }
 
             view.SortDescriptions.Clear();
@@ -121,7 +121,7 @@ namespace BUPSystem.CustomerGUI
             ICollectionView view = CollectionViewSource.GetDefaultView(lvCustomerList.ItemsSource);
 
             view.Filter = null;
-            view.Filter = new Predicate<object>(FilterCustomerItem);  
+            view.Filter = FilterCustomerItem;  
         }
 
         public bool FilterCustomerItem(object obj)
@@ -134,10 +134,7 @@ namespace BUPSystem.CustomerGUI
             if (textFilter.Trim().Length == 0) return true; // the filter is empty - pass all items
 
             // apply the filter
-            if (item.CustomerName.ToLower().Contains(textFilter.ToLower())) return true;
-
-            if (item.CustomerID.ToLower().Contains(textFilter.ToLower())) return true;
-            return false;
+            return item.CustomerName.ToLower().Contains(textFilter.ToLower()) || item.CustomerID.ToLower().Contains(textFilter.ToLower());
         }
 
         private void btnChange_Click(object sender, RoutedEventArgs e)
@@ -168,6 +165,5 @@ namespace BUPSystem.CustomerGUI
             }
 
         }
-
     }
 }

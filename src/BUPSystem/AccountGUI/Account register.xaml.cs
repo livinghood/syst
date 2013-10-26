@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.ComponentModel;
@@ -135,8 +136,8 @@ namespace BUPSystem.AccountGUI
             // if already sorted by this column, reverse the direction
             if (view.SortDescriptions.Count > 0 && view.SortDescriptions[0].PropertyName == propertyName)
             {
-                if (view.SortDescriptions[0].Direction == ListSortDirection.Ascending) direction = ListSortDirection.Descending;
-                else direction = ListSortDirection.Ascending;
+                direction = view.SortDescriptions[0].Direction == ListSortDirection.Ascending 
+                    ? ListSortDirection.Descending : ListSortDirection.Ascending;
             }
 
             view.SortDescriptions.Clear();
@@ -148,7 +149,7 @@ namespace BUPSystem.AccountGUI
             ICollectionView view = CollectionViewSource.GetDefaultView(lvAccounts.ItemsSource);
 
             view.Filter = null;
-            view.Filter = new Predicate<object>(FilterCustomerItem);
+            view.Filter = FilterCustomerItem;
         }
 
         public bool FilterCustomerItem(object obj)
@@ -161,10 +162,8 @@ namespace BUPSystem.AccountGUI
             if (textFilter.Trim().Length == 0) return true;
 
             // apply the filter
-            if (item.AccountName.ToLower().Contains(textFilter.ToLower())) return true;
-
-            if (item.AccountID.ToString().ToLower().Contains(textFilter.ToLower())) return true;
-            return false;
+            return item.AccountName.ToLower().Contains(textFilter.ToLower()) 
+                || item.AccountID.ToString(CultureInfo.InvariantCulture).ToLower().Contains(textFilter.ToLower());
         }
 
     }
