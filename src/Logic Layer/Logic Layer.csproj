@@ -112,6 +112,7 @@
     <Compile Include="ForecastMonth.cs">
       <DependentUpon>BUPdb.tt</DependentUpon>
     </Compile>
+    <Compile Include="General Logic\PrintLogic.cs" />
     <Compile Include="General Logic\Search.cs" />
     <Compile Include="General Logic\Sort.cs" />
     <Compile Include="IncomeProductCustomer.cs">
