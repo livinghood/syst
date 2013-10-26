@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Data;
+using System.Data.Entity;
 using System.Threading.Tasks;
 
 namespace Logic_Layer
 {
     public class ProductGroupManagement
     {
-        public ProductCategory ProductCategory { get; set; }
 
         public ObservableCollection<ProductGroup> ProductGroups { get; set; }
 
@@ -52,21 +53,10 @@ namespace Logic_Layer
             return groups;
         }
 
-        /// <summary>
-        /// Create a new product group
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="name"></param>
-        public void CreateProductGroup(string id, string name)
-        {
-            ProductGroup productGroup = new ProductGroup { ProductGroupID = id, ProductGroupName = name, ProductCategoryID = ProductCategory.ProductCategoryID };
-            db.ProductGroup.Add(productGroup);
-            db.SaveChanges();
-        }
 
         public void AddProductGroup(ProductGroup productGroup)
         {
-            productGroup.ProductCategoryID = ProductCategory.ProductCategoryID;
+            productGroup.ProductGroupID.ToUpper();
             db.ProductGroup.Add(productGroup);
             db.SaveChanges();
             ProductGroups.Add(productGroup);
@@ -103,5 +93,26 @@ namespace Logic_Layer
                         select p;
             return !query.Any();
         }
+        public void ResetProductGroup(ProductGroup productGroup)
+        {
+            db.Entry(productGroup).State = EntityState.Unchanged;
+        }
+
+        /// <summary>
+        /// Check if a specific group exists
+        /// </summary>
+        public bool ProductGroupIDExist(string id)
+        {
+            return db.ProductGroup.Where(pg => pg.ProductGroupID == id).Any();
+        }
+
+        /// <summary>
+        /// Check if a specific group exists
+        /// </summary>
+        public bool ProductGroupNameExist(string name)
+        {
+            return db.ProductGroup.Where(pg => pg.ProductGroupName == name).Any();
+        }
+        
     }
 }

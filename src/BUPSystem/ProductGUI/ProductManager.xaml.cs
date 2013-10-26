@@ -18,6 +18,8 @@ namespace BUPSystem.ProductGUI
     {
         public string m_partProductID;
 
+        public string m_ProductCategoryID;
+
         public Product Product { get; set; }
 
         public string PartProductID 
@@ -28,6 +30,15 @@ namespace BUPSystem.ProductGUI
                 m_partProductID = value;
                 // Update the main product ID
                 updateProductID();
+            }
+        }
+
+        public string ProductCategoryID
+        {
+            get { return m_ProductCategoryID; }
+            set
+            {
+                m_ProductCategoryID = value;
             }
         }
 
@@ -65,7 +76,8 @@ namespace BUPSystem.ProductGUI
             tbProductID.IsEnabled = false;
             // Hide the partial ID
             PartProductIDGrid.Visibility = Visibility.Collapsed;
-
+            // Show the productgroup
+            lblProductGroup.Content = product.ProductGroupID;
             cbDepartment.ItemsSource = ProductionDepartments;
             DataContext = product;
             Product = product;
@@ -88,17 +100,33 @@ namespace BUPSystem.ProductGUI
         /// <param name="e"></param>
         private void btnProductGroup_Click(object sender, RoutedEventArgs e)
         {
-            ProductGroupRegister pgr = new ProductGroupRegister();
+            ProductGroupRegister pgr = new ProductGroupRegister(true);
 
             // Reset the group (fixes problem if user deletes current selected group)
-            lblProductGroup.Content = "Ingen vald produktgrupp";
             Product.ProductGroupID = null;
 
             if (pgr.ShowDialog() == true)
             {
-                Product.ProductGroupID = pgr.ProductGroup.ProductGroupID;
-                lblProductGroup.Content = pgr.ProductGroup.ProductGroupName;
+                Product.ProductGroupID = pgr.SelectedProductGroup.ProductGroupID;
             }
+            // Update the main product ID
+            updateProductID();
+        }
+
+
+        private void btnSelectCategory_Click(object sender, RoutedEventArgs e)
+        {
+            ProductCategoryRegister pcat = new ProductCategoryRegister(true);
+
+            // Reset the category (fixes problem if user deletes current selected category)
+            
+            // Product.ProductCategoryID = null;
+
+            if (pcat.ShowDialog() == true)
+            {
+                // Product.ProductCategoryID = pcat.SelectedProductCategory.ProductCategoryID;
+            }
+
             // Update the main product ID
             updateProductID();
         }
@@ -134,5 +162,6 @@ namespace BUPSystem.ProductGUI
             }
             
         }
+
     }
 }

@@ -3,22 +3,26 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Productkategoriregister" Height="335" Width="485">
     <Grid>
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="234,16,0,0" x:Name="textBox1" VerticalAlignment="Top" Width="153" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="234,16,0,0" x:Name="tbSearch" VerticalAlignment="Top" Width="153" TextChanged="tbSearch_TextChanged" />
         <Button Content="Sök" Height="23" HorizontalAlignment="Left" Margin="392,16,0,0" x:Name="btnSearch" VerticalAlignment="Top" Width="75" />
         <Label Content="Produktkategorier" Height="39" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="label1" VerticalAlignment="Top" FontSize="20" />
-        <ListView x:Name="lvProductCategories" HorizontalAlignment="Left" Height="205" Margin="10,54,0,0" VerticalAlignment="Top" Width="456" ItemsSource="{Binding CategoriesList}">
+        <ListView x:Name="lvProductCategories" HorizontalAlignment="Left" Height="205" Margin="10,54,0,0" VerticalAlignment="Top" Width="456" ItemsSource="{Binding CategoriesList}"  SelectedItem="{Binding SelectedProductCategory}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="150" Header="Produktkategori ID" DisplayMemberBinding="{Binding ProductCategoryID}"/>
-                    <GridViewColumn Width="150" Header="Produktkategorinamn" DisplayMemberBinding="{Binding ProductCategoryName}"/>
+                    <GridViewColumn Width="150" DisplayMemberBinding="{Binding ProductCategoryID}">
+                        <GridViewColumnHeader Content="Produktkategori ID" Tag="ProductCategoryID" Click="GridViewColumnHeader_Click" />
+                    </GridViewColumn>
+                    <GridViewColumn Width="150" DisplayMemberBinding="{Binding ProductCategoryName}">
+                        <GridViewColumnHeader Content="Produktkategorinamn" Tag="ProductCategoryName" Click="GridViewColumnHeader_Click" />
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
         <Button Content="Ändra " Height="23" HorizontalAlignment="Left" Margin="10,270,0,0" x:Name="btnChange" VerticalAlignment="Top" Width="72" Click="btnChange_Click" />
         <Button x:Name="btnDelete" Content="Ta bort" HorizontalAlignment="Left" Margin="87,270,0,0" VerticalAlignment="Top" Width="75" Click="btnDelete_Click" Height="23"/>
-        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,270,11,10">
+        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,270,11,15">
             <Button Content="Lägg till " Height="23" HorizontalAlignment="Left" Margin="0,0,0,0" x:Name="btnAdd" VerticalAlignment="Top" Width="70" Click="btnAdd_Click" />
-            <Button Content="Välj produktkategori" Height="23" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="btnSelect" VerticalAlignment="Top" Width="112" Click="btnSelect_Click" />
+            <Button Content="Välj" Height="23" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="btnSelect" VerticalAlignment="Top" Width="80" Click="btnSelect_Click" />
         </StackPanel>
     </Grid>
 </Window>

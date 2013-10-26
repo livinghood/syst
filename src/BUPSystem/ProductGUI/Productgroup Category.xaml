@@ -1,30 +1,71 @@
 ﻿<Window x:Class="BUPSystem.ProductGUI.ProductGroupCategory"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="ProductGroupCategory" Height="330" Width="365">
-    <Grid>
-        <Label Content="Produktgrupp- och kategorihantering " Height="41" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="label1" VerticalAlignment="Top" FontSize="20" />
-        <GroupBox Header="Standarduppgifter" Height="203" HorizontalAlignment="Left" Margin="10,56,0,0" x:Name="groupBox1" VerticalAlignment="Top" Width="336">
+        xmlns:local="clr-namespace:BUPSystem"
+        Title="ProductGroupCategory" Height="237" Width="365">
+    <Grid Margin="0,0,0,1">
+        <Label Content="Produktgrupp- och kategorihantering " Height="41" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="lblTitle" VerticalAlignment="Top" FontSize="20" />
+        <GroupBox Header="Standarduppgifter" HorizontalAlignment="Left" Margin="10,56,0,0" x:Name="gbGroup" VerticalAlignment="Top" Width="336">
             <Grid Margin="0,10,0,-10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <TextBox Height="23" HorizontalAlignment="Left" Margin="79,73,0,0" x:Name="tbName" VerticalAlignment="Top" Width="230" />
-                <Label Content="Namn " Height="28" HorizontalAlignment="Left" Margin="10,73,0,0" x:Name="label2" VerticalAlignment="Top" />
-                <TextBox x:Name="tbID" HorizontalAlignment="Left" Height="23" Margin="79,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="229"/>
-                <Label Content="ID" Height="28" HorizontalAlignment="Left" Margin="10,106,0,0" x:Name="label3_Copy" VerticalAlignment="Top" />
-                <GroupBox Header="Skapa ny" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="53" Width="304">
-                    <Grid HorizontalAlignment="Left" Height="53" VerticalAlignment="Top" Width="322" Margin="0,0,0,-22">
-                        <RadioButton x:Name="rbProductCategory" Content="Produktkategori" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Click="rbProductCategory_Click"/>
-                        <RadioButton x:Name="rbProductGroup" Content="Produktgrupp" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="161,10,0,0" Click="rbProductGroup_Click"/>
-                    </Grid>
-                </GroupBox>
-                <Label Content="Koppla till kategori" Height="28" HorizontalAlignment="Left" Margin="10,134,0,0" x:Name="label3_Copy1" VerticalAlignment="Top" />
-                <Button Content="Välj kategori" Height="23" HorizontalAlignment="Left" Margin="125,139,0,0" x:Name="btnSelect" VerticalAlignment="Top" Width="134" Click="btnSelect_Click" />
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="79,8,0,0" x:Name="tbGroupName" VerticalAlignment="Top" Width="230">
+                    <local:DelayBindingExtension Path="ProductGroupName" >
+                        <local:DelayBindingExtension.ValidationRules>
+                            <local:CheckProductGroupNameValidationRule x:Name="ProductGroupNameValidation" ValidatesOnTargetUpdated="True" Message="Skriv in ett nytt unikt gruppnamn"/>
+                        </local:DelayBindingExtension.ValidationRules>
+                    </local:DelayBindingExtension>
+                </TextBox>
+                <Label Content="Namn " Height="28" HorizontalAlignment="Left" Margin="10,8,0,0" x:Name="label2" VerticalAlignment="Top" />
+                <TextBox x:Name="tbGroupID" HorizontalAlignment="Left" Height="23" Margin="79,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="229" MaxLength="2">
+                    <local:DelayBindingExtension Path="ProductGroupID" >
+                        <local:DelayBindingExtension.ValidationRules>
+                            <local:CheckProductGroupIDValidationRule x:Name="CheckProductGroupIDValidation" ValidatesOnTargetUpdated="True" Message="Detta grupp-id finns redan."/>
+                        </local:DelayBindingExtension.ValidationRules>
+                    </local:DelayBindingExtension>
+                </TextBox>
+                <Label Content="ID" Height="28" HorizontalAlignment="Left" Margin="10,41,0,15" x:Name="label3_Copy" VerticalAlignment="Top" />
+
             </Grid>
         </GroupBox>
-        <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="271,264,0,0" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click" />
-        <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="191,264,0,0" x:Name="btnCancel" VerticalAlignment="Top" Width="75" />
+        <GroupBox Header="Standarduppgifter" HorizontalAlignment="Left" Margin="10,56,0,0" x:Name="gbCategory" VerticalAlignment="Top" Width="336" Height="103">
+            <Grid Margin="0,10,0,-5" Height="85" VerticalAlignment="Top">
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="79,8,0,0" x:Name="tbCateogryName" VerticalAlignment="Top" Width="230">
+                    <local:DelayBindingExtension Path="ProductCategoryName" >
+                        <local:DelayBindingExtension.ValidationRules>
+                            <local:TextBoxNotEmptyValidationRule x:Name="ProductCategoryNameValidation" ValidatesOnTargetUpdated="True" Message="Skriv in kategorinamn"/>
+                        </local:DelayBindingExtension.ValidationRules>
+                    </local:DelayBindingExtension>
+                </TextBox>
+                <Label Content="Namn " Height="28" HorizontalAlignment="Left" Margin="10,8,0,0" x:Name="lblCategoryname" VerticalAlignment="Top" />
+                <TextBox x:Name="tbCategoryID" HorizontalAlignment="Left" Height="23" Margin="79,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="229">
+                    <local:DelayBindingExtension Path="ProductCategoryID" >
+                        <local:DelayBindingExtension.ValidationRules>
+                            <local:TextBoxNotEmptyValidationRule x:Name="ProductCategoryIDNotEmptyValidation" ValidatesOnTargetUpdated="True" Message="Skriv in ett kategori-ID"/>
+                            <local:CheckProductCategoryIDExistValidationRule x:Name="ProductCategoryIDExistValidation" ValidatesOnTargetUpdated="True" Message="Kategori-ID existerar redan"/>
+                        </local:DelayBindingExtension.ValidationRules>
+                    </local:DelayBindingExtension>
+                </TextBox>
+                <Label Content="ID" Height="28" HorizontalAlignment="Left" Margin="10,41,0,15" x:Name="lblCategory" VerticalAlignment="Top" />
+            </Grid>
+        </GroupBox>
+        <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="271,170,0,0" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="IsEnabled" Value="false" />
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding ElementName=tbCateogryName, Path=(Validation.HasError)}" Value="false" />
+                                <Condition Binding="{Binding ElementName=tbCategoryID, Path=(Validation.HasError)}" Value="false" />
+                                <Condition Binding="{Binding ElementName=tbGroupName, Path=(Validation.HasError)}" Value="false" />
+                                <Condition Binding="{Binding ElementName=tbGroupID, Path=(Validation.HasError)}" Value="false" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="IsEnabled" Value="true" />
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="191,170,0,0" x:Name="btnCancel" VerticalAlignment="Top" Width="75" IsCancel="True" />
 
     </Grid>
 </Window>

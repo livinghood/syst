@@ -57,12 +57,12 @@
         
         <ControlTemplate x:Key="ValidationTemplate" >
             <DockPanel>
-                
                 <AdornedElementPlaceholder Name="MyAdornedElement" />
                 <TextBlock FontSize="14" Text="?" Margin="3,2,0,0" Foreground="Red" Visibility="{Binding ElementName=MyAdornedElement,Path=AdornedElement.Visibility}"
                    ToolTip="{Binding ElementName=MyAdornedElement,Path=AdornedElement.(Validation.Errors).CurrentItem.ErrorContent}"/>
             </DockPanel>
         </ControlTemplate>
+        
         <Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}">
             <Setter Property="Validation.ErrorTemplate" Value="{StaticResource ValidationTemplate}"/>
             <Style.Triggers>
@@ -75,7 +75,21 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        
         <Style x:Key="{x:Type TextBox}" TargetType="{x:Type TextBox}">
+            <Setter Property="Validation.ErrorTemplate" Value="{StaticResource ValidationTemplate}"/>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip" Value="{Binding Path=(Validation.Errors).CurrentItem.ErrorContent, RelativeSource={x:Static RelativeSource.Self}}"/>
+                    <Setter Property="Background" Value="White" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="{x:Type Label}" TargetType="{x:Type Label}">
             <Setter Property="Validation.ErrorTemplate" Value="{StaticResource ValidationTemplate}"/>
             <Style.Triggers>
                 <Trigger Property="IsEnabled" Value="false">

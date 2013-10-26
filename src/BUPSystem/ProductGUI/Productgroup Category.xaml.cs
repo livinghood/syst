@@ -1,5 +1,11 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using Logic_Layer;
 
 namespace BUPSystem.ProductGUI
@@ -12,17 +18,44 @@ namespace BUPSystem.ProductGUI
         public ProductCategory ProductCategory { get; set; }
         public ProductGroup ProductGroup { get; set; }
 
-        private bool editExisting;
-
         /// <summary>
         /// Constructor called when creating a new product category or 
         /// product group
         /// </summary>
-        public ProductGroupCategory()
+        public ProductGroupCategory(bool isGroup)
         {
             InitializeComponent();
 
-            editExisting = false;
+            // Ledsen för detta, riktigt skitigt
+            if (isGroup)
+            {
+                lblTitle.Content = "Grupphantering";
+                this.Title = "Grupphantering";
+                ProductGroup ProductGroup = new ProductGroup();
+                this.ProductGroup = ProductGroup;
+                this.DataContext = ProductGroup;
+                gbCategory.Visibility = Visibility.Collapsed;
+                //Clear product category validation
+                Binding CategoryIDBinding = BindingOperations.GetBinding(tbCategoryID, TextBox.TextProperty);
+                Binding CategoryNameBinding = BindingOperations.GetBinding(tbCateogryName, TextBox.TextProperty);
+                CategoryIDBinding.ValidationRules.Clear();
+                CategoryNameBinding.ValidationRules.Clear();
+            }
+            else
+            {
+                this.Title = "Kategorihantering";
+                lblTitle.Content = "Kategorihantering";
+                ProductCategory ProductCategory = new ProductCategory();
+                this.ProductCategory = ProductCategory;
+                this.DataContext = ProductCategory;
+                gbGroup.Visibility = Visibility.Collapsed;
+                //Clear product group validation
+                Binding GroupIDBinding = BindingOperations.GetBinding(tbGroupID, TextBox.TextProperty);
+                Binding GroupNameBinding = BindingOperations.GetBinding(tbGroupName, TextBox.TextProperty);
+                GroupIDBinding.ValidationRules.Clear();
+                GroupNameBinding.ValidationRules.Clear();
+            }
+
         }
 
         /// <summary>
@@ -32,18 +65,21 @@ namespace BUPSystem.ProductGUI
         public ProductGroupCategory(ProductCategory category)
         {
             InitializeComponent();
-
-            btnSelect.Visibility = Visibility.Collapsed;
-            rbProductGroup.IsEnabled = false;
-
-            rbProductCategory.IsChecked = true;
-            tbID.Text = category.ProductCategoryID;
-            tbID.IsEnabled = false;
-            tbName.Text = category.ProductCategoryName;
             ProductCategory = category;
-            DataContext = category;
+            this.DataContext = ProductCategory;
+            gbGroup.Visibility = Visibility.Collapsed;
 
-            editExisting = true;
+            //Clear product group validation
+            Binding GroupIDBinding = BindingOperations.GetBinding(tbGroupID, TextBox.TextProperty);
+            Binding GroupNameBinding = BindingOperations.GetBinding(tbGroupName, TextBox.TextProperty);
+            GroupIDBinding.ValidationRules.Clear();
+            GroupNameBinding.ValidationRules.Clear();
+
+            // Disable CategoryID textbox and clear validation
+            tbCategoryID.IsEnabled = false;
+            Binding CategoryIDBinding = BindingOperations.GetBinding(tbCategoryID, TextBox.TextProperty);
+            CategoryIDBinding.ValidationRules.Clear();
+           
 
         }
 
@@ -54,15 +90,20 @@ namespace BUPSystem.ProductGUI
         public ProductGroupCategory(ProductGroup group)
         {
             InitializeComponent();
-
-            rbProductGroup.IsChecked = true;
-            tbID.Text = group.ProductGroupID;
-            tbID.IsEnabled = false;
-            tbName.Text = group.ProductGroupName;
             ProductGroup = group;
-            DataContext = group;
-
-            editExisting = true;
+            this.DataContext = ProductGroup;
+            gbCategory.Visibility = Visibility.Collapsed;
+            
+            //Clear product category validation
+            Binding CategoryIDBinding = BindingOperations.GetBinding(tbCategoryID, TextBox.TextProperty);
+            Binding CategoryNameBinding = BindingOperations.GetBinding(tbCateogryName, TextBox.TextProperty);
+            CategoryIDBinding.ValidationRules.Clear();
+            CategoryNameBinding.ValidationRules.Clear();
+            
+            // Disable GroupID textbox and clear validation
+            tbGroupID.IsEnabled = false;
+            Binding GroupIDBinding = BindingOperations.GetBinding(tbGroupID, TextBox.TextProperty);
+            GroupIDBinding.ValidationRules.Clear();
         }
 
         /// <summary>
@@ -72,83 +113,12 @@ namespace BUPSystem.ProductGUI
         /// <param name="e"></param>
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (!editExisting)
-            {
-                // TheProduct category
-                if (rbProductGroup.IsChecked.HasValue && rbProductGroup.IsChecked.Value)
-                {
-                    Logic_Layer.ProductGroup pg = new Logic_Layer.ProductGroup();
-                    ProductGroup = pg;
-                    DataContext = pg;
-
-                    ProductGroup.ProductGroupID = tbID.Text;
-                    ProductGroup.ProductGroupName = tbName.Text;
-                }
-
-                // TheProduct group
-                else if (rbProductCategory.IsChecked.HasValue && rbProductCategory.IsChecked.Value)
-                {
-                    Logic_Layer.ProductCategory pc = new Logic_Layer.ProductCategory();
-                    ProductCategory = pc;
-                    DataContext = pc;
-
-                    ProductCategory.ProductCategoryID = tbID.Text;
-                    ProductCategory.ProductCategoryName = tbName.Text;
-                }
-            }
-            else
-            {
-                // TheProduct category
-                if (rbProductGroup.IsChecked.HasValue && rbProductGroup.IsChecked.Value)
-                {
-                    ProductGroup.ProductGroupID = tbID.Text;
-                    ProductGroup.ProductGroupName = tbName.Text;
-                }
-
-                // TheProduct group
-                else if (rbProductCategory.IsChecked.HasValue && rbProductCategory.IsChecked.Value)
-                {
-                    ProductCategory.ProductCategoryID = tbID.Text;
-                    ProductCategory.ProductCategoryName = tbName.Text;
-                }
-            }
-
-
+            if (Validation.GetHasError(tbGroupID) == true)
+                return;
+            if (Validation.GetHasError(tbCategoryID) == true)
+                return;
             DialogResult = true;
             Close();
-        }
-
-        /// <summary>
-        /// Hides the select category button since we're 
-        /// creating a category and it can't be connected to another category
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void rbProductCategory_Click(object sender, RoutedEventArgs e)
-        {
-            btnSelect.Visibility = Visibility.Collapsed;
-        }
-
-        /// <summary>
-        /// Makes sure the select category button is visible if we're creating a product group
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void rbProductGroup_Click(object sender, RoutedEventArgs e)
-        {
-            btnSelect.Visibility = Visibility.Visible;
-        }
-
-        /// <summary>
-        /// Opens the product category register window for selection of a product category to
-        /// associate a product group to
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnSelect_Click(object sender, RoutedEventArgs e)
-        {
-            ProductCategoryRegister pgr = new ProductCategoryRegister();
-            pgr.ShowDialog();
         }
     }
 }

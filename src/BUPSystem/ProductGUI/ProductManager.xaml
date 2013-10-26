@@ -2,10 +2,10 @@
         xmlns:local="clr-namespace:BUPSystem"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Produkthantering" Height="415" Width="390">
+        Title="Produkthantering" Height="458" Width="390">
     <Grid>
         <Label Content="Produkthantering" Height="42" HorizontalAlignment="Left" Margin="12,12,0,0" x:Name="label1" VerticalAlignment="Top" FontSize="20" />
-        <GroupBox Header="Standarduppgifter" Height="124" HorizontalAlignment="Left" Margin="12,54,0,0" x:Name="groupBox1" VerticalAlignment="Top" Width="358">
+        <GroupBox Header="Standarduppgifter" Height="172" HorizontalAlignment="Left" Margin="12,54,0,0" x:Name="groupBox1" VerticalAlignment="Top" Width="358">
             <Grid Margin="0,0,-2,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -22,13 +22,35 @@
                 </TextBox>
                 <Label Content="Produktbenämning" Height="28" HorizontalAlignment="Left" Margin="10,15,0,0" x:Name="label2" VerticalAlignment="Top" />
                 <Label Content="Produktgrupp" Height="28" HorizontalAlignment="Left" Margin="10,66,0,0" x:Name="label13" VerticalAlignment="Top" />
-                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="137,64,0,13">
+                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="137,64,0,60">
                     <Button x:Name="btnProductGroup" Content="Välj grupp" HorizontalAlignment="Left" Margin="0,4,5,0" VerticalAlignment="Top" Width="65" Click="btnProductGroup_Click"/>
-                    <Label x:Name="lblProductGroup" Content="Ingen vald produkgrupp" HorizontalAlignment="Left" Margin="0,2,0,0" VerticalAlignment="Top" Height="30"/>
+                    <Label x:Name="lblProductGroup" HorizontalAlignment="Left" Margin="0,2,0,0" VerticalAlignment="Top" Height="30">
+                        <ContentControl.Content>
+                            <Binding Path="ProductGroupID">
+                                <Binding.ValidationRules>
+                                    <local:TextBoxNotEmptyValidationRule x:Name="GroupNotEmptyValidation" Message="Ingen vald produktgrupp" ValidatesOnTargetUpdated="True" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </ContentControl.Content>
+                    </Label>
+                </StackPanel>
+                <Label Content="Produktkategori" Height="28" HorizontalAlignment="Left" Margin="10,101,0,0" x:Name="label13_Copy" VerticalAlignment="Top" />
+                <StackPanel x:Name="spCategory"  HorizontalAlignment="Left"  Orientation="Horizontal" Margin="137
+                            ,99,0,28">
+                    <Button Content="Välj kategori" Height="20" HorizontalAlignment="Left" Margin="0,4,5,0"  x:Name="btnSelectCategory" VerticalAlignment="Top" Width="75" Click="btnSelectCategory_Click"/>
+                    <Label Height="28" HorizontalAlignment="Left" Margin="0,2,0,0" x:Name="lblProductCategory" VerticalAlignment="Top">
+                        <ContentControl.Content>
+                            <Binding Path="ProductCategoryID">
+                                <Binding.ValidationRules>
+                                    <local:TextBoxNotEmptyValidationRule x:Name="CategoryNotEmptyValidation" Message="Ingen vald kategori" ValidatesOnTargetUpdated="True" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </ContentControl.Content>
+                    </Label>
                 </StackPanel>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Produktuppgifter" Height="156" Margin="12,199,0,0" x:Name="groupBox2" VerticalAlignment="Top" HorizontalAlignment="Left" Width="358">
+        <GroupBox Header="Produktuppgifter" Height="156" Margin="12,242,0,0" x:Name="groupBox2" VerticalAlignment="Top" HorizontalAlignment="Left" Width="358">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="54*" />
@@ -37,7 +59,7 @@
                 
                 <Grid x:Name="PartProductIDGrid" HorizontalAlignment="Left" Width="317" Margin="13,10,0,100" Grid.ColumnSpan="2">
                     <Label Content="DelproduktID" Height="28" HorizontalAlignment="Left" x:Name="lblDelID" VerticalAlignment="Top" Width="85" />
-                    <TextBox Height="23" HorizontalAlignment="Left" x:Name="tbPartProductID" VerticalAlignment="Top" Width="194" Margin="123,0,0,0" MaxLength="4" >
+                    <TextBox Height="23" HorizontalAlignment="Right" x:Name="tbPartProductID" VerticalAlignment="Top" Width="194" MaxLength="4" >
                         <Binding Path="PartProductID" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
                                 <local:CheckProductIDFormatValidationRule x:Name="CheckProductIDFormatValidation" ValidatesOnTargetUpdated="True" />
@@ -69,7 +91,7 @@
                 </TextBox>
             </Grid>
         </GroupBox>
-        <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="297,355,0,0" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click">
+        <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="297,398,0,0" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="IsEnabled" Value="false" />
@@ -80,6 +102,8 @@
                                 <Condition Binding="{Binding ElementName=tbPartProductID, Path=(Validation.HasError)}" Value="false" />
                                 <Condition Binding="{Binding ElementName=tbProductID, Path=(Validation.HasError)}" Value="false" />
                                 <Condition Binding="{Binding ElementName=cbDepartment, Path=(Validation.HasError)}" Value="false" />
+                                <Condition Binding="{Binding ElementName=lblProductGroup, Path=(Validation.HasError)}" Value="false" />
+                                <Condition Binding="{Binding ElementName=lblProductCategory, Path=(Validation.HasError)}" Value="false" />
                             </MultiDataTrigger.Conditions>
                             <Setter Property="IsEnabled" Value="true" />
                         </MultiDataTrigger>
@@ -87,7 +111,7 @@
                 </Style>
             </Button.Style>
         </Button>
-        <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="217,355,0,0" x:Name="btnCancel" VerticalAlignment="Top" Width="75" IsCancel="True" />
+        <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="217,398,0,0" x:Name="btnCancel" VerticalAlignment="Top" Width="75" IsCancel="True" />
 
     </Grid>
 </Window>

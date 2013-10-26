@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
+using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Logic_Layer
 {
@@ -92,6 +93,19 @@ namespace Logic_Layer
                         where p.ProductCategoryID.Equals(productCategory.ProductCategoryID)
                         select p;
             return !query.Any();
+        }
+
+        public void ResetProductCategory(ProductCategory productCategory)
+        {
+            db.Entry(productCategory).State = EntityState.Unchanged;
+        }
+
+        /// <summary>
+        /// Check if a specific customer exists
+        /// </summary>
+        public bool ProductCategoryIDExist(string id)
+        {
+            return db.ProductCategory.Where(p => p.ProductCategoryID == id).Any();
         }
     }
 }
