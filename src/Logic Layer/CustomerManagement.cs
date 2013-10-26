@@ -47,9 +47,7 @@ namespace Logic_Layer
         /// <returns></returns>
         public IEnumerable<Customer> GetCustomers()
         {
-            return from c in db.Customer
-                   orderby c.CustomerName
-                   select c;
+            return db.Customer.OrderBy(c => c.CustomerName);
         }
 
         /// <summary>
@@ -68,10 +66,8 @@ namespace Logic_Layer
         /// </summary>
         public bool CustomerExist(string id)
         {
-            return db.Customer.Where(c => c.CustomerID == id).Any();
+            return db.Customer.Any(c => c.CustomerID == id);
         }
-
-
 
         /// <summary>
         /// Create a new customer

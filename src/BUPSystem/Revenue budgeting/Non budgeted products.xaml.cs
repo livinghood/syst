@@ -19,31 +19,48 @@ namespace BUPSystem.Revenue_budgeting
 {
     /// <summary>
     /// Interaction logic for NonBudgetedProducts.xaml 
-    /// Knappar för skriv ut etc kanske inte behövs.
     /// </summary>
     /// 
     public partial class NonBudgetedProducts : Window
     {
         public ObservableCollection<Product> NonBudgetedProductsList { get; set; }
 
+        /// <summary>
+        /// Standard constructor
+        /// </summary>
         public NonBudgetedProducts()
         {
             InitializeComponent();
             DataContext = this;
         }
 
+        /// <summary>
+        /// Selects products that belongs to the drift department
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void rbDriftDepartment_Checked(object sender, RoutedEventArgs e)
         {
             NonBudgetedProductsList = new ObservableCollection<Product>(ProductManagement.Instance.GetNonBudgetedProducts("DA"));
             dgProducts.ItemsSource = NonBudgetedProductsList;
         }
 
+        /// <summary>
+        /// Selects products that belongs to the development department
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void rbDevelopmentDeparment_Checked(object sender, RoutedEventArgs e)
         {
             NonBudgetedProductsList = new ObservableCollection<Product>(ProductManagement.Instance.GetNonBudgetedProducts("UF"));
             dgProducts.ItemsSource = NonBudgetedProductsList;
         }
 
+        /// <summary>
+        /// Export selected list of products to text file
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnExport_Click(object sender, RoutedEventArgs e)
         {
             string department;

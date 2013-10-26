@@ -45,25 +45,13 @@ namespace Logic_Layer
         /// <returns></returns>
         public IEnumerable<ProductGroup> GetProductGroups()
         {
-            IEnumerable<ProductGroup> groups = from g in db.ProductGroup
-                                               orderby g.ProductGroupID
-                                               select g;
-
-            return groups;
+            return db.ProductGroup.OrderBy(g => g.ProductGroupID);
         }
 
         /// <summary>
-        /// Create a new product group
+        /// Add created product group to database
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="name"></param>
-        public void CreateProductGroup(string id, string name)
-        {
-            ProductGroup productGroup = new ProductGroup { ProductGroupID = id, ProductGroupName = name, ProductCategoryID = ProductCategory.ProductCategoryID };
-            db.ProductGroup.Add(productGroup);
-            db.SaveChanges();
-        }
-
+        /// <param name="productGroup"></param>
         public void AddProductGroup(ProductGroup productGroup)
         {
             productGroup.ProductCategoryID = ProductCategory.ProductCategoryID;
@@ -98,9 +86,7 @@ namespace Logic_Layer
         /// <returns></returns>
         public bool IsProductGroupEmpty(ProductGroup productGroup)
         {
-            var query = from p in db.Product
-                        where p.ProductGroupID.Equals(productGroup.ProductGroupID)
-                        select p;
+            var query = db.Product.Where(p => p.ProductGroupID.Equals(productGroup.ProductGroupID));
             return !query.Any();
         }
     }

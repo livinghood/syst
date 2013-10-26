@@ -48,10 +48,7 @@ namespace Logic_Layer
         /// <returns></returns>
         public IEnumerable<Product> GetProducts()
         {
-            var products = from p in db.Product
-                           orderby p.ProductName
-                           select p;
-            return products;
+            return db.Product.OrderBy(p => p.ProductName);
         }
 
         public IEnumerable<string> GetProductDepartments()
@@ -60,28 +57,14 @@ namespace Logic_Layer
                               orderby d.DepartmentID
                               where d.DepartmentID == "DA"
                               || d.DepartmentID == "UF"
-
                               select d.DepartmentID;
             return departments;
         }
 
         /// <summary>
-        /// Create a new product
+        /// Add created product to databse
         /// </summary>
-        public void CreateProduct(string id, string name, string departmentID, ProductGroup group)
-        {
-            Product newProduct = new Product
-            {
-                ProductID = id,
-                ProductName = name,
-                ProductGroupID = group.ProductGroupID,
-                DepartmentID = departmentID
-            };
-            db.Product.Add(newProduct);
-            db.SaveChanges();
-            Products.Add(newProduct);
-        }
-
+        /// <param name="product"></param>
         public void AddProduct(Product product)
         {
             Products.Add(product);
@@ -117,7 +100,7 @@ namespace Logic_Layer
         /// </summary>
         public bool ProductExist(string id)
         {
-            return db.Product.Where(p => p.ProductID == id).Any();
+            return db.Product.Any(p => p.ProductID == id);
         }
 
         /// <summary>

@@ -14,11 +14,7 @@ namespace Logic_Layer
         /// </summary>
         private static readonly Lazy<EmployeeManagement> instance = new Lazy<EmployeeManagement>(() => new EmployeeManagement());
 
-        public ObservableCollection<Employee> EmployeeList
-        {
-            get;
-            set;
-        }
+        public ObservableCollection<Employee> EmployeeList { get; set; }
 
         /// <summary>
         /// Database context
@@ -38,18 +34,13 @@ namespace Logic_Layer
             EmployeeList = new ObservableCollection<Employee>(GetEmployee());
         }
 
-
         /// <summary>
         /// Get a list of all employees
         /// </summary>
         /// <returns></returns>
         public IEnumerable<Employee> GetEmployee()
         {
-            IEnumerable<Employee> employees = from e in db.Employee
-                                              orderby e.EmployeeName
-                                              select e;
-
-            return employees;
+            return db.Employee.OrderBy(e => e.EmployeeName);
         }
 
         /// <summary>
@@ -98,11 +89,7 @@ namespace Logic_Layer
         /// <returns></returns>
         public IEnumerable<EmployeePlacement> GetEmployeePlacements(Employee employee)
         {
-            IEnumerable<EmployeePlacement> placements = from c in db.EmployeePlacement
-                                                        where c.EmployeeID == employee.EmployeeID
-                                                        select c;
-
-            return placements;
+            return db.EmployeePlacement.Where(c => c.EmployeeID == employee.EmployeeID);
         }
 
         /// <summary>
@@ -119,19 +106,15 @@ namespace Logic_Layer
         }
 
         /// <summary>
-        /// Delete a EmployeePlacement
+        /// Delete an EmployeePlacement
         /// </summary>
-        /// <param name="employeePlacements"></param>
         public void DeleteEmployeePlacements(Employee employee)
         {
-            var tempPlacementList = new List<EmployeePlacement>();
+            var tempPlacementList = employee.EmployeePlacement.ToList();
 
-            foreach (EmployeePlacement employeeplacement in employee.EmployeePlacement)
-            {//Kan inte ta bort ur samma lista som den itererar igenom, addar därför till en temporär lista
-                tempPlacementList.Add(employeeplacement);
-            }
             foreach (var tempPlacement in tempPlacementList)
-            {//Tar bort från databasen via den temporära listan
+            {
+                //Tar bort från databasen via den temporära listan
                 db.EmployeePlacement.Remove(tempPlacement);
             }
             db.SaveChanges();

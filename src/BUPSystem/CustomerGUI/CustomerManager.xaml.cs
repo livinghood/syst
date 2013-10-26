@@ -66,7 +66,7 @@ namespace BUPSystem.CustomerGUI
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             tbCustomerId.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-            if (Validation.GetHasError(tbCustomerId) == true)
+            if (Validation.GetHasError(tbCustomerId))
                 return;
             DialogResult = true;
             Close(); 

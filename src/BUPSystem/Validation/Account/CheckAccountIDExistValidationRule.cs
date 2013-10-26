@@ -22,8 +22,7 @@ namespace BUPSystem
                 else
                 {
                     return new ValidationResult(false, Message);
-                }
-               
+                }    
             }
             return ValidationResult.ValidResult;
         }

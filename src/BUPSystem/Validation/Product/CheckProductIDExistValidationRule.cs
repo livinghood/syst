@@ -17,14 +17,7 @@ namespace BUPSystem
                 {
                     return new ValidationResult(false, "Välj produktgrupp och skriv in ID");
                 }
-                else
-                {
-                    if (ProductManagement.Instance.ProductExist(str))
-                        return new ValidationResult(false, Message);
-                }
-
-                return ValidationResult.ValidResult;
-
+                return ProductManagement.Instance.ProductExist(str) ? new ValidationResult(false, Message) : ValidationResult.ValidResult;
             }
             return new ValidationResult(false, "Välj produktgrupp och skriv in ID"); ;
         }
