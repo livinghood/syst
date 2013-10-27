@@ -3,38 +3,35 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="FollowUpAndForecasting" Height="473" Width="790">
     <Grid>
-        <DataGrid AutoGenerateColumns="False" Height="318" HorizontalAlignment="Left" x:Name="dataGrid1" VerticalAlignment="Top" Width="782" Margin="0,46,0,0">
+        <DataGrid AutoGenerateColumns="False" Height="318" x:Name="dgForecasts" VerticalAlignment="Top" Margin="10,46,10,0" ItemsSource="{Binding Forecasts}" CellEditEnding="dgForecasts_CellEditEnding">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Produktnamn" MinWidth="40" />
-                <DataGridTextColumn Header="Budget" MinWidth="40" />
-                <DataGridTextColumn Header="Utfall mån" MinWidth="40" />
-                <DataGridTextColumn Header="Utfall acc" MinWidth="40" />
-                <DataGridTextColumn Header="Upparbetat" MinWidth="40" />
-                <DataGridTextColumn Header="Trend" MinWidth="40" />
-                <DataGridTextColumn Header="Föreg. prognos" MinWidth="40" />
-                <DataGridTextColumn Header="Prognos" MinWidth="40" />
-                <DataGridTextColumn Header="Prognos - Budget" MinWidth="80" />
+                <DataGridTextColumn Header="Produktnamn" MinWidth="40" Binding="{Binding ProductName}" />
+                <DataGridTextColumn Header="Budget" MinWidth="40" Binding="{Binding Budget}" />
+                <DataGridTextColumn Header="Utfall mån" MinWidth="40" Binding="{Binding OutcomeMonth}" />
+                <DataGridTextColumn Header="Utfall acc" MinWidth="40" Binding="{Binding OutcomeAcc}" />
+                <DataGridTextColumn Header="Upparbetat" MinWidth="40" Binding="{Binding Reprocessed}" />
+                <DataGridTextColumn Header="Trend" MinWidth="40" Binding="{Binding Trend}" />
+                <DataGridTextColumn Header="Föreg. prognos" MinWidth="40" Binding="{Binding FormerPrognosis}" />
+                <DataGridTextColumn Header="Prognos" MinWidth="40" Binding="{Binding Prognosis}" />
+                <DataGridTextColumn Header="Prognos - Budget" MinWidth="80" Binding="{Binding PrognosisBudget}" />
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="617,409,0,0" x:Name="button1" VerticalAlignment="Top" Width="75" />
-        <Button Content="Spara" Height="23" HorizontalAlignment="Right" Margin="0,409,10,0" x:Name="button2" VerticalAlignment="Top" Width="75" />
-        <Button Content="Skapa Exceldokument" Height="23" HorizontalAlignment="Left" Margin="90,409,0,0" x:Name="button3" VerticalAlignment="Top" Width="126" Click="button3_Click" />
-        <Button Content="Bildskärmsrapport" Height="23" HorizontalAlignment="Left" Margin="239,409,0,0" x:Name="button4" VerticalAlignment="Top" Width="104" />
-        <Button Content="Skriv ut" Height="23" HorizontalAlignment="Left" Margin="10,409,0,0" x:Name="button5" VerticalAlignment="Top" Width="75" />
-        <Button Content="Lås prognos" Height="23" HorizontalAlignment="Left" Margin="697,10,0,0" x:Name="button7" VerticalAlignment="Top" Width="75" />
-        <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,10,236,0" x:Name="comboBox1" SelectedIndex="0" Text="Välj..." VerticalAlignment="Top" Width="230">
-            <ComboBoxItem Content="Välj..." />
-        </ComboBox>
+        <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="617,409,0,0" x:Name="btnCancel" VerticalAlignment="Top" Width="75" IsCancel="True" />
+        <Button Content="Spara" Height="23" HorizontalAlignment="Right" Margin="0,409,10,0" x:Name="btnSave" VerticalAlignment="Top" Width="75" />
+        <Button Content="Skapa Exceldokument" Height="23" HorizontalAlignment="Left" Margin="90,409,0,0" x:Name="btnExcel" VerticalAlignment="Top" Width="126" />
+        <Button Content="Skriv ut" Height="23" HorizontalAlignment="Left" Margin="10,409,0,0" x:Name="btnPrint" VerticalAlignment="Top" Width="75" Click="btnPrint_Click" />
+        <Button Content="Lås prognos" Height="23" HorizontalAlignment="Left" Margin="697,10,0,0" x:Name="btnLock" VerticalAlignment="Top" Width="75" />
+        <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,10,236,0" x:Name="cbMonth" SelectedIndex="0" Text="Välj..." VerticalAlignment="Top" Width="230" ItemsSource="{Binding Months}" SelectionChanged="cbMonth_SelectionChanged"/>
         <Label Content="Välj månad" Height="28" HorizontalAlignment="Left" Margin="239,10,0,0" x:Name="label1" VerticalAlignment="Top" />
-        <Button Content="Importera fil" Height="23" HorizontalAlignment="Left" Margin="12,12,0,0" x:Name="button8" VerticalAlignment="Top" Width="82" />
-        <Label Height="28" HorizontalAlignment="Left" Margin="84,364,0,0" x:Name="label2" VerticalAlignment="Top" Content="Summa" />
-        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="139,364,0,0" x:Name="label3" VerticalAlignment="Top" />
-        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="194,364,0,0" x:Name="label4" VerticalAlignment="Top" />
-        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="260,364,0,0" x:Name="label5" VerticalAlignment="Top" />
-        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="315,364,0,0" x:Name="label6" VerticalAlignment="Top" />
-        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="386,364,0,0" x:Name="label7" VerticalAlignment="Top" />
-        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="463,364,0,0" x:Name="label8" VerticalAlignment="Top" />
-        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="542,364,0,0" x:Name="label9" VerticalAlignment="Top" />
+        <Button Content="Importera fil" Height="23" HorizontalAlignment="Left" Margin="12,12,0,0" x:Name="btnImportFile" VerticalAlignment="Top" Width="82" Click="btnImportFile_Click" />
+        <Label Height="28" HorizontalAlignment="Left" Margin="84,364,0,0" x:Name="lblBudget" VerticalAlignment="Top" Content="Summa" />
+        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="139,364,0,0" x:Name="lblOutcomeMonth" VerticalAlignment="Top" />
+        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="194,364,0,0" x:Name="lblOutcomeAcc" VerticalAlignment="Top" />
+        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="260,364,0,0" x:Name="lblReprocessed" VerticalAlignment="Top" />
+        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="315,364,0,0" x:Name="lblTrend" VerticalAlignment="Top" />
+        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="386,364,0,0" x:Name="lblFormerPrognosis" VerticalAlignment="Top" />
+        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="463,364,0,0" x:Name="lblPrognosis" VerticalAlignment="Top" />
+        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="542,364,0,0" x:Name="blPrognosisBudget" VerticalAlignment="Top" />
 
     </Grid>
 </Window>
