@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Logic_Layer.FollowUp
 {
+    /// <summary>
+    /// This class makes the basis for ForecastMonitor and ForecastMonth
+    /// </summary>
     public class Forecasting
     {
         //public Product Product { get; set; }
@@ -25,21 +28,15 @@ namespace Logic_Layer.FollowUp
         public int PrognosisBudget { get; set; }
         public DateTime Date { get; set; }
 
-        //public Forecasting(Product product, int budget, int outcomeMoth, int outcomeAcc, int reprocessed, int trend, int formerPrognosis,
-        //    int prognosis, int prognosisBudget, DateTime date)
-        //{
-        //    Product = product;
-        //    Budget = budget;
-        //    OutcomeMonth = outcomeMoth;
-        //    OutcomeAcc = outcomeAcc;
-        //    Reprocessed = reprocessed;
-        //    Trend = trend;
-        //    FormerPrognosis = formerPrognosis;
-        //    Prognosis = prognosis;
-        //    PrognosisBudget = prognosisBudget;
-        //    Date = date;
-        //}
-
+        /// <summary>
+        /// Constructor used to create a new forecasting from data read in file 'IntaktProduktKund.txt'
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="productName"></param>
+        /// <param name="customerID"></param>
+        /// <param name="customerName"></param>
+        /// <param name="date"></param>
+        /// <param name="amount"></param>
         public Forecasting(string productId, string productName, string customerID, string customerName, string date, string amount)
         {
             ProductID = productId;

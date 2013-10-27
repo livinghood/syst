@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -59,47 +60,130 @@ namespace Logic_Layer.FollowUp
         }
 
         /// <summary>
-        /// Create a new account
+        /// Add forecast to database
         /// </summary>
-        public void CreateForecast(Forecasting forecast)
+        /// <param name="forecast"></param>
+        public void AddForecast(Forecasting forecast)
         {
-            //Accounts.Add(account);
-            //db.Account.Add(account);
-            //db.SaveChanges();
-        }       
+            ForecastMonth forecastMonth = new ForecastMonth
+            {
+                ForecastLock = false,
+                ForecastMonitorID = GetNewForecastMonthID()
+            };
+
+            ForecastMonitor forecastMonitor = new ForecastMonitor
+            {
+                Forecast = forecast.Prognosis,
+                // TODO Är forecastBudget datatyp i databasen felaktig? + Är namnet ForecastMonitorID i ForecastMonth-tabellen fel? 
+                ForecastBudget = forecast.PrognosisBudget.ToString(CultureInfo.InvariantCulture),
+                ForecastMonitorID = GetNewForecastMonitorID(),
+                IeProductID = forecast.ProductID,
+                IeProductName = forecast.ProductName,
+                OutcomeAcc = forecast.OutcomeAcc,
+                Reprocessed = forecast.Reprocessed,
+                ForecastMonth = forecastMonth
+            };
+
+            var fList = db.ForecastMonitor.Select(f => f.IeProductID);
+           
+            // Add the forecastMonitor to database if not already added
+            if (!fList.Contains(forecastMonitor.IeProductID))
+            {
+                db.ForecastMonitor.Add(forecastMonitor);
+            }
+
+            var mList = db.ForecastMonth.Select(m => m.ForecastMonitorID);
+           
+            // Add the forecastMonitor to database if not already added
+            if (!mList.Contains(forecastMonitor.ForecastMonitorID))
+            {
+                db.ForecastMonth.Add(forecastMonth);
+            }
+             
+            db.SaveChanges();
+        }
+
+        /// <summary>
+        /// Returns a new ForecastMonitorID
+        /// </summary>
+        /// <returns></returns>
+        private int GetNewForecastMonitorID()
+        {
+            var ids = from f in db.ForecastMonitor
+                      orderby f.ForecastMonitorID
+                      select f.ForecastMonitorID;
+
+            List<int> list = new List<int>(ids);
+
+            // If the database doesn't contain anything in forecastMontitor return 100 as a new id, else return the id of last element + 1. 
+            int id = 100;
+
+            if (ids.Any())
+            {
+                id = list.Last();
+                id++;
+            }
+            return id;
+        }
+
+        /// <summary>
+        /// Returns a new Returns a new ForecastMonthID
+        /// </summary>
+        /// <returns></returns>
+        private int GetNewForecastMonthID()
+        {
+            var ids = from f in db.ForecastMonth
+                      orderby f.ForecastMonitorID
+                      select f.ForecastMonitorID;
+
+            List<int> list = new List<int>(ids);
+
+            // If the database doesn't contain anything in forecastMonth return 100 as a new id, else return the id of last element + 1. 
+            int id = 100;
+
+            if (ids.Any())
+            {
+                id = list.Last();
+                id++;
+            }
+            return id;
+        }
 
         /// <summary>
         /// Update the database
         /// </summary>
-        public void UpdateAccount()
+        public void UpdateForecast()
         {
             db.SaveChanges();
         }
 
+        /// <summary>
+        /// Creates a forecasting from the imported file IntaktProduktKund.txt
+        /// </summary>
+        /// <param name="fileName"></param>
         public void CreateForecastFromFile(string fileName)
-        {     
+        {
             using (var reader = new StreamReader(fileName))
             {
+                // Ignore first row since it's a header
                 reader.ReadLine();
                 string row;
                 while ((row = reader.ReadLine()) != null)
                 {
-                    string str = row;
-
                     /* IntaktProduktKund.txt is formatted in such a way that there are up to three tabs separating each
-                     * 'column' in the text file. If a row contains multiple tabs they are replaced with one. */                   
+                     * 'column' in the text file. If a row contains multiple tabs they are replaced with one. */
                     if (row.Contains("\t\t\t"))
                     {
-                        str = str.Replace("\t\t\t", "\t");
+                        row = row.Replace("\t\t\t", "\t");
                     }
 
-                    if (str.Contains("\t\t"))
+                    if (row.Contains("\t\t"))
                     {
-                        str = str.Replace("\t\t", "\t");
+                        row = row.Replace("\t\t", "\t");
                     }
 
-                    // At this point each column is only separated by one tab, making it easy to read the file
-                    string[] field = str.Split('\t');     
+                    // At this point each column is only separated by one tab which makes it easy to read the file
+                    string[] field = row.Split('\t');
 
                     string productID = field[0];
                     string productName = field[1];
@@ -108,20 +192,31 @@ namespace Logic_Layer.FollowUp
                     string date = field[4];
                     string amount = field[5];
 
-                    // Create a new forecast
-                    Forecasting forecast = new Forecasting(productID, productName,customerID, customerName, date, amount);
+                    Forecasting forecast = new Forecasting(productID, productName, customerID, customerName, date, amount);
 
                     // Add the created forecast to the list of forecasts
                     Forecasts.Add(forecast);
+
+                    // Add the created forecast to database
+                    AddForecast(forecast);
                 }
             }
         }
 
+        /// <summary>
+        /// Returns a list of months
+        /// </summary>
+        /// <returns></returns>
         public ObservableCollection<Months> GetMonths()
         {
             return new ObservableCollection<Months>(Enum.GetValues(typeof(Months)).Cast<Months>());
         }
 
+        /// <summary>
+        /// Allows for selection of forecasts from a specific month
+        /// </summary>
+        /// <param name="month"></param>
+        /// <returns></returns>
         public IEnumerable<Forecasting> GetForecastFromMonth(Months month)
         {
             switch (month)
@@ -152,14 +247,19 @@ namespace Logic_Layer.FollowUp
                     return Forecasts.Where(m => m.Date.Month == 11);
                 case Months.December:
                     return Forecasts.Where(m => m.Date.Month == 12);
-                default: 
+                default:
                     return Forecasts;
             }
         }
 
-        public void Calculate(Forecasting forecast, int passedMonths)
+        /// <summary>
+        /// Calculates the trend in a specific forecast object
+        /// </summary>
+        /// <param name="forecast"></param>
+        /// <param name="passedMonths"></param>
+        public void CalculateTrend(Forecasting forecast, int passedMonths)
         {
-            forecast.Trend = (forecast.OutcomeAcc + forecast.Reprocessed)/passedMonths*12;
+            forecast.Trend = (forecast.OutcomeAcc + forecast.Reprocessed) / passedMonths * 12;
         }
     }
 }
