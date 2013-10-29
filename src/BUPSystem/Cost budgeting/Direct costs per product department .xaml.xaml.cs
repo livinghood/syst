@@ -138,6 +138,7 @@ namespace BUPSystem.Kostnadsbudgetering
             DirectProductCosts = new ObservableCollection<DirectProductCost>(DCPPDManagement.Instance.GetAccounts(account));
             dgDPPC.ItemsSource = DirectProductCosts;
             lblSum.Content = "Summa: " + DCPPDManagement.Instance.CalculateSum(account);
+            btnSelectProduct.IsEnabled = true;
         }
 
         /// <summary>
