@@ -108,7 +108,7 @@ namespace BUPSystem.ProductGUI
 
             // Reset the category (fixes problem if user deletes current selected category)
             
-            // Product.ProductCategoryID = null;
+             Product.ProductCategoryID = null;
 
             if (pcat.ShowDialog() == true)
             {

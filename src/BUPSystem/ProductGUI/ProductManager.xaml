@@ -79,7 +79,15 @@
                 </ComboBox>
                 <Label Content="Avdelning" Height="28" HorizontalAlignment="Left" Margin="13,76,0,0" x:Name="label6" VerticalAlignment="Top" Width="119" />
                 <Label Content="ProduktID" Height="28" HorizontalAlignment="Left" Margin="13,43,0,0" x:Name="label5_Copy" VerticalAlignment="Top" Width="85" />
-                <TextBox x:Name="tbProductID" HorizontalAlignment="Left" Height="23" Margin="137,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="193" IsUndoEnabled="False" BorderThickness="2" Text="{Binding ProductID}"/>
+                <TextBox x:Name="tbProductID" HorizontalAlignment="Left" Height="23" Margin="137,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="193" IsUndoEnabled="False" IsReadOnly="True" BorderThickness="2" Background="#FFF7F7F7">
+                    <TextBox.Text>
+                        <local:DelayBindingExtension Path="ProductID" >
+                            <local:DelayBindingExtension.ValidationRules>
+                                <local:CheckProductIDExistValidationRule x:Name="CheckProductIDExistValidation" ValidatesOnTargetUpdated="True"  Message="ProduktID finns redan."/>
+                            </local:DelayBindingExtension.ValidationRules>
+                        </local:DelayBindingExtension>
+                    </TextBox.Text>
+                </TextBox>
             </Grid>
         </GroupBox>
         <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="297,403,0,0" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click" IsEnabled="True">
