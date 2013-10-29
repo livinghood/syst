@@ -67,8 +67,7 @@ namespace BUPSystem.ProductGUI
             tbProductID.IsEnabled = false;
             // Hide the partial ID
             PartProductIDGrid.Visibility = Visibility.Collapsed;
-            // Show the productgroup
-            lblProductGroup.Content = product.ProductGroupID;
+  
             cbDepartment.ItemsSource = ProductionDepartments;
             DataContext = product;
             Product = product;
