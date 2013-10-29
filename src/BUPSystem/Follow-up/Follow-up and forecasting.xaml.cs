@@ -76,7 +76,7 @@ namespace BUPSystem.Uppföljning
         }
 
         private void dgForecasts_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
-        { 
+        {
             UpdateForecasts();
         }
 
