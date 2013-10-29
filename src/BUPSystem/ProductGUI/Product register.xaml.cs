@@ -109,6 +109,24 @@ namespace BUPSystem.ProductGUI
 
                 if (mbr == MessageBoxResult.Yes)
                 {
+                    if (ProductManagement.Instance.IsConnectedToDirectProductCost(SelectedProduct))
+                    {
+                        MessageBox.Show("Produkten är kopplad till en direktkostnad, går ej ta bort", "Finns kopplade produkter");
+                        return; 
+                    }
+
+                    if (ProductManagement.Instance.IsConnectedToFinancialIncome(SelectedProduct))
+                    {
+                        MessageBox.Show("Produkten är kopplad till en intäktsbudgetering, går ej ta bort", "Finns kopplade produkter");
+                        return;
+                    }
+
+                    if (ProductManagement.Instance.IsConnectedToEmployee(SelectedProduct))
+                    {
+                        MessageBox.Show("Produkten är kopplad till en anställd, går ej ta bort", "Finns kopplade produkter");
+                        return;
+                    }
+
                     // Delete the customer from the database
                     ProductManagement.Instance.DeleteProduct(SelectedProduct);
                 }

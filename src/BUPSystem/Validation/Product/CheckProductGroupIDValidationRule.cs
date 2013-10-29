@@ -14,7 +14,7 @@ namespace BUPSystem
             string str = value as string;
             if (str != null)
             {
-                if (!Regex.IsMatch(str, @"^[a-zA-Z]+$"))
+                if (!Regex.IsMatch(str, @"^[a-zåäöA-ZÅÄÖ]+$"))
                 {
                     return new ValidationResult(false, "Grupp-ID får bara innehålla bokstäver");
                 }

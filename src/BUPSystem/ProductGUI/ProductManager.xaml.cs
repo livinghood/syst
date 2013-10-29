@@ -113,9 +113,6 @@ namespace BUPSystem.ProductGUI
             {
                  Product.ProductCategoryID = pcat.SelectedProductCategory.ProductCategoryID;
             }
-
-            // Update the main product ID
-            updateProductID();
         }
 
         /// <summary>

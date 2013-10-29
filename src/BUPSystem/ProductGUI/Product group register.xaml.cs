@@ -100,7 +100,15 @@ namespace BUPSystem.ProductGUI
 
                 if (mbr == MessageBoxResult.Yes)
                 {
-                    ProductGroupManagement.Instance.DeleteProductGroup(SelectedProductGroup);
+                    if (ProductGroupManagement.Instance.IsProductGroupEmpty(SelectedProductGroup))
+                    {
+                        ProductGroupManagement.Instance.DeleteProductGroup(SelectedProductGroup);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Det finns kopplade produkter i den här gruppen, går ej ta bort", "Finns kopplade produkter"); 
+                    }
+                    
                 }
             }
             else

@@ -62,6 +62,39 @@ namespace Logic_Layer
         }
 
         /// <summary>
+        /// Check if a product is connected to a DirectProductCost
+        /// </summary>
+        /// <param name="productGroup"></param>
+        /// <returns></returns>
+        public bool IsConnectedToDirectProductCost(Product product)
+        {
+            var query = db.DirectProductCost.Where(d => d.ProductID.Equals(product.ProductID));
+            return query.Any();
+        }
+
+        /// <summary>
+        /// Check if a product is connected to a FinancialIncome
+        /// </summary>
+        /// <param name="productGroup"></param>
+        /// <returns></returns>
+        public bool IsConnectedToFinancialIncome(Product product)
+        {
+            var query = db.FinancialIncome.Where(f => f.ProductID.Equals(product.ProductID));
+            return query.Any();
+        }
+
+        /// <summary>
+        /// Check if a product is connected to a FinancialIncome
+        /// </summary>
+        /// <param name="productGroup"></param>
+        /// <returns></returns>
+        public bool IsConnectedToEmployee(Product product)
+        {
+            var query = db.ProductPlacement.Where(f => f.ProductID.Equals(product.ProductID));
+            return query.Any();
+        }
+
+        /// <summary>
         /// Add created product to databse
         /// </summary>
         /// <param name="product"></param>

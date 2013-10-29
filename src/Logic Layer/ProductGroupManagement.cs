@@ -91,6 +91,7 @@ namespace Logic_Layer
             var query = db.Product.Where(p => p.ProductGroupID.Equals(productGroup.ProductGroupID));
             return !query.Any();
         }
+
         public void ResetProductGroup(ProductGroup productGroup)
         {
             db.Entry(productGroup).State = EntityState.Unchanged;
