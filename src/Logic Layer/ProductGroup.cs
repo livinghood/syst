@@ -6,21 +6,48 @@
 //    Manual changes to this file will be overwritten if the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
+using System.ComponentModel;
 
 namespace Logic_Layer
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class ProductGroup
+
+    public partial class ProductGroup : INotifyPropertyChanged
     {
+        private string m_ProductGroupID;
+        private string m_ProductGroupName;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+        protected bool SetField<T>(ref T field, T value, string propertyName)
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+
         public ProductGroup()
         {
             this.Product = new HashSet<Product>();
         }
-    
-        public string ProductGroupID { get; set; }
-        public string ProductGroupName { get; set; }
+
+        public string ProductGroupID
+        {
+            get { return m_ProductGroupID; }
+            set { SetField(ref m_ProductGroupID, value, "ProductGroupID"); }
+        }
+        public string ProductGroupName
+        {
+            get { return m_ProductGroupName; }
+            set { SetField(ref m_ProductGroupName, value, "ProductGroupName"); }
+        }
     
         public virtual ICollection<Product> Product { get; set; }
     }
