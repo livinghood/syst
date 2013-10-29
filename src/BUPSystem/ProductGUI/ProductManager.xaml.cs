@@ -16,9 +16,7 @@ namespace BUPSystem.ProductGUI
     /// </summary>
     public partial class ProductManager : Window
     {
-        public string m_partProductID;
-
-        public string m_ProductCategoryID;
+        private string m_partProductID;
 
         public Product Product { get; set; }
 
@@ -33,14 +31,7 @@ namespace BUPSystem.ProductGUI
             }
         }
 
-        public string ProductCategoryID
-        {
-            get { return m_ProductCategoryID; }
-            set
-            {
-                m_ProductCategoryID = value;
-            }
-        }
+        public string ProductCategoryID { get; set; }
 
         public string ProductionDepartmentID { get; set; }
 
@@ -82,14 +73,11 @@ namespace BUPSystem.ProductGUI
             DataContext = product;
             Product = product;
 
-            // Disable the textbox for product id as its a primary key
-            tbProductID.IsEnabled = false;
             // Disable validation for product id and part-id
             Binding binding = BindingOperations.GetBinding(tbProductID, TextBox.TextProperty);
             Binding partIDbinding = BindingOperations.GetBinding(tbPartProductID, TextBox.TextProperty);
             binding.ValidationRules.Clear();
             partIDbinding.ValidationRules.Clear();
-            
         }
 
         /// <summary>
@@ -124,7 +112,7 @@ namespace BUPSystem.ProductGUI
 
             if (pcat.ShowDialog() == true)
             {
-                // Product.ProductCategoryID = pcat.SelectedProductCategory.ProductCategoryID;
+                 Product.ProductCategoryID = pcat.SelectedProductCategory.ProductCategoryID;
             }
 
             // Update the main product ID
@@ -139,8 +127,6 @@ namespace BUPSystem.ProductGUI
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             tbProductID.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-            if (Validation.GetHasError(tbProductID) == true)
-                return;
 
             DialogResult = true;
             Close();
@@ -159,9 +145,8 @@ namespace BUPSystem.ProductGUI
             else
             {
                 Product.ProductID = null;
-            }
-            
+            }         
         }
-
     }
 }
+

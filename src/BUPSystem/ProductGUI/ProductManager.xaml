@@ -53,11 +53,10 @@
         <GroupBox Header="Produktuppgifter" Height="156" Margin="12,242,0,0" x:Name="groupBox2" VerticalAlignment="Top" HorizontalAlignment="Left" Width="358">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="54*" />
-                    <ColumnDefinition Width="119*" />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                
-                <Grid x:Name="PartProductIDGrid" HorizontalAlignment="Left" Width="317" Margin="13,10,0,100" Grid.ColumnSpan="2">
+
+                <Grid x:Name="PartProductIDGrid" HorizontalAlignment="Left" Width="317" Margin="13,10,0,100">
                     <Label Content="DelproduktID" Height="28" HorizontalAlignment="Left" x:Name="lblDelID" VerticalAlignment="Top" Width="85" />
                     <TextBox Height="23" HorizontalAlignment="Right" x:Name="tbPartProductID" VerticalAlignment="Top" Width="194" MaxLength="4" >
                         <Binding Path="PartProductID" UpdateSourceTrigger="PropertyChanged">
@@ -67,7 +66,7 @@
                         </Binding>
                     </TextBox>
                 </Grid>
-                <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,76,15,0" x:Name="cbDepartment" Text="Välj..." VerticalAlignment="Top" Width="194" Grid.Column="1">
+                <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,76,15,0" x:Name="cbDepartment" Text="Välj..." VerticalAlignment="Top" Width="194">
                     <ComboBox.SelectedItem>
                         <Binding Path="DepartmentID"
                              UpdateSourceTrigger="Default"
@@ -78,20 +77,12 @@
                         </Binding>
                     </ComboBox.SelectedItem>
                 </ComboBox>
-                <Label Content="Avdelning" Height="28" HorizontalAlignment="Left" Margin="13,76,0,0" x:Name="label6" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="119" />
+                <Label Content="Avdelning" Height="28" HorizontalAlignment="Left" Margin="13,76,0,0" x:Name="label6" VerticalAlignment="Top" Width="119" />
                 <Label Content="ProduktID" Height="28" HorizontalAlignment="Left" Margin="13,43,0,0" x:Name="label5_Copy" VerticalAlignment="Top" Width="85" />
-                <TextBox x:Name="tbProductID" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="29,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="193" IsUndoEnabled="False" IsReadOnly="True" BorderThickness="2" Background="#FFF7F7F7">
-                    <TextBox.Text>
-                        <local:DelayBindingExtension Path="ProductID" >
-                            <local:DelayBindingExtension.ValidationRules>
-                                <local:CheckProductIDExistValidationRule x:Name="CheckProductIDExistValidation" ValidatesOnTargetUpdated="True"  Message="ProduktID finns redan."/>
-                            </local:DelayBindingExtension.ValidationRules>
-                        </local:DelayBindingExtension>
-                    </TextBox.Text>
-                </TextBox>
+                <TextBox x:Name="tbProductID" HorizontalAlignment="Left" Height="23" Margin="137,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="193" IsUndoEnabled="False" BorderThickness="2" Text="{Binding ProductID}"/>
             </Grid>
         </GroupBox>
-        <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="297,403,0,0" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click">
+        <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="297,403,0,0" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click" IsEnabled="True">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="IsEnabled" Value="false" />

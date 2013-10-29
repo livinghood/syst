@@ -80,7 +80,7 @@ namespace Logic_Layer
         /// <returns></returns>
         public bool IsProductCategoryEmpty(ProductCategory productCategory)
         {
-            var query = db.ProductGroup.Where(p => p.ProductCategoryID.Equals(productCategory.ProductCategoryID));
+            var query = db.Product.Where(p => p.ProductCategoryID.Equals(productCategory.ProductCategoryID));
             return !query.Any();
         }
 
@@ -94,7 +94,7 @@ namespace Logic_Layer
         /// </summary>
         public bool ProductCategoryIDExist(string id)
         {
-            return db.ProductCategory.Where(p => p.ProductCategoryID == id).Any();
+            return db.ProductCategory.Any(p => p.ProductCategoryID == id);
         }
     }
 }

@@ -101,7 +101,7 @@ namespace Logic_Layer
         /// </summary>
         public bool ProductGroupIDExist(string id)
         {
-            return db.ProductGroup.Where(pg => pg.ProductGroupID == id).Any();
+            return db.ProductGroup.Any(pg => pg.ProductGroupID == id);
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace Logic_Layer
         /// </summary>
         public bool ProductGroupNameExist(string name)
         {
-            return db.ProductGroup.Where(pg => pg.ProductGroupName == name).Any();
+            return db.ProductGroup.Any(pg => pg.ProductGroupName == name);
         }
         
     }

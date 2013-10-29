@@ -48,7 +48,8 @@
         <AssociationConnector Association="BUPmodel.FK_ForecastMonitor_ForecastMonth" ManuallyRouted="false" />
         <AssociationConnector Association="BUPmodel.FK_Product_ProductGroup" ManuallyRouted="false" />
         <AssociationConnector Association="BUPmodel.FK_ProductPlacement_Product" ManuallyRouted="false" />
-        <AssociationConnector Association="BUPmodel.FK_ProductGroup_ProductCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="BUPmodel.FK_Product_ProductCategory" />
+        <AssociationConnector Association="BUPmodel.FK_Product_ProductGroup1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
