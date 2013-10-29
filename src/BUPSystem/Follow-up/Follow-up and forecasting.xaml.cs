@@ -42,6 +42,7 @@ namespace BUPSystem.Uppföljning
             if (result == true)
             {
                 ForecastingManagement.Instance.CreateForecastFromFile(ofd.FileName);
+                ForecastingManagement.Instance.FillForecastsFromDB();
                 cbMonth_SelectionChanged(sender, e as SelectionChangedEventArgs);
             }        
         }
@@ -49,7 +50,7 @@ namespace BUPSystem.Uppföljning
         private void UpdateForecasts()
         {
             Forecasts.Clear();
-            var list = ForecastingManagement.Instance.GetForecastFromMonth(Months[cbMonth.SelectedIndex]);
+            var list = ForecastingManagement.Instance.GetForecastFromMonth(cbMonth.SelectedIndex);
 
             if (list != null)
             {
@@ -83,12 +84,25 @@ namespace BUPSystem.Uppföljning
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            ForecastingManagement.Instance.UpdateForecast();
+            if (cbMonth.SelectedIndex > 0)
+            {
+                ForecastingManagement.Instance.AddForecast(cbMonth.SelectedIndex);
+            }           
         }
 
         private void btnLock_Click(object sender, RoutedEventArgs e)
         {
+            // Prevent locking when all months option is selected 
+            if (cbMonth.SelectedIndex > 0)
+            {
+                // First, save any unsaved changes 
+                ForecastingManagement.Instance.AddForecast(cbMonth.SelectedIndex);
 
+                // Call method to lock forecast for the selected month
+                ForecastingManagement.Instance.LockForecast(cbMonth.SelectedIndex);
+            }
+            else
+                MessageBox.Show("Du måste välja en enskild månad för låsning", "Välj en månad att låsa");
         }
     }
 }

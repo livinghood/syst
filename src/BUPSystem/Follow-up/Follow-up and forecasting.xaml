@@ -5,15 +5,15 @@
     <Grid>
         <DataGrid AutoGenerateColumns="False" Height="318" x:Name="dgForecasts" VerticalAlignment="Top" Margin="10,46,10,0" CellEditEnding="dgForecasts_CellEditEnding" RowEditEnding="dgForecasts_RowEditEnding" ItemsSource="{Binding Forecasts}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Produktnamn" MinWidth="40" Binding="{Binding ProductName}" />
+                <DataGridTextColumn Header="Produktnamn" MinWidth="40" Binding="{Binding IeProductName}" />
                 <DataGridTextColumn Header="Budget" MinWidth="40" Binding="{Binding Budget}" />
                 <DataGridTextColumn Header="Utfall mån" MinWidth="40" Binding="{Binding OutcomeMonth}" />
                 <DataGridTextColumn Header="Utfall acc" MinWidth="40" Binding="{Binding OutcomeAcc}" />
                 <DataGridTextColumn Header="Upparbetat" MinWidth="40" Binding="{Binding Reprocessed}" />
                 <DataGridTextColumn Header="Trend" MinWidth="40" Binding="{Binding Trend}" />
                 <DataGridTextColumn Header="Föreg. prognos" MinWidth="40" Binding="{Binding FormerPrognosis}" />
-                <DataGridTextColumn Header="Prognos" MinWidth="40" Binding="{Binding Prognosis}" />
-                <DataGridTextColumn Header="Prognos - Budget" MinWidth="80" Binding="{Binding PrognosisBudget}" />
+                <DataGridTextColumn Header="Prognos" MinWidth="40" Binding="{Binding Forecast}" />
+                <DataGridTextColumn Header="Prognos - Budget" MinWidth="80" Binding="{Binding ForecastBudget}" />
             </DataGrid.Columns>
         </DataGrid>
         <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="617,409,0,0" x:Name="btnCancel" VerticalAlignment="Top" Width="75" IsCancel="True" />

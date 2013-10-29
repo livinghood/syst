@@ -15,7 +15,7 @@ namespace Logic_Layer.FollowUp
         public string IeProductName { get; set; }
         public string IeProductID { get; set; }
         public string CustomerName { get; set; }
-        public int CustomerID { get; set; }
+        public string CustomerID { get; set; }
         public int Amount { get; set; }
         public int Budget { get; set; }
         public int OutcomeMonth { get; set; }
