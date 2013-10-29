@@ -19,7 +19,7 @@ namespace Logic_Layer
             this.ForecastMonitor = new HashSet<ForecastMonitor>();
         }
     
-        public int ForecastMonitorID { get; set; }
+        public string ForecastMonitorMonthID { get; set; }
         public bool ForecastLock { get; set; }
     
         public virtual ICollection<ForecastMonitor> ForecastMonitor { get; set; }

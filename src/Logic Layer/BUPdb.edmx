@@ -119,13 +119,13 @@
           <Property Name="Addition" Type="int" />
           <Property Name="Hours" Type="int" />
           <Property Name="Comments" Type="nvarchar(max)" />
-          <Property Name="FinancialIncomeID" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FinancialIncomeYearID" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="FinancialIncomeYear">
           <Key>
-            <PropertyRef Name="FinancialIncomeID" />
+            <PropertyRef Name="FinancialIncomeYearID" />
           </Key>
-          <Property Name="FinancialIncomeID" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FinancialIncomeYearID" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="FinancialIncomeLock" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ForecastMonitor">
@@ -138,13 +138,13 @@
           <Property Name="Reprocessed" Type="int" />
           <Property Name="Forecast" Type="int" />
           <Property Name="ForecastBudget" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="ForecastMonitorID" Type="int" Nullable="false" />
+          <Property Name="ForecastMonitorMonthID" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="ForecastMonth">
           <Key>
-            <PropertyRef Name="ForecastMonitorID" />
+            <PropertyRef Name="ForecastMonitorMonthID" />
           </Key>
-          <Property Name="ForecastMonitorID" Type="int" Nullable="false" />
+          <Property Name="ForecastMonitorMonthID" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ForecastLock" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="IncomeProductCustomer">
@@ -365,10 +365,10 @@
           <End Role="FinancialIncome" Type="Self.FinancialIncome" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FinancialIncomeYear">
-              <PropertyRef Name="FinancialIncomeID" />
+              <PropertyRef Name="FinancialIncomeYearID" />
             </Principal>
             <Dependent Role="FinancialIncome">
-              <PropertyRef Name="FinancialIncomeID" />
+              <PropertyRef Name="FinancialIncomeYearID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -389,10 +389,10 @@
           <End Role="ForecastMonitor" Type="Self.ForecastMonitor" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ForecastMonth">
-              <PropertyRef Name="ForecastMonitorID" />
+              <PropertyRef Name="ForecastMonitorMonthID" />
             </Principal>
             <Dependent Role="ForecastMonitor">
-              <PropertyRef Name="ForecastMonitorID" />
+              <PropertyRef Name="ForecastMonitorMonthID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -701,6 +701,10 @@
             <End Role="ForecastMonth" EntitySet="ForecastMonth" />
             <End Role="ForecastMonitor" EntitySet="ForecastMonitor" />
           </AssociationSet>
+          <AssociationSet Name="FK_Product_ProductCategory" Association="BUPmodel.FK_Product_ProductCategory">
+            <End Role="ProductCategory" EntitySet="ProductCategory" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
           <AssociationSet Name="FK_Product_ProductGroup" Association="BUPmodel.FK_Product_ProductGroup">
             <End Role="ProductGroup" EntitySet="ProductGroup" />
             <End Role="Product" EntitySet="Product" />
@@ -709,21 +713,13 @@
             <End Role="Product" EntitySet="Product" />
             <End Role="ProductPlacement" EntitySet="ProductPlacement" />
           </AssociationSet>
-          <AssociationSet Name="FK_Product_ProductCategory" Association="BUPmodel.FK_Product_ProductCategory">
-            <End Role="ProductCategory" EntitySet="ProductCategory" />
-            <End Role="Product" EntitySet="Product" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Product_ProductGroup1" Association="BUPmodel.FK_Product_ProductGroup1">
-            <End Role="ProductGroup" EntitySet="ProductGroup" />
-            <End Role="Product" EntitySet="Product" />
-          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Account">
           <Key>
             <PropertyRef Name="AccountID" />
           </Key>
           <Property Name="AccountID" Type="Int32" Nullable="false" />
-          <Property Name="AccountName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="AccountName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="AccountCost" Type="Int32" />
           <NavigationProperty Name="DirectActivityCost" Relationship="BUPmodel.FK_DirectActivityCost_Account" FromRole="Account" ToRole="DirectActivityCost" />
           <NavigationProperty Name="DirectProductCost" Relationship="BUPmodel.FK_DirectProductCost_Account" FromRole="Account" ToRole="DirectProductCost" />
@@ -732,9 +728,9 @@
           <Key>
             <PropertyRef Name="ActivityID" />
           </Key>
-          <Property Name="ActivityID" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="ActivityName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="DepartmentID" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="ActivityID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ActivityName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DepartmentID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Department" Relationship="BUPmodel.FK_Activity_Department" FromRole="Activity" ToRole="Department" />
           <NavigationProperty Name="ActivityPlacement" Relationship="BUPmodel.FK_ActivityPlacement_Activity" FromRole="Activity" ToRole="ActivityPlacement" />
           <NavigationProperty Name="DirectActivityCost" Relationship="BUPmodel.FK_DirectActivityCost_Activity" FromRole="Activity" ToRole="DirectActivityCost" />
@@ -746,7 +742,7 @@
             <PropertyRef Name="ExpenseBudgetID" />
           </Key>
           <Property Name="EmployeeID" Type="Int64" Nullable="false" />
-          <Property Name="ActivityID" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="ActivityID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ExpenseBudgetID" Type="Int32" Nullable="false" />
           <Property Name="ActivityAllocate" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <NavigationProperty Name="Activity" Relationship="BUPmodel.FK_ActivityPlacement_Activity" FromRole="ActivityPlacement" ToRole="Activity" />
@@ -758,26 +754,26 @@
             <PropertyRef Name="CeProductID" />
             <PropertyRef Name="CeIncomeDate" />
           </Key>
-          <Property Name="CeProductID" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="CeProductID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CeIncomeDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="CeProductName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="CeProductName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CeAmount" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="CustomerID" />
           </Key>
-          <Property Name="CustomerID" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="CustomerCategory" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="CustomerID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerCategory" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="FinancialIncome" Relationship="BUPmodel.FK_FinancialIncome_Customer" FromRole="Customer" ToRole="FinancialIncome" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
             <PropertyRef Name="DepartmentID" />
           </Key>
-          <Property Name="DepartmentID" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="DepartmentName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="DepartmentID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DepartmentName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Activity" Relationship="BUPmodel.FK_Activity_Department" FromRole="Department" ToRole="Activity" />
           <NavigationProperty Name="EmployeePlacement" Relationship="BUPmodel.FK_EmployeePlacement_Department" FromRole="Department" ToRole="EmployeePlacement" />
           <NavigationProperty Name="Product" Relationship="BUPmodel.FK_Product_Department" FromRole="Department" ToRole="Product" />
@@ -790,7 +786,7 @@
           </Key>
           <Property Name="ExpenseBudgetID" Type="Int32" Nullable="false" />
           <Property Name="ActivityCost" Type="Int32" Nullable="false" />
-          <Property Name="ActivityID" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="ActivityID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="AccountID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Account" Relationship="BUPmodel.FK_DirectActivityCost_Account" FromRole="DirectActivityCost" ToRole="Account" />
           <NavigationProperty Name="Activity" Relationship="BUPmodel.FK_DirectActivityCost_Activity" FromRole="DirectActivityCost" ToRole="Activity" />
@@ -804,7 +800,7 @@
           </Key>
           <Property Name="ExpenseBudgetID" Type="Int32" Nullable="false" />
           <Property Name="ProductCost" Type="Int32" Nullable="false" />
-          <Property Name="ProductID" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="ProductID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="AccountID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Account" Relationship="BUPmodel.FK_DirectProductCost_Account" FromRole="DirectProductCost" ToRole="Account" />
           <NavigationProperty Name="ExpenseBudget" Relationship="BUPmodel.FK_DirectProductCost_ExpenseBudget" FromRole="DirectProductCost" ToRole="ExpenseBudget" />
@@ -815,7 +811,7 @@
             <PropertyRef Name="EmployeeID" />
           </Key>
           <Property Name="EmployeeID" Type="Int64" Nullable="false" />
-          <Property Name="EmployeeName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="EmployeeName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="MonthSallary" Type="Int32" Nullable="false" />
           <Property Name="EmployeementRate" Type="Int32" Nullable="false" />
           <Property Name="VacancyDeduction" Type="Decimal" Precision="18" Scale="2" />
@@ -830,7 +826,7 @@
             <PropertyRef Name="DepartmentID" />
           </Key>
           <Property Name="EmployeeID" Type="Int64" Nullable="false" />
-          <Property Name="DepartmentID" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="DepartmentID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EmployeeAllocate" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <NavigationProperty Name="Department" Relationship="BUPmodel.FK_EmployeePlacement_Department" FromRole="EmployeePlacement" ToRole="Department" />
           <NavigationProperty Name="Employee" Relationship="BUPmodel.FK_EmployeePlacement_Employee" FromRole="EmployeePlacement" ToRole="Employee" />
@@ -852,24 +848,24 @@
             <PropertyRef Name="ProductID" />
             <PropertyRef Name="CustomerID" />
           </Key>
-          <Property Name="ProductID" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="CustomerID" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="ProductID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Agreement" Type="Int32" />
           <Property Name="GradeT" Type="Boolean" Nullable="false" />
           <Property Name="GradeA" Type="Boolean" Nullable="false" />
           <Property Name="Addition" Type="Int32" />
           <Property Name="Hours" Type="Int32" />
-          <Property Name="Comments" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="FinancialIncomeID" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FinancialIncomeYearID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Customer" Relationship="BUPmodel.FK_FinancialIncome_Customer" FromRole="FinancialIncome" ToRole="Customer" />
           <NavigationProperty Name="FinancialIncomeYear" Relationship="BUPmodel.FK_FinancialIncome_FinancialIncomeYear" FromRole="FinancialIncome" ToRole="FinancialIncomeYear" />
           <NavigationProperty Name="Product" Relationship="BUPmodel.FK_FinancialIncome_Product" FromRole="FinancialIncome" ToRole="Product" />
         </EntityType>
         <EntityType Name="FinancialIncomeYear">
           <Key>
-            <PropertyRef Name="FinancialIncomeID" />
+            <PropertyRef Name="FinancialIncomeYearID" />
           </Key>
-          <Property Name="FinancialIncomeID" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="FinancialIncomeYearID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="FinancialIncomeLock" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="FinancialIncome" Relationship="BUPmodel.FK_FinancialIncome_FinancialIncomeYear" FromRole="FinancialIncomeYear" ToRole="FinancialIncome" />
         </EntityType>
@@ -877,20 +873,20 @@
           <Key>
             <PropertyRef Name="IeProductID" />
           </Key>
-          <Property Name="IeProductID" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="IeProductName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="IeProductID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IeProductName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OutcomeAcc" Type="Int32" Nullable="false" />
           <Property Name="Reprocessed" Type="Int32" />
           <Property Name="Forecast" Type="Int32" />
-          <Property Name="ForecastBudget" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="ForecastMonitorID" Type="Int32" Nullable="false" />
+          <Property Name="ForecastBudget" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ForecastMonitorMonthID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ForecastMonth" Relationship="BUPmodel.FK_ForecastMonitor_ForecastMonth" FromRole="ForecastMonitor" ToRole="ForecastMonth" />
         </EntityType>
         <EntityType Name="ForecastMonth">
           <Key>
-            <PropertyRef Name="ForecastMonitorID" />
+            <PropertyRef Name="ForecastMonitorMonthID" />
           </Key>
-          <Property Name="ForecastMonitorID" Type="Int32" Nullable="false" />
+          <Property Name="ForecastMonitorMonthID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ForecastLock" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="ForecastMonitor" Relationship="BUPmodel.FK_ForecastMonitor_ForecastMonth" FromRole="ForecastMonth" ToRole="ForecastMonitor" />
         </EntityType>
@@ -900,43 +896,43 @@
             <PropertyRef Name="IeIncomeDate" />
             <PropertyRef Name="IeCustomerID" />
           </Key>
-          <Property Name="IeProductID" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="IeProductID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IeIncomeDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="IeCustomerID" Type="Int32" Nullable="false" />
-          <Property Name="IeProductName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="IeCustomerName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="IeProductName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IeCustomerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IeAmount" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
             <PropertyRef Name="ProductID" />
           </Key>
-          <Property Name="ProductID" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="ProductName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="ProductGroupID" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="DepartmentID" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="ProductID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProductName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProductGroupID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DepartmentID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProductCategoryID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Department" Relationship="BUPmodel.FK_Product_Department" FromRole="Product" ToRole="Department" />
           <NavigationProperty Name="DirectProductCost" Relationship="BUPmodel.FK_DirectProductCost_Product" FromRole="Product" ToRole="DirectProductCost" />
           <NavigationProperty Name="FinancialIncome" Relationship="BUPmodel.FK_FinancialIncome_Product" FromRole="Product" ToRole="FinancialIncome" />
+          <NavigationProperty Name="ProductCategory" Relationship="BUPmodel.FK_Product_ProductCategory" FromRole="Product" ToRole="ProductCategory" />
           <NavigationProperty Name="ProductGroup" Relationship="BUPmodel.FK_Product_ProductGroup" FromRole="Product" ToRole="ProductGroup" />
           <NavigationProperty Name="ProductPlacement" Relationship="BUPmodel.FK_ProductPlacement_Product" FromRole="Product" ToRole="ProductPlacement" />
-          <Property Name="ProductCategoryID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ProductCategory" Relationship="BUPmodel.FK_Product_ProductCategory" FromRole="Product" ToRole="ProductCategory" />
         </EntityType>
         <EntityType Name="ProductCategory">
           <Key>
             <PropertyRef Name="ProductCategoryID" />
           </Key>
-          <Property Name="ProductCategoryID" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="ProductCategoryName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="ProductCategoryID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProductCategoryName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Product" Relationship="BUPmodel.FK_Product_ProductCategory" FromRole="ProductCategory" ToRole="Product" />
         </EntityType>
         <EntityType Name="ProductGroup">
           <Key>
             <PropertyRef Name="ProductGroupID" />
           </Key>
-          <Property Name="ProductGroupID" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="ProductGroupName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="ProductGroupID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProductGroupName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Product" Relationship="BUPmodel.FK_Product_ProductGroup" FromRole="ProductGroup" ToRole="Product" />
         </EntityType>
         <EntityType Name="ProductPlacement">
@@ -946,7 +942,7 @@
             <PropertyRef Name="ExpenseBudgetID" />
           </Key>
           <Property Name="EmployeeID" Type="Int64" Nullable="false" />
-          <Property Name="ProductID" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="ProductID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ExpenseBudgetID" Type="Int32" Nullable="false" />
           <Property Name="ProductAllocate" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <NavigationProperty Name="Employee" Relationship="BUPmodel.FK_ProductPlacement_Employee" FromRole="ProductPlacement" ToRole="Employee" />
@@ -958,14 +954,14 @@
             <PropertyRef Name="UserName" />
           </Key>
           <Property Name="EmployeeID" Type="Int64" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PermissionLevel" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Employee" Relationship="BUPmodel.FK_UserAccount_Employee" FromRole="UserAccount" ToRole="Employee" />
         </EntityType>
         <Association Name="FK_DirectActivityCost_Account">
-          <End Role="Account" Type="BUPmodel.Account" Multiplicity="1" />
-          <End Role="DirectActivityCost" Type="BUPmodel.DirectActivityCost" Multiplicity="*" />
+          <End Type="BUPmodel.Account" Role="Account" Multiplicity="1" />
+          <End Type="BUPmodel.DirectActivityCost" Role="DirectActivityCost" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Account">
               <PropertyRef Name="AccountID" />
@@ -976,8 +972,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DirectProductCost_Account">
-          <End Role="Account" Type="BUPmodel.Account" Multiplicity="1" />
-          <End Role="DirectProductCost" Type="BUPmodel.DirectProductCost" Multiplicity="*" />
+          <End Type="BUPmodel.Account" Role="Account" Multiplicity="1" />
+          <End Type="BUPmodel.DirectProductCost" Role="DirectProductCost" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Account">
               <PropertyRef Name="AccountID" />
@@ -988,8 +984,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Activity_Department">
-          <End Role="Department" Type="BUPmodel.Department" Multiplicity="1" />
-          <End Role="Activity" Type="BUPmodel.Activity" Multiplicity="*" />
+          <End Type="BUPmodel.Department" Role="Department" Multiplicity="1" />
+          <End Type="BUPmodel.Activity" Role="Activity" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Department">
               <PropertyRef Name="DepartmentID" />
@@ -1000,8 +996,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ActivityPlacement_Activity">
-          <End Role="Activity" Type="BUPmodel.Activity" Multiplicity="1" />
-          <End Role="ActivityPlacement" Type="BUPmodel.ActivityPlacement" Multiplicity="*" />
+          <End Type="BUPmodel.Activity" Role="Activity" Multiplicity="1" />
+          <End Type="BUPmodel.ActivityPlacement" Role="ActivityPlacement" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Activity">
               <PropertyRef Name="ActivityID" />
@@ -1012,8 +1008,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DirectActivityCost_Activity">
-          <End Role="Activity" Type="BUPmodel.Activity" Multiplicity="1" />
-          <End Role="DirectActivityCost" Type="BUPmodel.DirectActivityCost" Multiplicity="*" />
+          <End Type="BUPmodel.Activity" Role="Activity" Multiplicity="1" />
+          <End Type="BUPmodel.DirectActivityCost" Role="DirectActivityCost" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Activity">
               <PropertyRef Name="ActivityID" />
@@ -1024,8 +1020,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ActivityPlacement_Employee">
-          <End Role="Employee" Type="BUPmodel.Employee" Multiplicity="1" />
-          <End Role="ActivityPlacement" Type="BUPmodel.ActivityPlacement" Multiplicity="*" />
+          <End Type="BUPmodel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="BUPmodel.ActivityPlacement" Role="ActivityPlacement" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Employee">
               <PropertyRef Name="EmployeeID" />
@@ -1036,8 +1032,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ActivityPlacement_ExpenseBudget">
-          <End Role="ExpenseBudget" Type="BUPmodel.ExpenseBudget" Multiplicity="1" />
-          <End Role="ActivityPlacement" Type="BUPmodel.ActivityPlacement" Multiplicity="*" />
+          <End Type="BUPmodel.ExpenseBudget" Role="ExpenseBudget" Multiplicity="1" />
+          <End Type="BUPmodel.ActivityPlacement" Role="ActivityPlacement" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ExpenseBudget">
               <PropertyRef Name="ExpenseBudgetID" />
@@ -1048,8 +1044,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FinancialIncome_Customer">
-          <End Role="Customer" Type="BUPmodel.Customer" Multiplicity="1" />
-          <End Role="FinancialIncome" Type="BUPmodel.FinancialIncome" Multiplicity="*" />
+          <End Type="BUPmodel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="BUPmodel.FinancialIncome" Role="FinancialIncome" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Customer">
               <PropertyRef Name="CustomerID" />
@@ -1060,8 +1056,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_EmployeePlacement_Department">
-          <End Role="Department" Type="BUPmodel.Department" Multiplicity="1" />
-          <End Role="EmployeePlacement" Type="BUPmodel.EmployeePlacement" Multiplicity="*" />
+          <End Type="BUPmodel.Department" Role="Department" Multiplicity="1" />
+          <End Type="BUPmodel.EmployeePlacement" Role="EmployeePlacement" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Department">
               <PropertyRef Name="DepartmentID" />
@@ -1072,8 +1068,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Product_Department">
-          <End Role="Department" Type="BUPmodel.Department" Multiplicity="1" />
-          <End Role="Product" Type="BUPmodel.Product" Multiplicity="*" />
+          <End Type="BUPmodel.Department" Role="Department" Multiplicity="1" />
+          <End Type="BUPmodel.Product" Role="Product" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Department">
               <PropertyRef Name="DepartmentID" />
@@ -1084,8 +1080,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DirectActivityCost_ExpenseBudget">
-          <End Role="ExpenseBudget" Type="BUPmodel.ExpenseBudget" Multiplicity="1" />
-          <End Role="DirectActivityCost" Type="BUPmodel.DirectActivityCost" Multiplicity="*" />
+          <End Type="BUPmodel.ExpenseBudget" Role="ExpenseBudget" Multiplicity="1" />
+          <End Type="BUPmodel.DirectActivityCost" Role="DirectActivityCost" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ExpenseBudget">
               <PropertyRef Name="ExpenseBudgetID" />
@@ -1096,8 +1092,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DirectProductCost_ExpenseBudget">
-          <End Role="ExpenseBudget" Type="BUPmodel.ExpenseBudget" Multiplicity="1" />
-          <End Role="DirectProductCost" Type="BUPmodel.DirectProductCost" Multiplicity="*" />
+          <End Type="BUPmodel.ExpenseBudget" Role="ExpenseBudget" Multiplicity="1" />
+          <End Type="BUPmodel.DirectProductCost" Role="DirectProductCost" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ExpenseBudget">
               <PropertyRef Name="ExpenseBudgetID" />
@@ -1108,8 +1104,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DirectProductCost_Product">
-          <End Role="Product" Type="BUPmodel.Product" Multiplicity="1" />
-          <End Role="DirectProductCost" Type="BUPmodel.DirectProductCost" Multiplicity="*" />
+          <End Type="BUPmodel.Product" Role="Product" Multiplicity="1" />
+          <End Type="BUPmodel.DirectProductCost" Role="DirectProductCost" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Product">
               <PropertyRef Name="ProductID" />
@@ -1120,8 +1116,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_EmployeePlacement_Employee">
-          <End Role="Employee" Type="BUPmodel.Employee" Multiplicity="1" />
-          <End Role="EmployeePlacement" Type="BUPmodel.EmployeePlacement" Multiplicity="*" />
+          <End Type="BUPmodel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="BUPmodel.EmployeePlacement" Role="EmployeePlacement" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Employee">
               <PropertyRef Name="EmployeeID" />
@@ -1132,8 +1128,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ProductPlacement_Employee">
-          <End Role="Employee" Type="BUPmodel.Employee" Multiplicity="1" />
-          <End Role="ProductPlacement" Type="BUPmodel.ProductPlacement" Multiplicity="*" />
+          <End Type="BUPmodel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="BUPmodel.ProductPlacement" Role="ProductPlacement" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Employee">
               <PropertyRef Name="EmployeeID" />
@@ -1144,8 +1140,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_UserAccount_Employee">
-          <End Role="Employee" Type="BUPmodel.Employee" Multiplicity="0..1" />
-          <End Role="UserAccount" Type="BUPmodel.UserAccount" Multiplicity="*" />
+          <End Type="BUPmodel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="BUPmodel.UserAccount" Role="UserAccount" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Employee">
               <PropertyRef Name="EmployeeID" />
@@ -1156,8 +1152,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ProductPlacement_ExpenseBudget">
-          <End Role="ExpenseBudget" Type="BUPmodel.ExpenseBudget" Multiplicity="1" />
-          <End Role="ProductPlacement" Type="BUPmodel.ProductPlacement" Multiplicity="*" />
+          <End Type="BUPmodel.ExpenseBudget" Role="ExpenseBudget" Multiplicity="1" />
+          <End Type="BUPmodel.ProductPlacement" Role="ProductPlacement" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ExpenseBudget">
               <PropertyRef Name="ExpenseBudgetID" />
@@ -1168,20 +1164,20 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FinancialIncome_FinancialIncomeYear">
-          <End Role="FinancialIncomeYear" Type="BUPmodel.FinancialIncomeYear" Multiplicity="1" />
-          <End Role="FinancialIncome" Type="BUPmodel.FinancialIncome" Multiplicity="*" />
+          <End Type="BUPmodel.FinancialIncomeYear" Role="FinancialIncomeYear" Multiplicity="1" />
+          <End Type="BUPmodel.FinancialIncome" Role="FinancialIncome" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FinancialIncomeYear">
-              <PropertyRef Name="FinancialIncomeID" />
+              <PropertyRef Name="FinancialIncomeYearID" />
             </Principal>
             <Dependent Role="FinancialIncome">
-              <PropertyRef Name="FinancialIncomeID" />
+              <PropertyRef Name="FinancialIncomeYearID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FinancialIncome_Product">
-          <End Role="Product" Type="BUPmodel.Product" Multiplicity="1" />
-          <End Role="FinancialIncome" Type="BUPmodel.FinancialIncome" Multiplicity="*" />
+          <End Type="BUPmodel.Product" Role="Product" Multiplicity="1" />
+          <End Type="BUPmodel.FinancialIncome" Role="FinancialIncome" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Product">
               <PropertyRef Name="ProductID" />
@@ -1192,38 +1188,14 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ForecastMonitor_ForecastMonth">
-          <End Role="ForecastMonth" Type="BUPmodel.ForecastMonth" Multiplicity="1" />
-          <End Role="ForecastMonitor" Type="BUPmodel.ForecastMonitor" Multiplicity="*" />
+          <End Type="BUPmodel.ForecastMonth" Role="ForecastMonth" Multiplicity="1" />
+          <End Type="BUPmodel.ForecastMonitor" Role="ForecastMonitor" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ForecastMonth">
-              <PropertyRef Name="ForecastMonitorID" />
+              <PropertyRef Name="ForecastMonitorMonthID" />
             </Principal>
             <Dependent Role="ForecastMonitor">
-              <PropertyRef Name="ForecastMonitorID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Product_ProductGroup">
-          <End Role="ProductGroup" Type="BUPmodel.ProductGroup" Multiplicity="1" />
-          <End Role="Product" Type="BUPmodel.Product" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="ProductGroup">
-              <PropertyRef Name="ProductGroupID" />
-            </Principal>
-            <Dependent Role="Product">
-              <PropertyRef Name="ProductID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProductPlacement_Product">
-          <End Role="Product" Type="BUPmodel.Product" Multiplicity="1" />
-          <End Role="ProductPlacement" Type="BUPmodel.ProductPlacement" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductID" />
-            </Principal>
-            <Dependent Role="ProductPlacement">
-              <PropertyRef Name="ProductID" />
+              <PropertyRef Name="ForecastMonitorMonthID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1239,7 +1211,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Product_ProductGroup1">
+        <Association Name="FK_Product_ProductGroup">
           <End Type="BUPmodel.ProductGroup" Role="ProductGroup" Multiplicity="0..1" />
           <End Type="BUPmodel.Product" Role="Product" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1251,7 +1223,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK_ProductPlacement_Product">
+          <End Type="BUPmodel.Product" Role="Product" Multiplicity="1" />
+          <End Type="BUPmodel.ProductPlacement" Role="ProductPlacement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="ProductPlacement">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1260,160 +1244,160 @@
           <EntitySetMapping Name="Account">
             <EntityTypeMapping TypeName="BUPmodel.Account">
               <MappingFragment StoreEntitySet="Account">
-                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
-                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
                 <ScalarProperty Name="AccountCost" ColumnName="AccountCost" />
+                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Activity">
             <EntityTypeMapping TypeName="BUPmodel.Activity">
               <MappingFragment StoreEntitySet="Activity">
-                <ScalarProperty Name="ActivityID" ColumnName="ActivityID" />
-                <ScalarProperty Name="ActivityName" ColumnName="ActivityName" />
                 <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+                <ScalarProperty Name="ActivityName" ColumnName="ActivityName" />
+                <ScalarProperty Name="ActivityID" ColumnName="ActivityID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ActivityPlacement">
             <EntityTypeMapping TypeName="BUPmodel.ActivityPlacement">
               <MappingFragment StoreEntitySet="ActivityPlacement">
-                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
-                <ScalarProperty Name="ActivityID" ColumnName="ActivityID" />
-                <ScalarProperty Name="ExpenseBudgetID" ColumnName="ExpenseBudgetID" />
                 <ScalarProperty Name="ActivityAllocate" ColumnName="ActivityAllocate" />
+                <ScalarProperty Name="ExpenseBudgetID" ColumnName="ExpenseBudgetID" />
+                <ScalarProperty Name="ActivityID" ColumnName="ActivityID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CostProduct">
             <EntityTypeMapping TypeName="BUPmodel.CostProduct">
               <MappingFragment StoreEntitySet="CostProduct">
-                <ScalarProperty Name="CeProductID" ColumnName="CeProductID" />
-                <ScalarProperty Name="CeIncomeDate" ColumnName="CeIncomeDate" />
-                <ScalarProperty Name="CeProductName" ColumnName="CeProductName" />
                 <ScalarProperty Name="CeAmount" ColumnName="CeAmount" />
+                <ScalarProperty Name="CeProductName" ColumnName="CeProductName" />
+                <ScalarProperty Name="CeIncomeDate" ColumnName="CeIncomeDate" />
+                <ScalarProperty Name="CeProductID" ColumnName="CeProductID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Customer">
             <EntityTypeMapping TypeName="BUPmodel.Customer">
               <MappingFragment StoreEntitySet="Customer">
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="CustomerCategory" ColumnName="CustomerCategory" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Department">
             <EntityTypeMapping TypeName="BUPmodel.Department">
               <MappingFragment StoreEntitySet="Department">
-                <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
                 <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DirectActivityCost">
             <EntityTypeMapping TypeName="BUPmodel.DirectActivityCost">
               <MappingFragment StoreEntitySet="DirectActivityCost">
-                <ScalarProperty Name="ExpenseBudgetID" ColumnName="ExpenseBudgetID" />
-                <ScalarProperty Name="ActivityCost" ColumnName="ActivityCost" />
-                <ScalarProperty Name="ActivityID" ColumnName="ActivityID" />
                 <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+                <ScalarProperty Name="ActivityID" ColumnName="ActivityID" />
+                <ScalarProperty Name="ActivityCost" ColumnName="ActivityCost" />
+                <ScalarProperty Name="ExpenseBudgetID" ColumnName="ExpenseBudgetID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DirectProductCost">
             <EntityTypeMapping TypeName="BUPmodel.DirectProductCost">
               <MappingFragment StoreEntitySet="DirectProductCost">
-                <ScalarProperty Name="ExpenseBudgetID" ColumnName="ExpenseBudgetID" />
-                <ScalarProperty Name="ProductCost" ColumnName="ProductCost" />
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
                 <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductCost" ColumnName="ProductCost" />
+                <ScalarProperty Name="ExpenseBudgetID" ColumnName="ExpenseBudgetID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Employee">
             <EntityTypeMapping TypeName="BUPmodel.Employee">
               <MappingFragment StoreEntitySet="Employee">
-                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
-                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
-                <ScalarProperty Name="MonthSallary" ColumnName="MonthSallary" />
-                <ScalarProperty Name="EmployeementRate" ColumnName="EmployeementRate" />
                 <ScalarProperty Name="VacancyDeduction" ColumnName="VacancyDeduction" />
+                <ScalarProperty Name="EmployeementRate" ColumnName="EmployeementRate" />
+                <ScalarProperty Name="MonthSallary" ColumnName="MonthSallary" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="EmployeePlacement">
             <EntityTypeMapping TypeName="BUPmodel.EmployeePlacement">
               <MappingFragment StoreEntitySet="EmployeePlacement">
-                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
-                <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
                 <ScalarProperty Name="EmployeeAllocate" ColumnName="EmployeeAllocate" />
+                <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ExpenseBudget">
             <EntityTypeMapping TypeName="BUPmodel.ExpenseBudget">
               <MappingFragment StoreEntitySet="ExpenseBudget">
-                <ScalarProperty Name="ExpenseBudgetID" ColumnName="ExpenseBudgetID" />
-                <ScalarProperty Name="SellLock" ColumnName="SellLock" />
                 <ScalarProperty Name="ProductionLock" ColumnName="ProductionLock" />
+                <ScalarProperty Name="SellLock" ColumnName="SellLock" />
+                <ScalarProperty Name="ExpenseBudgetID" ColumnName="ExpenseBudgetID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="FinancialIncome">
             <EntityTypeMapping TypeName="BUPmodel.FinancialIncome">
               <MappingFragment StoreEntitySet="FinancialIncome">
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="Agreement" ColumnName="Agreement" />
-                <ScalarProperty Name="GradeT" ColumnName="GradeT" />
-                <ScalarProperty Name="GradeA" ColumnName="GradeA" />
-                <ScalarProperty Name="Addition" ColumnName="Addition" />
-                <ScalarProperty Name="Hours" ColumnName="Hours" />
+                <ScalarProperty Name="FinancialIncomeYearID" ColumnName="FinancialIncomeYearID" />
                 <ScalarProperty Name="Comments" ColumnName="Comments" />
-                <ScalarProperty Name="FinancialIncomeID" ColumnName="FinancialIncomeID" />
+                <ScalarProperty Name="Hours" ColumnName="Hours" />
+                <ScalarProperty Name="Addition" ColumnName="Addition" />
+                <ScalarProperty Name="GradeA" ColumnName="GradeA" />
+                <ScalarProperty Name="GradeT" ColumnName="GradeT" />
+                <ScalarProperty Name="Agreement" ColumnName="Agreement" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="FinancialIncomeYear">
             <EntityTypeMapping TypeName="BUPmodel.FinancialIncomeYear">
               <MappingFragment StoreEntitySet="FinancialIncomeYear">
-                <ScalarProperty Name="FinancialIncomeID" ColumnName="FinancialIncomeID" />
                 <ScalarProperty Name="FinancialIncomeLock" ColumnName="FinancialIncomeLock" />
+                <ScalarProperty Name="FinancialIncomeYearID" ColumnName="FinancialIncomeYearID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ForecastMonitor">
             <EntityTypeMapping TypeName="BUPmodel.ForecastMonitor">
               <MappingFragment StoreEntitySet="ForecastMonitor">
-                <ScalarProperty Name="IeProductID" ColumnName="IeProductID" />
-                <ScalarProperty Name="IeProductName" ColumnName="IeProductName" />
-                <ScalarProperty Name="OutcomeAcc" ColumnName="OutcomeAcc" />
-                <ScalarProperty Name="Reprocessed" ColumnName="Reprocessed" />
-                <ScalarProperty Name="Forecast" ColumnName="Forecast" />
+                <ScalarProperty Name="ForecastMonitorMonthID" ColumnName="ForecastMonitorMonthID" />
                 <ScalarProperty Name="ForecastBudget" ColumnName="ForecastBudget" />
-                <ScalarProperty Name="ForecastMonitorID" ColumnName="ForecastMonitorID" />
+                <ScalarProperty Name="Forecast" ColumnName="Forecast" />
+                <ScalarProperty Name="Reprocessed" ColumnName="Reprocessed" />
+                <ScalarProperty Name="OutcomeAcc" ColumnName="OutcomeAcc" />
+                <ScalarProperty Name="IeProductName" ColumnName="IeProductName" />
+                <ScalarProperty Name="IeProductID" ColumnName="IeProductID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ForecastMonth">
             <EntityTypeMapping TypeName="BUPmodel.ForecastMonth">
               <MappingFragment StoreEntitySet="ForecastMonth">
-                <ScalarProperty Name="ForecastMonitorID" ColumnName="ForecastMonitorID" />
                 <ScalarProperty Name="ForecastLock" ColumnName="ForecastLock" />
+                <ScalarProperty Name="ForecastMonitorMonthID" ColumnName="ForecastMonitorMonthID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="IncomeProductCustomer">
             <EntityTypeMapping TypeName="BUPmodel.IncomeProductCustomer">
               <MappingFragment StoreEntitySet="IncomeProductCustomer">
-                <ScalarProperty Name="IeProductID" ColumnName="IeProductID" />
-                <ScalarProperty Name="IeIncomeDate" ColumnName="IeIncomeDate" />
-                <ScalarProperty Name="IeCustomerID" ColumnName="IeCustomerID" />
-                <ScalarProperty Name="IeProductName" ColumnName="IeProductName" />
-                <ScalarProperty Name="IeCustomerName" ColumnName="IeCustomerName" />
                 <ScalarProperty Name="IeAmount" ColumnName="IeAmount" />
+                <ScalarProperty Name="IeCustomerName" ColumnName="IeCustomerName" />
+                <ScalarProperty Name="IeProductName" ColumnName="IeProductName" />
+                <ScalarProperty Name="IeCustomerID" ColumnName="IeCustomerID" />
+                <ScalarProperty Name="IeIncomeDate" ColumnName="IeIncomeDate" />
+                <ScalarProperty Name="IeProductID" ColumnName="IeProductID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1421,46 +1405,46 @@
             <EntityTypeMapping TypeName="BUPmodel.Product">
               <MappingFragment StoreEntitySet="Product">
                 <ScalarProperty Name="ProductCategoryID" ColumnName="ProductCategoryID" />
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
-                <ScalarProperty Name="ProductGroupID" ColumnName="ProductGroupID" />
                 <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+                <ScalarProperty Name="ProductGroupID" ColumnName="ProductGroupID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ProductCategory">
             <EntityTypeMapping TypeName="BUPmodel.ProductCategory">
               <MappingFragment StoreEntitySet="ProductCategory">
-                <ScalarProperty Name="ProductCategoryID" ColumnName="ProductCategoryID" />
                 <ScalarProperty Name="ProductCategoryName" ColumnName="ProductCategoryName" />
+                <ScalarProperty Name="ProductCategoryID" ColumnName="ProductCategoryID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ProductGroup">
             <EntityTypeMapping TypeName="BUPmodel.ProductGroup">
               <MappingFragment StoreEntitySet="ProductGroup">
-                <ScalarProperty Name="ProductGroupID" ColumnName="ProductGroupID" />
                 <ScalarProperty Name="ProductGroupName" ColumnName="ProductGroupName" />
+                <ScalarProperty Name="ProductGroupID" ColumnName="ProductGroupID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ProductPlacement">
             <EntityTypeMapping TypeName="BUPmodel.ProductPlacement">
               <MappingFragment StoreEntitySet="ProductPlacement">
-                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-                <ScalarProperty Name="ExpenseBudgetID" ColumnName="ExpenseBudgetID" />
                 <ScalarProperty Name="ProductAllocate" ColumnName="ProductAllocate" />
+                <ScalarProperty Name="ExpenseBudgetID" ColumnName="ExpenseBudgetID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserAccount">
             <EntityTypeMapping TypeName="BUPmodel.UserAccount">
               <MappingFragment StoreEntitySet="UserAccount">
-                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="PermissionLevel" ColumnName="PermissionLevel" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

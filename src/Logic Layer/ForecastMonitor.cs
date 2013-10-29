@@ -20,7 +20,7 @@ namespace Logic_Layer
         public Nullable<int> Reprocessed { get; set; }
         public Nullable<int> Forecast { get; set; }
         public string ForecastBudget { get; set; }
-        public int ForecastMonitorID { get; set; }
+        public string ForecastMonitorMonthID { get; set; }
     
         public virtual ForecastMonth ForecastMonth { get; set; }
     }
