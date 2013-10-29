@@ -90,7 +90,7 @@
                 </TextBox>
             </Grid>
         </GroupBox>
-        <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="297,403,0,0" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click" IsEnabled="True">
+        <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="297,403,0,0" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="IsEnabled" Value="false" />
