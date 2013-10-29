@@ -6,46 +6,17 @@
 //    Manual changes to this file will be overwritten if the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-using System.ComponentModel;
 
 namespace Logic_Layer
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class ProductGroup : INotifyPropertyChanged
+    public partial class ProductGroup
     {
-        private string m_ProductGroupID;
-        private string m_ProductGroupName;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
-        }
-        protected bool SetField<T>(ref T field, T value, string propertyName)
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
-            field = value;
-            OnPropertyChanged(propertyName);
-            return true;
-        }
-
-        public string ProductGroupID
-        {
-            get { return m_ProductGroupID; }
-            set { SetField(ref m_ProductGroupID, value, "ProductGroupID"); }
-        }
-        public string ProductGroupName
-        {
-            get { return m_ProductGroupName; }
-            set { SetField(ref m_ProductGroupName, value, "ProductGroupName"); }
-        }
-        public string ProductCategoryID { get; set; }
+        public string ProductGroupID { get; set; }
+        public string ProductGroupName { get; set; }
     
         public virtual Product Product { get; set; }
-        public virtual ProductCategory ProductCategory { get; set; }
     }
 }

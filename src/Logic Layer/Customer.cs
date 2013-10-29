@@ -6,54 +6,22 @@
 //    Manual changes to this file will be overwritten if the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-using System.ComponentModel;
 
 namespace Logic_Layer
 {
     using System;
     using System.Collections.Generic;
-
-    public partial class Customer : INotifyPropertyChanged
+    
+    public partial class Customer
     {
-        private string m_CustomerID;
-        private string m_CustomerName;
-        private string m_CustomerCategory;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
-        }
-        protected bool SetField<T>(ref T field, T value, string propertyName)
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
-            field = value;
-            OnPropertyChanged(propertyName);
-            return true;
-        }
-
         public Customer()
         {
             this.FinancialIncome = new HashSet<FinancialIncome>();
         }
     
-        public string CustomerID {
-            get { return m_CustomerID;  }
-            set { SetField(ref m_CustomerID, value, "CustomerID"); }
-        }
-
-        public string CustomerName {
-            get { return m_CustomerName; }
-            set { SetField(ref m_CustomerName, value, "CustomerName"); }
-        }
-
-        public string CustomerCategory
-        {
-            get { return m_CustomerCategory; }
-            set { SetField(ref m_CustomerCategory, value, "CustomerCategory"); }
-        }
+        public string CustomerID { get; set; }
+        public string CustomerName { get; set; }
+        public string CustomerCategory { get; set; }
     
         public virtual ICollection<FinancialIncome> FinancialIncome { get; set; }
     }
