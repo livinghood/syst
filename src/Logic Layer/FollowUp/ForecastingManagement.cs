@@ -57,6 +57,13 @@ namespace Logic_Layer.FollowUp
         private ForecastingManagement()
         {
             Forecasts = new ObservableCollection<Forecasting>();
+
+            var icps = GetIncomeProductCustomers();
+
+            foreach (var icp in icps)
+            {
+                CreateForecasting(icp);
+            }
         }
 
         /// <summary>
@@ -68,17 +75,16 @@ namespace Logic_Layer.FollowUp
             ForecastMonth forecastMonth = new ForecastMonth
             {
                 ForecastLock = false,
-                ForecastMonitorID = GetNewForecastMonthID()
+                ForecastMonitorMonthID = forecast.Date.Month.ToString()
             };
 
             ForecastMonitor forecastMonitor = new ForecastMonitor
             {
-                Forecast = forecast.Prognosis,
-                // TODO Är forecastBudget datatyp i databasen felaktig? + Är namnet ForecastMonitorID i ForecastMonth-tabellen fel? 
-                ForecastBudget = forecast.PrognosisBudget.ToString(CultureInfo.InvariantCulture),
-                ForecastMonitorID = GetNewForecastMonitorID(),
-                IeProductID = forecast.ProductID,
-                IeProductName = forecast.ProductName,
+                Forecast = forecast.Forecast,
+                ForecastBudget = forecast.ForecastBudget.ToString(CultureInfo.InvariantCulture),
+                ForecastMonitorMonthID = GetNewForecastMonitorID(),
+                IeProductID = forecast.IeProductID,
+                IeProductName = forecast.IeProductName,
                 OutcomeAcc = forecast.OutcomeAcc,
                 Reprocessed = forecast.Reprocessed,
                 ForecastMonth = forecastMonth
@@ -92,10 +98,10 @@ namespace Logic_Layer.FollowUp
                 db.ForecastMonitor.Add(forecastMonitor);
             }
 
-            var mList = db.ForecastMonth.Select(m => m.ForecastMonitorID);
+            var mList = db.ForecastMonth.Select(m => m.ForecastMonitorMonthID);
            
             // Add the forecastMonitor to database if not already added
-            if (!mList.Contains(forecastMonitor.ForecastMonitorID))
+            if (!mList.Contains(forecastMonitor.ForecastMonitorMonthID))
             {
                 db.ForecastMonth.Add(forecastMonth);
             }
@@ -107,46 +113,48 @@ namespace Logic_Layer.FollowUp
         /// Returns a new ForecastMonitorID
         /// </summary>
         /// <returns></returns>
-        private int GetNewForecastMonitorID()
+        private string GetNewForecastMonitorID()
         {
             var ids = from f in db.ForecastMonitor
-                      orderby f.ForecastMonitorID
-                      select f.ForecastMonitorID;
+                      orderby f.ForecastMonitorMonthID
+                      select f.ForecastMonitorMonthID;
 
-            List<int> list = new List<int>(ids);
+            List<string> list = new List<string>(ids);
 
             // If the database doesn't contain anything in forecastMontitor return 100 as a new id, else return the id of last element + 1. 
             int id = 100;
 
             if (ids.Any())
             {
-                id = list.Last();
+                id = Convert.ToInt32(list.Last());
                 id++;
             }
-            return id;
+            return id.ToString();
         }
 
         /// <summary>
         /// Returns a new Returns a new ForecastMonthID
         /// </summary>
         /// <returns></returns>
-        private int GetNewForecastMonthID()
+        private string GetNewForecastMonthID()
         {
-            var ids = from f in db.ForecastMonth
-                      orderby f.ForecastMonitorID
-                      select f.ForecastMonitorID;
+            return DateTime.Now.Month.ToString();
 
-            List<int> list = new List<int>(ids);
+            //var ids = from f in db.ForecastMonth
+            //          orderby f.ForecastMonitorMonthID
+            //          select f.ForecastMonitorMonthID;
 
-            // If the database doesn't contain anything in forecastMonth return 100 as a new id, else return the id of last element + 1. 
-            int id = 100;
+            //List<string> list = new List<string>(ids);
 
-            if (ids.Any())
-            {
-                id = list.Last();
-                id++;
-            }
-            return id;
+            //// If the database doesn't contain anything in forecastMonth return 100 as a new id, else return the id of last element + 1. 
+            //int id = 100;
+
+            //if (ids.Any())
+            //{
+            //    id = Convert.ToInt32(list.Last());
+            //    id++;
+            //}
+            //return id.ToString();
         }
 
         /// <summary>
@@ -192,15 +200,26 @@ namespace Logic_Layer.FollowUp
                     string date = field[4];
                     string amount = field[5];
 
-                    Forecasting forecast = new Forecasting(productID, productName, customerID, customerName, date, amount);
+                    IncomeProductCustomer ipc = new IncomeProductCustomer
+                    {
+                        IeProductID = productID,
+                        IeProductName = productName,
+                        IeCustomerID = customerID, 
+                        IeCustomerName = customerName,
+                        IeAmount = int.Parse(amount),
+                        //IeIncomeDate = DateTime.ParseExact(date, "yyyyMMdd", CultureInfo.InvariantCulture) 
+                    };
 
-                    // Add the created forecast to the list of forecasts
-                    Forecasts.Add(forecast);
-
-                    // Add the created forecast to database
-                    AddForecast(forecast);
+                    // Add the icp forecast to database
+                    AddIncomeProductCustomer(ipc);
                 }
             }
+        }
+
+        private void AddIncomeProductCustomer(IncomeProductCustomer ipc)
+        {
+            db.IncomeProductCustomer.Add(ipc);
+            db.SaveChanges();
         }
 
         /// <summary>
@@ -260,6 +279,30 @@ namespace Logic_Layer.FollowUp
         public void CalculateTrend(Forecasting forecast, int passedMonths)
         {
             forecast.Trend = (forecast.OutcomeAcc + forecast.Reprocessed) / passedMonths * 12;
+        }
+
+        public IEnumerable<ForecastMonitor> GetForecastMonitor()
+        {
+            return db.ForecastMonitor.OrderBy(f => f.IeProductID);
+        }
+        public IEnumerable<IncomeProductCustomer> GetIncomeProductCustomers()
+        {
+            return db.IncomeProductCustomer.OrderBy(f => f.IeProductID);
+        }
+
+        public void CreateForecasting(IncomeProductCustomer ipc)
+        {
+            Forecasting fc = new Forecasting
+            {
+                IeProductID = ipc.IeProductID,
+                IeProductName = ipc.IeProductName,
+                CustomerID = ipc.IeCustomerID,
+                CustomerName = ipc.IeCustomerName,
+                Amount = ipc.IeAmount,
+                Date = ipc.IeIncomeDate
+            };
+
+            Forecasts.Add(fc);
         }
     }
 }

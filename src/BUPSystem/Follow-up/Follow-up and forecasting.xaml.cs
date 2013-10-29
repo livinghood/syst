@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using Logic_Layer;
 using Logic_Layer.FollowUp;
 using Microsoft.Win32;
 
@@ -42,7 +43,7 @@ namespace BUPSystem.Uppföljning
             {
                 ForecastingManagement.Instance.CreateForecastFromFile(ofd.FileName);
                 cbMonth_SelectionChanged(sender, e as SelectionChangedEventArgs);
-            }           
+            }        
         }
 
         private void UpdateForecasts()
@@ -83,6 +84,11 @@ namespace BUPSystem.Uppföljning
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             ForecastingManagement.Instance.UpdateForecast();
+        }
+
+        private void btnLock_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
