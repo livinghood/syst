@@ -72,6 +72,7 @@ namespace BUPSystem.Kostnadsbudgetering
             DirectActivityCosts = new ObservableCollection<DirectActivityCost>(DCPADManagement.Instance.GetAccounts(account));
             dgDCPAD.ItemsSource = DirectActivityCosts;
             lblSum.Content = "Summa: " + DCPADManagement.Instance.CalculateSum(account);
+            btnAddActivity.IsEnabled = true;
         }
 
         /// <summary>
