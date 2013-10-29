@@ -20,7 +20,6 @@
         <EntityTypeShape EntityType="BUPmodel.FinancialIncomeYear" Width="1.5" PointX="6" PointY="22.375" />
         <EntityTypeShape EntityType="BUPmodel.ForecastMonitor" Width="1.5" PointX="11" PointY="2.875" />
         <EntityTypeShape EntityType="BUPmodel.ForecastMonth" Width="1.5" PointX="8.75" PointY="3.375" />
-        <EntityTypeShape EntityType="BUPmodel.IncomeProductCustomer" Width="1.5" PointX="8.75" PointY="6.625" />
         <EntityTypeShape EntityType="BUPmodel.Product" Width="1.5" PointX="3" PointY="11.375" />
         <EntityTypeShape EntityType="BUPmodel.ProductCategory" Width="1.5" PointX="0.75" PointY="15.25" />
         <EntityTypeShape EntityType="BUPmodel.ProductGroup" Width="1.5" PointX="0.75" PointY="9" />
@@ -49,6 +48,7 @@
         <AssociationConnector Association="BUPmodel.FK_Product_ProductCategory" />
         <AssociationConnector Association="BUPmodel.FK_Product_ProductGroup" />
         <AssociationConnector Association="BUPmodel.FK_ProductPlacement_Product" />
+        <EntityTypeShape EntityType="BUPmodel.IncomeProductCustomer" Width="1.5" PointX="8.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

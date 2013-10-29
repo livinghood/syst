@@ -16,7 +16,7 @@ namespace Logic_Layer
     {
         public string IeProductID { get; set; }
         public System.DateTime IeIncomeDate { get; set; }
-        public int IeCustomerID { get; set; }
+        public string IeCustomerID { get; set; }
         public string IeProductName { get; set; }
         public string IeCustomerName { get; set; }
         public int IeAmount { get; set; }
