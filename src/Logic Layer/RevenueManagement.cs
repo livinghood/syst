@@ -71,6 +71,15 @@ namespace Logic_Layer
             return newFinancialIncome;
         }
 
+        public IEnumerable<FinancialIncome> GetFinancialIncomesByCustomer(string customerid)
+        {            
+            var fi = from f in db.FinancialIncome
+                           orderby f.ProductID 
+                            where f.CustomerID == customerid
+                           select f;
+            return fi;
+        }
+
         /// <summary>
         /// Get a list of all FinancialIncomes
         /// </summary>
@@ -93,6 +102,12 @@ namespace Logic_Layer
             return financialIncomes;
         }
 
+        public void AddIncome(FinancialIncome fiObj)
+        {
+            // set fiObj.FinancialIncomeYear
+            db.FinancialIncome.Add(fiObj);
+        }
+
         /// <summary>
         /// Delete a FinancialIncome
         /// </summary>
@@ -111,7 +126,6 @@ namespace Logic_Layer
         {
             db.SaveChanges();
         }
-
 
         //-----------------------------------------------------------------------------------------------------------
 

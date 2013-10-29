@@ -17,9 +17,6 @@ namespace BUPSystem.Revenue_budgeting
     /// </summary>
     public partial class RevenueBudgetingViaCustomer : Window
     {
-        //Lista som fylls och töms varje gång man väljer kund
-        public ObservableCollection<FinancialIncome> TempIncomeList = new ObservableCollection<FinancialIncome>();
-
         /// <summary>
         /// List with financialincomes from RevenueManagement
         /// </summary>
@@ -29,9 +26,15 @@ namespace BUPSystem.Revenue_budgeting
             set { RevenueManagement.Instance.FinancialIncomeList = value; }
         }
 
-        private ObservableCollection<Product> ProductList
+        public ObservableCollection<Product> ProductList
         {
             get { return RevenueManagement.Instance.ProductList; }
+        }
+
+        public Customer SelectedCustomer
+        {
+            get;
+            set;
         }
 
         /// <summary>
@@ -42,7 +45,6 @@ namespace BUPSystem.Revenue_budgeting
             InitializeComponent();
             dgIncomeProduct.IsEnabled = false;
             DataContext = this;
-            dgIncomeProduct.ItemsSource = TempIncomeList;
         }
 
         /// <summary>
@@ -53,109 +55,56 @@ namespace BUPSystem.Revenue_budgeting
         private void btnChoseCustomer_Click(object sender, RoutedEventArgs e)
         {
             CustomerRegister customerRegister = new CustomerRegister(true);
-            customerRegister.ShowDialog();
-            Customer customer = customerRegister.SelectedCustomer;
-            TempIncomeList.Clear();
-            FillTempListCustomer(customer);
-            lblCustomerID.Content = customer.CustomerID.ToString();
-            lblCustomerName.Content = customer.CustomerName;
-            dgIncomeProduct.IsEnabled = true;
 
-        }
-
-
-        /// <summary>
-        /// Fills the temporary list TempIncomeList with FinancialIncomes of a certain customer
-        /// </summary>
-        /// <param name="customer">Customer that the FinancialIncomes matches</param>
-        private void FillTempListCustomer(Customer customer)
-        {
-            foreach (FinancialIncome fI in FinancialIncomeList)
+            if (customerRegister.ShowDialog() == true)
             {
-                if (fI.CustomerID.Equals(customer.CustomerID))
-                {
-                    TempIncomeList.Add(fI);
-                }
+                SelectedCustomer = customerRegister.SelectedCustomer;
+                FinancialIncomeList = new ObservableCollection<FinancialIncome>(RevenueManagement.Instance.GetFinancialIncomesByCustomer(SelectedCustomer.CustomerID));
+                //FinancialIncomeList.Clear();
+                dgIncomeProduct.ItemsSource = FinancialIncomeList;
+                lblCustomerID.Content = SelectedCustomer.CustomerID;
+                lblCustomerName.Content = SelectedCustomer.CustomerName;
+                dgIncomeProduct.IsEnabled = true;
             }
+
         }
+
+
+
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            //för varje rad skall en ny FinancialIncome sparas
+             RevenueManagement.Instance.UpdateFinancialIncome();
         }
 
-        private void dgIncomeProduct_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+
+        private void EditedProductID(object sender, RoutedEventArgs e)
         {
             FinancialIncome fi = (FinancialIncome)dgIncomeProduct.SelectedItem;
 
-            var productID = dgIncomeProduct.Columns[0].GetCellContent(e.Row);
-            var productName = dgIncomeProduct.Columns[1].GetCellContent(e.Row);
+            var autoCompleteBox = sender as AutoCompleteBox;
 
-            foreach (Product p in ProductList)
+            // Check if ID is correct
+
+            Product tempProduct = ProductManagement.Instance.GetProduct(autoCompleteBox.Text);
+
+            if (tempProduct != null)
             {
-                if (productID is TextBox)
-                {
-                    if ((((TextBox)productID).Text).ToUpper().Equals(p.ProductID.ToUpper()))
-                    {
-                        //fi.ProductID = p.ProductID;
-                        fi.ProductName = p.ProductName;
-                        ((TextBlock)productName).Text = fi.ProductName;
-                        ((TextBlock)productName).Text = p.ProductName;
-                        ((TextBox)productID).Text = p.ProductID;
-                    }
-                }
-                if (productName is TextBox)
-                {
-                    if ((((TextBox)productName).Text).ToUpper().Equals(p.ProductName.ToUpper()))
-                    {
-                        fi.ProductID = p.ProductID;
-                        //fi.ProductName = p.ProductName;
-                        ((TextBlock)productID).Text = fi.ProductID;
-                        ((TextBlock)productID).Text = p.ProductID;
-                        ((TextBox)productName).Text = p.ProductName;
-                    }
-                }
+                fi.ProductID = tempProduct.ProductID;
+                fi.ProductName = tempProduct.ProductName;
             }
-
-            //FinancialIncome fi = TempIncomeList[dgIncomeProduct.SelectedIndex];
-            //var h = dgIncomeProduct.Columns[1].GetCellContent(e.Row);
-            //ProductName = ((TextBox)h).Text;
-            //((TextBlock)h).Text = Budget.ToString(); //--> FUNKAR ATT TA TEXT IFRÅN EN CELL
         }
 
-        //private void dgIncomeProduct_AddingNewItem(object sender, AddingNewItemEventArgs e)
-        //{
-        //    //När man skapar nya rad
-        //}
+        private void dgIncomeProduct_InitializingNewItem(object sender, InitializingNewItemEventArgs e)
+        {
 
-        //private void dgIncomeProduct_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        //{
-        //    int sum = 0;
-        //    foreach (var item in TempIncomeList)
-        //    {
-        //        if (item.Agreement != null)
-        //            sum += item.Agreement.Value;
-        //    }
-        //    lblAgreement.Content = sum.ToString();
-        //}
-
-        //private void SearchByID(string text)
-        //{ 
-        //    foreach (Product p in RevenueManagement.Instance.ProductList)
-        //    {
-        //        if (p.ProductID.Contains(text))
-        //        {
-        //        }
-        //    }
-        //}
-
-        //private void SearchByName()
-        //{ 
-        //}
-
-        //private void dgIncomeProduct_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
-        //{
-        //}
+            FinancialIncome obj = e.NewItem as FinancialIncome;
+            if (obj != null)
+            {
+                RevenueManagement.Instance.AddIncome(obj);
+                obj.CustomerID = SelectedCustomer.CustomerID;
+            }
+        }
 
 
     }
