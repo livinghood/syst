@@ -30,8 +30,8 @@ namespace Logic_Layer
         public virtual Department Department { get; set; }
         public virtual ICollection<DirectProductCost> DirectProductCost { get; set; }
         public virtual ICollection<FinancialIncome> FinancialIncome { get; set; }
+        public virtual ProductCategory ProductCategory { get; set; }
         public virtual ProductGroup ProductGroup { get; set; }
         public virtual ICollection<ProductPlacement> ProductPlacement { get; set; }
-        public virtual ProductCategory ProductCategory { get; set; }
     }
 }

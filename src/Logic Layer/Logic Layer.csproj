@@ -158,7 +158,6 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>BUPdb.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="App.config" />
     <None Include="BUPdb.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>BUPdb.edmx</DependentUpon>

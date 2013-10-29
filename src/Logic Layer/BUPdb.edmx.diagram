@@ -5,51 +5,50 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="a5159bda9db24e068ab8a20d7650431d" Name="Diagram1">
-        <EntityTypeShape EntityType="BUPmodel.Account" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="BUPmodel.Activity" Width="1.5" PointX="3" PointY="10.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="BUPmodel.ActivityPlacement" Width="1.5" PointX="5.25" PointY="10.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="BUPmodel.CostProduct" Width="1.5" PointX="7.75" PointY="6.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="BUPmodel.Customer" Width="1.5" PointX="6" PointY="19.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="BUPmodel.Department" Width="1.5" PointX="0.75" PointY="10.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="BUPmodel.DirectActivityCost" Width="1.5" PointX="5.25" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="BUPmodel.DirectProductCost" Width="1.5" PointX="5.25" PointY="13.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="BUPmodel.Employee" Width="1.5" PointX="0.75" PointY="7.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="BUPmodel.EmployeePlacement" Width="1.5" PointX="3" PointY="7.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="BUPmodel.ExpenseBudget" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="BUPmodel.FinancialIncome" Width="1.5" PointX="8.25" PointY="13.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="BUPmodel.FinancialIncomeYear" Width="1.5" PointX="6" PointY="22" IsExpanded="true" />
-        <EntityTypeShape EntityType="BUPmodel.ForecastMonitor" Width="1.5" PointX="8" PointY="2.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="BUPmodel.ForecastMonth" Width="1.5" PointX="5.75" PointY="2.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="BUPmodel.IncomeProductCustomer" Width="1.5" PointX="7.75" PointY="9.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="BUPmodel.Product" Width="1.5" PointX="3" PointY="13.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="BUPmodel.ProductCategory" Width="1.5" PointX="1.5" PointY="16.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="BUPmodel.ProductGroup" Width="1.5" PointX="0.75" PointY="13.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="BUPmodel.ProductPlacement" Width="1.5" PointX="5.25" PointY="16.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="BUPmodel.UserAccount" Width="1.5" PointX="3" PointY="19.625" IsExpanded="true" />
-        <AssociationConnector Association="BUPmodel.FK_DirectActivityCost_Account" ManuallyRouted="false" />
-        <AssociationConnector Association="BUPmodel.FK_DirectProductCost_Account" ManuallyRouted="false" />
-        <AssociationConnector Association="BUPmodel.FK_Activity_Department" ManuallyRouted="false" />
-        <AssociationConnector Association="BUPmodel.FK_ActivityPlacement_Activity" ManuallyRouted="false" />
-        <AssociationConnector Association="BUPmodel.FK_DirectActivityCost_Activity" ManuallyRouted="false" />
-        <AssociationConnector Association="BUPmodel.FK_ActivityPlacement_Employee" ManuallyRouted="false" />
-        <AssociationConnector Association="BUPmodel.FK_ActivityPlacement_ExpenseBudget" ManuallyRouted="false" />
-        <AssociationConnector Association="BUPmodel.FK_FinancialIncome_Customer" ManuallyRouted="false" />
-        <AssociationConnector Association="BUPmodel.FK_EmployeePlacement_Department" ManuallyRouted="false" />
-        <AssociationConnector Association="BUPmodel.FK_Product_Department" ManuallyRouted="false" />
-        <AssociationConnector Association="BUPmodel.FK_DirectActivityCost_ExpenseBudget" ManuallyRouted="false" />
-        <AssociationConnector Association="BUPmodel.FK_DirectProductCost_ExpenseBudget" ManuallyRouted="false" />
-        <AssociationConnector Association="BUPmodel.FK_DirectProductCost_Product" ManuallyRouted="false" />
-        <AssociationConnector Association="BUPmodel.FK_EmployeePlacement_Employee" ManuallyRouted="false" />
-        <AssociationConnector Association="BUPmodel.FK_ProductPlacement_Employee" ManuallyRouted="false" />
-        <AssociationConnector Association="BUPmodel.FK_UserAccount_Employee" ManuallyRouted="false" />
-        <AssociationConnector Association="BUPmodel.FK_ProductPlacement_ExpenseBudget" ManuallyRouted="false" />
-        <AssociationConnector Association="BUPmodel.FK_FinancialIncome_FinancialIncomeYear" ManuallyRouted="false" />
-        <AssociationConnector Association="BUPmodel.FK_FinancialIncome_Product" ManuallyRouted="false" />
-        <AssociationConnector Association="BUPmodel.FK_ForecastMonitor_ForecastMonth" ManuallyRouted="false" />
-        <AssociationConnector Association="BUPmodel.FK_Product_ProductGroup" ManuallyRouted="false" />
-        <AssociationConnector Association="BUPmodel.FK_ProductPlacement_Product" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="BUPmodel.Account" Width="1.5" PointX="3" PointY="22" />
+        <EntityTypeShape EntityType="BUPmodel.Activity" Width="1.5" PointX="3" PointY="18.5" />
+        <EntityTypeShape EntityType="BUPmodel.ActivityPlacement" Width="1.5" PointX="5.25" PointY="18.375" />
+        <EntityTypeShape EntityType="BUPmodel.CostProduct" Width="1.5" PointX="0.75" PointY="4.625" />
+        <EntityTypeShape EntityType="BUPmodel.Customer" Width="1.5" PointX="6" PointY="5.875" />
+        <EntityTypeShape EntityType="BUPmodel.Department" Width="1.5" PointX="0.75" PointY="12" />
+        <EntityTypeShape EntityType="BUPmodel.DirectActivityCost" Width="1.5" PointX="8.25" PointY="18.375" />
+        <EntityTypeShape EntityType="BUPmodel.DirectProductCost" Width="1.5" PointX="5.25" PointY="14.75" />
+        <EntityTypeShape EntityType="BUPmodel.Employee" Width="1.5" PointX="3.75" PointY="4.5" />
+        <EntityTypeShape EntityType="BUPmodel.EmployeePlacement" Width="1.5" PointX="6" PointY="12" />
+        <EntityTypeShape EntityType="BUPmodel.ExpenseBudget" Width="1.5" PointX="3" PointY="0.75" />
+        <EntityTypeShape EntityType="BUPmodel.FinancialIncome" Width="1.5" PointX="8.25" PointY="11.25" />
+        <EntityTypeShape EntityType="BUPmodel.FinancialIncomeYear" Width="1.5" PointX="6" PointY="22.375" />
+        <EntityTypeShape EntityType="BUPmodel.ForecastMonitor" Width="1.5" PointX="11" PointY="2.875" />
+        <EntityTypeShape EntityType="BUPmodel.ForecastMonth" Width="1.5" PointX="8.75" PointY="3.375" />
+        <EntityTypeShape EntityType="BUPmodel.IncomeProductCustomer" Width="1.5" PointX="8.75" PointY="6.625" />
+        <EntityTypeShape EntityType="BUPmodel.Product" Width="1.5" PointX="3" PointY="11.375" />
+        <EntityTypeShape EntityType="BUPmodel.ProductCategory" Width="1.5" PointX="0.75" PointY="15.25" />
+        <EntityTypeShape EntityType="BUPmodel.ProductGroup" Width="1.5" PointX="0.75" PointY="9" />
+        <EntityTypeShape EntityType="BUPmodel.ProductPlacement" Width="1.5" PointX="5.25" PointY="8.75" />
+        <EntityTypeShape EntityType="BUPmodel.UserAccount" Width="1.5" PointX="6" PointY="3" />
+        <AssociationConnector Association="BUPmodel.FK_DirectActivityCost_Account" />
+        <AssociationConnector Association="BUPmodel.FK_DirectProductCost_Account" />
+        <AssociationConnector Association="BUPmodel.FK_Activity_Department" />
+        <AssociationConnector Association="BUPmodel.FK_ActivityPlacement_Activity" />
+        <AssociationConnector Association="BUPmodel.FK_DirectActivityCost_Activity" />
+        <AssociationConnector Association="BUPmodel.FK_ActivityPlacement_Employee" />
+        <AssociationConnector Association="BUPmodel.FK_ActivityPlacement_ExpenseBudget" />
+        <AssociationConnector Association="BUPmodel.FK_FinancialIncome_Customer" />
+        <AssociationConnector Association="BUPmodel.FK_EmployeePlacement_Department" />
+        <AssociationConnector Association="BUPmodel.FK_Product_Department" />
+        <AssociationConnector Association="BUPmodel.FK_DirectActivityCost_ExpenseBudget" />
+        <AssociationConnector Association="BUPmodel.FK_DirectProductCost_ExpenseBudget" />
+        <AssociationConnector Association="BUPmodel.FK_DirectProductCost_Product" />
+        <AssociationConnector Association="BUPmodel.FK_EmployeePlacement_Employee" />
+        <AssociationConnector Association="BUPmodel.FK_ProductPlacement_Employee" />
+        <AssociationConnector Association="BUPmodel.FK_UserAccount_Employee" />
+        <AssociationConnector Association="BUPmodel.FK_ProductPlacement_ExpenseBudget" />
+        <AssociationConnector Association="BUPmodel.FK_FinancialIncome_FinancialIncomeYear" />
+        <AssociationConnector Association="BUPmodel.FK_FinancialIncome_Product" />
+        <AssociationConnector Association="BUPmodel.FK_ForecastMonitor_ForecastMonth" />
         <AssociationConnector Association="BUPmodel.FK_Product_ProductCategory" />
-        <AssociationConnector Association="BUPmodel.FK_Product_ProductGroup1" />
+        <AssociationConnector Association="BUPmodel.FK_Product_ProductGroup" />
+        <AssociationConnector Association="BUPmodel.FK_ProductPlacement_Product" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

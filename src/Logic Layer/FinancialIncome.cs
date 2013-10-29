@@ -22,7 +22,7 @@ namespace Logic_Layer
         public Nullable<int> Addition { get; set; }
         public Nullable<int> Hours { get; set; }
         public string Comments { get; set; }
-        public string FinancialIncomeID { get; set; }
+        public string FinancialIncomeYearID { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual FinancialIncomeYear FinancialIncomeYear { get; set; }

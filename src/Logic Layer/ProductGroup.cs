@@ -14,9 +14,14 @@ namespace Logic_Layer
     
     public partial class ProductGroup
     {
+        public ProductGroup()
+        {
+            this.Product = new HashSet<Product>();
+        }
+    
         public string ProductGroupID { get; set; }
         public string ProductGroupName { get; set; }
     
-        public virtual Product Product { get; set; }
+        public virtual ICollection<Product> Product { get; set; }
     }
 }

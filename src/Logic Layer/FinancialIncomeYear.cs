@@ -19,7 +19,7 @@ namespace Logic_Layer
             this.FinancialIncome = new HashSet<FinancialIncome>();
         }
     
-        public string FinancialIncomeID { get; set; }
+        public string FinancialIncomeYearID { get; set; }
         public bool FinancialIncomeLock { get; set; }
     
         public virtual ICollection<FinancialIncome> FinancialIncome { get; set; }
