@@ -40,11 +40,11 @@ namespace Logic_Layer
         public DbSet<FinancialIncomeYear> FinancialIncomeYear { get; set; }
         public DbSet<ForecastMonitor> ForecastMonitor { get; set; }
         public DbSet<ForecastMonth> ForecastMonth { get; set; }
-        public DbSet<IncomeProductCustomer> IncomeProductCustomer { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<ProductCategory> ProductCategory { get; set; }
         public DbSet<ProductGroup> ProductGroup { get; set; }
         public DbSet<ProductPlacement> ProductPlacement { get; set; }
         public DbSet<UserAccount> UserAccount { get; set; }
+        public DbSet<IncomeProductCustomer> IncomeProductCustomer { get; set; }
     }
 }

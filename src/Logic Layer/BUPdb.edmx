@@ -155,7 +155,7 @@
           </Key>
           <Property Name="IeProductID" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IeIncomeDate" Type="date" Nullable="false" />
-          <Property Name="IeCustomerID" Type="int" Nullable="false" />
+          <Property Name="IeCustomerID" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IeProductName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IeCustomerName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IeAmount" Type="int" Nullable="false" />
@@ -615,7 +615,6 @@
           <EntitySet Name="FinancialIncomeYear" EntityType="BUPmodel.FinancialIncomeYear" />
           <EntitySet Name="ForecastMonitor" EntityType="BUPmodel.ForecastMonitor" />
           <EntitySet Name="ForecastMonth" EntityType="BUPmodel.ForecastMonth" />
-          <EntitySet Name="IncomeProductCustomer" EntityType="BUPmodel.IncomeProductCustomer" />
           <EntitySet Name="Product" EntityType="BUPmodel.Product" />
           <EntitySet Name="ProductCategory" EntityType="BUPmodel.ProductCategory" />
           <EntitySet Name="ProductGroup" EntityType="BUPmodel.ProductGroup" />
@@ -713,6 +712,7 @@
             <End Role="Product" EntitySet="Product" />
             <End Role="ProductPlacement" EntitySet="ProductPlacement" />
           </AssociationSet>
+          <EntitySet Name="IncomeProductCustomer" EntityType="BUPmodel.IncomeProductCustomer" />
         </EntityContainer>
         <EntityType Name="Account">
           <Key>
@@ -889,19 +889,6 @@
           <Property Name="ForecastMonitorMonthID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ForecastLock" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="ForecastMonitor" Relationship="BUPmodel.FK_ForecastMonitor_ForecastMonth" FromRole="ForecastMonth" ToRole="ForecastMonitor" />
-        </EntityType>
-        <EntityType Name="IncomeProductCustomer">
-          <Key>
-            <PropertyRef Name="IeProductID" />
-            <PropertyRef Name="IeIncomeDate" />
-            <PropertyRef Name="IeCustomerID" />
-          </Key>
-          <Property Name="IeProductID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IeIncomeDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="IeCustomerID" Type="Int32" Nullable="false" />
-          <Property Name="IeProductName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IeCustomerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IeAmount" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -1235,6 +1222,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="IncomeProductCustomer">
+          <Key>
+            <PropertyRef Name="IeProductID" />
+            <PropertyRef Name="IeIncomeDate" />
+            <PropertyRef Name="IeCustomerID" />
+          </Key>
+          <Property Name="IeProductID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IeIncomeDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IeCustomerID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IeProductName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IeCustomerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IeAmount" Type="Int32" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1389,18 +1389,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="IncomeProductCustomer">
-            <EntityTypeMapping TypeName="BUPmodel.IncomeProductCustomer">
-              <MappingFragment StoreEntitySet="IncomeProductCustomer">
-                <ScalarProperty Name="IeAmount" ColumnName="IeAmount" />
-                <ScalarProperty Name="IeCustomerName" ColumnName="IeCustomerName" />
-                <ScalarProperty Name="IeProductName" ColumnName="IeProductName" />
-                <ScalarProperty Name="IeCustomerID" ColumnName="IeCustomerID" />
-                <ScalarProperty Name="IeIncomeDate" ColumnName="IeIncomeDate" />
-                <ScalarProperty Name="IeProductID" ColumnName="IeProductID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Product">
             <EntityTypeMapping TypeName="BUPmodel.Product">
               <MappingFragment StoreEntitySet="Product">
@@ -1445,6 +1433,18 @@
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IncomeProductCustomer">
+            <EntityTypeMapping TypeName="BUPmodel.IncomeProductCustomer">
+              <MappingFragment StoreEntitySet="IncomeProductCustomer">
+                <ScalarProperty Name="IeAmount" ColumnName="IeAmount" />
+                <ScalarProperty Name="IeCustomerName" ColumnName="IeCustomerName" />
+                <ScalarProperty Name="IeProductName" ColumnName="IeProductName" />
+                <ScalarProperty Name="IeCustomerID" ColumnName="IeCustomerID" />
+                <ScalarProperty Name="IeIncomeDate" ColumnName="IeIncomeDate" />
+                <ScalarProperty Name="IeProductID" ColumnName="IeProductID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
