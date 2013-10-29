@@ -6,7 +6,7 @@
         <Button Content="Skapa Exceldokument" Height="23" HorizontalAlignment="Left" Margin="74,0,0,10" x:Name="btnExcel" VerticalAlignment="Bottom" Width="135" />
         <Button Content="Skriv ut" HorizontalAlignment="Left" Margin="10,0,0,10" x:Name="btnPrint" Width="59" Height="23" VerticalAlignment="Bottom" />
         <Label Height="38" HorizontalAlignment="Left" Margin="406,373,0,0" x:Name="lblSum" VerticalAlignment="Top" Content="Summa:" Foreground="Crimson" FontSize="18" Width="127" />
-        <Button x:Name="btnAddActivity" Content="Lägg till en aktivitet" HorizontalAlignment="Left" Margin="318,10,0,0" VerticalAlignment="Top" Width="125" Click="btnAddActivity_Click"/>
+        <Button x:Name="btnAddActivity" Content="Lägg till en aktivitet" HorizontalAlignment="Left" Margin="318,10,0,0" VerticalAlignment="Top" Width="125" Click="btnAddActivity_Click" IsEnabled="False"/>
         <Button x:Name="btnLock" Content="Lås kostnadbudget" Margin="500,0,10,10" Click="btnLock_Click" Height="23" VerticalAlignment="Bottom"/>
         <DataGrid x:Name="dgAccounts" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" Height="333" Width="302" AutoGenerateColumns="False" SelectionChanged="dgAccounts_SelectionChanged" HorizontalScrollBarVisibility="Disabled">
             <DataGrid.Columns>
@@ -20,5 +20,6 @@
                 <DataGridTextColumn Binding="{Binding ActivityCost}" ClipboardContentBinding="{x:Null}" Header="Kostnader" Width="150"/>
             </DataGrid.Columns>
         </DataGrid>
+        <Label x:Name="lblAccount" Content="Markera ett konto:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
