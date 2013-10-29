@@ -84,6 +84,26 @@ namespace Logic_Layer
         }
 
         /// <summary>
+        /// Returns products in autocompletebox for ProductID
+        /// </summary>
+        /// <param name="s">written text in box for autocomplete</param>
+        /// <returns></returns>
+        public Product GetProductByID(string s)
+        {
+            return Products.First(p => p.ProductID.Equals(s));
+        }
+
+        /// <summary>
+        /// Returns products in autocompletebox for ProductName
+        /// </summary>
+        /// <param name="s">written text in box for autocomplete</param>
+        /// <returns></returns>
+        public Product GetProductByName(string s)
+        {
+            return Products.First(p => p.ProductName.Equals(s));
+        }
+
+        /// <summary>
         /// Check if a product is connected to a FinancialIncome
         /// </summary>
         /// <param name="productGroup"></param>
