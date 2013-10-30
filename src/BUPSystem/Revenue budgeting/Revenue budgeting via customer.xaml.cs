@@ -36,16 +36,29 @@ namespace BUPSystem.Revenue_budgeting
 
         public Customer SelectedCustomer { get; set; }
 
-        private string CurrentIncomeYearID { get; set; }
+        private FinancialIncomeYear CurrentFinancialIncomeYear 
+        {
+            get { return RevenueManagement.Instance.CurrentFinancialIncomeYear; }
+            set { RevenueManagement.Instance.CurrentFinancialIncomeYear = value; }
+        }
 
         /// <summary>
         /// Constructor
         /// </summary>
         public RevenueBudgetingViaCustomer()
         {
+            CurrentFinancialIncomeYear = RevenueManagement.Instance.CreateFinancialIncomeYear();
             InitializeComponent();
             dgIncomeProduct.IsEnabled = false;
             DataContext = this;
+            btnDelete.IsEnabled = false;
+            btnSave.IsEnabled = false;
+
+            if (CurrentFinancialIncomeYear.FinancialIncomeLock == true)
+            {
+                dgIncomeProduct.IsReadOnly = true;
+                btnLock.IsEnabled = false;
+            }
         }
 
         /// <summary>
@@ -66,12 +79,17 @@ namespace BUPSystem.Revenue_budgeting
                 lblCustomerName.Content = SelectedCustomer.CustomerName;
                 dgIncomeProduct.IsEnabled = true;
                 LockPrimaryCells();
+                if (CurrentFinancialIncomeYear.FinancialIncomeLock == false)
+                {
+                    btnDelete.IsEnabled = true;
+                    btnSave.IsEnabled = true;
+                }
             }
 
         }
 
         /// <summary>
-        /// 
+        /// Save all fields
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -79,7 +97,7 @@ namespace BUPSystem.Revenue_budgeting
         {
             try
             {
-                CurrentIncomeYearID = RevenueManagement.Instance.CreateFinancialIncomeYear();
+                FinancialIncomeList = RevenueManagement.Instance.RemoveEmptyIncomes();
                 RevenueManagement.Instance.UpdateFinancialIncome();
                 MessageBox.Show("Intäktsbudgetteringen är nu sparad");
             }
@@ -89,10 +107,24 @@ namespace BUPSystem.Revenue_budgeting
             }
         }
 
+        /// <summary>
+        /// Delete the selected row
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             FinancialIncome fi = (FinancialIncome)dgIncomeProduct.SelectedItem;
             RevenueManagement.Instance.DeleteFinancialIncome(fi);
+        }
+
+        private void btnLock_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentFinancialIncomeYear.FinancialIncomeLock = true;
+            RevenueManagement.Instance.UpdateFinancialIncomeYear();
+            dgIncomeProduct.IsReadOnly = true;
+            btnDelete.IsEnabled = false;
+            btnSave.IsEnabled = false;
         }
 
         /// <summary>
@@ -251,14 +283,10 @@ namespace BUPSystem.Revenue_budgeting
             return child;
         }
 
-        private void btnLock_Click(object sender, RoutedEventArgs e)
+        private void btntest_Click(object sender, RoutedEventArgs e)
         {
 
         }
-
-
-
-        
 
     }
 }

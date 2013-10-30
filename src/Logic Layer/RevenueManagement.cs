@@ -54,6 +54,12 @@ namespace Logic_Layer
             get { return "FIY" + DateTime.Today.Year.ToString(); }
         }
 
+        public FinancialIncomeYear CurrentFinancialIncomeYear
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// The instance property
         /// </summary>
@@ -134,8 +140,12 @@ namespace Logic_Layer
         public void DeleteFinancialIncome(FinancialIncome fI)
         {
             FinancialIncomeList.Remove(fI);
-            db.FinancialIncome.Remove(fI);
-            db.SaveChanges();
+            try
+            {   //Om det inte är sparat i databasen än, bara sparat i listan
+                db.FinancialIncome.Remove(fI);
+                db.SaveChanges();
+            }
+            catch { }
         }
 
         /// <summary>
@@ -146,56 +156,44 @@ namespace Logic_Layer
             db.SaveChanges();
         }
 
-        //-----------------------------------------------------------------------------------------------------------
-
-        /// <summary>
-        /// Get a list of all FinancialIncomeYears
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<FinancialIncomeYear> GetFinancialIncomeYears(FinancialIncomeYear fIY)
+        public ObservableCollection<FinancialIncome> RemoveEmptyIncomes()
         {
-            IEnumerable<FinancialIncomeYear> financialIncomesyears = from f in db.FinancialIncomeYear
-                                                                     where f.FinancialIncomeYearID == fIY.FinancialIncomeYearID
-                                                                     select f;
-
-
-            return financialIncomesyears;
+            ObservableCollection<FinancialIncome> tempIncome = new ObservableCollection<FinancialIncome>(FinancialIncomeList);
+            foreach (FinancialIncome fi in FinancialIncomeList)
+            {
+                if (fi.ProductID == null)
+                {
+                    tempIncome.Remove(fi);
+                    db.FinancialIncome.Remove(fi);
+                }
+            }
+            return tempIncome;
         }
+
+        //-----------------------------------------------------------------------------------------------------------
 
         /// <summary>
         /// Create a new FinancialIncomeYear
         /// </summary>
         /// <param name="fIYID"></param>
         /// <returns></returns>
-        public string CreateFinancialIncomeYear()
+        public FinancialIncomeYear CreateFinancialIncomeYear()
         {
+            FinancialIncomeYear newFinancialIncomeYear = new FinancialIncomeYear {};
+
             if (!db.FinancialIncomeYear.Where(f => f.FinancialIncomeYearID == NewID).Any())
             {
-                FinancialIncomeYear newFinancialIncomeYear = new FinancialIncomeYear { FinancialIncomeYearID = NewID, FinancialIncomeLock = false };
+                newFinancialIncomeYear.FinancialIncomeYearID = NewID;
+                newFinancialIncomeYear.FinancialIncomeLock = false;
                 db.FinancialIncomeYear.Add(newFinancialIncomeYear);
+                return newFinancialIncomeYear;
             }
-            //UpdateFinancialIncomeYear();
-            //else
-            //{
-            //    FinancialIncomeYear newFinancialIncomeYear = new FinancialIncomeYear { FinancialIncomeYearID = NewID, FinancialIncomeLock = false };
-            //    db.FinancialIncomeYear.Add(newFinancialIncomeYear);
-            //}
-            return NewID;
+            else
+            {
+               return newFinancialIncomeYear = db.FinancialIncomeYear.Single(f => f.FinancialIncomeYearID == NewID);
+            }
         }
 
-        /// <summary>
-        /// Delete FinancialIncomeYear from database
-        /// </summary>
-        /// <param name="fIY"></param>
-        public void DeleteFinancialIncomeYear(FinancialIncomeYear fIY)
-        {
-            db.FinancialIncomeYear.Remove(fIY);
-            db.SaveChanges();
-        }
-
-        /// <summary>
-        /// Update a FinancialIncomeYear
-        /// </summary>
         public void UpdateFinancialIncomeYear()
         {
             db.SaveChanges();
