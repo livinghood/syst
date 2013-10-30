@@ -48,7 +48,14 @@ namespace Logic_Layer
         /// <returns></returns>
         public IEnumerable<Product> GetProducts()
         {
-            return db.Product.OrderBy(p => p.ProductName);
+            try
+            {
+                return db.Product.OrderBy(p => p.ProductName);
+            }
+            catch
+            {
+                return Products;
+            }
         }
 
         /// <summary>
@@ -57,8 +64,15 @@ namespace Logic_Layer
         /// <param name="s">written text in box for autocomplete</param>
         /// <returns></returns>
         public Product GetProductByID(string s)
-        { 
-            return Products.First(p => p.ProductID.Equals(s));
+        {
+            try
+            {
+                return Products.First(p => p.ProductID.Equals(s));
+            }
+            catch
+            {
+                return new Product();
+            }
         }
 
         /// <summary>
@@ -68,7 +82,14 @@ namespace Logic_Layer
         /// <returns></returns>
         public Product GetProductByName(string s)
         {
-            return Products.First(p => p.ProductName.Equals(s));
+            try
+            {
+                return Products.First(p => p.ProductName.Equals(s));
+            }
+            catch
+            {
+                return new Product();
+            }
         }
 
         public IEnumerable<string> GetProductDepartments()

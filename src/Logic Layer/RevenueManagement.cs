@@ -46,6 +46,9 @@ namespace Logic_Layer
             set;
         }
 
+        /// <summary>
+        /// FinancialIncomeYearID
+        /// </summary>
         public string NewID
         {
             get { return "FIY" + DateTime.Today.Year.ToString(); }
@@ -120,7 +123,7 @@ namespace Logic_Layer
 
         public void AddIncome(FinancialIncome fiObj)
         {
-            // set fiObj.FinancialIncomeYear
+            fiObj.FinancialIncomeYearID = NewID;
             db.FinancialIncome.Add(fiObj);
         }
 
@@ -130,7 +133,7 @@ namespace Logic_Layer
         /// <param name="fI"></param>
         public void DeleteFinancialIncome(FinancialIncome fI)
         {
-            FinancialIncomeList.Remove(fI);
+            //FinancialIncomeList.Remove(fI);
             db.FinancialIncome.Remove(fI);
             db.SaveChanges();
         }
@@ -138,9 +141,33 @@ namespace Logic_Layer
         /// <summary>
         /// Update a FinancialIncome
         /// </summary>
-        public void UpdateFinancialIncome()
+        public void UpdateFinancialIncome(string customerID)
         {
+            DeleteEmptyIncomes(customerID);
             db.SaveChanges();
+        }
+
+        /// <summary>
+        /// Prevent from saving empty incomes to db
+        /// </summary>
+        private void DeleteEmptyIncomes(string customerID)
+        {
+            IEnumerable<FinancialIncome> financialIncomes = GetFinancialIncomesByCustomer(customerID);
+
+            foreach (FinancialIncome fi in FinancialIncomeList)
+            {
+                if (fi.ProductID == null)
+                {
+                    foreach (FinancialIncome fi2 in financialIncomes)
+                    {//NÅGOT FEL HÄR
+                        if (!FinancialIncomeList.Contains(fi2))
+                        {//KOMMER ALDRIG HIT
+                            DeleteFinancialIncome(fi2);
+                        }
+                    }
+                    FinancialIncomeList.Remove(fi);
+                }    
+            }
         }
 
         //-----------------------------------------------------------------------------------------------------------
@@ -166,14 +193,17 @@ namespace Logic_Layer
         /// <returns></returns>
         public string CreateFinancialIncomeYear()
         {
-            if (db.FinancialIncomeYear.Where(f => f.FinancialIncomeYearID == NewID).Any())
-                UpdateFinancialIncomeYear();
-            else
+            if (!db.FinancialIncomeYear.Where(f => f.FinancialIncomeYearID == NewID).Any())
             {
                 FinancialIncomeYear newFinancialIncomeYear = new FinancialIncomeYear { FinancialIncomeYearID = NewID, FinancialIncomeLock = false };
                 db.FinancialIncomeYear.Add(newFinancialIncomeYear);
-                db.SaveChanges();
             }
+            //UpdateFinancialIncomeYear();
+            //else
+            //{
+            //    FinancialIncomeYear newFinancialIncomeYear = new FinancialIncomeYear { FinancialIncomeYearID = NewID, FinancialIncomeLock = false };
+            //    db.FinancialIncomeYear.Add(newFinancialIncomeYear);
+            //}
             return NewID;
         }
 
