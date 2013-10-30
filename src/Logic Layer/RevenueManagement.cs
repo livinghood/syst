@@ -47,6 +47,11 @@ namespace Logic_Layer
             set;
         }
 
+        public string NewID
+        {
+            get { return "FIY" + DateTime.Today.Year.ToString(); }
+        }
+
         /// <summary>
         /// The instance property
         /// </summary>
@@ -57,7 +62,7 @@ namespace Logic_Layer
 
         RevenueManagement()
         {
-            FinancialIncomeList = new ObservableCollection<FinancialIncome>(GetFinancialIncome());
+            FinancialIncomeList = new ObservableCollection<FinancialIncome>(GetFinancialIncomeByYear());
         }
 
         /// <summary>
@@ -85,10 +90,11 @@ namespace Logic_Layer
         /// Get a list of all FinancialIncomes
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<FinancialIncome> GetFinancialIncome()
+        public IEnumerable<FinancialIncome> GetFinancialIncomeByYear()
         {
             IEnumerable<FinancialIncome> financialIncomes = from f in db.FinancialIncome
                                               orderby f.FinancialIncomeYearID
+                                              where f.FinancialIncomeYearID == NewID
                                               select f;
 
             foreach (FinancialIncome fi in financialIncomes)
@@ -130,7 +136,6 @@ namespace Logic_Layer
 
         //-----------------------------------------------------------------------------------------------------------
 
-
         /// <summary>
         /// Get a list of all FinancialIncomeYears
         /// </summary>
@@ -147,14 +152,19 @@ namespace Logic_Layer
         /// <summary>
         /// Create a new FinancialIncomeYear
         /// </summary>
-        /// <param name="employeeId"></param>
-        /// <param name="departmentId"></param>
-        /// <param name="allocate"></param>
-        public void CreateFinancialIncomeYear()
+        /// <param name="fIYID"></param>
+        /// <returns></returns>
+        public string CreateFinancialIncomeYear()
         {
-            FinancialIncomeYear newFinancialIncomeYear = new FinancialIncomeYear { };
-            db.FinancialIncomeYear.Add(newFinancialIncomeYear);
-            db.SaveChanges();
+            if (db.FinancialIncomeYear.Where(f => f.FinancialIncomeYearID == NewID).Any())
+                UpdateFinancialIncomeYear();
+            else
+            {
+                FinancialIncomeYear newFinancialIncomeYear = new FinancialIncomeYear { FinancialIncomeYearID = NewID, FinancialIncomeLock = false };
+                db.FinancialIncomeYear.Add(newFinancialIncomeYear);
+                db.SaveChanges();
+            }
+            return NewID;
         }
 
         /// <summary>

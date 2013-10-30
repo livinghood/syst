@@ -51,6 +51,26 @@ namespace Logic_Layer
             return db.Product.OrderBy(p => p.ProductName);
         }
 
+        /// <summary>
+        /// Returns products in autocompletebox for ProductID
+        /// </summary>
+        /// <param name="s">written text in box for autocomplete</param>
+        /// <returns></returns>
+        public Product GetProductByID(string s)
+        { 
+            return Products.First(p => p.ProductID.Equals(s));
+        }
+
+        /// <summary>
+        /// Returns products in autocompletebox for ProductName
+        /// </summary>
+        /// <param name="s">written text in box for autocomplete</param>
+        /// <returns></returns>
+        public Product GetProductByName(string s)
+        {
+            return Products.First(p => p.ProductName.Equals(s));
+        }
+
         public IEnumerable<string> GetProductDepartments()
         {
             var departments = from d in db.Department
@@ -81,26 +101,6 @@ namespace Logic_Layer
         {
             var query = db.FinancialIncome.Where(f => f.ProductID.Equals(product.ProductID));
             return query.Any();
-        }
-
-        /// <summary>
-        /// Returns products in autocompletebox for ProductID
-        /// </summary>
-        /// <param name="s">written text in box for autocomplete</param>
-        /// <returns></returns>
-        public Product GetProductByID(string s)
-        {
-            return Products.First(p => p.ProductID.Equals(s));
-        }
-
-        /// <summary>
-        /// Returns products in autocompletebox for ProductName
-        /// </summary>
-        /// <param name="s">written text in box for autocomplete</param>
-        /// <returns></returns>
-        public Product GetProductByName(string s)
-        {
-            return Products.First(p => p.ProductName.Equals(s));
         }
 
         /// <summary>
