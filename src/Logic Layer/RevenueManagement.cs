@@ -104,6 +104,26 @@ namespace Logic_Layer
             return financialIncomes;
         }
 
+        public IEnumerable<FinancialIncome> GetFinancialIncomesByProduct(string productid)
+        {
+            IEnumerable<FinancialIncome> financialIncomes = from f in db.FinancialIncome
+                                                            orderby f.CustomerID
+                                                            where f.ProductID == productid
+                                                            select f;
+
+            foreach (FinancialIncome fi in financialIncomes)
+            {
+                foreach (Customer p in CustomerList)
+                {
+                    if (fi.CustomerID.Equals(p.CustomerID))
+                        fi.CustomerName = p.CustomerName;
+                }
+            }
+
+            return financialIncomes;
+
+        }
+
         /// <summary>
         /// Get a list of all FinancialIncomes current year
         /// </summary>
@@ -156,12 +176,26 @@ namespace Logic_Layer
             db.SaveChanges();
         }
 
-        public ObservableCollection<FinancialIncome> RemoveEmptyIncomes()
+        public ObservableCollection<FinancialIncome> RemoveEmptyCustomerIncomes()
         {
             ObservableCollection<FinancialIncome> tempIncome = new ObservableCollection<FinancialIncome>(FinancialIncomeList);
             foreach (FinancialIncome fi in FinancialIncomeList)
             {
                 if (fi.ProductID == null)
+                {
+                    tempIncome.Remove(fi);
+                    db.FinancialIncome.Remove(fi);
+                }
+            }
+            return tempIncome;
+        }
+
+        public ObservableCollection<FinancialIncome> RemoveEmptyProductIncomes()
+        {
+            ObservableCollection<FinancialIncome> tempIncome = new ObservableCollection<FinancialIncome>(FinancialIncomeList);
+            foreach (FinancialIncome fi in FinancialIncomeList)
+            {
+                if (fi.CustomerID == null)
                 {
                     tempIncome.Remove(fi);
                     db.FinancialIncome.Remove(fi);
