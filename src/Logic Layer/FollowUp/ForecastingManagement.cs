@@ -82,7 +82,6 @@ namespace Logic_Layer.FollowUp
                 ForecastMonitorMonthID = month.ToString(CultureInfo.InvariantCulture)
             };
 
-
             var mList = db.ForecastMonth.Select(m => m.ForecastMonitorMonthID);
 
             // Add the forecastMonitor to database if not already added
@@ -91,30 +90,32 @@ namespace Logic_Layer.FollowUp
                 db.ForecastMonth.Add(forecastMonth);
             }
 
+
             foreach (var forecast in Forecasts)
             {
-                ForecastMonitor fm = new ForecastMonitor
+                if (forecast.Date.Month == month)
                 {
-                    Forecast = forecast.Forecast,
-                    ForecastBudget = forecast.ForecastBudget.ToString(),
-                    ForecastMonitorMonthID = month.ToString(),
-                    ForecastMonth = forecastMonth,
-                    IeProductID = forecast.IeProductID,
-                    IeProductName = forecast.IeProductName,
-                    OutcomeAcc = forecast.OutcomeAcc,
-                    Reprocessed = forecast.Reprocessed
-                };
+                    ForecastMonitor fm = new ForecastMonitor();
+                    fm.Reprocessed = forecast.Reprocessed;
+                    fm.OutcomeAcc = forecast.OutcomeAcc;
+                    fm.IeProductName = forecast.IeProductName;
+                    fm.IeProductID = forecast.IeProductID;
+                    fm.ForecastMonth = forecastMonth;
+                    fm.ForecastMonitorMonthID = month.ToString(CultureInfo.InvariantCulture);
+                    fm.ForecastBudget = forecast.ForecastBudget.ToString(CultureInfo.InvariantCulture);
+                    fm.Forecast = forecast.Forecast;
 
-                var flist = db.ForecastMonitor.Select(f => f.IeProductID);
+                    var flist = db.ForecastMonitor.Select(f => f.IeProductID);
 
-                if (flist.Contains(fm.IeProductID))
-                {
-                    var itemToUpdate = db.ForecastMonitor.Single(s => s.IeProductID.Equals(fm.IeProductID));
-                    itemToUpdate.Reprocessed += fm.Reprocessed;
-                    itemToUpdate.Forecast += fm.Forecast;
+                    // If database already contains fm, update the attributes that a user can enter
+                    if (flist.Contains(fm.IeProductID))
+                    {
+                        db.ForecastMonitor.Single(s => s.IeProductID.Equals(fm.IeProductID)).Reprocessed += fm.Reprocessed;
+                        db.ForecastMonitor.Single(s => s.IeProductID.Equals(fm.IeProductID)).Forecast += fm.Forecast;
+                    }
+                    else
+                        db.ForecastMonitor.Add(fm);
                 }
-                else
-                    db.ForecastMonitor.Add(fm);
             }
 
             db.SaveChanges();
@@ -208,34 +209,36 @@ namespace Logic_Layer.FollowUp
 
         public void CreateForecasting(IncomeProductCustomer ipc)
         {
-           int minusMonth = 1;
+            int minusMonth = 1;
             if (ipc.IeIncomeDate.Month == 1)
                 minusMonth = 13;
 
-            ForecastMonitor formerPrognosis = null;
+            int? formerPrognosis = 0;
 
             try
             {
-                foreach (var item in db.ForecastMonitor)
+                // Attempt to retrieve the 'former prognosis' value from the forecast value in a an item 
+                // with the same product id from the month before current month
+
+                int monthValue = ipc.IeIncomeDate.Month - minusMonth;
+                string str = monthValue.ToString(CultureInfo.InvariantCulture);
+
+                var items = from s in db.ForecastMonitor
+                            where s.ForecastMonitorMonthID.Equals(str)
+                            select s;
+
+                foreach (var item in items.Where(item => item.IeProductID.Equals(ipc.IeProductID)))
                 {
-                  
-
-                    var p = int.Parse(item.ForecastMonitorMonthID) - minusMonth;
-
-                    if (item.IeProductID.Equals(ipc.IeProductID) && item.ForecastMonitorMonthID == p.ToString())
-                    {
-                        formerPrognosis = item;
-                    }
+                    // Assign formerPrognosis the forecast value 
+                    formerPrognosis = item.Forecast;
                 }
 
 
-            
             }
             catch (Exception)
             {
-                
+                formerPrognosis = 0;
             }
-           
 
             Forecasting fc = new Forecasting();
             fc.IeProductID = ipc.IeProductID;
@@ -246,14 +249,21 @@ namespace Logic_Layer.FollowUp
             fc.Date = ipc.IeIncomeDate;
             fc.OutcomeAcc = ~ipc.IeAmount + 1;
             fc.Trend = (~ipc.IeAmount + 1) / ipc.IeIncomeDate.Date.Month * 12;
-           
-            foreach (var item in Forecasts.Where(item => item.IeProductID.Equals(fc.IeProductID)))
+            fc.FormerPrognosis = formerPrognosis;
+
+            // In case newly created forecast already exists, just update its properties
+            foreach (var item in Forecasts)
             {
-                item.Amount += fc.Amount;
-                item.OutcomeAcc += ~fc.Amount + 1;
-                item.Trend = (~fc.Amount + 1) / ipc.IeIncomeDate.Date.Month * 12;
-                item.FormerPrognosis = formerPrognosis.Forecast;
-                return;
+                if (item.IeProductID.Equals(fc.IeProductID) && item.Date.Month == fc.Date.Month)
+                {
+                    item.Amount = fc.Amount;
+                    item.OutcomeAcc = ~fc.Amount + 1;
+                    item.Trend = (~fc.Amount + 1) / ipc.IeIncomeDate.Date.Month * 12;
+                    item.FormerPrognosis = fc.FormerPrognosis;
+                    item.Forecast = fc.Forecast;
+                    item.Reprocessed = fc.Reprocessed;
+                    return;
+                }
             }
 
             Forecasts.Add(fc);
