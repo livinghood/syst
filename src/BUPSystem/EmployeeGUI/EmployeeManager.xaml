@@ -87,6 +87,6 @@
             </Button.Style>
         </Button>
         <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="447,284,0,-38" x:Name="btnCancel" VerticalAlignment="Top" Width="75" IsCancel="True" Click="btnCancel_Click" />
-        <Label Content="Hantera anställd" FontSize="20" Height="44" HorizontalAlignment="Left" Margin="10,12,0,0" x:Name="label13" VerticalAlignment="Top" />
+        <Label Content="Personalhantering" FontSize="20" Height="44" HorizontalAlignment="Left" Margin="10,12,0,0" x:Name="label13" VerticalAlignment="Top" />
     </Grid>
 </Window>
