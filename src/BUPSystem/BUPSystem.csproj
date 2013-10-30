@@ -86,6 +86,8 @@
     <Compile Include="UserGUI\UserManager.xaml.cs">
       <DependentUpon>UserManager.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Validation\Activity\CheckActivityIDExistValidationRule.cs" />
+    <Compile Include="Validation\Activity\CheckActivityIDFormatValidationRule.cs" />
     <Compile Include="Validation\Employee\CheckEmployeeIDValidationRule.cs" />
     <Compile Include="Validation\Employee\ChecDiffValidationRule.cs" />
     <Compile Include="Validation\General\ComboBoxNotEmptyValidationRule.cs" />

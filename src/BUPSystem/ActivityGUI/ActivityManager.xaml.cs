@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using Logic_Layer;
 
 namespace BUPSystem.ActivityGUI
@@ -18,6 +19,19 @@ namespace BUPSystem.ActivityGUI
         readonly ObservableCollection<string> departmentNames =
             new ObservableCollection<string>(ActivityManagement.Instance.GetDepartmentNames());
 
+        private string m_partActivityID;
+
+        public string PartActivityID
+        {
+            get { return m_partActivityID; }
+            set
+            {
+                m_partActivityID = value;
+                // Update the main product ID
+                updateActivityID();
+            }
+        }
+
         /// <summary>
         /// Standard constructor
         /// </summary>
@@ -29,6 +43,8 @@ namespace BUPSystem.ActivityGUI
             Logic_Layer.Activity activity = new Activity();
             DataContext = activity;
             Activity = activity;
+
+            PartActivityIDGrid.DataContext = this;
         }
 
         /// <summary>
@@ -38,10 +54,22 @@ namespace BUPSystem.ActivityGUI
         public ActivityManager(Activity activity)
         {   
             InitializeComponent();
-            tbID.IsEnabled = false;
+            cbActivityDepartment.IsEnabled = false;
+            tbPartID.IsEnabled = false;
+            tbId.IsEnabled = false;
+            // Hide the partial ID
+            PartActivityIDGrid.Visibility = Visibility.Collapsed;
+
             cbActivityDepartment.ItemsSource = departmentNames;
             DataContext = activity;
             Activity = activity;
+
+            // Disable validation for product id and part-id
+            Binding binding = BindingOperations.GetBinding(tbId, TextBox.TextProperty);
+            Binding partIDbinding = BindingOperations.GetBinding(tbPartID, TextBox.TextProperty);
+            binding.ValidationRules.Clear();
+            partIDbinding.ValidationRules.Clear();
+
         }
 
         /// <summary>
@@ -51,12 +79,33 @@ namespace BUPSystem.ActivityGUI
         /// <param name="e"></param>
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            tbID.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-            tbName.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-            cbActivityDepartment.GetBindingExpression(ComboBox.SelectedItemProperty).UpdateSource();
-
             DialogResult = true;
             Close();
+        }
+
+        /// <summary>
+        /// Update the product ID
+        /// </summary>
+        private void updateActivityID()
+        {
+            // If no part-id or productgroup is set, set to null
+            if (!String.IsNullOrEmpty(m_partActivityID) && !String.IsNullOrEmpty(Activity.DepartmentID))
+            {
+                Activity.ActivityID = m_partActivityID.ToUpper() + Activity.DepartmentID.ToUpper();
+            }
+            else
+            {
+                Activity.ActivityID = null;
+            }
+        }
+
+        private void cbActivityDepartment_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!IsLoaded)
+            {
+                return;
+            }
+            updateActivityID();
         }
     }
 }

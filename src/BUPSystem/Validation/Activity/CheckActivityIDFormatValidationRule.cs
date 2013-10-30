@@ -3,23 +3,26 @@ using System.Windows;
 using System.Windows.Controls;
 using Logic_Layer;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace BUPSystem
 {
-    public class CheckProductIDExistValidationRule : ValidationRule
+    public class CheckActivityIDFormatValidationRule : ValidationRule
     {
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo)
         {
             string str = value as string;
             if (str != null)
             {
-                if (str.Length != 6)
+                if (Regex.IsMatch(str, @"^[a-zåäöA-ZÅÄÖ]+$"))
                 {
-                    return new ValidationResult(false, "Välj produktgrupp och skriv in ID");
+                    return str.Length != 4 ? new ValidationResult(false, "Skriv in ID (4 bokstäver)") : ValidationResult.ValidResult;
                 }
-                return ProductManagement.Instance.ProductExist(str) ? new ValidationResult(false, Message) : ValidationResult.ValidResult;
             }
-            return new ValidationResult(false, "Välj produktgrupp och skriv in ID");
+            return new ValidationResult(false, "Skriv in ID (4 bokstäver)");
+            
+            
+
         }
 
         public String Message { get; set; }

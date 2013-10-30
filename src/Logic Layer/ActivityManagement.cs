@@ -56,6 +56,14 @@ namespace Logic_Layer
         }
 
         /// <summary>
+        /// Check if a specific activity exists
+        /// </summary>
+        public bool ActivityExist(string id)
+        {
+            return db.Activity.Any(a => a.ActivityID == id);
+        }
+
+        /// <summary>
         /// Get a list of all activitys
         /// </summary>
         /// <returns></returns>
@@ -70,16 +78,6 @@ namespace Logic_Layer
         /// <param name="activity"></param>
         public void AddActicity(Activity activity)
         {
-            string id = activity.ActivityID;
-
-            if (activity.DepartmentID.Equals("AO"))
-                id += "AO";
-
-            else
-                id += "FO";
-
-            activity.ActivityID = id;
-
             db.Activity.Add(activity);
             db.SaveChanges();
             Activities.Add(activity);
