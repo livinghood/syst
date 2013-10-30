@@ -133,7 +133,7 @@ namespace Logic_Layer
         /// <param name="fI"></param>
         public void DeleteFinancialIncome(FinancialIncome fI)
         {
-            //FinancialIncomeList.Remove(fI);
+            FinancialIncomeList.Remove(fI);
             db.FinancialIncome.Remove(fI);
             db.SaveChanges();
         }

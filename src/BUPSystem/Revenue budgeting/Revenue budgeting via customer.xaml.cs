@@ -89,6 +89,12 @@ namespace BUPSystem.Revenue_budgeting
             }
         }
 
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            FinancialIncome fi = (FinancialIncome)dgIncomeProduct.SelectedItem;
+            RevenueManagement.Instance.DeleteFinancialIncome(fi);
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -244,6 +250,15 @@ namespace BUPSystem.Revenue_budgeting
             }
             return child;
         }
+
+        private void btnLock_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
+
+        
 
     }
 }
