@@ -91,24 +91,31 @@ namespace Logic_Layer.FollowUp
                 db.ForecastMonth.Add(forecastMonth);
             }
 
-            foreach (ForecastMonitor forecastMonitor in from forecast in Forecasts
-                                                        select new ForecastMonitor
-                                                        {
-                                                            Forecast = forecast.Forecast,
-                                                            ForecastBudget = forecast.ForecastBudget.ToString(CultureInfo.InvariantCulture),
-                                                            ForecastMonitorMonthID = month.ToString(CultureInfo.InvariantCulture),
-                                                            IeProductID = forecast.IeProductID,
-                                                            IeProductName = forecast.IeProductName,
-                                                            OutcomeAcc = forecast.OutcomeAcc,
-                                                            Reprocessed = forecast.Reprocessed,
-                                                        }
-                                                        into forecastMonitor
-                                                        let fList = db.ForecastMonitor.Select(f => f.IeProductID)
-                                                        where !fList.Contains(forecastMonitor.IeProductID)
-                                                        select forecastMonitor)
-                                                        {   
-                                                            db.ForecastMonitor.Add(forecastMonitor);
-                                                        }
+            foreach (var forecast in Forecasts)
+            {
+                ForecastMonitor fm = new ForecastMonitor
+                {
+                    Forecast = forecast.Forecast,
+                    ForecastBudget = forecast.ForecastBudget.ToString(),
+                    ForecastMonitorMonthID = month.ToString(),
+                    ForecastMonth = forecastMonth,
+                    IeProductID = forecast.IeProductID,
+                    IeProductName = forecast.IeProductName,
+                    OutcomeAcc = forecast.OutcomeAcc,
+                    Reprocessed = forecast.Reprocessed
+                };
+
+                var flist = db.ForecastMonitor.Select(f => f.IeProductID);
+
+                if (flist.Contains(fm.IeProductID))
+                {
+                    var itemToUpdate = db.ForecastMonitor.Single(s => s.IeProductID.Equals(fm.IeProductID));
+                    itemToUpdate.Reprocessed += fm.Reprocessed;
+                    itemToUpdate.Forecast += fm.Forecast;
+                }
+                else
+                    db.ForecastMonitor.Add(fm);
+            }
 
             db.SaveChanges();
         }
@@ -201,15 +208,54 @@ namespace Logic_Layer.FollowUp
 
         public void CreateForecasting(IncomeProductCustomer ipc)
         {
-            Forecasting fc = new Forecasting
+           int minusMonth = 1;
+            if (ipc.IeIncomeDate.Month == 1)
+                minusMonth = 13;
+
+            ForecastMonitor formerPrognosis = null;
+
+            try
             {
-                IeProductID = ipc.IeProductID,
-                IeProductName = ipc.IeProductName,
-                CustomerID = ipc.IeCustomerID,
-                CustomerName = ipc.IeCustomerName,
-                Amount = ipc.IeAmount,
-                Date = ipc.IeIncomeDate
-            };
+                foreach (var item in db.ForecastMonitor)
+                {
+                  
+
+                    var p = int.Parse(item.ForecastMonitorMonthID) - minusMonth;
+
+                    if (item.IeProductID.Equals(ipc.IeProductID) && item.ForecastMonitorMonthID == p.ToString())
+                    {
+                        formerPrognosis = item;
+                    }
+                }
+
+
+            
+            }
+            catch (Exception)
+            {
+                
+            }
+           
+
+            Forecasting fc = new Forecasting();
+            fc.IeProductID = ipc.IeProductID;
+            fc.IeProductName = ipc.IeProductName;
+            fc.CustomerID = ipc.IeCustomerID;
+            fc.CustomerName = ipc.IeCustomerName;
+            fc.Amount = ipc.IeAmount;
+            fc.Date = ipc.IeIncomeDate;
+            fc.OutcomeAcc = ~ipc.IeAmount + 1;
+            fc.Trend = (~ipc.IeAmount + 1) / ipc.IeIncomeDate.Date.Month * 12;
+           
+            foreach (var item in Forecasts.Where(item => item.IeProductID.Equals(fc.IeProductID)))
+            {
+                item.Amount += fc.Amount;
+                item.OutcomeAcc += ~fc.Amount + 1;
+                item.Trend = (~fc.Amount + 1) / ipc.IeIncomeDate.Date.Month * 12;
+                item.FormerPrognosis = formerPrognosis.Forecast;
+                return;
+            }
+
             Forecasts.Add(fc);
         }
 
@@ -222,6 +268,21 @@ namespace Logic_Layer.FollowUp
         {
             forecast.Trend = (forecast.OutcomeAcc + forecast.Reprocessed) / passedMonths * 12;
         }
+
+        public void Calculate(Forecasting forecast, int selectedMonth)
+        {
+            int minusMonth = 1;
+            if (forecast.Date.Month == 1)
+                minusMonth = 13;
+
+            var itemFromPreviousMonth = from f in Forecasts
+                                        where f.IeProductID.Equals(forecast.IeProductID)
+                                        && f.Date.Month == forecast.Date.Month - minusMonth
+                                        select f;
+
+            //forecast.OutcomeMonth = forecast.OutcomeAcc - 
+        }
+
 
         public void LockForecast(int month)
         {

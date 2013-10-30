@@ -22,7 +22,7 @@ namespace Logic_Layer.FollowUp
         public int OutcomeAcc { get; set; }
         public int Reprocessed { get; set; }
         public int Trend { get; set; }
-        public int FormerPrognosis { get; set; }
+        public int? FormerPrognosis { get; set; }
         public int Forecast { get; set; }
         public int ForecastBudget { get; set; }
         public DateTime Date { get; set; }
