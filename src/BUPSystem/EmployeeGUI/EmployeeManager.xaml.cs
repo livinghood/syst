@@ -17,7 +17,6 @@ namespace BUPSystem.EmployeeGUI
     /// </summary>
     public partial class EmployeeManager : Window
     {
-        public string Diff { get; set; }
         public Employee Employee {get; set;}
 
         private bool changeExistingEmployee;
@@ -269,7 +268,7 @@ namespace BUPSystem.EmployeeGUI
 
             int i_annual = ConvertStringToInt(tbAnnualEmployee.Text);
 
-            tbDiff.Text = (i_annual - i_adm - i_drift - i_sell - i_prod).ToString(CultureInfo.InvariantCulture);//calculate Diff
+            Employee.Diff = (i_annual - i_adm - i_drift - i_sell - i_prod).ToString(CultureInfo.InvariantCulture);//calculate Diff
         }
 
         private void NumberValidationTextBox(object sender, System.Windows.Input.TextCompositionEventArgs e)

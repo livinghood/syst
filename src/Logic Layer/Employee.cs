@@ -6,6 +6,7 @@
 //    Manual changes to this file will be overwritten if the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
+using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel;
 
 namespace Logic_Layer
@@ -19,6 +20,7 @@ namespace Logic_Layer
         private string m_EmployeeName;
         private int m_MonthSallary;
         private int m_EmployeementRate;
+        private string m_Diff;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -41,6 +43,13 @@ namespace Logic_Layer
             this.EmployeePlacement = new HashSet<EmployeePlacement>();
             this.ProductPlacement = new HashSet<ProductPlacement>();
             this.UserAccount = new HashSet<UserAccount>();
+        }
+
+        [NotMapped]
+        public string Diff
+        {
+            get { return m_Diff; }
+            set { SetField(ref m_Diff, value, "Diff"); }
         }
 
         public long EmployeeID
