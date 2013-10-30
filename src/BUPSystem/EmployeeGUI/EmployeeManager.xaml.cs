@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Data;
 using Logic_Layer;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Text.RegularExpressions;
 using System.Globalization;
 
@@ -67,6 +70,10 @@ namespace BUPSystem.EmployeeGUI
                     grdProd.DataContext = emp;
                 }
             }
+
+            // Disable validation for product id and part-id
+            Binding binding = BindingOperations.GetBinding(tbEmployeeID, TextBox.TextProperty);
+            binding.ValidationRules.Clear();
         }
 
         private void UpdatePlacements()
@@ -130,10 +137,10 @@ namespace BUPSystem.EmployeeGUI
             }
             else
             {// Update employee
-                tbEmployeeID.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-                tbEmployeeName.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-                tbEmployeeSallary.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-                tbEmployeeRate.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+               
+                // If no department is set, terminate
+                if (!ControlDepartments())
+                    return;
 
                 decimal d_vacancy = ConvertStringToInt(tbEmployeeVacancy.Text);
                 Employee.VacancyDeduction = d_vacancy / 100;
@@ -269,6 +276,14 @@ namespace BUPSystem.EmployeeGUI
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            if (changeExistingEmployee)
+            {
+                EmployeeManagement.Instance.ResetEmployee(Employee);
+            }
         }
 
     }

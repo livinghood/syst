@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel;
@@ -57,6 +58,7 @@ namespace Logic_Layer
             EmployeeList.Add(newEmployee);
             db.Employee.Add(newEmployee);
             db.SaveChanges();
+
             return newEmployee;
         }
 
@@ -79,7 +81,48 @@ namespace Logic_Layer
             db.SaveChanges();
         }
 
+        /// <summary>
+        /// Check if an employee is connected to an ActivityPlacement
+        /// </summary>
+        /// <returns></returns>
+        public bool IsConnectedToActivityPlacement(Employee employee)
+        {
+            var query = db.ActivityPlacement.Where(d => d.EmployeeID.Equals(employee.EmployeeID));
+            return query.Any();
+        }
 
+        /// <summary>
+        /// Check if an employee is connected to a ActivityPlacement
+        /// </summary>
+        /// <returns></returns>
+        public bool IsConnectedToProductPlacement(Employee employee)
+        {
+            var query = db.ProductPlacement.Where(d => d.EmployeeID.Equals(employee.EmployeeID));
+            return query.Any();
+        }
+
+        /// <summary>
+        /// Check if an employee is connected to an UserAccount
+        /// </summary>
+        /// <returns></returns>
+        public bool IsConnectedToUserAccount(Employee employee)
+        {
+            var query = db.UserAccount.Where(d => d.EmployeeID == employee.EmployeeID);
+            return query.Any();
+        }
+
+        /// <summary>
+        /// Check if a specific customer exists
+        /// </summary>
+        public bool EmployeeExist(long id)
+        {
+            return db.Employee.Any(e => e.EmployeeID == id);
+        }
+
+        public void ResetEmployee(Employee EmployeeObj)
+        {
+            db.Entry(EmployeeObj).State = EntityState.Unchanged;
+        }
         //-----------------------------------------------------------------------------------------------------------
 
 
