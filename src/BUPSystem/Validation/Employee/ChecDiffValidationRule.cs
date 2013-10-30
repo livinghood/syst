@@ -6,20 +6,17 @@ using System.Collections.Generic;
 
 namespace BUPSystem
 {
-    public class CheckEmployeeIDValidationRule : ValidationRule
+    public class CheckDiffValidationRule : ValidationRule
     {
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo)
         {
             string str = value as string;
             if (str != null)
             {
-                long employeeid;
-                if (long.TryParse(str, out employeeid))
+                int diff;
+                if (Int32.TryParse(str, out diff))
                 {
-                    if(employeeid < 1000000000 || employeeid > 9999999999)
-                        return new ValidationResult(false, "Personnummer är inte korrekt (använd 10 siffror)");
-
-                    if (EmployeeManagement.Instance.EmployeeExist(employeeid))
+                    if (diff != 0)
                         return new ValidationResult(false, Message);
                 }
                 else
@@ -30,8 +27,7 @@ namespace BUPSystem
             return ValidationResult.ValidResult;
         }
 
-        public String Message { get; set; }
-    
+        public String Message { get; set; }    
     }
 
 }

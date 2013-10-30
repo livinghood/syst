@@ -17,7 +17,7 @@ namespace BUPSystem.EmployeeGUI
     /// </summary>
     public partial class EmployeeManager : Window
     {
-
+        public string Diff { get; set; }
         public Employee Employee {get; set;}
 
         private bool changeExistingEmployee;

@@ -67,8 +67,16 @@
         <Label Content="Förs/Marknad avd" Height="28" HorizontalAlignment="Left" Margin="330,173,0,0" x:Name="label10" VerticalAlignment="Top" />
         <Label Content="Utv/Förv avd" Height="28" HorizontalAlignment="Left" Margin="330,211,0,0" x:Name="label11" VerticalAlignment="Top" />
         <Label Content="Diff" Height="28" HorizontalAlignment="Left" Margin="332,245,0,0" x:Name="lblDiff" VerticalAlignment="Top" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="441,247,0,0" x:Name="tbDiff" VerticalAlignment="Top" Width="160" IsEnabled="False" />
-        <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="532,284,-7,-38" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click" >
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="441,247,0,0" x:Name="tbDiff" VerticalAlignment="Top" Width="160" IsReadOnly="True" >
+            <TextBox.Text>
+                <Binding Path="MonthSallary" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <local:CheckDiffValidationRule x:Name="DiffValidation" ValidatesOnTargetUpdated="True" Message="Placera ut årsarbete (Diff ska bli 0)"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+            <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="532,284,-7,-38" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click" >
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="IsEnabled" Value="false" />
@@ -79,6 +87,7 @@
                                 <Condition Binding="{Binding ElementName=tbEmployeeName, Path=(Validation.HasError)}" Value="false" />
                                 <Condition Binding="{Binding ElementName=tbEmployeeSallary, Path=(Validation.HasError)}" Value="false" />
                                 <Condition Binding="{Binding ElementName=tbEmployeeRate, Path=(Validation.HasError)}" Value="false" />
+                                <Condition Binding="{Binding ElementName=tbDiff, Path=(Validation.HasError)}" Value="false" />
                             </MultiDataTrigger.Conditions>
                             <Setter Property="IsEnabled" Value="true" />
                         </MultiDataTrigger>
