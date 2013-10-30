@@ -141,33 +141,9 @@ namespace Logic_Layer
         /// <summary>
         /// Update a FinancialIncome
         /// </summary>
-        public void UpdateFinancialIncome(string customerID)
+        public void UpdateFinancialIncome()
         {
-            DeleteEmptyIncomes(customerID);
             db.SaveChanges();
-        }
-
-        /// <summary>
-        /// Prevent from saving empty incomes to db
-        /// </summary>
-        private void DeleteEmptyIncomes(string customerID)
-        {
-            IEnumerable<FinancialIncome> financialIncomes = GetFinancialIncomesByCustomer(customerID);
-
-            foreach (FinancialIncome fi in FinancialIncomeList)
-            {
-                if (fi.ProductID == null)
-                {
-                    foreach (FinancialIncome fi2 in financialIncomes)
-                    {//NÅGOT FEL HÄR
-                        if (!FinancialIncomeList.Contains(fi2))
-                        {//KOMMER ALDRIG HIT
-                            DeleteFinancialIncome(fi2);
-                        }
-                    }
-                    FinancialIncomeList.Remove(fi);
-                }    
-            }
         }
 
         //-----------------------------------------------------------------------------------------------------------

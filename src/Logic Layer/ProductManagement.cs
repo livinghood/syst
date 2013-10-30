@@ -65,14 +65,7 @@ namespace Logic_Layer
         /// <returns></returns>
         public Product GetProductByID(string s)
         {
-            try
-            {
-                return Products.First(p => p.ProductID.Equals(s));
-            }
-            catch
-            {
-                return new Product();
-            }
+            return Products.FirstOrDefault(p => p.ProductID.Equals(s));
         }
 
         /// <summary>
@@ -82,14 +75,7 @@ namespace Logic_Layer
         /// <returns></returns>
         public Product GetProductByName(string s)
         {
-            try
-            {
-                return Products.First(p => p.ProductName.Equals(s));
-            }
-            catch
-            {
-                return new Product();
-            }
+            return Products.FirstOrDefault(p => p.ProductName.Equals(s));
         }
 
         public IEnumerable<string> GetProductDepartments()
