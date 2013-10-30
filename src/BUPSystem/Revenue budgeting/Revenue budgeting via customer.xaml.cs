@@ -68,10 +68,15 @@ namespace BUPSystem.Revenue_budgeting
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            CurrentIncomeYearID = RevenueManagement.Instance.CreateFinancialIncomeYear();
-            RevenueManagement.Instance.UpdateFinancialIncome();
+            //CurrentIncomeYearID = RevenueManagement.Instance.CreateFinancialIncomeYear();
+            //RevenueManagement.Instance.UpdateFinancialIncome();
         }
 
         /// <summary>

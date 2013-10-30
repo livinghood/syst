@@ -10,7 +10,6 @@ using System.Windows;
 namespace Logic_Layer
 {
     public class RevenueManagement
-
     {
         /// <summary>
         /// Lazy Instance of CustomerManager singelton
@@ -78,24 +77,34 @@ namespace Logic_Layer
         }
 
         public IEnumerable<FinancialIncome> GetFinancialIncomesByCustomer(string customerid)
-        {            
-            var fi = from f in db.FinancialIncome
-                           orderby f.ProductID 
-                            where f.CustomerID == customerid
-                           select f;
-            return fi;
+        {
+            IEnumerable<FinancialIncome> financialIncomes = from f in db.FinancialIncome
+                                                            orderby f.ProductID
+                                                            where f.CustomerID == customerid
+                                                            select f;
+
+            foreach (FinancialIncome fi in financialIncomes)
+            {
+                foreach (Product p in ProductList)
+                {
+                    if (fi.ProductID.Equals(p.ProductID))
+                        fi.ProductName = p.ProductName;
+                }
+            }
+
+            return financialIncomes;
         }
 
         /// <summary>
-        /// Get a list of all FinancialIncomes
+        /// Get a list of all FinancialIncomes current year
         /// </summary>
         /// <returns></returns>
         public IEnumerable<FinancialIncome> GetFinancialIncomeByYear()
         {
             IEnumerable<FinancialIncome> financialIncomes = from f in db.FinancialIncome
-                                              orderby f.FinancialIncomeYearID
-                                              where f.FinancialIncomeYearID == NewID
-                                              select f;
+                                                            orderby f.FinancialIncomeYearID
+                                                            where f.FinancialIncomeYearID == NewID
+                                                            select f;
 
             foreach (FinancialIncome fi in financialIncomes)
             {
@@ -143,8 +152,8 @@ namespace Logic_Layer
         public IEnumerable<FinancialIncomeYear> GetFinancialIncomeYears(FinancialIncomeYear fIY)
         {
             IEnumerable<FinancialIncomeYear> financialIncomesyears = from f in db.FinancialIncomeYear
-                                                        where f.FinancialIncomeYearID == fIY.FinancialIncomeYearID
-                                                        select f;
+                                                                     where f.FinancialIncomeYearID == fIY.FinancialIncomeYearID
+                                                                     select f;
 
             return financialIncomesyears;
         }

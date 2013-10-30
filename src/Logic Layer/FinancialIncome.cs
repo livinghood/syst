@@ -52,10 +52,13 @@ namespace Logic_Layer
         public Nullable<int> Agreement
         {
             get { return m_Agreement; }
-            set
-            {
+
+            set 
+            { 
+                SetField(ref m_Agreement, value, "Agreement");
                 OnPropertyChanged("Budget");
             }
+                
         }
 
         public bool GradeT

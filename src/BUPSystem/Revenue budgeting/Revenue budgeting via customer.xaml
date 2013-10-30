@@ -23,12 +23,12 @@
                 <DataGridTemplateColumn Header="Produkt-ID" Width="100" >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                                <TextBlock Text="{Binding ProductID}"></TextBlock>
+                            <TextBlock Text="{Binding ProductID}"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                     <DataGridTemplateColumn.CellEditingTemplate>
                         <DataTemplate>
-                                <Controls:AutoCompleteBox HorizontalAlignment="Stretch" Text="{Binding ProductID, Mode=OneWay, ValidatesOnDataErrors=True, NotifyOnTargetUpdated=True}" ItemsSource="{Binding ProductList, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" VerticalAlignment="Top" FilterMode="Contains" IsTextCompletionEnabled="True" ValueMemberPath="ProductID" LostFocus="EditedProductID">
+                            <Controls:AutoCompleteBox HorizontalAlignment="Stretch" Text="{Binding ProductID, Mode=OneWay, ValidatesOnDataErrors=True, NotifyOnTargetUpdated=True}" ItemsSource="{Binding ProductList, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" VerticalAlignment="Top" FilterMode="Contains" IsTextCompletionEnabled="True" ValueMemberPath="ProductID" LostFocus="EditedProductID">
                                 <Controls:AutoCompleteBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding ProductID}" />
@@ -69,3 +69,4 @@
         </DataGrid>
     </Grid>
 </Window>
+
