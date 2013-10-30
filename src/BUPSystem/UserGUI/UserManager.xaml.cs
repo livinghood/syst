@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using Logic_Layer;
 
 namespace BUPSystem.UserGUI
@@ -46,19 +49,9 @@ namespace BUPSystem.UserGUI
             tbUsername.IsEnabled = false;
             DataContext = userAccount;
             UserAccount = userAccount;
-        }
 
-        /// <summary>
-        /// Create or update an user account
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnSave_Click(object sender, RoutedEventArgs e)
-        {
-            tbPassword.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-            cbPermissionLevel.GetBindingExpression(ComboBox.SelectedIndexProperty).UpdateSource();     
-            DialogResult = true;
-            Close();
+            Binding binding = BindingOperations.GetBinding(tbUsername, TextBox.TextProperty);
+            binding.ValidationRules.Clear();
         }
 
         /// <summary>
@@ -68,10 +61,29 @@ namespace BUPSystem.UserGUI
         /// <param name="e"></param>
         private void btnGetEmployee_Click(object sender, RoutedEventArgs e)
         {
-            EmployeeGUI.EmployeeRegister er = new EmployeeGUI.EmployeeRegister();
-            er.ShowDialog();
+            EmployeeGUI.EmployeeRegister er = new EmployeeGUI.EmployeeRegister(true);
 
-            // TODO : Hämta personal att koppla till användare
-        }    
+            // Reset the group (fixes problem if user deletes current selected group)
+            UserAccount.EmployeeID = null;
+
+            if (er.ShowDialog() == true)
+            {
+                UserAccount.EmployeeID = er.SelectedEmployee.EmployeeID;
+            }
+
+        }
+
+        /// <summary>
+        /// Create or update an user account
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            tbUsername.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+
+            DialogResult = true;
+            Close();
+        }
     }
 }

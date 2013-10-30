@@ -103,6 +103,7 @@
     <Compile Include="Validation\Customer\CheckCustomerIDValidationRule.cs" />
     <Compile Include="Validation\Account\CheckAccountIDExistValidationRule.cs" />
     <Compile Include="Validation\Account\CheckAccountIDFormatValidationRule.cs" />
+    <Compile Include="Validation\UserAccount\CheckUserAccounUsernameExistValidationRule.cs" />
     <Compile Include="Validation\Product\CheckProductCategoryIDExistValidationRule.cs" />
     <Compile Include="Validation\Product\CheckProductIDFormatValidationRule.cs" />
     <Compile Include="Validation\General\TextIsNumberOrNullValidationRule.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Validation\Product\CheckProductGroupIDValidationRule.cs" />
     <Compile Include="Validation\Product\CheckProductIDExistValidationRule.cs" />
     <Compile Include="Validation\Product\CheckProductGroupNameValidationRule.cs" />
+    <Compile Include="Validation\UserAccount\EmployeeIDNotEmptyValidationRule.cs" />
     <Page Include="ActivityGUI\ActivityManager.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
