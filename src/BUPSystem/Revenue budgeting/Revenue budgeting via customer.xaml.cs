@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System;
 using System.Collections.Generic;
 using System.Collections;
+using System.Linq;
 
 namespace BUPSystem.Revenue_budgeting
 {
@@ -31,11 +32,9 @@ namespace BUPSystem.Revenue_budgeting
             get { return RevenueManagement.Instance.ProductList; }
         }
 
-        public Customer SelectedCustomer
-        {
-            get;
-            set;
-        }
+        public Customer SelectedCustomer { get; set; }
+
+        private string CurrentIncomeYearID { get; set; }
 
         /// <summary>
         /// Constructor
@@ -69,15 +68,22 @@ namespace BUPSystem.Revenue_budgeting
 
         }
 
-
-
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-             RevenueManagement.Instance.UpdateFinancialIncome();
+            CurrentIncomeYearID = RevenueManagement.Instance.CreateFinancialIncomeYear();
+            RevenueManagement.Instance.UpdateFinancialIncome();
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void EditedProductID(object sender, RoutedEventArgs e)
         {
             FinancialIncome fi = (FinancialIncome)dgIncomeProduct.SelectedItem;
@@ -86,7 +92,7 @@ namespace BUPSystem.Revenue_budgeting
 
             // Check if ID is correct
 
-            Product tempProduct = ProductManagement.Instance.GetProduct(autoCompleteBox.Text);
+            Product tempProduct = ProductManagement.Instance.GetProductByID(autoCompleteBox.Text);
 
             if (tempProduct != null)
             {
@@ -95,6 +101,33 @@ namespace BUPSystem.Revenue_budgeting
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EditedProductName(object sender, RoutedEventArgs e)
+        {
+            FinancialIncome fi = (FinancialIncome)dgIncomeProduct.SelectedItem;
+
+            var autoCompleteBox = sender as AutoCompleteBox;
+
+            // Check if ID is correct
+
+            Product tempProduct = ProductManagement.Instance.GetProductByName(autoCompleteBox.Text);
+
+            if (tempProduct != null)
+            {
+                fi.ProductName = tempProduct.ProductName;
+                fi.ProductID = tempProduct.ProductID;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgIncomeProduct_InitializingNewItem(object sender, InitializingNewItemEventArgs e)
         {
 
@@ -106,6 +139,20 @@ namespace BUPSystem.Revenue_budgeting
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        bool isManualEdit;
+        private void dgIncomeProduct_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            if (!isManualEdit)
+            {
+                isManualEdit = true;
+                DataGrid grid = (DataGrid)sender;
+                grid.CommitEdit(DataGridEditingUnit.Row, true);
+                isManualEdit = false;
+            }
+        }
 
     }
 }

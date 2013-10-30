@@ -54,8 +54,9 @@ namespace Logic_Layer
             get { return m_Agreement; }
             set
             {
+                
+                SetField(ref m_Agreement, value, "Agreement");
                 OnPropertyChanged("Budget");
-                SetField(ref m_Agreement, value, "Agreement"); 
             }
         }
 

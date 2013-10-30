@@ -18,7 +18,7 @@
         <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="373,364,0,0" x:Name="lblAddition" VerticalAlignment="Top" />
         <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="474,364,0,0" x:Name="lblBudget" VerticalAlignment="Top" />
         <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="571,364,0,0" x:Name="lblHour" VerticalAlignment="Top" />
-        <DataGrid Height="316" HorizontalAlignment="Left" x:Name="dgIncomeProduct" VerticalAlignment="Top" Width="773" Margin="0,43,0,0" AutoGenerateColumns="False" InitializingNewItem="dgIncomeProduct_InitializingNewItem">
+        <DataGrid Height="316" HorizontalAlignment="Left" x:Name="dgIncomeProduct" VerticalAlignment="Top" Width="773" Margin="0,43,0,0" AutoGenerateColumns="False" InitializingNewItem="dgIncomeProduct_InitializingNewItem" CellEditEnding="dgIncomeProduct_CellEditEnding">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Produkt-ID" Width="100" >
                     <DataGridTemplateColumn.CellTemplate>
@@ -39,7 +39,25 @@
                     </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTextColumn Header="Namn" MinWidth="80" Width="120" IsReadOnly="True" Binding="{Binding ProductName}"/>
+                <DataGridTemplateColumn Header="Namn" Width="100" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ProductName}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <Controls:AutoCompleteBox HorizontalAlignment="Stretch" Text="{Binding ProductName, Mode=OneWay, ValidatesOnDataErrors=True, NotifyOnTargetUpdated=True}" ItemsSource="{Binding ProductList, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" VerticalAlignment="Top" FilterMode="Contains" IsTextCompletionEnabled="True" ValueMemberPath="ProductName" LostFocus="EditedProductName">
+                                <Controls:AutoCompleteBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ProductName}" />
+                                    </DataTemplate>
+                                </Controls:AutoCompleteBox.ItemTemplate>
+                            </Controls:AutoCompleteBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+
                 <DataGridTextColumn Header="Avtal" MinWidth="40" Width="100" Binding="{Binding Agreement}" />
                 <DataGridCheckBoxColumn Binding="{Binding GradeA}" ClipboardContentBinding="{x:Null}" Header="Grad A"/>
                 <DataGridTextColumn Header="Tillägg" MinWidth="40" Width="50" Binding="{Binding Addition}" />

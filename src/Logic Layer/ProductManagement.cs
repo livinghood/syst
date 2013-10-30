@@ -54,6 +54,26 @@ namespace Logic_Layer
             return products;
         }
 
+        /// <summary>
+        /// Returns products in autocompletebox for ProductID
+        /// </summary>
+        /// <param name="s">written text in box for autocomplete</param>
+        /// <returns></returns>
+        public Product GetProductByID(string s)
+        { 
+            return Products.First(p => p.ProductID.Equals(s));
+        }
+
+        /// <summary>
+        /// Returns products in autocompletebox for ProductName
+        /// </summary>
+        /// <param name="s">written text in box for autocomplete</param>
+        /// <returns></returns>
+        public Product GetProductByName(string s)
+        {
+            return Products.First(p => p.ProductName.Equals(s));
+        }
+
         public IEnumerable<string> GetProductDepartments()
         {
             var departments = from d in db.Department
