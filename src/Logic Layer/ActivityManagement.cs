@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
 
 namespace Logic_Layer
@@ -85,6 +86,29 @@ namespace Logic_Layer
         }
 
         /// <summary>
+        /// Check if an activity is connected to an employee
+        /// </summary>
+        /// <param name="productGroup"></param>
+        /// <returns></returns>
+        public bool IsConnectedToEmployee(Activity activity)
+        {
+            var query = db.ActivityPlacement.Where(f => f.ActivityID.Equals(activity.ActivityID));
+            return query.Any();
+        }
+
+
+        /// <summary>
+        /// Check if an activity is connected to an directactivitycost
+        /// </summary>
+        /// <param name="productGroup"></param>
+        /// <returns></returns>
+        public bool IsConnectedToDirectActivityCost(Activity activity)
+        {
+            var query = db.DirectActivityCost.Where(d => d.ActivityID.Equals(activity.ActivityID));
+            return query.Any();
+        }
+
+        /// <summary>
         /// Delete an activity
         /// </summary>
         /// <param name="activity"></param>
@@ -101,6 +125,11 @@ namespace Logic_Layer
         public void Update()
         {
             db.SaveChanges();
+        }
+
+        public void ResetActivity(Activity activity)
+        {
+            db.Entry(activity).State = EntityState.Unchanged;
         }
     }
 }
