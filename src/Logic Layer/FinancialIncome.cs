@@ -19,6 +19,7 @@ namespace Logic_Layer
         private string m_ProductID;
         private string m_ProductName;
         private string m_CustomerID;
+        private string m_CustomerName;
         private int? m_Agreement;
         private bool m_GradeT;
         private bool m_GradeA;
@@ -48,6 +49,13 @@ namespace Logic_Layer
             get { return m_CustomerID; }
             set { SetField(ref m_CustomerID, value, "CustomerID"); }
         }
+
+         [NotMapped]
+        public string CustomerName
+         {
+             get { return m_CustomerName; }
+             set { SetField(ref m_CustomerName, value, "CustomerName"); }
+         }
 
         public Nullable<int> Agreement
         {

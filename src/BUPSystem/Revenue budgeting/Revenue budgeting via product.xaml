@@ -1,39 +1,75 @@
-﻿<Window x:Class="BUPSystem.Revenue_budgeting.RevenueBudgetingViaProduct"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="RevenueBudgetingViaProduct" Height="475" Width="770">
+        xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit" x:Class="BUPSystem.Revenue_budgeting.RevenueBudgetingViaProduct"
+        Title="RevenueBudgetingViaProduct" Height="475" Width="781">
     <Grid>
-        <DataGrid AutoGenerateColumns="False" Height="315" HorizontalAlignment="Left" x:Name="dataGrid1" VerticalAlignment="Top" Width="762" Margin="0,46,0,0">
+        <Button Content="Välj produkt" Height="23" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="btnChoseProduct" VerticalAlignment="Top" Width="73" Click="btnChoseProduct_Click" />
+        <Button Content="Lås intäktsbudget" Height="23" HorizontalAlignment="Left" Margin="628,10,0,0" x:Name="btnLock" VerticalAlignment="Top" Width="127" Click="btnLock_Click" />
+        <Button Content="Avbryt" Height="23" Margin="500,408,0,0" x:Name="btnCancel" VerticalAlignment="Top" IsCancel="True" HorizontalAlignment="Left" Width="73" />
+        <Button x:Name="btnDelete" Content="Ta bort" Margin="595,408,0,0" VerticalAlignment="Top" Height="23" HorizontalAlignment="Left" Width="73" Click="btnDelete_Click"/>
+        <Button Content="Spara" Height="23" HorizontalAlignment="Right" Margin="0,408,10,0" x:Name="btnSave" VerticalAlignment="Top" Width="73" Click="btnSave_Click" />
+        <Button Content="Skapa Exceldokument" Height="23" HorizontalAlignment="Left" Margin="188,408,0,0" x:Name="button3" VerticalAlignment="Top" Width="113" IsEnabled="False" />
+        <Button Content="Bildskärmsrapport" Height="23" HorizontalAlignment="Left" Margin="306,408,0,0" x:Name="button4" VerticalAlignment="Top" Width="117" IsEnabled="False" />
+        <Button Content="Skriv ut" Height="23" HorizontalAlignment="Left" Margin="110,408,0,0" x:Name="button5" VerticalAlignment="Top" Width="73" IsEnabled="False" />
+        <Button Content="Export av textfil" Height="23" HorizontalAlignment="Left" Margin="10,408,0,0" x:Name="button6" VerticalAlignment="Top" Width="95" IsEnabled="False" />
+        <Label x:Name="lblProductName" Content="produktnamn" HorizontalAlignment="Left" Margin="168,10,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lblProductID" Content="produkt id" HorizontalAlignment="Left" Margin="99,10,0,0" VerticalAlignment="Top"/>
+        <Label Height="28" HorizontalAlignment="Left" Margin="226,364,0,0" x:Name="lblAgreement" VerticalAlignment="Top" Content="Summa" />
+        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="373,364,0,0" x:Name="lblAddition" VerticalAlignment="Top" />
+        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="474,364,0,0" x:Name="lblBudget" VerticalAlignment="Top" />
+        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="571,364,0,0" x:Name="lblHour" VerticalAlignment="Top" />
+        <DataGrid Height="316" HorizontalAlignment="Left" x:Name="dgIncomeCustomer" VerticalAlignment="Top" Width="773" Margin="0,43,0,0" AutoGenerateColumns="False" InitializingNewItem="dgIncomeCustomer_InitializingNewItem" CellEditEnding="dgIncomeCustomer_CellEditEnding">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Kund ID" MinWidth="40" />
-                <DataGridTextColumn Header="Namn" MinWidth="80" />
-                <DataGridTextColumn Header="Avtal" MinWidth="40" />
-                <DataGridTextColumn Header="Grad A" MinWidth="40" />
-                <DataGridTextColumn Header="Tillägg" MinWidth="40" />
-                <DataGridTextColumn Header="Grad T" MinWidth="40" />
-                <DataGridTextColumn Header="Budget" MinWidth="40" />
-                <DataGridTextColumn Header="Tim" MinWidth="40" />
-                <DataGridTextColumn Header="Kommentarer" MinWidth="80" />
+                <DataGridTemplateColumn Header="Kund-ID" Width="100" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding CustomerID}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <Controls:AutoCompleteBox HorizontalAlignment="Stretch" Text="{Binding CustomerID, Mode=OneWay, ValidatesOnDataErrors=True, NotifyOnTargetUpdated=True}" ItemsSource="{Binding CustomerList, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" VerticalAlignment="Top" FilterMode="Contains" IsTextCompletionEnabled="True" ValueMemberPath="CustomerID" LostFocus="EditedCustomerID">
+
+                                <Controls:AutoCompleteBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding CustomerID}" />
+                                    </DataTemplate>
+                                </Controls:AutoCompleteBox.ItemTemplate>
+                            </Controls:AutoCompleteBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Namn" Width="100" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding CustomerName}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <Controls:AutoCompleteBox HorizontalAlignment="Stretch" Text="{Binding CustomerName, Mode=OneWay, ValidatesOnDataErrors=True, NotifyOnTargetUpdated=True}" ItemsSource="{Binding CustomerList, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" VerticalAlignment="Top" FilterMode="Contains" IsTextCompletionEnabled="True" ValueMemberPath="CustomerName" LostFocus="EditedCustomerName">
+                                <Controls:AutoCompleteBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding CustomerName}" />
+                                    </DataTemplate>
+                                </Controls:AutoCompleteBox.ItemTemplate>
+                            </Controls:AutoCompleteBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="Avtal" MinWidth="40" Width="100" Binding="{Binding Agreement}" />
+                <DataGridCheckBoxColumn Binding="{Binding GradeA}" ClipboardContentBinding="{x:Null}" Header="Grad A"/>
+                <DataGridTextColumn Header="Tillägg" MinWidth="40" Width="50" Binding="{Binding Addition}" />
+                <DataGridCheckBoxColumn Binding="{Binding GradeT}" ClipboardContentBinding="{x:Null}" Header="Grad T"/>
+                <DataGridTextColumn Header="Budget" MinWidth="40" Width="100" IsReadOnly="True" Binding="{Binding Budget}" />
+                <DataGridTextColumn Header="Tim" MinWidth="40" Width="50" Binding="{Binding Hours}" />
+                <DataGridTextColumn Header="Kommentarer" MinWidth="80" Width="150" Binding="{Binding Comments}" />
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="597,411,0,0" x:Name="button1" VerticalAlignment="Top" Width="75" />
-        <Button Content="Spara" Height="23" HorizontalAlignment="Right" Margin="0,411,10,0" x:Name="button2" VerticalAlignment="Top" Width="75" />
-        <Button Content="Skapa Exceldokument" Height="23" HorizontalAlignment="Left" Margin="194,411,0,0" x:Name="button3" VerticalAlignment="Top" Width="116" />
-        <Button Content="Bildskärmsrapport" Height="23" HorizontalAlignment="Left" Margin="315,411,0,0" x:Name="button4" VerticalAlignment="Top" Width="104" />
-        <Button Content="Skriv ut" Height="23" HorizontalAlignment="Left" Margin="113,411,0,0" x:Name="button5" VerticalAlignment="Top" Width="75" />
-        <Button Content="Export av textfil" Height="23" HorizontalAlignment="Left" Margin="10,411,0,0" x:Name="button6" VerticalAlignment="Top" Width="97" />
-        <Button Content="Lås intäktsbudget" Height="23" HorizontalAlignment="Left" Margin="645,10,0,0" x:Name="button7" VerticalAlignment="Top" Width="107" />
-        <Button Content="Välj produkt" Height="23" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="button7_Copy" VerticalAlignment="Top" Width="73" />
-        <Label Content="produktnamn" HorizontalAlignment="Left" Margin="194,9,0,0" VerticalAlignment="Top"/>
-        <Label Content="produkt id" HorizontalAlignment="Left" Margin="101,9,0,0" VerticalAlignment="Top"/>
-        <Label Height="28" HorizontalAlignment="Left" Margin="124,364,0,0" x:Name="label2" VerticalAlignment="Top" Content="Summa" />
-        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="179,364,0,0" x:Name="label3" VerticalAlignment="Top" />
-        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="234,364,0,0" x:Name="label4" VerticalAlignment="Top" />
-        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="300,364,0,0" x:Name="label5" VerticalAlignment="Top" />
-        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="355,364,0,0" x:Name="label6" VerticalAlignment="Top" />
-        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="426,364,0,0" x:Name="label7" VerticalAlignment="Top" />
-        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="503,364,0,0" x:Name="label8" VerticalAlignment="Top" />
-        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="582,364,0,0" x:Name="label9" VerticalAlignment="Top" />
 
     </Grid>
 </Window>
+

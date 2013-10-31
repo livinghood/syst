@@ -97,7 +97,7 @@ namespace BUPSystem.Revenue_budgeting
         {
             try
             {
-                FinancialIncomeList = RevenueManagement.Instance.RemoveEmptyIncomes();
+                FinancialIncomeList = RevenueManagement.Instance.RemoveEmptyCustomerIncomes();
                 RevenueManagement.Instance.UpdateFinancialIncome();
                 MessageBox.Show("Intäktsbudgetteringen är nu sparad");
             }
@@ -123,6 +123,7 @@ namespace BUPSystem.Revenue_budgeting
             CurrentFinancialIncomeYear.FinancialIncomeLock = true;
             RevenueManagement.Instance.UpdateFinancialIncomeYear();
             dgIncomeProduct.IsReadOnly = true;
+            btnLock.IsEnabled = false;
             btnDelete.IsEnabled = false;
             btnSave.IsEnabled = false;
         }
@@ -148,7 +149,6 @@ namespace BUPSystem.Revenue_budgeting
                 fi.ProductName = tempProduct.ProductName;
 
                 DataGridCell cellID = GetCell(dgIncomeProduct.SelectedIndex, 0); //Pass the row and column
-                if (cellID.Content == null)
                 cellID.IsEnabled = false;
                 DataGridCell cellName = GetCell(dgIncomeProduct.SelectedIndex, 1); //Pass the row and column
                 cellName.IsEnabled = false;
