@@ -95,16 +95,16 @@ namespace BUPSystem.Revenue_budgeting
         /// <param name="e"></param>
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            //try7
-            //{
+            try
+            {
             FinancialIncomeList = RevenueManagement.Instance.RemoveEmptyProductIncomes();
             RevenueManagement.Instance.UpdateFinancialIncome();
             MessageBox.Show("Intäktsbudgetteringen är nu sparad");
-            //}
-            //catch
-            //{
-            //    MessageBox.Show("Du kan inte spara samma kund flera gånger på samma produkt");
-            //}
+            }
+            catch
+            {
+                MessageBox.Show("Du kan inte spara samma kund flera gånger på samma produkt");
+            }
         }
 
         /// <summary>
