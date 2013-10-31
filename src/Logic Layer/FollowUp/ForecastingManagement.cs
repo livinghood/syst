@@ -135,7 +135,9 @@ namespace Logic_Layer.FollowUp
         /// <param name="fileName"></param>
         public void CreateForecastFromFile(string fileName)
         {
-            // First, delete all items in IncomeProductCustomer
+            // First, delete all forecast related items in db
+            db.ForecastMonitor.RemoveRange(db.ForecastMonitor);
+            db.ForecastMonth.RemoveRange(db.ForecastMonth);
             db.IncomeProductCustomer.RemoveRange(db.IncomeProductCustomer);
             db.SaveChanges();
             Forecasts.Clear();
@@ -403,12 +405,23 @@ namespace Logic_Layer.FollowUp
         /// <param name="month"></param>
         public void LockForecast(int month)
         {
-            foreach (var forecast in db.ForecastMonitor.Where(forecast =>
-                forecast.ForecastMonitorMonthID.Equals(month.ToString(CultureInfo.InvariantCulture))
+            var forecasts = db.ForecastMonitor.Select(s => s);
+            string strMonth = month.ToString(CultureInfo.InvariantCulture);
+
+            foreach (var forecast in forecasts.Where(forecast => forecast.ForecastMonitorMonthID.Equals(strMonth) 
                 && forecast.ForecastMonth.ForecastLock == false))
             {
                 forecast.ForecastMonth.ForecastLock = true;
+                db.SaveChanges();
             }
+        }
+
+        public bool CheckIfLocked(string id)
+        {
+            return db.ForecastMonitor.Any() && Enumerable.FirstOrDefault((
+                from item in db.ForecastMonitor 
+                where item.ForecastMonitorMonthID.Equals(id) 
+                select item.ForecastMonth.ForecastLock));
         }
     }
 }

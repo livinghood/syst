@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using Logic_Layer;
@@ -36,24 +38,31 @@ namespace BUPSystem.Uppföljning
 
         private void btnImportFile_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog
-            {
-                Filter = "Textfiler (.txt)|*.txt", 
-                Title = "Importera IntäktProduktKund.txt",
-                Multiselect = false
-            };
+            var mbresult = MessageBox.Show("Vid import av ny fil kommer befintlig uppföljningsdata att skrivas över. Fortsätta?",
+                    "Import av fil", MessageBoxButton.YesNo);
 
-            var result = ofd.ShowDialog();
-
-            if (result == true)
+            if (mbresult == MessageBoxResult.Yes)
             {
-                ForecastingManagement.Instance.CreateForecastFromFile(ofd.FileName);
-                cbMonth_SelectionChanged(sender, e as SelectionChangedEventArgs);
-            }        
+                OpenFileDialog ofd = new OpenFileDialog
+                {
+                    Filter = "Textfiler (.txt)|*.txt",
+                    Title = "Importera IntäktProduktKund.txt",
+                    Multiselect = false
+                };
+
+                var result = ofd.ShowDialog();
+
+                if (result == true)
+                {
+                    ForecastingManagement.Instance.CreateForecastFromFile(ofd.FileName);
+                    Forecasts.Clear();
+                    cbMonth_SelectionChanged(sender, e as SelectionChangedEventArgs);
+                }
+            }
         }
 
         private void UpdateForecasts()
-        {       
+        {
             Forecasts.Clear();
             ForecastingManagement.Instance.FillForecastsFromDB(cbMonth.SelectedIndex);
             var list = ForecastingManagement.Instance.GetForecastFromMonth(cbMonth.SelectedIndex);
@@ -71,22 +80,62 @@ namespace BUPSystem.Uppföljning
         {
             if (cbMonth.SelectedItem != null)
             {
-                if (!saved)
-                {
-                    var result = MessageBox.Show("Du har inte sparat ändringar gjorda i den valda månaden. " +
-                                    "Fortsätta ändå?", "Ändringar ej sparade",MessageBoxButton.YesNo);
-                    
-                    if (result == MessageBoxResult.No)
-                    {
-                        cbMonth.SelectedIndex = cbIndex;
-                        return;
-                    }
-                }
                 UpdateForecasts();
-                ForecastingManagement.Instance.UpdateForecast();
+                UpdateLabels();
+
                 // Prevent user from editing when all months option is selected 
                 dgForecasts.IsEnabled = cbMonth.SelectedIndex != 0;
+                cbIndex = cbMonth.SelectedIndex;
+
+                if (Forecasts.Any())
+                {
+                    if (ForecastingManagement.Instance.CheckIfLocked(cbMonth.SelectedIndex.ToString(CultureInfo.InvariantCulture)))
+                    {
+                        dgForecasts.IsEnabled = false;
+                        btnSave.IsEnabled = false;
+                        lblInfo.Content = "Uppföljning för denna månad är låst";
+                    }
+                    else
+                    {
+                        dgForecasts.IsEnabled = true;
+                        btnSave.IsEnabled = true;
+                        lblInfo.Content = "";
+                    }
+                }
             }
+        }
+
+        private void UpdateLabels()
+        {
+            int? budget = 0;
+            int? outcomeMonth = 0;
+            int? outcomeAcc = 0;
+            int? reprocssed = 0;
+            int? trend = 0;
+            int? formerPrognosis = 0;
+            int? prognosis = 0;
+            int? prognosisBudget = 0;
+
+            foreach (var item in Forecasts)
+            {
+                budget += item.Budget;
+                outcomeMonth += item.OutcomeMonth;
+                outcomeAcc += item.OutcomeAcc;
+                reprocssed += item.Reprocessed;
+                trend += item.Trend;
+                formerPrognosis += item.FormerPrognosis;
+                prognosis += item.Forecast;
+                prognosisBudget += item.ForecastBudget;
+            }
+
+            lblBudget.Content = budget.ToString();
+            lblFormerPrognosis.Content = formerPrognosis.ToString();
+            lblOutcomeAcc.Content = outcomeAcc.ToString();
+            lblOutcomeMonth.Content = outcomeMonth.ToString();
+            lblPrognosis.Content = prognosis.ToString();
+            lblReprocessed.Content = reprocssed.ToString();
+            lblTrend.Content = trend.ToString();
+            lblPrognosisBudget.Content = prognosisBudget.ToString();
         }
 
         private void dgForecasts_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
@@ -109,7 +158,7 @@ namespace BUPSystem.Uppföljning
             {
                 ForecastingManagement.Instance.AddForecast(cbMonth.SelectedIndex);
                 saved = true;
-            }           
+            }
         }
 
         private void btnLock_Click(object sender, RoutedEventArgs e)
@@ -122,9 +171,30 @@ namespace BUPSystem.Uppföljning
 
                 // Call method to lock forecast for the selected month
                 ForecastingManagement.Instance.LockForecast(cbMonth.SelectedIndex);
+
+                MessageBox.Show(string.Format("Uppföljning för månad {0} har låsts", Months[cbMonth.SelectedIndex]), "Låst");
             }
             else
                 MessageBox.Show("Du måste välja en enskild månad för låsning", "Välj en månad att låsa");
+        }
+
+        private void cbMonth_DropDownOpened(object sender, System.EventArgs e)
+        {
+            if (!saved)
+            {
+                var result = MessageBox.Show("Du har inte sparat ändringar gjorda i den valda månaden. " +
+                                "Fortsätta ändå?", "Ändringar ej sparade", MessageBoxButton.YesNo);
+
+                if (result == MessageBoxResult.No)
+                {
+                    cbMonth.IsDropDownOpen = false;
+                }
+                else
+                {
+                    saved = true;
+                    cbMonth.IsDropDownOpen = true;
+                }
+            }
         }
     }
 }
