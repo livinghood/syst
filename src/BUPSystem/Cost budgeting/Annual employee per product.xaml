@@ -3,12 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Årsarbetare Per Produkt" Height="450" Width="840">
     <Grid>
-        <DataGrid AutoGenerateColumns="False" Height="318" x:Name="dgEmployee" VerticalAlignment="Top" Margin="0,46,475,0" IsSynchronizedWithCurrentItem="True" ItemsSource="{Binding EmployeeList}">
+        <DataGrid AutoGenerateColumns="False" Height="318" x:Name="dgEmployee" VerticalAlignment="Top" Margin="0,46,475,0" IsSynchronizedWithCurrentItem="True" ItemsSource="{Binding EmployeeList}" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Namn" MinWidth="40" Width="120" Binding="{Binding EmployeeName}" />
-                <DataGridTextColumn Header="Årsarbetare" MinWidth="40" Binding="{Binding EmployeeName}" />
-                <DataGridTextColumn Header="Diff" MinWidth="40" Binding="{Binding EmployeeName}" />
-                <DataGridTextColumn Header="Totalt" MinWidth="40" Width="120" Binding="{Binding EmployeeName}" />
+                <DataGridTextColumn Header="Årsarbetare" MinWidth="40" Binding="{Binding AnnualRate}" />
+                <DataGridTextColumn Header="Diff" MinWidth="40" Binding="{Binding Diff}" />
+                <DataGridTextColumn Header="Totalt" MinWidth="40" Width="120" Binding="{Binding Total}" />
             </DataGrid.Columns>
         </DataGrid>
         <Button Content="Skapa Exceldokument" Height="23" HorizontalAlignment="Left" Margin="88,380,0,0" x:Name="button3" VerticalAlignment="Top" Width="116" />

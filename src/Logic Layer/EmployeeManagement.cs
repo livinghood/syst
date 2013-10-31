@@ -59,20 +59,25 @@ namespace Logic_Layer
             return employees;
         }
 
-        public void CalculateEmployeeAtributes(Employee employee)
+        public ObservableCollection<Employee> CalculateEmployeeAtributes(ObservableCollection<Employee> employees)
         {
-            employee.AnnualRate = (employee.EmployeementRate - (Convert.ToInt32(employee.VacancyDeduction * 100)));
+            foreach (Employee e in employees)
+            {
+                e.AnnualRate = (e.EmployeementRate - (Convert.ToInt32(e.VacancyDeduction * 100)));
 
-            int i = employee.AnnualRate;
-            
-            ObservableCollection<EmployeePlacement> ePlacements = new ObservableCollection<EmployeePlacement>(GetEmployeePlacements(employee));
+                int i = e.AnnualRate;
 
-            foreach (EmployeePlacement ep in ePlacements)
-                i = i - Convert.ToInt32(ep.EmployeeAllocate);
+                ObservableCollection<EmployeePlacement> ePlacements = new ObservableCollection<EmployeePlacement>(GetEmployeePlacements(e));
 
-            employee.Diff = i.ToString();
+                foreach (EmployeePlacement ep in ePlacements)
+                    i = i - Convert.ToInt32(ep.EmployeeAllocate);
 
-            employee.Total = employee.AnnualRate - Convert.ToInt32(employee.Diff);
+                e.Diff = i.ToString();
+
+                e.Total = e.AnnualRate - Convert.ToInt32(e.Diff);
+            }
+
+            return employees;
         }
 
         /// <summary>

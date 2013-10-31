@@ -26,7 +26,17 @@ namespace BUPSystem.Kostnadsbudgetering
             InitializeComponent();
 
             EmployeeList = new ObservableCollection<Employee>(EmployeeManagement.Instance.GetEmployeeByDepartment(departmentID));
+            CalculateAttributeForEachEmployee();
             DataContext = this;
+        }
+
+        private void CalculateAttributeForEachEmployee()
+        {
+            if (EmployeeList != null)
+            {
+                ObservableCollection<Employee> tempEmployees = new ObservableCollection<Employee>(EmployeeList);
+                EmployeeList = EmployeeManagement.Instance.CalculateEmployeeAtributes(tempEmployees);
+            }
         }
 
         private void btnChooseProduct_Click(object sender, RoutedEventArgs e)
