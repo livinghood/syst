@@ -21,6 +21,8 @@ namespace Logic_Layer
         private int m_MonthSallary;
         private int m_EmployeementRate;
         private string m_Diff;
+        private int m_AnnualRate;
+        private int m_total;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -50,6 +52,20 @@ namespace Logic_Layer
         {
             get { return m_Diff; }
             set { SetField(ref m_Diff, value, "Diff"); }
+        }
+
+        [NotMapped]
+        public int AnnualRate
+        {
+            get { return m_AnnualRate; }
+            set { SetField(ref m_AnnualRate, value, "AnnualRate"); }
+        }
+
+        [NotMapped]
+        public int Total
+        {
+            get { return m_total; }
+            set { SetField(ref m_total, value, "Total"); }
         }
 
         public long EmployeeID

@@ -16,6 +16,7 @@ namespace Logic_Layer
     {
         public ObservableCollection<Product> Products { get; set; }
 
+
         /// <summary>
         /// Lazy Instance of ProductManagement singelton
         /// </summary>
@@ -176,5 +177,24 @@ namespace Logic_Layer
 
             return allProducts.Where(product => !budgetedProducts.Contains(product.ProductID));
         }
+
+        //---------------------------------------------------------------------
+
+        public void AddProductPlacement(ProductPlacement productPlacement)
+        {
+            productPlacement.ExpenseBudgetID = Cost_Budgeting_Logic.ExpenseBudgetManagement.Instance.GetExpenseBudgetID();
+            db.ProductPlacement.Add(productPlacement);
+            db.SaveChanges();
+        }
+
+        public IEnumerable<ProductPlacement> GetProductPlacementsByEmployee(Employee employee)
+        {
+            var productplacements = from p in db.ProductPlacement
+                                    where p.EmployeeID == employee.EmployeeID
+                                    select p;
+
+            return productplacements;
+        }
+
     }
 }

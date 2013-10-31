@@ -17,6 +17,8 @@ namespace Logic_Layer
 
         public ObservableCollection<Employee> EmployeeList { get; set; }
 
+        public ObservableCollection<Department> Departments { get; set; }
+
         /// <summary>
         /// Database context
         /// </summary>
@@ -33,6 +35,7 @@ namespace Logic_Layer
         EmployeeManagement()
         {
             EmployeeList = new ObservableCollection<Employee>(GetEmployee());
+            Departments = new ObservableCollection<Department>(GetDepartments());
         }
 
         /// <summary>
@@ -42,6 +45,42 @@ namespace Logic_Layer
         public IEnumerable<Employee> GetEmployee()
         {
             return db.Employee.OrderBy(e => e.EmployeeName);
+        }
+
+        /// <summary>
+        /// Hämtar Employees via Employeeplacement med DepartmedID
+        /// </summary>
+        /// <param name="departmentID"></param>
+        /// <returns></returns>
+        public IEnumerable<Employee> GetEmployeeByDepartment(string departmentID)
+        {
+            IEnumerable<Employee> employees = from f in db.Employee
+                                              orderby f.EmployeeID
+                                              join ep in db.EmployeePlacement on departmentID equals ep.DepartmentID
+                                              where f.EmployeeID == ep.EmployeeID 
+                                              select f;
+            return employees;
+        }
+
+        public ObservableCollection<Employee> CalculateEmployeeAtributes(ObservableCollection<Employee> employees)
+        {
+            foreach (Employee e in employees)
+            {
+                e.AnnualRate = (e.EmployeementRate - (Convert.ToInt32(e.VacancyDeduction * 100)));
+
+                int i = e.AnnualRate;
+
+                ObservableCollection<EmployeePlacement> ePlacements = new ObservableCollection<EmployeePlacement>(GetEmployeePlacements(e));
+
+                foreach (EmployeePlacement ep in ePlacements)
+                    i = i - Convert.ToInt32(ep.EmployeeAllocate);
+
+                e.Diff = i.ToString();
+
+                e.Total = e.AnnualRate - Convert.ToInt32(e.Diff);
+            }
+
+            return employees;
         }
 
         /// <summary>
@@ -175,6 +214,11 @@ namespace Logic_Layer
         public void UpdateEmployeePlacement()
         {
             db.SaveChanges();
+        }
+
+        public IEnumerable<Department> GetDepartments()
+        {
+            return db.Department.OrderBy(d => d.DepartmentName);
         }
     }
 }

@@ -61,6 +61,8 @@ namespace Logic_Layer.Cost_Budgeting_Logic
         /// <param name="eb"></param>
         public void Create(ExpenseBudget eb)
         {
+            eb.SellLock = 10000;
+            eb.ProductionLock = 10000;
             db.ExpenseBudget.Add(eb);
             db.SaveChanges();
         }
@@ -84,16 +86,42 @@ namespace Logic_Layer.Cost_Budgeting_Logic
         public bool LockExpenseBudget()
         {
             int id = GetExpenseBudgetID();
-            var query = db.ExpenseBudget.Where(p => p.ExpenseBudgetID.Equals(id));
-
-            var list = new List<ExpenseBudget>(query);
-            var item = list.FirstOrDefault(i => i.ExpenseBudgetID == id);
+            var expensbudget = db.ExpenseBudget.FirstOrDefault(e => e.ExpenseBudgetID.Equals(id));
 
             // Found the expense budget
-            if (item != null)
+            if (expensbudget != null)
             {
                 // The first digit in production lock indicates whether DCPPD is locked or not
-                item.ProductionLock += 100;
+                expensbudget.ProductionLock += 100;
+                db.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+        public bool LockAnnualExpenseBudget(string departmentID)
+        {
+            int id = GetExpenseBudgetID();
+            var expensbudget = db.ExpenseBudget.FirstOrDefault(e => e.ExpenseBudgetID.Equals(id));
+
+            // Found the expense budget
+            if (expensbudget != null)
+            {
+                switch (departmentID)
+                {
+                    case "AO":
+                        expensbudget.SellLock += 1;
+                        break;
+                    case "DA":
+                        expensbudget.SellLock += 10;
+                        break;
+                    case "FO":
+                        expensbudget.SellLock += 100;
+                        break;
+                    case "UF":
+                        expensbudget.SellLock += 1000;
+                        break;
+                }
                 db.SaveChanges();
                 return true;
             }
@@ -103,10 +131,40 @@ namespace Logic_Layer.Cost_Budgeting_Logic
         public int IsExpenseBudgetLocked()
         {
             int id = GetExpenseBudgetID();
-            var query = db.ExpenseBudget.Where(p => p.ExpenseBudgetID.Equals(id));
-            var list = new List<ExpenseBudget>(query);
-            var item = list.FirstOrDefault(i => i.ExpenseBudgetID == id);
-            return item.ProductionLock;
+            return db.ExpenseBudget.FirstOrDefault(e => e.ExpenseBudgetID.Equals(id)).ProductionLock;
         }
+
+        public bool IsAnnualExpenseBudgetLocked(string departmentID)
+        {
+            int id = GetExpenseBudgetID();
+            var expensbudget = db.ExpenseBudget.FirstOrDefault(e => e.ExpenseBudgetID.Equals(id));
+
+            // Found the expense budget
+            if (expensbudget != null)
+            {
+                string s_id = expensbudget.SellLock.ToString();
+                switch (departmentID)
+                {
+                    case "AO":
+                        if (s_id[0].Equals("1"))
+                            return true;
+                        break;
+                    case "DA":
+                        if (s_id[1].Equals("1"))
+                            return true;
+                        break;
+                    case "FO":
+                        if (s_id[2].Equals("1"))
+                            return true;
+                        break;
+                    case "UF":
+                        if (s_id[3].Equals("1"))
+                            return true;
+                        break;
+                }
+            }
+            return false;
+        }
+
     }
 }
