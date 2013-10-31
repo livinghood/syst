@@ -88,6 +88,17 @@ namespace Logic_Layer
             db.Entry(useraccount).State = EntityState.Unchanged;
         }
 
+  
+        public UserAccount GetUserAccountByPassword(string username, string password)
+        {
+            return db.UserAccount.FirstOrDefault(u => u.UserName == username && u.Password == password);
+        }
+
+        public UserAccount GetUserAccountByUsername(string username)
+        {
+            return db.UserAccount.FirstOrDefault(u => u.UserName == username);
+        }
+
         /// <summary>
         /// Check if a specific user exists
         /// </summary>

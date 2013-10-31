@@ -12,16 +12,16 @@ namespace Logic_Layer
     /// </summary>
     public enum UserPermissionLevels
     {  
-        Administrationschef,
-        Allmän,
-        Ekonomichef,
+        Administrationschef = 0,
+        Allmän = 1,
+        Ekonomichef = 2,
         [Description("Kund- och marknadschef")]
-        Kundchef,
-        Personalchef,
-        Produktchef,
-        Systemadministratör,
-        Säljare,                  
+        Kundchef = 3,
+        Personalchef = 4,
+        Produktchef = 5,
+        Systemadministratör = 6,
+        Säljare = 7,                  
         [Description("Utvecklings- och förvaltningschef")]
-        Utvecklingschef       
+        Utvecklingschef = 8      
     }
 }

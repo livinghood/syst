@@ -19,6 +19,7 @@ using BUPSystem.CustomerGUI;
 using BUPSystem.EmployeeGUI;
 using BUPSystem.UserGUI;
 using BUPSystem.ProductGUI;
+using Logic_Layer;
 
 namespace BUPSystem
 {
@@ -27,19 +28,11 @@ namespace BUPSystem
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly Login login = new Login();
 
         public MainWindow()
         {
-            
             InitializeComponent();
-            this.Hide();
-            login.ShowDialog();
             lblDatum.Content = DateTime.Now.ToString("yyyy-MM-dd");
-            if (login.Authenticated)
-            {
-                this.Show();
-            }
         }
 
         private void btnKundhantering_Click(object sender, RoutedEventArgs e)
@@ -153,6 +146,15 @@ namespace BUPSystem
         {
             Revenue_budgeting.NonBudgetedProducts nbp = new Revenue_budgeting.NonBudgetedProducts();
             nbp.ShowDialog();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            lblUsername.Content = "Inloggad som: " + System.Threading.Thread.CurrentPrincipal.Identity.Name;
+            if (System.Threading.Thread.CurrentPrincipal.IsInRole("0"))
+            {
+                // Är administrationschef
+            }
         }
     }
 }

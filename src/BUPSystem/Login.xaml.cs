@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Logic_Layer;
 
 namespace BUPSystem
 {
@@ -19,8 +20,7 @@ namespace BUPSystem
     /// </summary>
     public partial class Login : Window
     {
-        public bool Authenticated { get; set; }
-
+        MainWindow HuvudMeny = new MainWindow();
         public Login()
         {
             InitializeComponent();
@@ -28,8 +28,20 @@ namespace BUPSystem
 
         private void btnLogIn_Click(object sender, RoutedEventArgs e)
         {
-            Authenticated = true;
-            this.Close();
+            AuthIPrincipal AuthPrincipal = new AuthIPrincipal(tbUserName.Text, tbPassword.Password);
+
+            if ((!AuthPrincipal.Identity.IsAuthenticated))
+            {
+                // The user is still not validated. 
+                MessageBox.Show("Användarnamn eller lösenord är fel");
+            }
+            else
+            {
+                // Update the current principal. 
+                System.Threading.Thread.CurrentPrincipal = AuthPrincipal;
+                HuvudMeny.Show();
+                this.Close();
+            }
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
