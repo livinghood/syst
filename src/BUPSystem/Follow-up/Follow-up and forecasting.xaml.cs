@@ -12,6 +12,10 @@ namespace BUPSystem.Uppföljning
     /// </summary>
     public partial class FollowUpAndForecasting : Window
     {
+        private bool saved;
+        private bool isManual;
+        private int cbIndex;
+
         public ObservableCollection<Forecasting> Forecasts { get; set; }
 
         public ObservableCollection<Months> Months { get { return ForecastingManagement.Instance.GetMonths(); } }
@@ -20,6 +24,8 @@ namespace BUPSystem.Uppföljning
         {
             InitializeComponent();
             DataContext = this;
+            saved = true;
+            cbIndex = 0;
 
             /* If the file IntaktProduktKund.txt has already been imported earlier during the current session,
              * set the local list of forecasts to the one in ForecastingMangement, else create a new local list. */
@@ -42,14 +48,14 @@ namespace BUPSystem.Uppföljning
             if (result == true)
             {
                 ForecastingManagement.Instance.CreateForecastFromFile(ofd.FileName);
-                ForecastingManagement.Instance.FillForecastsFromDB();
                 cbMonth_SelectionChanged(sender, e as SelectionChangedEventArgs);
             }        
         }
 
         private void UpdateForecasts()
-        {
+        {       
             Forecasts.Clear();
+            ForecastingManagement.Instance.FillForecastsFromDB(cbMonth.SelectedIndex);
             var list = ForecastingManagement.Instance.GetForecastFromMonth(cbMonth.SelectedIndex);
 
             if (list != null)
@@ -65,8 +71,19 @@ namespace BUPSystem.Uppföljning
         {
             if (cbMonth.SelectedItem != null)
             {
+                if (!saved)
+                {
+                    var result = MessageBox.Show("Du har inte sparat ändringar gjorda i den valda månaden. " +
+                                    "Fortsätta ändå?", "Ändringar ej sparade",MessageBoxButton.YesNo);
+                    
+                    if (result == MessageBoxResult.No)
+                    {
+                        cbMonth.SelectedIndex = cbIndex;
+                        return;
+                    }
+                }
                 UpdateForecasts();
-
+                ForecastingManagement.Instance.UpdateForecast();
                 // Prevent user from editing when all months option is selected 
                 dgForecasts.IsEnabled = cbMonth.SelectedIndex != 0;
             }
@@ -74,12 +91,16 @@ namespace BUPSystem.Uppföljning
 
         private void dgForecasts_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            ForecastingManagement.Instance.CalculateTrend(dgForecasts.SelectedItem as Forecasting, cbMonth.SelectedIndex);
-        }
+            if (!isManual)
+            {
+                isManual = true;
+                DataGrid dg = (DataGrid)sender;
+                dg.CommitEdit(DataGridEditingUnit.Row, true);
+                isManual = false;
 
-        private void dgForecasts_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
-        {
-            UpdateForecasts();
+            }
+            ForecastingManagement.Instance.CalculateTrend(dgForecasts.SelectedItem as Forecasting, cbMonth.SelectedIndex);
+            saved = false;
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
@@ -87,6 +108,7 @@ namespace BUPSystem.Uppföljning
             if (cbMonth.SelectedIndex > 0)
             {
                 ForecastingManagement.Instance.AddForecast(cbMonth.SelectedIndex);
+                saved = true;
             }           
         }
 
