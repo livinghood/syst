@@ -17,7 +17,8 @@ namespace Logic_Layer
     public class AuthIIdentity : IIdentity
     {
         // Fields
-        public UserAccount UserAccount { get; set; }     
+        public UserAccount UserAccount { get; set; }
+        private int roleValue;
         // Add private fields to store the user name and a value that indicates 
         // if the user is authenticated
 
@@ -31,15 +32,35 @@ namespace Logic_Layer
         /// <param name="password"></param>
         public AuthIIdentity(string name, string password)
         {
-            this.UserAccount = UserManagement.Instance.GetUserAccountByPassword(name, password);
-
-            if (UserAccount != null)
+            if (String.IsNullOrWhiteSpace(name) && String.IsNullOrWhiteSpace(password))
             {
-                this.Name = UserAccount.UserName;
+                this.Name = "Allmän";
                 this.IsAuthenticated = true;
+                this.roleValue = 99;
+            }
+            else
+            {
+                this.UserAccount = UserManagement.Instance.GetUserAccountByPassword(name, password);
+
+                if (UserAccount != null)
+                {
+                    this.Name = UserAccount.UserName;
+                    this.IsAuthenticated = true;
+                    this.roleValue = UserAccount.PermissionLevel;
+                }
             }
         }
-        // Properties
+
+        /// <summary>
+        /// Returns the user's role
+        /// </summary>
+        public int Role
+        {
+            get
+            {
+                return this.roleValue;
+            }
+        }
 
         /// <summary>
         /// Returns a string that indicates the current authentication mechanism

@@ -43,7 +43,7 @@ namespace Logic_Layer
         /// <returns></returns>
         public bool IsInRole(string auth)
         {
-            return (auth == this.identityValue.UserAccount.PermissionLevel.ToString(CultureInfo.InvariantCulture));
+            return (auth == this.identityValue.Role.ToString());
         }
 
         // Properties

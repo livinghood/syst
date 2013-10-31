@@ -45,6 +45,12 @@ namespace BUPSystem.CustomerGUI
 
                 if (mbr == MessageBoxResult.Yes)
                 {
+                    if (CustomerManagement.Instance.IsConnectedToFinancialIncome(SelectedCustomer))
+                    {
+                        MessageBox.Show("Kunden är kopplad till en intäktsbudgetering, går ej ta bort", "Kund är kopplad");
+                        return;
+                    }
+
                     // Delete the customer from the database
                     CustomerManagement.Instance.DeleteCustomer(SelectedCustomer);
                 }

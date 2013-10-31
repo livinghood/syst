@@ -123,5 +123,15 @@ namespace Logic_Layer
         {
             db.Entry(customerObj).State = EntityState.Unchanged;
         }
+
+        /// <summary>
+        /// Check if a product is connected to a FinancialIncome
+        /// </summary>
+        /// <returns></returns>
+        public bool IsConnectedToFinancialIncome(Customer customerObj)
+        {
+            var query = db.FinancialIncome.Where(f => f.CustomerID.Equals(customerObj.CustomerID));
+            return query.Any();
+        }
     }
 }

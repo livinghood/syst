@@ -155,22 +155,22 @@ namespace BUPSystem
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Logic_Layer.UserAccount userAccount = null;
-
-            foreach (var user in UserManagement.Instance.UserAccounts
-                .Where(user => user.UserName.Equals(System.Threading.Thread.CurrentPrincipal.Identity.Name))
-                .Where(user => System.Threading.Thread.CurrentPrincipal.IsInRole(user.PermissionLevel.ToString(CultureInfo.InvariantCulture))))
+            if (System.Threading.Thread.CurrentPrincipal.IsInRole("99"))
             {
-                userAccount = user;
+                lblUsername.Content = "Inloggad som: " + System.Threading.Thread.CurrentPrincipal.Identity.Name;
             }
-
-            if (userAccount == null)
+            else
             {
-                MessageBox.Show("Denna användare saknar behörighetsnivå. Kontakta systemadministratören", "Fel");
-                Application.Current.Shutdown();
-            }
+                Logic_Layer.UserAccount userAccount = null;
 
-            lblUsername.Content = "Inloggad som: " + System.Threading.Thread.CurrentPrincipal.Identity.Name;
+                userAccount = UserManagement.Instance.GetUserAccountByUsername(System.Threading.Thread.CurrentPrincipal.Identity.Name);
+
+                if (userAccount == null)
+                    Application.Current.Shutdown();
+
+
+                lblUsername.Content = "Inloggad som: " + userAccount.Employee.EmployeeName;
+            }
         }
 
         private void btnLogOut_Click(object sender, RoutedEventArgs e)
