@@ -158,6 +158,14 @@ namespace BUPSystem
             if (System.Threading.Thread.CurrentPrincipal.IsInRole("99"))
             {
                 lblUsername.Content = "Inloggad som: " + System.Threading.Thread.CurrentPrincipal.Identity.Name;
+
+                // Kommenterade för att testa (är korrekta)
+
+                //btnPersonalhantering.Visibility = Visibility.Collapsed;
+                //btnAnvändarhantering.Visibility = Visibility.Collapsed;
+                //btnKontohantering.Visibility = Visibility.Collapsed;
+                //gIntakt.Visibility = Visibility.Collapsed;
+                //gKbudget.Visibility = Visibility.Collapsed;
             }
             else
             {
@@ -170,12 +178,89 @@ namespace BUPSystem
 
 
                 lblUsername.Content = "Inloggad som: " + userAccount.Employee.EmployeeName;
+
+                switch (userAccount.PermissionLevel)
+                {
+                    // Administrativchef
+                    case 0:
+                        btnPersonalhantering.Visibility = Visibility.Collapsed;
+                        btnAnvändarhantering.Visibility = Visibility.Collapsed;
+                        btnKontohantering.Visibility = Visibility.Collapsed;
+                        gIntakt.Visibility = Visibility.Collapsed;
+                        gKbudget.Visibility = Visibility.Collapsed;
+                        break;
+
+                    // Ekonomichef
+                    case 1:
+                        btnPersonalhantering.Visibility = Visibility.Collapsed;
+                        btnAnvändarhantering.Visibility = Visibility.Collapsed;
+                        break;
+
+                    // Försäljningschef
+                    case 2:
+                        btnPersonalhantering.Visibility = Visibility.Collapsed;
+                        btnAnvändarhantering.Visibility = Visibility.Collapsed;
+                        btnKontohantering.Visibility = Visibility.Collapsed;
+                        gKbudget.Visibility = Visibility.Collapsed;
+                        btnNonBudgetedProducts.Visibility = Visibility.Collapsed;
+                        break;
+
+                    // Personalchef
+                    case 3:
+                        btnAnvändarhantering.Visibility = Visibility.Collapsed;
+                        btnKontohantering.Visibility = Visibility.Collapsed;
+                        gIntakt.Visibility = Visibility.Collapsed;
+                        gKbudget.Visibility = Visibility.Collapsed;
+                        break;
+
+                    // Driftschef
+                    case 4:
+                        btnPersonalhantering.Visibility = Visibility.Collapsed;
+                        btnAnvändarhantering.Visibility = Visibility.Collapsed;
+                        btnKontohantering.Visibility = Visibility.Collapsed;
+                        gIntakt.Visibility = Visibility.Collapsed;
+                        // DK??
+                        btnDKPAA.Visibility = Visibility.Collapsed;
+                        btnDKPPA.Visibility = Visibility.Collapsed;
+                        break;
+                   
+                    // Systemadministratör
+                    case 5:
+                        // Kan göra allt?
+                        break;
+                    
+                    // Säljare
+                    case 6:
+                        btnPersonalhantering.Visibility = Visibility.Collapsed;
+                        btnAnvändarhantering.Visibility = Visibility.Collapsed;
+                        btnKontohantering.Visibility = Visibility.Collapsed;
+                        btnNonBudgetedProducts.Visibility = Visibility.Collapsed;
+                        gKbudget.Visibility = Visibility.Collapsed;
+                        break;
+
+                    // Utvecklingschef
+                    case 7:
+                        btnPersonalhantering.Visibility = Visibility.Collapsed;
+                        btnAnvändarhantering.Visibility = Visibility.Collapsed;
+                        btnKontohantering.Visibility = Visibility.Collapsed;
+                        gIntakt.Visibility = Visibility.Collapsed;
+                        break;
+
+                }
+
             }
         }
 
         private void btnLogOut_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            Login loginWindow = new Login();
+            loginWindow.Show();
+            this.Close();
+        }
+
+        private void Authorize()
+        {
+
         }
     }
 }
