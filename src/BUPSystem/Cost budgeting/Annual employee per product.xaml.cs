@@ -8,6 +8,12 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using Logic_Layer;
 using BUPSystem.ProductGUI;
+using System.Windows.Data;
+using System.Windows.Controls;
+using System.Text.RegularExpressions;
+using System.Collections;
+using System.Windows.Media;
+using System.Windows.Controls.Primitives;
 
 namespace BUPSystem.Kostnadsbudgetering
 {
@@ -31,6 +37,7 @@ namespace BUPSystem.Kostnadsbudgetering
             SelectedProducts = new ObservableCollection<Product>();
             EmployeeList = new ObservableCollection<Employee>(EmployeeManagement.Instance.GetEmployeeByDepartment(departmentID));
             CalculateAttributeForEachEmployee();
+            CreateRow();
             DataContext = this;
         }
 
@@ -49,9 +56,32 @@ namespace BUPSystem.Kostnadsbudgetering
 
             if (productRegister.ShowDialog() == true)
             {
-                SelectedProducts.Add(productRegister.SelectedProduct);
+                if (SelectedProducts.Contains(productRegister.SelectedProduct))
+                {
+                    MessageBox.Show("Du kan inte välja samma produkt flera gånger");
+                }
+                else
+                {
+                    SelectedProducts.Add(productRegister.SelectedProduct);
+                    CreateColumn(productRegister.SelectedProduct);
+                }
+            }
+        }
 
-                // Skapa manuellt kolumner för varje produkt som läggs till
+        private void CreateColumn(Product p)
+        {
+            DataGridTextColumn productColumn = new DataGridTextColumn();
+            productColumn.Header = p.ProductName;
+            productColumn.Binding = new Binding(p.ProductName);
+            dgProductPlacements.Columns.Add(productColumn);
+        }
+
+        private void CreateRow()
+        {
+            foreach (Employee e in EmployeeList)
+            {
+                dgProductPlacements.Items.Add(new TextBox { IsReadOnly = false });
+
             }
         }
     }
