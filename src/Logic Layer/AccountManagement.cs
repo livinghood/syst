@@ -92,5 +92,12 @@ namespace Logic_Layer
         {
             db.Entry(accountObj).State = EntityState.Unchanged;
         }
+
+        public bool IsConnectedToDirectCost(Account accountObj)
+        {
+            var query = db.DirectProductCost.Where(d => d.AccountID.Equals(accountObj.AccountID));
+            return query.Any();
+        }
+
     }
 }
