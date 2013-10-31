@@ -42,8 +42,8 @@
         <Grid HorizontalAlignment="Left" Height="188" Margin="522,147,0,0" VerticalAlignment="Top" Width="215">
             <Button x:Name="btnÅrsarbetarePerProdukt" Content="Resursallokering per produkt" Height="32" Margin="0,78,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Click="btnÅrsarbetarePerProdukt_Click" Width="215" HorizontalAlignment="Right" BorderThickness="1"/>
             <Button x:Name="btnÅrsarbetarePerAktivitet" Content="Resursallokering per aktivitet" Height="33" Margin="0,40,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Click="btnÅrsarbetarePerAktivitet_Click" Width="215" HorizontalAlignment="Right" BorderThickness="1"/>
-            <Button x:Name="btnDKPAA" Content="Direkta kostnader per produkt" Height="34" Margin="0,155,0,-1" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Click="btnDKPAA_Click" Width="215" HorizontalAlignment="Right" BorderThickness="1"/>
-            <Button x:Name="btnDKPPA" Content="Direkta kostnader per aktivitet" Height="34" Margin="0,116,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Click="btnDKPPA_Click" Width="215" HorizontalAlignment="Right" BorderThickness="1"/>
+            <Button x:Name="btnDKPAA" Content="Direkta kostnader per produkt" Height="34" Margin="0,155,0,-1" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Click="btnDKPPA_Click" Width="215" HorizontalAlignment="Right" BorderThickness="1"/>
+            <Button x:Name="btnDKPPA" Content="Direkta kostnader per aktivitet" Height="34" Margin="0,116,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Click="btnDKPAA_Click" Width="215" HorizontalAlignment="Right" BorderThickness="1"/>
             <Label Margin="0,1,0,0" VerticalAlignment="Top" Opacity="0.92" Height="34" Foreground="#FF05295F">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Image Source="Images/outbox.png" Width="24" Height="24" />
