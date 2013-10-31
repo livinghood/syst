@@ -23,19 +23,38 @@ namespace BUPSystem.Kostnadsbudgetering
     public partial class AnnualEmployeeViaProduct : Window
     {
         // List to be used in the combobox
-        public ObservableCollection<Department> Departments { get { return EmployeeManagement.Instance.Departments; } }
 
         public ObservableCollection<Employee> EmployeeList { get; set; }
 
         public ObservableCollection<Product> SelectedProducts { get; set; }
+
+        public ObservableCollection<ProductPlacement> ProductPlacementList { get; set; }
+
+        public ObservableCollection<ProductPlacement> OldProductPlacements { get; set; }
+
+        public ObservableCollection<DataItem> MyList { get; set; }
 
 
         public AnnualEmployeeViaProduct(string departmentID)
         {   //FÖR TESTNING SÅ SKICKAS DEPARTMENTID MED SOM UF
             InitializeComponent();
 
+            MyList = new ObservableCollection<DataItem>();
+
+            ProductPlacementList = new ObservableCollection<ProductPlacement>();
+
             SelectedProducts = new ObservableCollection<Product>();
+
             EmployeeList = new ObservableCollection<Employee>(EmployeeManagement.Instance.GetEmployeeByDepartment(departmentID));
+
+            foreach (Employee e in EmployeeList)
+            {
+                foreach (ProductPlacement p in ProductManagement.Instance.GetProductPlacementsByEmployee(e))
+                {
+                    OldProductPlacements.Add(p);
+                }
+            }
+
             CalculateAttributeForEachEmployee();
             CreateRow();
             DataContext = this;
@@ -72,7 +91,13 @@ namespace BUPSystem.Kostnadsbudgetering
         {
             DataGridTextColumn productColumn = new DataGridTextColumn();
             productColumn.Header = p.ProductName;
-            productColumn.Binding = new Binding(p.ProductName);
+                foreach (DataItem di in MyList)
+                {
+                    ProductPlacement pp = new ProductPlacement() { EmployeeID = di.EmployeeID, ProductID = p.ProductID, ProductAllocate = 0 };
+                    di.DataList.Add(pp);
+                    ProductPlacementList.Add(pp);
+                }
+            productColumn.Binding = new Binding("DataList[" + dgProductPlacements.Columns.Count + "].ProductAllocate");
             dgProductPlacements.Columns.Add(productColumn);
         }
 
@@ -80,9 +105,29 @@ namespace BUPSystem.Kostnadsbudgetering
         {
             foreach (Employee e in EmployeeList)
             {
-                dgProductPlacements.Items.Add(new TextBox { IsReadOnly = false });
-
+                var m = new DataItem() { EmployeeID = e.EmployeeID };
+                MyList.Add(m);
             }
         }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (ProductPlacement pp in ProductPlacementList)
+            {
+ 
+            }
+        }
+
+    }
+
+    public class DataItem
+    {   //KLASS FÖR ATT LÄGGA TILL EGNA RADER
+        public long EmployeeID { get; set; }
+        public ObservableCollection<ProductPlacement> DataList { get; set; }
+        public DataItem()
+        {
+            this.DataList = new ObservableCollection<ProductPlacement>();
+        }
+
     }
 }
