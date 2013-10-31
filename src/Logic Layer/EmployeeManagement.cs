@@ -17,6 +17,8 @@ namespace Logic_Layer
 
         public ObservableCollection<Employee> EmployeeList { get; set; }
 
+        public ObservableCollection<Department> Departments { get; set; }
+
         /// <summary>
         /// Database context
         /// </summary>
@@ -33,6 +35,7 @@ namespace Logic_Layer
         EmployeeManagement()
         {
             EmployeeList = new ObservableCollection<Employee>(GetEmployee());
+            Departments = new ObservableCollection<Department>(GetDepartments());
         }
 
         /// <summary>
@@ -211,6 +214,11 @@ namespace Logic_Layer
         public void UpdateEmployeePlacement()
         {
             db.SaveChanges();
+        }
+
+        public IEnumerable<Department> GetDepartments()
+        {
+            return db.Department.OrderBy(d => d.DepartmentName);
         }
     }
 }
