@@ -189,6 +189,7 @@ namespace BUPSystem.EmployeeGUI
         private void tbEmployeeRate_TextChanged(object sender, TextChangedEventArgs e)
         {
             CalculateAnnualEmployee();
+            UpdateDiff();
         }
 
         /// <summary>
@@ -199,6 +200,7 @@ namespace BUPSystem.EmployeeGUI
         private void tbEmployeeVacancy_TextChanged(object sender, TextChangedEventArgs e)
         {
             CalculateAnnualEmployee();
+            UpdateDiff();
         }
 
         /// <summary>
