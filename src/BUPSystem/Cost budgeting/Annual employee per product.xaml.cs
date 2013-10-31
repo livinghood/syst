@@ -177,7 +177,7 @@ namespace BUPSystem.Kostnadsbudgetering
             DepartmentID = Departments[cbDepartments.SelectedIndex].DepartmentID;
         }
 
-        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        private void btnLock_Click(object sender, RoutedEventArgs e)
         {
 
         }
