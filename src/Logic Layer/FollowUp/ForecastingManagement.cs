@@ -135,6 +135,11 @@ namespace Logic_Layer.FollowUp
         /// <param name="fileName"></param>
         public void CreateForecastFromFile(string fileName)
         {
+            // First, delete all items in IncomeProductCustomer
+            db.IncomeProductCustomer.RemoveRange(db.IncomeProductCustomer);
+            db.SaveChanges();
+            Forecasts.Clear();
+
             using (var reader = new StreamReader(fileName))
             {
                 // Ignore first row since it's a header
@@ -169,6 +174,7 @@ namespace Logic_Layer.FollowUp
 
                     // Add icp to database
                     AddIncomeProductCustomer(ipc);
+                    CreateForecasting(ipc);
                 }
             }
         }
@@ -209,38 +215,8 @@ namespace Logic_Layer.FollowUp
 
         public void CreateForecasting(IncomeProductCustomer ipc)
         {
-            int minusMonth = 1;
-            if (ipc.IeIncomeDate.Month == 1)
-                minusMonth = 13;
-
-            int? formerPrognosis = 0;
-
-            try
-            {
-                // Attempt to retrieve the 'former prognosis' value from the forecast value in a an item 
-                // with the same product id from the month before current month
-
-                int monthValue = ipc.IeIncomeDate.Month - minusMonth;
-                string str = monthValue.ToString(CultureInfo.InvariantCulture);
-
-                var items = from s in db.ForecastMonitor
-                            where s.ForecastMonitorMonthID.Equals(str)
-                            select s;
-
-                foreach (var item in items.Where(item => item.IeProductID.Equals(ipc.IeProductID)))
-                {
-                    // Assign formerPrognosis the forecast value 
-                    formerPrognosis = item.Forecast;
-                }
-
-
-            }
-            catch (Exception)
-            {
-                formerPrognosis = 0;
-            }
-
             Forecasting fc = new Forecasting();
+            // fc.Forecast =                            Måste finnas med
             fc.IeProductID = ipc.IeProductID;
             fc.IeProductName = ipc.IeProductName;
             fc.CustomerID = ipc.IeCustomerID;
@@ -249,7 +225,7 @@ namespace Logic_Layer.FollowUp
             fc.Date = ipc.IeIncomeDate;
             fc.OutcomeAcc = ~ipc.IeAmount + 1;
             fc.Trend = (~ipc.IeAmount + 1) / ipc.IeIncomeDate.Date.Month * 12;
-            fc.FormerPrognosis = formerPrognosis;
+            fc.FormerPrognosis = CalculateFormerPrognosis(ipc.IeIncomeDate.Date.Month, ipc.IeProductID);
 
             // In case newly created forecast already exists, just update its properties
             foreach (var item in Forecasts)
@@ -267,6 +243,39 @@ namespace Logic_Layer.FollowUp
             }
 
             Forecasts.Add(fc);
+        }
+
+        private int? CalculateFormerPrognosis(int month, string productID)
+        {
+            int minusMonth = 1;
+            if (month == 1)
+                minusMonth = 13;
+
+            int? formerPrognosis = 0;
+
+            try
+            {
+                // Attempt to retrieve the 'former prognosis' value from the forecast value in a an item 
+                // with the same product id from the month before current month
+                int monthValue = month - minusMonth;
+                string str = monthValue.ToString(CultureInfo.InvariantCulture);
+
+                var items = from s in db.ForecastMonitor
+                            where s.ForecastMonitorMonthID.Equals(str)
+                            select s;
+
+                foreach (var item in items.Where(item => item.IeProductID.Equals(productID)))
+                {
+                    // Assign formerPrognosis the forecast value 
+                    formerPrognosis = item.Forecast;
+                }
+            }
+            catch (Exception)
+            {
+                formerPrognosis = 0;
+            }
+
+            return formerPrognosis;
         }
 
         /// <summary>
