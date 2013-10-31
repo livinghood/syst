@@ -11,17 +11,14 @@ namespace Logic_Layer
     /// Enum for the permission levels a user can have
     /// </summary>
     public enum UserPermissionLevels
-    {  
-        Administrationschef,
-        Allmän,
+    {
+        Administrativchef,
         Ekonomichef,
-        [Description("Kund- och marknadschef")]
-        Kundchef,
+        Försäljningschef,
         Personalchef,
-        Produktchef,
+        Driftschef,
         Systemadministratör,
         Säljare,                  
-        [Description("Utvecklings- och förvaltningschef")]
-        Utvecklingschef       
+        Utvecklingschef     
     }
 }

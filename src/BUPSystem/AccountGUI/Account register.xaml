@@ -3,10 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Kontoregister" Height="335" Width="485" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="200,16,0,0" x:Name="tbSearch" VerticalAlignment="Top" Width="187" TextChanged="tbSearch_TextChanged" />
-        <Button Content="Sök" Height="23" HorizontalAlignment="Left" Margin="392,16,0,0" x:Name="button2" VerticalAlignment="Top" Width="75" />
+        <Grid Margin="10,0,10,10" Height="23" VerticalAlignment="Bottom">
+            <Button Content="Lägg till" Height="23" HorizontalAlignment="Left" Margin="288,0,0,0" x:Name="btnAdd" VerticalAlignment="Top" Width="91" Click="btnAdd_Click" />
+            <Button Content="Välj" HorizontalAlignment="Left" Margin="384,0,0,0" x:Name="btnSelect" Width="75" IsEnabled="False" Height="23" VerticalAlignment="Top" />
+            <Button Content="Ändra" Height="23" Margin="0,0,384,0" x:Name="btn_Change" VerticalAlignment="Top" Click="btn_Change_Click" Width="75" />
+            <Button Content="Ta bort" Height="23" HorizontalAlignment="Left" Margin="80,0,0,0" x:Name="btnRemove" VerticalAlignment="Top" Width="76" Click="btnRemove_Click" />
+        </Grid>
+        <TextBox Height="23" Margin="0,13,10,0" x:Name="tbSearch" VerticalAlignment="Top" TextChanged="tbSearch_TextChanged" HorizontalAlignment="Right" Width="187" />
         <Label Content="Kontoregister" Height="39" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="label1" VerticalAlignment="Top" FontSize="20" />
-        <ListView x:Name="lvAccounts" HorizontalAlignment="Left" Height="205" Margin="10,54,0,0" VerticalAlignment="Top" Width="456" ItemsSource="{Binding Accounts}" SelectedItem="{Binding SelectedAccount}">
+        <ListView x:Name="lvAccounts" Margin="10,54,10,38" ItemsSource="{Binding Accounts}" SelectedItem="{Binding SelectedAccount}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="150" DisplayMemberBinding="{Binding AccountID}">
@@ -21,11 +26,6 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Content="Ändra" Height="23" Margin="10,272,375,0" x:Name="btn_Change" VerticalAlignment="Top" Click="btn_Change_Click" />
-        <Button Content="Ta bort" Height="23" HorizontalAlignment="Left" Margin="109,272,0,0" x:Name="btnRemove" VerticalAlignment="Top" Width="75" Click="btnRemove_Click" />
-        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,270,11,10">
-            <Button Content="Lägg till" Height="23" HorizontalAlignment="Left" Margin="0,0,0,0" x:Name="btnAdd" VerticalAlignment="Top" Width="91" Click="btnAdd_Click" />
-            <Button Content="Välj" Height="23" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="btnSelect" VerticalAlignment="Top" Width="75" IsEnabled="False" />
-        </StackPanel>
+        <Label Content="Sök:" HorizontalAlignment="Right" Margin="0,10,202,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

@@ -62,6 +62,26 @@ namespace Logic_Layer
         }
 
         /// <summary>
+        /// Returns products in autocompletebox for ProductID
+        /// </summary>
+        /// <param name="s">written text in box for autocomplete</param>
+        /// <returns></returns>
+        public Customer GetCustomerByID(string s)
+        {
+            return Customers.FirstOrDefault(p => p.CustomerID.Equals(s));
+        }
+
+        /// <summary>
+        /// Returns products in autocompletebox for ProductName
+        /// </summary>
+        /// <param name="s">written text in box for autocomplete</param>
+        /// <returns></returns>
+        public Customer GetCustomerByName(string s)
+        {
+            return Customers.FirstOrDefault(p => p.CustomerName.Equals(s));
+        }
+
+        /// <summary>
         /// Check if a specific customer exists
         /// </summary>
         public bool CustomerExist(string id)
@@ -102,6 +122,16 @@ namespace Logic_Layer
         public void ResetCustomer(Customer customerObj)
         {
             db.Entry(customerObj).State = EntityState.Unchanged;
+        }
+
+        /// <summary>
+        /// Check if a product is connected to a FinancialIncome
+        /// </summary>
+        /// <returns></returns>
+        public bool IsConnectedToFinancialIncome(Customer customerObj)
+        {
+            var query = db.FinancialIncome.Where(f => f.CustomerID.Equals(customerObj.CustomerID));
+            return query.Any();
         }
     }
 }

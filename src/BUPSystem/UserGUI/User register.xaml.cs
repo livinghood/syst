@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Controls;
+using System.ComponentModel;
+using System.Windows.Data;
+using System;
 using Logic_Layer;
 using Logic_Layer.General_Logic;
-using System.Collections.ObjectModel;
 
 namespace BUPSystem.UserGUI
 {
@@ -12,7 +14,6 @@ namespace BUPSystem.UserGUI
     /// </summary>
     public partial class UserRegister : Window
     {
-        private bool userNameSorted;
 
         // Property for retriving and setting the list of accounts
         public ObservableCollection<UserAccount> UserAccountList
@@ -20,6 +21,9 @@ namespace BUPSystem.UserGUI
             get { return UserManagement.Instance.UserAccounts; }
             set { UserManagement.Instance.UserAccounts = value; }
         }
+
+        // Containing the selected customer
+        public UserAccount SelectedUserAccount{ get; set; }
 
         /// <summary>
         /// Standard constructor
@@ -43,7 +47,6 @@ namespace BUPSystem.UserGUI
             if (um.DialogResult == true)
             {
                 UserManagement.Instance.AddAccount(um.UserAccount);
-                lblInfo.Content = "Ny användare skapad";
             }
         }
 
@@ -58,17 +61,16 @@ namespace BUPSystem.UserGUI
             if (lvUserList.SelectedItem != null)
             {
                 // Confirm that the user wishes to delete 
-                MessageBoxResult mbr = MessageBox.Show("Vill du verkligen ta bort den här användaren?",
-                    "Ta bort användare", MessageBoxButton.YesNo);
+                MessageBoxResult mbr = MessageBox.Show("Vill du verkligen ta bort den här användaren?", "Ta bort användare", MessageBoxButton.YesNo);
 
                 if (mbr == MessageBoxResult.Yes)
                 {
-                    UserManagement.Instance.DeleteUserAccount(UserAccountList[lvUserList.SelectedIndex]);
-                    lblInfo.Content = "Användaren togs bort";
-                }    
+                    // Delete the user from the database
+                    UserManagement.Instance.DeleteUserAccount(SelectedUserAccount);
+                }
             }
             else
-                MessageBox.Show("Markera en användare att ta bort", "Ingen vald användare");       
+                MessageBox.Show("Markera en användare att ta bort", "Ingen vald användare");  
         }
 
         /// <summary>
@@ -79,57 +81,73 @@ namespace BUPSystem.UserGUI
         private void btnChange_Click(object sender, RoutedEventArgs e)
         {
             // Make sure the sure the user has selected an item in the listview
-            if (lvUserList.SelectedItem != null)
+            if (lvUserList.SelectedItem == null)
             {
-                // Initilize a new window for editing an account
-                UserManager um = new UserManager(UserAccountList[lvUserList.SelectedIndex]);
-                um.ShowDialog();
+                MessageBox.Show("Markera en användare att ändra", "Ingen vald användare");
+                return;
+            }
 
-                if (um.DialogResult.Equals(true))
-                {
-                    UserManagement.Instance.UpdateUserAccount();
-                    lblInfo.Content = "Användaren uppdaterades";
-                }
+            // Initilize a new window for editing a user
+            UserManager um = new UserManager(SelectedUserAccount);
+            
+            um.ShowDialog();
+
+            // If the users presses OK, update the item
+            if (um.DialogResult.Equals(true))
+            {
+                // Update the database context
+                UserManagement.Instance.UpdateUserAccount();
             }
             else
-                MessageBox.Show("Markera en användare att redigera först", "Ingen vald användare");
-        }
-
-        /// <summary>
-        /// Search for an user
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnSearch_Click(object sender, RoutedEventArgs e)
-        {
-            int index = Search.Instance.UserRegisterSearch(tbSearch.Text.ToLower(), UserAccountList);
-
-            if (index >= 0)
             {
-                lvUserList.SelectedIndex = index;
-                lvUserList.SelectedItem = lvUserList.SelectedIndex;
-                lvUserList.ScrollIntoView(lvUserList.SelectedItem);
+                // The user pressed cancel, revert changes
+                UserManagement.Instance.ResetUser(SelectedUserAccount);
             }
-            else
-                MessageBox.Show("Ingen match på sökord", "Finns inte");
+
         }
 
-        /// <summary>
-        /// Sorts user name column
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void gvchUserName_Click(object sender, RoutedEventArgs e)
+        public bool FilterCustomerItem(object obj)
         {
-            //UserAccountList = isUserNameSorted 
-            //    ? new ObservableCollection<UserAccount>(UserAccountList.OrderBy(u => u.UserName))
-            //    : new ObservableCollection<UserAccount>(UserAccountList.OrderByDescending(u => u.UserName));        
-            //isUserNameSorted = !isUserNameSorted;
-            //lvUserList.ItemsSource = UserAccountList;
+            UserAccount item = obj as UserAccount;
+            if (item == null) return false;
 
-            UserAccountList = new ObservableCollection<UserAccount>(UserAccountList.AsQueryable().SortBy("UserName", userNameSorted));
-            userNameSorted = !userNameSorted;
-            lvUserList.ItemsSource = UserAccountList;
+            string textFilter = tbSearch.Text;
+
+            if (textFilter.Trim().Length == 0) return true; // the filter is empty - pass all items
+
+            // apply the filter
+            return item.UserName.ToLower().Contains(textFilter.ToLower()) || item.EmployeeID.ToString().ToLower().Contains(textFilter.ToLower());
+        }
+
+        // Sort listview
+        private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
+        {
+            if (!this.IsInitialized) return;    // get out of here if the window is not initialized
+
+            string propertyName = (sender as GridViewColumnHeader).Tag.ToString();
+
+            // Get the default view from the listview
+            ICollectionView view = CollectionViewSource.GetDefaultView(lvUserList.ItemsSource);
+
+            // figure out what is the new direction
+            ListSortDirection direction = ListSortDirection.Ascending;
+
+            // if already sorted by this column, reverse the direction
+            if (view.SortDescriptions.Count > 0 && view.SortDescriptions[0].PropertyName == propertyName)
+            {
+                direction = view.SortDescriptions[0].Direction == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending;
+            }
+
+            view.SortDescriptions.Clear();
+            view.SortDescriptions.Add(new SortDescription(propertyName, direction));
+        }
+
+        private void tbSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ICollectionView view = CollectionViewSource.GetDefaultView(lvUserList.ItemsSource);
+
+            view.Filter = null;
+            view.Filter = FilterCustomerItem; 
         }
     }
 }

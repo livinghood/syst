@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Data;
 using Logic_Layer;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Text.RegularExpressions;
 using System.Globalization;
 
@@ -14,7 +17,6 @@ namespace BUPSystem.EmployeeGUI
     /// </summary>
     public partial class EmployeeManager : Window
     {
-
         public Employee Employee {get; set;}
 
         private bool changeExistingEmployee;
@@ -67,6 +69,10 @@ namespace BUPSystem.EmployeeGUI
                     grdProd.DataContext = emp;
                 }
             }
+
+            // Disable validation for product id and part-id
+            Binding binding = BindingOperations.GetBinding(tbEmployeeID, TextBox.TextProperty);
+            binding.ValidationRules.Clear();
         }
 
         private void UpdatePlacements()
@@ -130,10 +136,10 @@ namespace BUPSystem.EmployeeGUI
             }
             else
             {// Update employee
-                tbEmployeeID.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-                tbEmployeeName.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-                tbEmployeeSallary.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-                tbEmployeeRate.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+               
+                // If no department is set, terminate
+                if (!ControlDepartments())
+                    return;
 
                 decimal d_vacancy = ConvertStringToInt(tbEmployeeVacancy.Text);
                 Employee.VacancyDeduction = d_vacancy / 100;
@@ -183,6 +189,7 @@ namespace BUPSystem.EmployeeGUI
         private void tbEmployeeRate_TextChanged(object sender, TextChangedEventArgs e)
         {
             CalculateAnnualEmployee();
+            UpdateDiff();
         }
 
         /// <summary>
@@ -193,6 +200,7 @@ namespace BUPSystem.EmployeeGUI
         private void tbEmployeeVacancy_TextChanged(object sender, TextChangedEventArgs e)
         {
             CalculateAnnualEmployee();
+            UpdateDiff();
         }
 
         /// <summary>
@@ -262,7 +270,7 @@ namespace BUPSystem.EmployeeGUI
 
             int i_annual = ConvertStringToInt(tbAnnualEmployee.Text);
 
-            tbDiff.Text = (i_annual - i_adm - i_drift - i_sell - i_prod).ToString(CultureInfo.InvariantCulture);//calculate Diff
+            Employee.Diff = (i_annual - i_adm - i_drift - i_sell - i_prod).ToString(CultureInfo.InvariantCulture);//calculate Diff
         }
 
         private void NumberValidationTextBox(object sender, System.Windows.Input.TextCompositionEventArgs e)
@@ -271,5 +279,12 @@ namespace BUPSystem.EmployeeGUI
             e.Handled = regex.IsMatch(e.Text);
         }
 
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            if (changeExistingEmployee)
+            {
+                EmployeeManagement.Instance.ResetEmployee(Employee);
+            }
+        }
     }
 }

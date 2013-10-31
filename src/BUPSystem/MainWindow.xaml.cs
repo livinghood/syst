@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ using BUPSystem.CustomerGUI;
 using BUPSystem.EmployeeGUI;
 using BUPSystem.UserGUI;
 using BUPSystem.ProductGUI;
+using Logic_Layer;
 
 namespace BUPSystem
 {
@@ -27,18 +29,10 @@ namespace BUPSystem
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly Login login = new Login();
-
         public MainWindow()
         {
             InitializeComponent();
-            this.Hide();
-            login.ShowDialog();
-
-            if (login.Authenticated)
-            {
-                this.Show();
-            }
+            lblDatum.Content = DateTime.Now.ToString("yyyy-MM-dd");
         }
 
         private void btnKundhantering_Click(object sender, RoutedEventArgs e)
@@ -152,6 +146,121 @@ namespace BUPSystem
         {
             Revenue_budgeting.NonBudgetedProducts nbp = new Revenue_budgeting.NonBudgetedProducts();
             nbp.ShowDialog();
+        }
+
+        /// <summary>
+        /// Find user account of logged in user
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (System.Threading.Thread.CurrentPrincipal.IsInRole("99"))
+            {
+                lblUsername.Content = "Inloggad som: " + System.Threading.Thread.CurrentPrincipal.Identity.Name;
+
+                // Kommenterade för att testa (är korrekta)
+
+                //btnPersonalhantering.Visibility = Visibility.Collapsed;
+                //btnAnvändarhantering.Visibility = Visibility.Collapsed;
+                //btnKontohantering.Visibility = Visibility.Collapsed;
+                //gIntakt.Visibility = Visibility.Collapsed;
+                //gKbudget.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                Logic_Layer.UserAccount userAccount = null;
+
+                userAccount = UserManagement.Instance.GetUserAccountByUsername(System.Threading.Thread.CurrentPrincipal.Identity.Name);
+
+                if (userAccount == null)
+                    Application.Current.Shutdown();
+
+
+                lblUsername.Content = "Inloggad som: " + userAccount.Employee.EmployeeName;
+
+                switch (userAccount.PermissionLevel)
+                {
+                    // Administrativchef
+                    case 0:
+                        btnPersonalhantering.Visibility = Visibility.Collapsed;
+                        btnAnvändarhantering.Visibility = Visibility.Collapsed;
+                        btnKontohantering.Visibility = Visibility.Collapsed;
+                        gIntakt.Visibility = Visibility.Collapsed;
+                        gKbudget.Visibility = Visibility.Collapsed;
+                        break;
+
+                    // Ekonomichef
+                    case 1:
+                        btnPersonalhantering.Visibility = Visibility.Collapsed;
+                        btnAnvändarhantering.Visibility = Visibility.Collapsed;
+                        break;
+
+                    // Försäljningschef
+                    case 2:
+                        btnPersonalhantering.Visibility = Visibility.Collapsed;
+                        btnAnvändarhantering.Visibility = Visibility.Collapsed;
+                        btnKontohantering.Visibility = Visibility.Collapsed;
+                        gKbudget.Visibility = Visibility.Collapsed;
+                        btnNonBudgetedProducts.Visibility = Visibility.Collapsed;
+                        break;
+
+                    // Personalchef
+                    case 3:
+                        btnAnvändarhantering.Visibility = Visibility.Collapsed;
+                        btnKontohantering.Visibility = Visibility.Collapsed;
+                        gIntakt.Visibility = Visibility.Collapsed;
+                        gKbudget.Visibility = Visibility.Collapsed;
+                        break;
+
+                    // Driftschef
+                    case 4:
+                        btnPersonalhantering.Visibility = Visibility.Collapsed;
+                        btnAnvändarhantering.Visibility = Visibility.Collapsed;
+                        btnKontohantering.Visibility = Visibility.Collapsed;
+                        gIntakt.Visibility = Visibility.Collapsed;
+                        // DK??
+                        btnDKPAA.Visibility = Visibility.Collapsed;
+                        btnDKPPA.Visibility = Visibility.Collapsed;
+                        break;
+                   
+                    // Systemadministratör
+                    case 5:
+                        // Kan göra allt?
+                        break;
+                    
+                    // Säljare
+                    case 6:
+                        btnPersonalhantering.Visibility = Visibility.Collapsed;
+                        btnAnvändarhantering.Visibility = Visibility.Collapsed;
+                        btnKontohantering.Visibility = Visibility.Collapsed;
+                        btnNonBudgetedProducts.Visibility = Visibility.Collapsed;
+                        gKbudget.Visibility = Visibility.Collapsed;
+                        break;
+
+                    // Utvecklingschef
+                    case 7:
+                        btnPersonalhantering.Visibility = Visibility.Collapsed;
+                        btnAnvändarhantering.Visibility = Visibility.Collapsed;
+                        btnKontohantering.Visibility = Visibility.Collapsed;
+                        gIntakt.Visibility = Visibility.Collapsed;
+                        break;
+
+                }
+
+            }
+        }
+
+        private void btnLogOut_Click(object sender, RoutedEventArgs e)
+        {
+            Login loginWindow = new Login();
+            loginWindow.Show();
+            this.Close();
+        }
+
+        private void Authorize()
+        {
+
         }
     }
 }

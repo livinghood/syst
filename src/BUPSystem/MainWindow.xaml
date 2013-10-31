@@ -1,23 +1,21 @@
 ﻿<Window x:Class="BUPSystem.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="768" Width="1024">
+        Title="Huvudmeny" Height="576" Width="1024" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Loaded="Window_Loaded">
     <Window.Resources>
         <SolidColorBrush x:Key="Ikonbakgrund" Color="#FF2F65C1"/>
-
     </Window.Resources>
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-            <GradientStop Color="#FF878787" Offset="1"/>
-            <GradientStop Color="#FFDEDEDE"/>
+            <GradientStop Color="#FFD1D1D1" Offset="1"/>
+            <GradientStop Color="#FFF0F0F0"/>
         </LinearGradientBrush>
     </Window.Background>
-    <Grid>
-        <Button x:Name="btnProdukthantering" Content="ProductManager" HorizontalAlignment="Left" Height="100" Margin="142,77,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnProdukthantering_Click"/>
-        <Label Content="BUP-Systemet" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="30" Foreground="#FF004AB6" FontWeight="Bold"/>
-        <Label Content="Inloggad som: Marie" HorizontalAlignment="Right" Margin="0,10,187,0" VerticalAlignment="Top" FontSize="20" Foreground="#FF002C6C"/>
-        <Label Content="Datum" HorizontalAlignment="Right" Margin="0,690,10,0" VerticalAlignment="Top" FontSize="20" Foreground="#FF002C6C"/>
-        <Button Content="Logga ut" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Width="99" Height="41" FontSize="20">
+    <Grid HorizontalAlignment="Right" Width="1016">
+        <Label Content="BUP-Systemet" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="30" Foreground="#FF013581" FontWeight="Bold" Height="62" Width="226" Opacity="0.92"/>
+        <Label x:Name="lblUsername" Content="Inloggad som: Marie" HorizontalAlignment="Right" Margin="0,10,112,0" VerticalAlignment="Top" FontSize="20" Foreground="#FF002C6C" Height="46" Width="359" FlowDirection="RightToLeft"/>
+        <Label x:Name="lblDatum" Content="Datum" HorizontalAlignment="Right" Margin="0,0,10,8" FontSize="20" Foreground="#FF002C6C" Width="176" FlowDirection="RightToLeft" Height="34" VerticalAlignment="Bottom"/>
+        <Button x:Name="btnLogOut" Content="Logga ut" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Width="97" Height="34" FontSize="16" Click="btnLogOut_Click">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FFEEEEEE" Offset="0"/>
@@ -25,22 +23,68 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <Button x:Name="btnKundhantering" Content="" Height="120" Margin="542,489,374,128" Style="{DynamicResource MainMenuIconButtonStyle}" Width="100" Click="btnKundhantering_Click"/>
-        <Button x:Name="btnKontohantering" Content="AccountManager&#xD;&#xA;" HorizontalAlignment="Left" Height="100" Margin="142,220,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnKontohantering_Click"/>
-        <Button x:Name="btnPersonalhantering" Content="EmployeeManager" HorizontalAlignment="Left" Height="100" Margin="542,77,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnPersonalhantering_Click"/>
-        <Button x:Name="btnAnvändarhantering" Content="UserManager" HorizontalAlignment="Left" Height="100" Margin="142,489,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnAnvändarhantering_Click"/>
-        <Button x:Name="btnUppföljning" Content="Uppföljning &#xD;&#xA;och &#xD;&#xA;Prognostisering&#xD;&#xA; av &#xD;&#xA;intäkter" HorizontalAlignment="Left" Height="100" Margin="407,489,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnUppföljning_Click"/>
-        <Button x:Name="btnÅrsarbetarePerProdukt" Content="Årsarbetare&#xD;&#xA; per produkt&#xD;&#xA;" HorizontalAlignment="Left" Height="100" Margin="277,220,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnÅrsarbetarePerProdukt_Click"/>
-        <Button x:Name="btnÅrsarbetarePerAktivitet" Content="Årsarbetare per &#xD;&#xA;aktivitet&#xD;&#xA;" HorizontalAlignment="Left" Height="100" Margin="413,220,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnÅrsarbetarePerAktivitet_Click"/>
-        <Button x:Name="btnAktivitetshantering" Content="Aktivtetshantering" HorizontalAlignment="Left" Height="100" Margin="542,220,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnAktivitetshantering_Click"/>
-        <Button x:Name="btnIVP" Content="IVP" HorizontalAlignment="Left" Height="100" Margin="542,349,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnIVP_Click"/>
-        <Button x:Name="btnDKPAA" Content="DKPAA" HorizontalAlignment="Left" Height="100" Margin="142,349,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnDKPAA_Click"/>
-        <Button x:Name="btnDKPPA" Content="DKPPA&#xA;" HorizontalAlignment="Left" Height="100" Margin="268,349,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnDKPPA_Click"/>
-        <Button x:Name="btnIVK" Content="IVK" HorizontalAlignment="Left" Height="100" Margin="407,349,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnIVK_Click"/>
-        <Button x:Name="btnProduktgrupp" Content="Produktgrupp" HorizontalAlignment="Left" Height="100" Margin="277,77,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnProduktgrupp_Click"/>
-        <Button x:Name="btnBudgeteratResultat" Content="Budgeterat Resultat" HorizontalAlignment="Left" Height="100" Margin="277,489,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnBudgeteratResultat_Click"/>
-        <Button x:Name="btnProduktKategori" Content="Produktkategori" HorizontalAlignment="Left" Height="100" Margin="407,77,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnProduktKategori_Click"/>
-        <Button x:Name="btnUppföljningAvIntäkter" Content="Uppföljning &#xD;&#xA;av intäkter" HorizontalAlignment="Left" Height="100" Margin="142,615,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnUppföljningAvIntäkter_Click"/>
-        <Button x:Name="btnNonBudgetedProducts" Content="Ej budgeterade&#xD;&#xA; produkter" HorizontalAlignment="Left" Height="100" Margin="277,615,0,0" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Width="100" Click="btnNonBudgetedProducts_Click"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid HorizontalAlignment="Left"  Margin="0,0,20,0" VerticalAlignment="Top" Width="214">
+                <Label Margin="2,1,-6,0" VerticalAlignment="Top" Opacity="0.92" Height="34" Foreground="#FF05295F">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="Images/compose.png" Width="24" Height="24" />
+                        <TextBlock Margin="10,0,0,0" FontSize="16" Height="21" FontWeight="Bold" Foreground="#FF05295F"><Run Text="Organisation"/></TextBlock>
+                    </StackPanel>
+                </Label>
+                <StackPanel Margin="0,40,0,-10">
+                    <Button x:Name="btnProdukthantering" Content="Produktregister" Height="33" Margin="1,0,0,5" Style="{DynamicResource MainMenuButton}" Click="btnProdukthantering_Click"/>
+                    <Button x:Name="btnKundhantering" Content="Kundregister" Margin="1,0,0,5" Style="{DynamicResource MainMenuButton}" Click="btnKundhantering_Click" Height="33" />
+                    <Button x:Name="btnKontohantering" Content="Kontoregister" Height="34" Margin="1,0,0,5" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Click="btnKontohantering_Click"/>
+                    <Button x:Name="btnPersonalhantering" Content="Personalregister" Height="33" Margin="1,0,0,5" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Click="btnPersonalhantering_Click"/>
+                    <Button x:Name="btnAnvändarhantering" Content="Användarregister" Height="33" Margin="1,0,0,5" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Click="btnAnvändarhantering_Click"/>
+                    <Button x:Name="btnAktivitetshantering" Content="Aktivitetsregister" Height="33" Margin="1,0,0,5" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Click="btnAktivitetshantering_Click"/>
+                    <Button x:Name="btnProduktgrupp" Content="Produktgrupper" Height="33" Margin="1,0,108,0" Style="{DynamicResource MainMenuButton}" Click="btnProduktgrupp_Click"/>
+                    <Button x:Name="btnProduktKategori" Content="Produktkategorier" Height="33" Margin="112,-33,0,0" Style="{DynamicResource MainMenuButton}" Click="btnProduktKategori_Click"/>
+                </StackPanel>
+            </Grid>
+            <Grid x:Name="gIntakt" HorizontalAlignment="Left" Margin="0,0,20,0" VerticalAlignment="Top" Width="215">
+                <Label HorizontalAlignment="Left" Margin="-1,0,0,0" VerticalAlignment="Top" Width="211" Opacity="0.92" Height="34" Foreground="#FF05295F">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="Images/inbox.png" Width="24" Height="24" />
+                        <TextBlock Margin="10,0,0,0" FontSize="16" Height="21" FontWeight="Bold"><Run Text="Intäktsbudget"/></TextBlock>
+                    </StackPanel>
+                </Label>
+                <StackPanel Margin="0,40,0,-10">
+                    <Button x:Name="btnIVP" Content="Intäkt via Produkt"  Height="33" Margin="1,0,0,5" Style="{DynamicResource MainMenuButton}" Click="btnIVP_Click"/>
+                    <Button x:Name="btnIVK" Content="Intäkt via Kund" Height="33" Margin="1,0,0,5" Style="{DynamicResource MainMenuButton}"  Click="btnIVK_Click"/>
+                    <Button x:Name="btnNonBudgetedProducts" Content="Ej budgeterade produkter" Height="33" Margin="1,0,0,5" Style="{DynamicResource MainMenuButton}" Click="btnNonBudgetedProducts_Click"/>
+                </StackPanel>
+            </Grid>
+            <Grid x:Name="gKbudget" HorizontalAlignment="Left"  Margin="0,0,20,0" VerticalAlignment="Top" Width="215">
+                <Label Margin="0,1,0,0" VerticalAlignment="Top" Opacity="0.92" Height="34" Foreground="#FF05295F">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="Images/outbox.png" Width="24" Height="24" />
+                        <TextBlock Margin="10,0,0,0" FontSize="16" Height="21" FontWeight="Bold"><Run Text="Kostnadsbudget"/></TextBlock>
+                    </StackPanel>
+                </Label>
+                <StackPanel Margin="0,40,0,-10">
+                    <Button x:Name="btnÅrsarbetarePerProdukt" Content="Resursallokering per produkt" Height="32" Margin="1,0,0,5" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Click="btnÅrsarbetarePerProdukt_Click" BorderThickness="1"/>
+                    <Button x:Name="btnÅrsarbetarePerAktivitet" Content="Resursallokering per aktivitet" Height="33" Margin="1,0,0,5" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Click="btnÅrsarbetarePerAktivitet_Click" BorderThickness="1"/>
+                    <Button x:Name="btnDKPAA" Content="Direkta kostnader per produkt" Height="34" Margin="1,0,0,5" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Click="btnDKPPA_Click" BorderThickness="1"/>
+                    <Button x:Name="btnDKPPA" Content="Direkta kostnader per aktivitet" Height="34" Margin="1,0,0,5" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Click="btnDKPAA_Click"  BorderThickness="1"/>
+                </StackPanel>
+                
+            </Grid>
+            
+            <Grid HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="211">
+                <Label HorizontalAlignment="Left" VerticalAlignment="Top" Width="211" Opacity="0.92" Height="34" Foreground="#FF05295F">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="Images/ellipsis.png" Width="24" Height="24" />
+                        <TextBlock Margin="10,0,0,0" FontSize="16" Height="21" FontWeight="Bold"><Run Text="Övrigt"/></TextBlock>
+                    </StackPanel>
+                </Label>
+                <StackPanel Margin="0,40,0,-10">
+                    <Button x:Name="btnUppföljning" Content="Uppföljning/Prognostisering av intäkter" Height="35" Margin="1,0,0,5" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Click="btnUppföljning_Click"/>
+                    <Button x:Name="btnBudgeteratResultat" Content="Budgeterat Resultat"  Height="33"  Margin="1,0,0,5" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Click="btnBudgeteratResultat_Click"/>
+                    <Button x:Name="btnUppföljningAvIntäkter" Content="Uppföljning av intäkter"  Height="33"  Margin="1,0,0,5" Style="{DynamicResource MainMenuButton}" VerticalAlignment="Top" Click="btnUppföljningAvIntäkter_Click"/>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
     </Grid>
+
 </Window>

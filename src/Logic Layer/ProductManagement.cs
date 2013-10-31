@@ -48,17 +48,74 @@ namespace Logic_Layer
         /// <returns></returns>
         public IEnumerable<Product> GetProducts()
         {
-            return db.Product.OrderBy(p => p.ProductName);
+            try
+            {
+                return db.Product.OrderBy(p => p.ProductName);
+            }
+            catch
+            {
+                return Products;
+            }
+        }
+
+        /// <summary>
+        /// Returns products in autocompletebox for ProductID
+        /// </summary>
+        /// <param name="s">written text in box for autocomplete</param>
+        /// <returns></returns>
+        public Product GetProductByID(string s)
+        {
+            return Products.FirstOrDefault(p => p.ProductID.Equals(s));
+        }
+
+        /// <summary>
+        /// Returns products in autocompletebox for ProductName
+        /// </summary>
+        /// <param name="s">written text in box for autocomplete</param>
+        /// <returns></returns>
+        public Product GetProductByName(string s)
+        {
+            return Products.FirstOrDefault(p => p.ProductName.Equals(s));
         }
 
         public IEnumerable<string> GetProductDepartments()
         {
-            var departments = from d in db.Department
-                              orderby d.DepartmentID
-                              where d.DepartmentID == "DA"
-                              || d.DepartmentID == "UF"
-                              select d.DepartmentID;
-            return departments;
+            return from d in db.Department
+                   orderby d.DepartmentID
+                   where d.DepartmentID == "DA"
+                   || d.DepartmentID == "UF"
+                   select d.DepartmentID;
+        }
+
+        /// <summary>
+        /// Check if a product is connected to a DirectProductCost
+        /// </summary>
+        /// <returns></returns>
+        public bool IsConnectedToDirectProductCost(Product product)
+        {
+            var query = db.DirectProductCost.Where(d => d.ProductID.Equals(product.ProductID));
+            return query.Any();
+        }
+
+        /// <summary>
+        /// Check if a product is connected to a FinancialIncome
+        /// </summary>
+        /// <returns></returns>
+        public bool IsConnectedToFinancialIncome(Product product)
+        {
+            var query = db.FinancialIncome.Where(f => f.ProductID.Equals(product.ProductID));
+            return query.Any();
+        }
+
+        /// <summary>
+        /// Check if a product is connected to a FinancialIncome
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns></returns>
+        public bool IsConnectedToEmployee(Product product)
+        {
+            var query = db.ProductPlacement.Where(f => f.ProductID.Equals(product.ProductID));
+            return query.Any();
         }
 
         /// <summary>

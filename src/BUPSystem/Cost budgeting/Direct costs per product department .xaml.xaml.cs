@@ -111,9 +111,11 @@ namespace BUPSystem.Kostnadsbudgetering
 
             if (mbr == MessageBoxResult.Yes)
             {
-                UserPermissionLevels upl = UserPermissionLevels.Produktchef;
 
-                if (upl == UserPermissionLevels.Produktchef)
+                UserPermissionLevels upl = UserPermissionLevels.Driftschef;
+
+                if (upl == UserPermissionLevels.Driftschef)
+
                 {
                     bool success = ExpenseBudgetManagement.Instance.LockExpenseBudget();
                     if (success)

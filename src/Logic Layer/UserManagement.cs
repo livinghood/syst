@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
+using System.Data.Entity;
 using System.Linq;
 
 namespace Logic_Layer
@@ -65,11 +67,11 @@ namespace Logic_Layer
         /// <summary>
         /// Delete an account
         /// </summary>
-        /// <param name="account"></param>
-        public void DeleteUserAccount(UserAccount account)
+        /// <param name="useraccount"></param>
+        public void DeleteUserAccount(UserAccount useraccount)
         {
-            UserAccounts.Remove(account);
-            db.UserAccount.Remove(account);
+            UserAccounts.Remove(useraccount);
+            db.UserAccount.Remove(useraccount);
             db.SaveChanges();
         }
 
@@ -81,11 +83,33 @@ namespace Logic_Layer
             db.SaveChanges();
         }
 
+        public void ResetUser(UserAccount useraccount)
+        {
+            db.Entry(useraccount).State = EntityState.Unchanged;
+        }
+
+        public UserAccount GetUserAccountByPassword(string username, string password)
+        {
+            return db.UserAccount.FirstOrDefault(u => u.UserName == username && u.Password == password);
+        }
+
+        public UserAccount GetUserAccountByUsername(string username)
+        {
+            return db.UserAccount.FirstOrDefault(u => u.UserName == username);
+        }
+
+        /// <summary>
+        /// Check if a specific user exists
+        /// </summary>
+        public bool UserNameExist(string id)
+        {
+            return db.UserAccount.Any(u => u.UserName == id);
+        }
         /// <summary>
         /// Returns a list of user permission levels
         /// </summary>
         /// <returns></returns>
-        public ObservableCollection<UserPermissionLevels> GetPermissionLevels()
+        public IEnumerable<UserPermissionLevels> GetPermissionLevels()
         {
             return new ObservableCollection<UserPermissionLevels>(Enum.GetValues(typeof(UserPermissionLevels)).Cast<UserPermissionLevels>());   
         }

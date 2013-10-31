@@ -14,7 +14,7 @@
                             <z:DelayBindingExtension.ValidationRules>
                                 <local:CheckAccountIDFormatValidationRule x:Name="CheckAccountIDFormatValidation" ValidatesOnTargetUpdated="True"  Message="Kontonummer måste vara 4 siffror."/>
                                 <local:CheckAccountIDExistValidationRule x:Name="CheckAccountIDExistValidation" ValidatesOnTargetUpdated="True"  Message="Kontonummer måste vara unikt."/>
-                            </z:DelayBindingExtension.ValidationRules> 
+                            </z:DelayBindingExtension.ValidationRules>
                         </z:DelayBindingExtension>
                     </TextBox.Text>
                 </TextBox>
@@ -40,10 +40,10 @@
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
-                <Label Content="Belopp" Height="28" HorizontalAlignment="Left" Margin="11,79,0,0" x:Name="label3_Copy" VerticalAlignment="Top" Grid.ColumnSpan="2" />  
+                <Label Content="Belopp" Height="28" HorizontalAlignment="Left" Margin="11,79,0,0" x:Name="label3_Copy" VerticalAlignment="Top" Grid.ColumnSpan="2" />
             </Grid>
         </GroupBox>
-        <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="297,201,0,0" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click">
+        <Button Content="Spara" Margin="302,0,10,10" x:Name="btnSave" Click="btnSave_Click" Height="23" VerticalAlignment="Bottom">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="IsEnabled" Value="false" />
@@ -60,7 +60,7 @@
                 </Style>
             </Button.Style>
         </Button>
-        <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="217,201,0,0" x:Name="btnCancel" VerticalAlignment="Top" Width="75" IsCancel="True" />
+        <Button Content="Avbryt" HorizontalAlignment="Right" Margin="0,0,90,10" x:Name="btnCancel" Width="75" IsCancel="True" Height="23" VerticalAlignment="Bottom" />
 
     </Grid>
 </Window>

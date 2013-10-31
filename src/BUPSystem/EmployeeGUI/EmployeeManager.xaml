@@ -1,12 +1,46 @@
 ﻿<Window x:Class="BUPSystem.EmployeeGUI.EmployeeManager"
+        xmlns:local="clr-namespace:BUPSystem"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="EmployeeManager" Height="350" Width="630">
     <Grid>
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="141,61,0,0" x:Name="tbEmployeeID"  VerticalAlignment="Top" Width="160" PreviewTextInput="NumberValidationTextBox" MaxLength="12" Text="{Binding EmployeeID, UpdateSourceTrigger=Explicit}" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="141,99,0,0" x:Name="tbEmployeeName" VerticalAlignment="Top" Width="160" Text="{Binding EmployeeName, UpdateSourceTrigger=Explicit}" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="141,135,0,0" x:Name="tbEmployeeSallary" VerticalAlignment="Top" Width="160" MaxLength="10" PreviewTextInput="NumberValidationTextBox" Text="{Binding MonthSallary, UpdateSourceTrigger=Explicit}" />
-        <TextBox Height="23" Margin="141,175,0,0" x:Name="tbEmployeeRate" VerticalAlignment="Top" HorizontalAlignment="Left" Width="160" TextChanged="tbEmployeeRate_TextChanged" MaxLength="3" PreviewTextInput="NumberValidationTextBox" Text="{Binding EmployeementRate, UpdateSourceTrigger=Explicit}" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="141,61,0,0" x:Name="tbEmployeeID"  VerticalAlignment="Top" Width="160" PreviewTextInput="NumberValidationTextBox" MaxLength="12" >
+            <TextBox.Text>
+                <local:DelayBindingExtension Path="EmployeeID" >
+                    <local:DelayBindingExtension.ValidationRules>
+                        <local:TextBoxNotEmptyValidationRule x:Name="EmployeeIDValidation" ValidatesOnTargetUpdated="True" Message="Du måste skriva in ett personnummer."/>
+                        <local:CheckEmployeeIDValidationRule x:Name="CheckEmployeeIDValidation" ValidatesOnTargetUpdated="True"  Message="Anställd finns redan."/>
+                    </local:DelayBindingExtension.ValidationRules>
+                </local:DelayBindingExtension>
+            </TextBox.Text>
+        </TextBox>
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="141,99,0,0" x:Name="tbEmployeeName" VerticalAlignment="Top" Width="160" >
+            <TextBox.Text>
+                <Binding Path="EmployeeName" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <local:TextBoxNotEmptyValidationRule x:Name="EmployeeNameValidation" ValidatesOnTargetUpdated="True" Message="Du måste skriva in en namn."/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="141,135,0,0" x:Name="tbEmployeeSallary" VerticalAlignment="Top" Width="160" MaxLength="10" PreviewTextInput="NumberValidationTextBox" >
+            <TextBox.Text>
+                <Binding Path="MonthSallary" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <local:TextBoxNotEmptyValidationRule x:Name="MonthSallaryValidation" ValidatesOnTargetUpdated="True" Message="Du måste skriva in en månadslön."/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+        <TextBox Height="23" Margin="141,175,0,0" x:Name="tbEmployeeRate" VerticalAlignment="Top" HorizontalAlignment="Left" Width="160" TextChanged="tbEmployeeRate_TextChanged" MaxLength="3" PreviewTextInput="NumberValidationTextBox" >
+            <TextBox.Text>
+                <Binding Path="EmployeementRate" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <local:TextBoxNotEmptyValidationRule x:Name="EmployeementRateValidation" ValidatesOnTargetUpdated="True" Message="Du måste skriva in en sysselsättningsgrad."/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
         <TextBox Height="23" HorizontalAlignment="Left" Margin="141,213,0,0" x:Name="tbEmployeeVacancy" VerticalAlignment="Top" Width="160" TextChanged="tbEmployeeVacancy_TextChanged" MaxLength="3" PreviewTextInput="NumberValidationTextBox" />
         <Label Content="Personnummer" Height="28" HorizontalAlignment="Left" Margin="10,59,0,0" x:Name="label1" VerticalAlignment="Top" />
         <Label Content="Namn" Height="28" HorizontalAlignment="Left" Margin="10,97,0,0" x:Name="label2" VerticalAlignment="Top" />
@@ -33,9 +67,35 @@
         <Label Content="Förs/Marknad avd" Height="28" HorizontalAlignment="Left" Margin="330,173,0,0" x:Name="label10" VerticalAlignment="Top" />
         <Label Content="Utv/Förv avd" Height="28" HorizontalAlignment="Left" Margin="330,211,0,0" x:Name="label11" VerticalAlignment="Top" />
         <Label Content="Diff" Height="28" HorizontalAlignment="Left" Margin="332,245,0,0" x:Name="lblDiff" VerticalAlignment="Top" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="441,247,0,0" x:Name="tbDiff" VerticalAlignment="Top" Width="160" IsEnabled="False" />
-        <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="532,284,-7,-38" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click" />
-        <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="447,284,0,-38" x:Name="btnCancel" VerticalAlignment="Top" Width="75" IsCancel="True" />
-        <Label Content="EmployeeManager" FontSize="20" Height="44" HorizontalAlignment="Left" Margin="10,12,0,0" x:Name="label13" VerticalAlignment="Top" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="441,247,0,0" x:Name="tbDiff" VerticalAlignment="Top" Width="160" IsReadOnly="True">
+            <TextBox.Text>
+                <Binding Path="Diff">
+                    <Binding.ValidationRules>
+                        <local:CheckDiffValidationRule x:Name="DiffValidation" ValidatesOnTargetUpdated="True" Message="Placera ut årsarbete (Diff ska bli 0)"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+        <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="532,284,-7,-38" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click" >
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="IsEnabled" Value="false" />
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding ElementName=tbEmployeeID, Path=(Validation.HasError)}" Value="false" />
+                                <Condition Binding="{Binding ElementName=tbEmployeeName, Path=(Validation.HasError)}" Value="false" />
+                                <Condition Binding="{Binding ElementName=tbEmployeeSallary, Path=(Validation.HasError)}" Value="false" />
+                                <Condition Binding="{Binding ElementName=tbEmployeeRate, Path=(Validation.HasError)}" Value="false" />
+                                <Condition Binding="{Binding ElementName=tbDiff, Path=(Validation.HasError)}" Value="false" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="IsEnabled" Value="true" />
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="447,284,0,-38" x:Name="btnCancel" VerticalAlignment="Top" Width="75" IsCancel="True" Click="btnCancel_Click" />
+        <Label Content="Personalhantering" FontSize="20" Height="44" HorizontalAlignment="Left" Margin="10,12,0,0" x:Name="label13" VerticalAlignment="Top" />
     </Grid>
 </Window>

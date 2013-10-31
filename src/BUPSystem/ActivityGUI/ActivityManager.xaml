@@ -1,21 +1,76 @@
 ﻿<Window x:Class="BUPSystem.ActivityGUI.ActivityManager"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="ActivityManagement" Height="255" Width="390">
+        xmlns:local="clr-namespace:BUPSystem"
+        Title="Aktivitetshantering" Height="304" Width="390" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid x:Name="aktivitetshantering">
         <Label Content="Aktivitetsthantering" Height="39" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="label1" VerticalAlignment="Top" FontSize="20" />
-        <GroupBox Header="Standarduppgifter" Height="130" HorizontalAlignment="Left" Margin="12,54,0,0" x:Name="groupBox1" VerticalAlignment="Top" Width="358">
+        <GroupBox Header="Standarduppgifter" Height="170" HorizontalAlignment="Left" Margin="12,54,0,0" x:Name="groupBox1" VerticalAlignment="Top" Width="360">
             <Grid>
-                <TextBox Height="23" HorizontalAlignment="Left" Margin="128,10,0,0" x:Name="tbName" VerticalAlignment="Top" Width="208" Text="{Binding ActivityName, UpdateSourceTrigger=Explicit}" />
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="127,10,0,0" x:Name="tbName" VerticalAlignment="Top" Width="208" >
+                    <TextBox.Text>
+                        <Binding Path="ActivityName" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <local:TextBoxNotEmptyValidationRule x:Name="CustomerNameValidation" ValidatesOnTargetUpdated="True" Message="Du måste skriva in ett namn."/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
                 <Label Content="Aktivitetsnamn" Height="28" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="label2" VerticalAlignment="Top" />
-                <Label Content="Aktivitets ID" Height="28" HorizontalAlignment="Left" Margin="10,43,0,0" x:Name="label3" VerticalAlignment="Top" />
-                <Label Content="Aktivitetsavdelning" Height="28" HorizontalAlignment="Left" Margin="10,76,0,0" x:Name="label13" VerticalAlignment="Top" />
-                <ComboBox Height="23" HorizontalAlignment="Left" Margin="128,78,0,0" x:Name="cbActivityDepartment" SelectedIndex="0" Text="Välj..." VerticalAlignment="Top" Width="208" SelectedItem="{Binding DepartmentID}" />
-                <TextBox Height="23" HorizontalAlignment="Left" Margin="128,43,0,0" x:Name="tbID" VerticalAlignment="Top" Width="208" Text="{Binding ActivityID}" CharacterCasing="Upper" />
+                <Label Content="Aktivitetsavdelning" Height="28" HorizontalAlignment="Left" Margin="10,44,0,0" x:Name="label13" VerticalAlignment="Top" />
+                <ComboBox Height="23" HorizontalAlignment="Left" Margin="127,45,0,0" x:Name="cbActivityDepartment" Text="Välj..." VerticalAlignment="Top" Width="208" SelectionChanged="cbActivityDepartment_SelectionChanged" >
+                    <ComboBox.SelectedItem>
+                        <Binding Path="DepartmentID" Mode="TwoWay">
+                            <Binding.ValidationRules>
+                                <local:ComboBoxNotEmptyValidationRule x:Name="ActivityDepartmentValidation" ValidatesOnTargetUpdated="True" Message="Du måste välja en avdelning."/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </ComboBox.SelectedItem>
+                </ComboBox>
+                <Grid x:Name="PartActivityIDGrid" HorizontalAlignment="Left" Width="328" Margin="10,76,0,48">
+                    <Label Content="Delaktivitets-ID" Height="28" HorizontalAlignment="Left" x:Name="label3" VerticalAlignment="Top" />
+
+                    <TextBox Height="23" HorizontalAlignment="Left" Margin="117,0,0,0" x:Name="tbPartID" VerticalAlignment="Top" Width="208" CharacterCasing="Upper" MaxLength="4" >
+                        <TextBox.Text>
+                            <Binding Path="PartActivityID" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <local:CheckActivityIDFormatValidationRule x:Name="CheckActivityIDFormatValidation" ValidatesOnTargetUpdated="True" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </Grid>
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="127,109,0,0" x:Name="tbId" VerticalAlignment="Top" Width="208" IsReadOnly="True">
+                    <TextBox.Text>
+                        <local:DelayBindingExtension Path="ActivityID" >
+                            <local:DelayBindingExtension.ValidationRules>
+                                <local:CheckActivityIDExistValidationRule x:Name="CheckActivityIDExistValidation" ValidatesOnTargetUpdated="True" />
+                            </local:DelayBindingExtension.ValidationRules>
+                        </local:DelayBindingExtension>
+                    </TextBox.Text>
+                </TextBox>
+                <Label Content="Aktivitets-ID" Height="28" HorizontalAlignment="Left" Margin="10,109,0,0" x:Name="label2_Copy" VerticalAlignment="Top" />
             </Grid>
         </GroupBox>
-        <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="297,189,0,0" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click" />
-        <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="215,189,0,0" x:Name="btnCancel" VerticalAlignment="Top" Width="75" IsCancel="True" />
+        <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="297,241,0,0" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click" >
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="IsEnabled" Value="false" />
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding ElementName=tbName, Path=(Validation.HasError)}" Value="false" />
+                                <Condition Binding="{Binding ElementName=cbActivityDepartment, Path=(Validation.HasError)}" Value="false" />
+                                <Condition Binding="{Binding ElementName=tbPartID, Path=(Validation.HasError)}" Value="false" />
+                                <Condition Binding="{Binding ElementName=tbId, Path=(Validation.HasError)}" Value="false" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="IsEnabled" Value="true" />
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="215,241,0,0" x:Name="btnCancel" VerticalAlignment="Top" Width="75" IsCancel="True" />
 
     </Grid>
 </Window>

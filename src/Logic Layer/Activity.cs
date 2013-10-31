@@ -6,23 +6,58 @@
 //    Manual changes to this file will be overwritten if the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel;
 
 namespace Logic_Layer
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Activity
+
+    public partial class Activity : INotifyPropertyChanged
     {
+        private string m_ActivityID;
+        private string m_ActivityName;
+        private string m_DepartmentID;
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+        protected bool SetField<T>(ref T field, T value, string propertyName)
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+
         public Activity()
         {
             this.ActivityPlacement = new HashSet<ActivityPlacement>();
             this.DirectActivityCost = new HashSet<DirectActivityCost>();
         }
-    
-        public string ActivityID { get; set; }
-        public string ActivityName { get; set; }
-        public string DepartmentID { get; set; }
+
+        public string ActivityID
+        {
+            get { return m_ActivityID; }
+            set { SetField(ref m_ActivityID, value, "ActivityID"); }
+        }
+        public string ActivityName
+        {
+            get { return m_ActivityName; }
+            set { SetField(ref m_ActivityName, value, "ActivityName"); }
+        }
+
+        public string DepartmentID
+        {
+            get { return m_DepartmentID; }
+            set { SetField(ref m_DepartmentID, value, "DepartmentID"); }
+        }
     
         public virtual Department Department { get; set; }
         public virtual ICollection<ActivityPlacement> ActivityPlacement { get; set; }

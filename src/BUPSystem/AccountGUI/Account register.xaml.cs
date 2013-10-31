@@ -78,6 +78,12 @@ namespace BUPSystem.AccountGUI
 
                 if (mbr == MessageBoxResult.Yes)
                 {
+                    if (AccountManagement.Instance.IsConnectedToDirectCost(SelectedAccount))
+                    {
+                        MessageBox.Show("Konto är kopplad till en direktkostnad, går ej ta bort", "Konto är kopplat");
+                        return;
+                    }
+
                     // Delete the account from the database
                     AccountManagement.Instance.DeleteAccount(SelectedAccount);
                 }

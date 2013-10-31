@@ -113,9 +113,9 @@ namespace BUPSystem.ProductGUI
         /// <param name="e"></param>
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (Validation.GetHasError(tbGroupID) == true)
+            if (Validation.GetHasError(tbGroupID))
                 return;
-            if (Validation.GetHasError(tbCategoryID) == true)
+            if (Validation.GetHasError(tbCategoryID))
                 return;
             DialogResult = true;
             Close();

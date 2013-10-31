@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
 
 namespace Logic_Layer
@@ -55,6 +56,14 @@ namespace Logic_Layer
         }
 
         /// <summary>
+        /// Check if a specific activity exists
+        /// </summary>
+        public bool ActivityExist(string id)
+        {
+            return db.Activity.Any(a => a.ActivityID == id);
+        }
+
+        /// <summary>
         /// Get a list of all activitys
         /// </summary>
         /// <returns></returns>
@@ -69,19 +78,32 @@ namespace Logic_Layer
         /// <param name="activity"></param>
         public void AddActicity(Activity activity)
         {
-            string id = activity.ActivityID;
-
-            if (activity.DepartmentID.Equals("AO"))
-                id += "AO";
-
-            else
-                id += "FO";
-
-            activity.ActivityID = id;
-
             db.Activity.Add(activity);
             db.SaveChanges();
             Activities.Add(activity);
+        }
+
+        /// <summary>
+        /// Check if an activity is connected to an employee
+        /// </summary>
+        /// <param name="productGroup"></param>
+        /// <returns></returns>
+        public bool IsConnectedToEmployee(Activity activity)
+        {
+            var query = db.ActivityPlacement.Where(f => f.ActivityID.Equals(activity.ActivityID));
+            return query.Any();
+        }
+
+
+        /// <summary>
+        /// Check if an activity is connected to an directactivitycost
+        /// </summary>
+        /// <param name="productGroup"></param>
+        /// <returns></returns>
+        public bool IsConnectedToDirectActivityCost(Activity activity)
+        {
+            var query = db.DirectActivityCost.Where(d => d.ActivityID.Equals(activity.ActivityID));
+            return query.Any();
         }
 
         /// <summary>
@@ -101,6 +123,11 @@ namespace Logic_Layer
         public void Update()
         {
             db.SaveChanges();
+        }
+
+        public void ResetActivity(Activity activity)
+        {
+            db.Entry(activity).State = EntityState.Unchanged;
         }
     }
 }

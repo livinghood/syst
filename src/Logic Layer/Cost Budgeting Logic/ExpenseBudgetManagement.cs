@@ -72,9 +72,8 @@ namespace Logic_Layer.Cost_Budgeting_Logic
         public bool DoesExpenseBudgetExist()
         {
             int id = GetExpenseBudgetID();
-            var query = from p in db.ExpenseBudget
-                        where p.ExpenseBudgetID.Equals(id)
-                        select p;
+
+            var query = db.ExpenseBudget.Where(p => p.ExpenseBudgetID.Equals(id));
             return query.Any();
         }
 
@@ -85,9 +84,7 @@ namespace Logic_Layer.Cost_Budgeting_Logic
         public bool LockExpenseBudget()
         {
             int id = GetExpenseBudgetID();
-            var query = from p in db.ExpenseBudget
-                        where p.ExpenseBudgetID.Equals(id)
-                        select p;
+            var query = db.ExpenseBudget.Where(p => p.ExpenseBudgetID.Equals(id));
 
             var list = new List<ExpenseBudget>(query);
             var item = list.FirstOrDefault(i => i.ExpenseBudgetID == id);
@@ -98,7 +95,6 @@ namespace Logic_Layer.Cost_Budgeting_Logic
                 // The first digit in production lock indicates whether DCPPD is locked or not
                 item.ProductionLock += 100;
                 db.SaveChanges();
-
                 return true;
             }
             return false;
@@ -107,10 +103,7 @@ namespace Logic_Layer.Cost_Budgeting_Logic
         public int IsExpenseBudgetLocked()
         {
             int id = GetExpenseBudgetID();
-            var query = from p in db.ExpenseBudget
-                        where p.ExpenseBudgetID.Equals(id)
-                        select p;
-
+            var query = db.ExpenseBudget.Where(p => p.ExpenseBudgetID.Equals(id));
             var list = new List<ExpenseBudget>(query);
             var item = list.FirstOrDefault(i => i.ExpenseBudgetID == id);
             return item.ProductionLock;

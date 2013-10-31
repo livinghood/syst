@@ -4,26 +4,29 @@
         Title="Användarregister" Height="335" Width="520" MinWidth="520" MinHeight="335">
     <Grid>
         <Grid Margin="0,10,10,0" Height="29" VerticalAlignment="Top" HorizontalAlignment="Right" Width="487">
-            <TextBox Height="23" HorizontalAlignment="Left" Margin="220,0,0,0" x:Name="tbSearch" VerticalAlignment="Top" Width="187" />
-            <Button Content="Sök" Height="23" HorizontalAlignment="Left" Margin="412,0,0,0" x:Name="btnSearch" VerticalAlignment="Top" Width="75" Click="btnSearch_Click" />
-            <Label Content="" Height="29" HorizontalAlignment="Left" x:Name="lblInfo" VerticalAlignment="Top" Foreground="DarkRed" />
+            <TextBox Height="23" HorizontalAlignment="Left" Margin="220,0,0,0" x:Name="tbSearch" VerticalAlignment="Top" Width="187" TextChanged="tbSearch_TextChanged" />
+            <Button Content="Sök" Height="23" HorizontalAlignment="Left" Margin="412,0,0,0" x:Name="btnSearch" VerticalAlignment="Top" Width="75"/>
+            <Label Content="Användarregister" Height="42" HorizontalAlignment="Left" Margin="-1,-3,0,-10" x:Name="label1" VerticalAlignment="Top" FontSize="20" />
         </Grid>
-        <ListView x:Name="lvUserList" Margin="10,44,10,39" ItemsSource="{Binding UserAccountList}">
+        <ListView x:Name="lvUserList" Margin="10,44,10,39" ItemsSource="{Binding UserAccountList}" SelectedItem="{Binding SelectedUserAccount}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="180"  DisplayMemberBinding="{Binding UserName}">
-                        <GridViewColumnHeader Content="Användarnamn" x:Name="gvchUserName" Click="gvchUserName_Click" />
+                    <GridViewColumn Width="150" DisplayMemberBinding="{Binding UserName}">
+                        <GridViewColumnHeader Content="Användarnamn" Tag="UserName" Click="GridViewColumnHeader_Click" />
                     </GridViewColumn>
-                    <GridViewColumn Width="150" Header="Personal ID" DisplayMemberBinding="{Binding EmployeeID}"/>
-                    <GridViewColumn Header="Behörighetsnivå" Width="150" DisplayMemberBinding="{Binding PermissionLevel}"/>
+                    <GridViewColumn Width="150" DisplayMemberBinding="{Binding EmployeeID}">
+                        <GridViewColumnHeader Content="Anställd" Tag="EmployeeID" Click="GridViewColumnHeader_Click" />
+                    </GridViewColumn>
+                    <GridViewColumn Width="150" DisplayMemberBinding="{Binding PermissionLevel}">
+                        <GridViewColumnHeader Content="Behörighetsnivå" Tag="PermissionLevel" Click="GridViewColumnHeader_Click" />
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
         <Grid Margin="0,0,10,10" Height="24" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="487">
-            <Button Content="Välj " Height="23" HorizontalAlignment="Left" Margin="412,0,0,0" x:Name="btnSelect" VerticalAlignment="Top" Width="75" />
-            <Button Content="Ändra " Height="23" HorizontalAlignment="Left" x:Name="btnChange" VerticalAlignment="Top" Width="75" Click="btnChange_Click" />
-            <Button Content="Lägg till " Height="23" HorizontalAlignment="Left" Margin="332,0,0,0" x:Name="btnAdd" VerticalAlignment="Top" Width="75" Click="btnAdd_Click" />
-            <Button Content="Ta bort" Height="23" HorizontalAlignment="Left" Margin="80,0,0,0" x:Name="btnDelete" VerticalAlignment="Top" Width="75" Click="btnDelete_Click" />
+            <Button Content="Ändra " Height="23" HorizontalAlignment="Left" x:Name="btnChange" VerticalAlignment="Top" Width="75" Click="btnChange_Click" Margin="-3,0,0,0" />
+            <Button Content="Lägg till " Height="23" HorizontalAlignment="Left" Margin="412,1,0,0" x:Name="btnAdd" VerticalAlignment="Top" Width="75" Click="btnAdd_Click" />
+            <Button Content="Ta bort" Height="23" HorizontalAlignment="Left" Margin="79,0,0,0" x:Name="btnDelete" VerticalAlignment="Top" Width="75" Click="btnDelete_Click" />
 
         </Grid>
 
