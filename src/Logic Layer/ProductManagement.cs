@@ -16,7 +16,6 @@ namespace Logic_Layer
     {
         public ObservableCollection<Product> Products { get; set; }
 
-        public ObservableCollection<ProductPlacement> ProductPlacements { get; set; }
 
         /// <summary>
         /// Lazy Instance of ProductManagement singelton
@@ -42,7 +41,6 @@ namespace Logic_Layer
         public ProductManagement()
         {
             Products = new ObservableCollection<Product>(GetProducts());
-            ProductPlacements = new ObservableCollection<ProductPlacement>();
         }
 
         /// <summary>
@@ -184,7 +182,7 @@ namespace Logic_Layer
 
         public void AddProductPlacement(ProductPlacement productPlacement)
         {
-            ProductPlacements.Add(productPlacement);
+            productPlacement.ExpenseBudgetID = Cost_Budgeting_Logic.ExpenseBudgetManagement.Instance.GetExpenseBudgetID();
             db.ProductPlacement.Add(productPlacement);
             db.SaveChanges();
         }

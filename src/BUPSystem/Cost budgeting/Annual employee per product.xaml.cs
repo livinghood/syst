@@ -30,14 +30,23 @@ namespace BUPSystem.Kostnadsbudgetering
 
         public ObservableCollection<ProductPlacement> ProductPlacementList { get; set; }
 
-        public ObservableCollection<ProductPlacement> OldProductPlacements { get; set; }
-
         public ObservableCollection<DataItem> MyList { get; set; }
 
+        public ObservableCollection<Department> Departments { get { return EmployeeManagement.Instance.Departments;} }
 
-        public AnnualEmployeeViaProduct(string departmentID)
+        private string DepartmentID;
+
+
+        public AnnualEmployeeViaProduct()
         {   //FÖR TESTNING SÅ SKICKAS DEPARTMENTID MED SOM UF
             InitializeComponent();
+            DataContext = this;
+
+
+            // ALLT NEDANFÖR SKALL IN I EGEN OPERATION SOM ANROPAS IFRÅN COMBOBOXEN
+            // OM DET ÄR ADMIN, ANNARS SKALL DET SKE AUTOMATISKT
+
+            DepartmentID = "UF";
 
             MyList = new ObservableCollection<DataItem>();
 
@@ -45,19 +54,61 @@ namespace BUPSystem.Kostnadsbudgetering
 
             SelectedProducts = new ObservableCollection<Product>();
 
-            EmployeeList = new ObservableCollection<Employee>(EmployeeManagement.Instance.GetEmployeeByDepartment(departmentID));
+            EmployeeList = new ObservableCollection<Employee>(EmployeeManagement.Instance.GetEmployeeByDepartment(DepartmentID));
 
+            CalculateAttributeForEachEmployee();
+            CreateRow();
+            
+            LoadExistingPlacements();
+            
+        }
+
+        /// <summary>
+        /// Fyller listan med redan existerande placeringar
+        /// </summary>
+        private void LoadExistingPlacements()
+        {
             foreach (Employee e in EmployeeList)
             {
                 foreach (ProductPlacement p in ProductManagement.Instance.GetProductPlacementsByEmployee(e))
                 {
-                    OldProductPlacements.Add(p);
+                    bool found = false;
+                    foreach (DataGridColumn dgc in dgProductPlacements.Columns)
+                    {
+                        if (dgc.Header.Equals(p.Product.ProductName))
+                        {
+                            foreach (DataItem di in MyList)
+                            {
+                                if (di.EmployeeID == e.EmployeeID)
+                                {
+                                    foreach (ProductPlacement pp in di.DataList)
+                                    {
+                                        if (pp.ProductID.Equals(p.ProductID))
+                                        {
+                                            pp.ProductAllocate = p.ProductAllocate;
+                                            found = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (found)
+                        continue;
+                    DataGridTextColumn productColumn = new DataGridTextColumn();
+                    productColumn.Header = p.Product.ProductName;
+                    foreach (DataItem di in MyList)
+                    {
+                        ProductPlacement pp = new ProductPlacement() { EmployeeID = di.EmployeeID, ProductID = p.ProductID, ProductAllocate = 0 };
+                        if (di.EmployeeID == e.EmployeeID)
+                            pp.ProductAllocate = p.ProductAllocate;
+                        di.DataList.Add(pp);
+                        SelectedProducts.Add(p.Product);
+                    }
+                    productColumn.Binding = new Binding("DataList[" + dgProductPlacements.Columns.Count + "].ProductAllocate");
+                    dgProductPlacements.Columns.Add(productColumn);
                 }
             }
-
-            CalculateAttributeForEachEmployee();
-            CreateRow();
-            DataContext = this;
         }
 
         private void CalculateAttributeForEachEmployee()
@@ -114,8 +165,21 @@ namespace BUPSystem.Kostnadsbudgetering
         {
             foreach (ProductPlacement pp in ProductPlacementList)
             {
- 
+                ProductManagement.Instance.AddProductPlacement(pp);
             }
+            MessageBox.Show("Data är sparad");
+        }
+
+        private void cbDepartments_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!IsLoaded)
+                return;
+            DepartmentID = Departments[cbDepartments.SelectedIndex].DepartmentID;
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
     }

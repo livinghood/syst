@@ -75,7 +75,7 @@ namespace BUPSystem
         private void btnÅrsarbetarePerProdukt_Click(object sender, RoutedEventArgs e)
         {
             Kostnadsbudgetering.AnnualEmployeeViaProduct årsArbetarePerProduct =
-                new Kostnadsbudgetering.AnnualEmployeeViaProduct("UF");
+                new Kostnadsbudgetering.AnnualEmployeeViaProduct();
             årsArbetarePerProduct.ShowDialog();
         }
 
