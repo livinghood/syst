@@ -61,6 +61,7 @@
     <Compile Include="ActivityPlacement.cs">
       <DependentUpon>BUPdb.tt</DependentUpon>
     </Compile>
+    <Compile Include="AuthIPrincipal.cs" />
     <Compile Include="BUPdb.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -143,7 +144,6 @@
     <Compile Include="ActivityManagement.cs" />
     <Compile Include="RevenueManagement.cs" />
     <Compile Include="AuthIIdentity.cs" />
-    <Compile Include="SampleIPrincipal.cs" />
     <Compile Include="UserAccount.cs">
       <DependentUpon>BUPdb.tt</DependentUpon>
     </Compile>
