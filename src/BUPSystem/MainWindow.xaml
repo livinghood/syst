@@ -35,7 +35,7 @@
             <Label Margin="2,1,-6,0" VerticalAlignment="Top" Opacity="0.92" Height="34" Foreground="#FF05295F">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Image Source="Images/compose.png" Width="24" Height="24" />
-                    <TextBlock Margin="10,0,0,0" FontSize="16" Height="21" FontWeight="Bold" Foreground="#FF013581"><Run Text="Organisation"/></TextBlock>
+                    <TextBlock Margin="10,0,0,0" FontSize="16" Height="21" FontWeight="Bold" Foreground="#FF05295F"><Run Text="Organisation"/></TextBlock>
                 </StackPanel>
             </Label>
         </Grid>
