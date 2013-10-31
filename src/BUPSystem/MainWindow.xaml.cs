@@ -31,10 +31,11 @@ namespace BUPSystem
 
         public MainWindow()
         {
+            
             InitializeComponent();
             this.Hide();
             login.ShowDialog();
-
+            lblDatum.Content = DateTime.Now.ToString("yyyy-MM-dd");
             if (login.Authenticated)
             {
                 this.Show();
