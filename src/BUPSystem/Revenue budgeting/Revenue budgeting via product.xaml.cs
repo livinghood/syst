@@ -95,16 +95,16 @@ namespace BUPSystem.Revenue_budgeting
         /// <param name="e"></param>
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                FinancialIncomeList = RevenueManagement.Instance.RemoveEmptyProductIncomes();
-                RevenueManagement.Instance.UpdateFinancialIncome();
-                MessageBox.Show("Intäktsbudgetteringen är nu sparad");
-            }
-            catch
-            {
-                MessageBox.Show("Du kan inte spara samma kund flera gånger på samma produkt");
-            }
+            //try7
+            //{
+            FinancialIncomeList = RevenueManagement.Instance.RemoveEmptyProductIncomes();
+            RevenueManagement.Instance.UpdateFinancialIncome();
+            MessageBox.Show("Intäktsbudgetteringen är nu sparad");
+            //}
+            //catch
+            //{
+            //    MessageBox.Show("Du kan inte spara samma kund flera gånger på samma produkt");
+            //}
         }
 
         /// <summary>
@@ -123,6 +123,7 @@ namespace BUPSystem.Revenue_budgeting
             CurrentFinancialIncomeYear.FinancialIncomeLock = true;
             RevenueManagement.Instance.UpdateFinancialIncomeYear();
             dgIncomeCustomer.IsReadOnly = true;
+            btnLock.IsEnabled = false;
             btnDelete.IsEnabled = false;
             btnSave.IsEnabled = false;
         }
@@ -148,7 +149,6 @@ namespace BUPSystem.Revenue_budgeting
                 fi.CustomerName = tempCustomer.CustomerName;
 
                 DataGridCell cellID = GetCell(dgIncomeCustomer.SelectedIndex, 0); //Pass the row and column
-                if (cellID.Content == null)
                 cellID.IsEnabled = false;
                 DataGridCell cellName = GetCell(dgIncomeCustomer.SelectedIndex, 1); //Pass the row and column
                 cellName.IsEnabled = false;
