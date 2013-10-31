@@ -1,4 +1,13 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Collections.ObjectModel;
+using System.Windows;
+using Logic_Layer;
+using BUPSystem.ProductGUI;
 
 namespace BUPSystem.Kostnadsbudgetering
 {
@@ -7,9 +16,28 @@ namespace BUPSystem.Kostnadsbudgetering
     /// </summary>
     public partial class AnnualEmployeeViaProduct : Window
     {
-        public AnnualEmployeeViaProduct()
-        {
+        public ObservableCollection<Employee> EmployeeList { get; set; }
+
+        public ObservableCollection<Product> SelectedProducts { get; set; }
+
+
+        public AnnualEmployeeViaProduct(string departmentID)
+        {   //FÖR TESTNING SÅ SKICKAS DEPARTMENTID MED SOM UF
             InitializeComponent();
+
+            EmployeeList = new ObservableCollection<Employee>(EmployeeManagement.Instance.GetEmployeeByDepartment(departmentID));
+            DataContext = this;
+        }
+
+        private void btnChooseProduct_Click(object sender, RoutedEventArgs e)
+        {
+            ProductRegister productRegister = new ProductRegister(true);
+
+            if (productRegister.ShowDialog() == true)
+            {
+                SelectedProducts.Add(productRegister.SelectedProduct);
+
+            }
         }
     }
 }

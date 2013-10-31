@@ -45,6 +45,37 @@ namespace Logic_Layer
         }
 
         /// <summary>
+        /// Hämtar Employees via Employeeplacement med DepartmedID
+        /// </summary>
+        /// <param name="departmentID"></param>
+        /// <returns></returns>
+        public IEnumerable<Employee> GetEmployeeByDepartment(string departmentID)
+        {
+            IEnumerable<Employee> employees = from f in db.Employee
+                                              orderby f.EmployeeID
+                                              join ep in db.EmployeePlacement on departmentID equals ep.DepartmentID
+                                              where f.EmployeeID == ep.EmployeeID 
+                                              select f;
+            return employees;
+        }
+
+        public void CalculateEmployeeAtributes(Employee employee)
+        {
+            employee.AnnualRate = (employee.EmployeementRate - (Convert.ToInt32(employee.VacancyDeduction * 100)));
+
+            int i = employee.AnnualRate;
+            
+            ObservableCollection<EmployeePlacement> ePlacements = new ObservableCollection<EmployeePlacement>(GetEmployeePlacements(employee));
+
+            foreach (EmployeePlacement ep in ePlacements)
+                i = i - Convert.ToInt32(ep.EmployeeAllocate);
+
+            employee.Diff = i.ToString();
+
+            employee.Total = employee.AnnualRate - Convert.ToInt32(employee.Diff);
+        }
+
+        /// <summary>
         /// Create a new employee
         /// </summary>
         /// <param name="id"></param>
