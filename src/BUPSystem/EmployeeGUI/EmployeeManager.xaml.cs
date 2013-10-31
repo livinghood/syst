@@ -284,6 +284,5 @@ namespace BUPSystem.EmployeeGUI
                 EmployeeManagement.Instance.ResetEmployee(Employee);
             }
         }
-
     }
 }

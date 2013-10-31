@@ -1,6 +1,7 @@
 ﻿#region Using Directive
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Security;
@@ -38,11 +39,11 @@ namespace Logic_Layer
         /// <summary>
         /// Determines whether the current principal belongs to the specified role
         /// </summary>
-        /// <param name="role"></param>
+        /// <param name="auth"></param>
         /// <returns></returns>
         public bool IsInRole(string auth)
         {
-            return (auth == this.identityValue.UserAccount.PermissionLevel.ToString());
+            return (auth == this.identityValue.UserAccount.PermissionLevel.ToString(CultureInfo.InvariantCulture));
         }
 
         // Properties
@@ -50,7 +51,7 @@ namespace Logic_Layer
         /// <summary>
         /// Returns the user identity of the current principal
         /// </summary>
-        public System.Security.Principal.IIdentity Identity
+        public IIdentity Identity
         {
             get
             {

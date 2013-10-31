@@ -111,7 +111,6 @@ namespace Logic_Layer
         public bool ProductGroupNameExist(string name)
         {
             return db.ProductGroup.Any(pg => pg.ProductGroupName == name);
-        }
-        
+        }       
     }
 }

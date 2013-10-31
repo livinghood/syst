@@ -80,18 +80,16 @@ namespace Logic_Layer
 
         public IEnumerable<string> GetProductDepartments()
         {
-            var departments = from d in db.Department
-                              orderby d.DepartmentID
-                              where d.DepartmentID == "DA"
-                              || d.DepartmentID == "UF"
-                              select d.DepartmentID;
-            return departments;
+            return from d in db.Department
+                   orderby d.DepartmentID
+                   where d.DepartmentID == "DA"
+                   || d.DepartmentID == "UF"
+                   select d.DepartmentID;
         }
 
         /// <summary>
         /// Check if a product is connected to a DirectProductCost
         /// </summary>
-        /// <param name="productGroup"></param>
         /// <returns></returns>
         public bool IsConnectedToDirectProductCost(Product product)
         {
@@ -102,7 +100,6 @@ namespace Logic_Layer
         /// <summary>
         /// Check if a product is connected to a FinancialIncome
         /// </summary>
-        /// <param name="productGroup"></param>
         /// <returns></returns>
         public bool IsConnectedToFinancialIncome(Product product)
         {
@@ -113,7 +110,7 @@ namespace Logic_Layer
         /// <summary>
         /// Check if a product is connected to a FinancialIncome
         /// </summary>
-        /// <param name="productGroup"></param>
+        /// <param name="product"></param>
         /// <returns></returns>
         public bool IsConnectedToEmployee(Product product)
         {

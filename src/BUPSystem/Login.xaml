@@ -83,7 +83,7 @@
         <Label Content="IT-Service" Height="28" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="label3" VerticalAlignment="Top" Width="70" FontWeight="Bold" />
         <Label Content="BUP-System" Height="39" Margin="146,116,118,0" x:Name="label4" VerticalAlignment="Top" FontSize="20" Foreground="#FF004683" FontWeight="Bold" />
         <PasswordBox x:Name="tbPassword" HorizontalAlignment="Left" Margin="146,193,0,0" VerticalAlignment="Top" Width="173" Height="23"/>
-        <Button x:Name="btnLogIn" Content="Logga in" HorizontalAlignment="Left" Margin="244,221,0,0" VerticalAlignment="Top" Width="75" Click="btnLogIn_Click">
+        <Button x:Name="btnLogIn" Content="Logga in" HorizontalAlignment="Left" Margin="244,221,0,0" VerticalAlignment="Top" Width="75" Click="btnLogIn_Click" Height="23" IsDefault="True">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FFB4B4B4" Offset="0"/>

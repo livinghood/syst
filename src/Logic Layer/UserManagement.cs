@@ -88,7 +88,6 @@ namespace Logic_Layer
             db.Entry(useraccount).State = EntityState.Unchanged;
         }
 
-  
         public UserAccount GetUserAccountByPassword(string username, string password)
         {
             return db.UserAccount.FirstOrDefault(u => u.UserName == username && u.Password == password);
@@ -110,7 +109,7 @@ namespace Logic_Layer
         /// Returns a list of user permission levels
         /// </summary>
         /// <returns></returns>
-        public ObservableCollection<UserPermissionLevels> GetPermissionLevels()
+        public IEnumerable<UserPermissionLevels> GetPermissionLevels()
         {
             return new ObservableCollection<UserPermissionLevels>(Enum.GetValues(typeof(UserPermissionLevels)).Cast<UserPermissionLevels>());   
         }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using Logic_Layer;
@@ -122,7 +123,7 @@ namespace BUPSystem.EmployeeGUI
             if (textFilter.Trim().Length == 0) return true; 
 
             // apply the filter
-            return item.EmployeeID.ToString().ToLower().Contains(textFilter.ToLower()) || item.EmployeeName.ToLower().Contains(textFilter.ToLower());
+            return item.EmployeeID.ToString(CultureInfo.InvariantCulture).ToLower().Contains(textFilter.ToLower()) || item.EmployeeName.ToLower().Contains(textFilter.ToLower());
         }
 
         // Sort listview

@@ -35,7 +35,7 @@ namespace BUPSystem.ProductGUI
 
         public string ProductionDepartmentID { get; set; }
 
-        public ObservableCollection<string> ProductionDepartments
+        public IEnumerable<string> ProductionDepartments
         {
             get { return new ObservableCollection<string>(ProductManagement.Instance.GetProductDepartments()); }
         }
@@ -139,9 +139,7 @@ namespace BUPSystem.ProductGUI
                 Product.ProductID = m_partProductID.ToUpper() + Product.ProductGroupID.Substring(0, 2).ToUpper();
             }
             else
-            {
                 Product.ProductID = null;
-            }         
         }
     }
 }

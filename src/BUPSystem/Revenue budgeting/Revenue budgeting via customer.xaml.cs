@@ -29,7 +29,7 @@ namespace BUPSystem.Revenue_budgeting
             set { RevenueManagement.Instance.FinancialIncomeList = value; }
         }
 
-        public ObservableCollection<Product> ProductList
+        public IEnumerable<Product> ProductList
         {
             get { return RevenueManagement.Instance.ProductList; }
         }
@@ -54,7 +54,7 @@ namespace BUPSystem.Revenue_budgeting
             btnDelete.IsEnabled = false;
             btnSave.IsEnabled = false;
 
-            if (CurrentFinancialIncomeYear.FinancialIncomeLock == true)
+            if (CurrentFinancialIncomeYear.FinancialIncomeLock)
             {
                 dgIncomeProduct.IsReadOnly = true;
                 btnLock.IsEnabled = false;
@@ -114,8 +114,15 @@ namespace BUPSystem.Revenue_budgeting
         /// <param name="e"></param>
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            FinancialIncome fi = (FinancialIncome)dgIncomeProduct.SelectedItem;
-            RevenueManagement.Instance.DeleteFinancialIncome(fi);
+            try
+            {
+                FinancialIncome fi = (FinancialIncome)dgIncomeProduct.SelectedItem;
+                RevenueManagement.Instance.DeleteFinancialIncome(fi);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnLock_Click(object sender, RoutedEventArgs e)
@@ -268,12 +275,7 @@ namespace BUPSystem.Revenue_budgeting
             for (int i = 0; i < numVisuals; i++)
             {
                 Visual v = (Visual)VisualTreeHelper.GetChild(parent, i);
-                child = v as T;
-                if (child == null)
-                {
-                    child = GetVisualChild<T>
-                    (v);
-                }
+                child = v as T ?? GetVisualChild<T>(v);
 
                 if (child != null)
                 {
@@ -282,11 +284,5 @@ namespace BUPSystem.Revenue_budgeting
             }
             return child;
         }
-
-        private void btntest_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
     }
 }

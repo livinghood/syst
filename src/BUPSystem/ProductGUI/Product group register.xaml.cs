@@ -107,8 +107,7 @@ namespace BUPSystem.ProductGUI
                     else
                     {
                         MessageBox.Show("Det finns kopplade produkter i den här gruppen, går ej ta bort", "Finns kopplade produkter"); 
-                    }
-                    
+                    }                   
                 }
             }
             else
@@ -146,8 +145,7 @@ namespace BUPSystem.ProductGUI
             // if already sorted by this column, reverse the direction
             if (view.SortDescriptions.Count > 0 && view.SortDescriptions[0].PropertyName == propertyName)
             {
-                if (view.SortDescriptions[0].Direction == ListSortDirection.Ascending) direction = ListSortDirection.Descending;
-                else direction = ListSortDirection.Ascending;
+                direction = view.SortDescriptions[0].Direction == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending;
             }
 
             view.SortDescriptions.Clear();
@@ -164,10 +162,7 @@ namespace BUPSystem.ProductGUI
             if (textFilter.Trim().Length == 0) return true; // the filter is empty - pass all items
 
             // apply the filter
-            if (item.ProductGroupName.ToLower().Contains(textFilter.ToLower())) return true;
-
-            if (item.ProductGroupID.ToLower().Contains(textFilter.ToLower())) return true;
-            return false;
+            return item.ProductGroupName.ToLower().Contains(textFilter.ToLower()) || item.ProductGroupID.ToLower().Contains(textFilter.ToLower());
         }
 
         private void tbSearch_TextChanged(object sender, TextChangedEventArgs e)
@@ -175,7 +170,7 @@ namespace BUPSystem.ProductGUI
             ICollectionView view = CollectionViewSource.GetDefaultView(lvProductGroups.ItemsSource);
 
             view.Filter = null;
-            view.Filter = new Predicate<object>(FilterCustomerItem);
+            view.Filter = FilterCustomerItem;
         }
     }
 }

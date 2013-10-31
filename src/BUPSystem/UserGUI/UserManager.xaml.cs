@@ -17,7 +17,7 @@ namespace BUPSystem.UserGUI
     {
         public UserAccount UserAccount { get; set; }
 
-        public ObservableCollection<UserPermissionLevels> PermissionLevels
+        public IEnumerable<UserPermissionLevels> PermissionLevels
         {
             get { return UserManagement.Instance.GetPermissionLevels(); }
         }        

@@ -19,7 +19,7 @@ namespace Logic_Layer
         /// <summary>
         /// Gets the List of Customers so we can use them in calculations
         /// </summary>
-        public ObservableCollection<Customer> CustomerList
+        public IEnumerable<Customer> CustomerList
         {
             get { return CustomerManagement.Instance.Customers; }
         }
@@ -27,7 +27,7 @@ namespace Logic_Layer
         /// <summary>
         /// Gets the List of Products so we can use them in calculations
         /// </summary>
-        public ObservableCollection<Product> ProductList
+        public IEnumerable<Product> ProductList
         {
             get { return ProductManagement.Instance.Products; }
         }
@@ -35,30 +35,22 @@ namespace Logic_Layer
         /// <summary>
         /// Database context
         /// </summary>
-        private DatabaseConnection db = new DatabaseConnection();
+        private readonly DatabaseConnection db = new DatabaseConnection();
 
         /// <summary>
         /// List of FinancialIncomes
         /// </summary>
-        public ObservableCollection<FinancialIncome> FinancialIncomeList
-        {
-            get;
-            set;
-        }
+        public ObservableCollection<FinancialIncome> FinancialIncomeList { get; set; }
 
         /// <summary>
         /// FinancialIncomeYearID
         /// </summary>
         public string NewID
         {
-            get { return "FIY" + DateTime.Today.Year.ToString(); }
+            get { return "FIY" + DateTime.Today.Year; }
         }
 
-        public FinancialIncomeYear CurrentFinancialIncomeYear
-        {
-            get;
-            set;
-        }
+        public FinancialIncomeYear CurrentFinancialIncomeYear { get; set; }
 
         /// <summary>
         /// The instance property
@@ -78,7 +70,7 @@ namespace Logic_Layer
         /// </summary>
         public FinancialIncome CreateFinancialIncome()
         {
-            FinancialIncome newFinancialIncome = new FinancialIncome { };
+            FinancialIncome newFinancialIncome = new FinancialIncome();
             FinancialIncomeList.Add(newFinancialIncome);
             db.FinancialIncome.Add(newFinancialIncome);
             db.SaveChanges();
@@ -160,12 +152,9 @@ namespace Logic_Layer
         public void DeleteFinancialIncome(FinancialIncome fI)
         {
             FinancialIncomeList.Remove(fI);
-            try
-            {   //Om det inte är sparat i databasen än, bara sparat i listan
-                db.FinancialIncome.Remove(fI);
-                db.SaveChanges();
-            }
-            catch { }
+            //Om det inte är sparat i databasen än, bara sparat i listan
+            db.FinancialIncome.Remove(fI);
+            db.SaveChanges();
         }
 
         /// <summary>
@@ -179,13 +168,10 @@ namespace Logic_Layer
         public ObservableCollection<FinancialIncome> RemoveEmptyCustomerIncomes()
         {
             ObservableCollection<FinancialIncome> tempIncome = new ObservableCollection<FinancialIncome>(FinancialIncomeList);
-            foreach (FinancialIncome fi in FinancialIncomeList)
+            foreach (FinancialIncome fi in FinancialIncomeList.Where(fi => fi.ProductID == null))
             {
-                if (fi.ProductID == null)
-                {
-                    tempIncome.Remove(fi);
-                    db.FinancialIncome.Remove(fi);
-                }
+                tempIncome.Remove(fi);
+                db.FinancialIncome.Remove(fi);
             }
             return tempIncome;
         }
@@ -193,13 +179,10 @@ namespace Logic_Layer
         public ObservableCollection<FinancialIncome> RemoveEmptyProductIncomes()
         {
             ObservableCollection<FinancialIncome> tempIncome = new ObservableCollection<FinancialIncome>(FinancialIncomeList);
-            foreach (FinancialIncome fi in FinancialIncomeList)
+            foreach (FinancialIncome fi in FinancialIncomeList.Where(fi => fi.CustomerID == null))
             {
-                if (fi.CustomerID == null)
-                {
-                    tempIncome.Remove(fi);
-                    db.FinancialIncome.Remove(fi);
-                }
+                tempIncome.Remove(fi);
+                db.FinancialIncome.Remove(fi);
             }
             return tempIncome;
         }
@@ -213,25 +196,21 @@ namespace Logic_Layer
         /// <returns></returns>
         public FinancialIncomeYear CreateFinancialIncomeYear()
         {
-            FinancialIncomeYear newFinancialIncomeYear = new FinancialIncomeYear {};
+            FinancialIncomeYear newFinancialIncomeYear = new FinancialIncomeYear();
 
-            if (!db.FinancialIncomeYear.Where(f => f.FinancialIncomeYearID == NewID).Any())
+            if (!db.FinancialIncomeYear.Any(f => f.FinancialIncomeYearID == NewID))
             {
                 newFinancialIncomeYear.FinancialIncomeYearID = NewID;
                 newFinancialIncomeYear.FinancialIncomeLock = false;
                 db.FinancialIncomeYear.Add(newFinancialIncomeYear);
                 return newFinancialIncomeYear;
             }
-            else
-            {
-               return newFinancialIncomeYear = db.FinancialIncomeYear.Single(f => f.FinancialIncomeYearID == NewID);
-            }
+            return db.FinancialIncomeYear.Single(f => f.FinancialIncomeYearID == NewID);
         }
 
         public void UpdateFinancialIncomeYear()
         {
             db.SaveChanges();
         }
-
     }
 }

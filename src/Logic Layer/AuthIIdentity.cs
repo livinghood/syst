@@ -20,8 +20,6 @@ namespace Logic_Layer
         public UserAccount UserAccount { get; set; }     
         // Add private fields to store the user name and a value that indicates 
         // if the user is authenticated
-        private bool authenticatedValue;
-        private string nameValue;
 
         // Methods
 
@@ -37,8 +35,8 @@ namespace Logic_Layer
 
             if (UserAccount != null)
             {
-                this.nameValue = UserAccount.UserName;
-                this.authenticatedValue = true;
+                this.Name = UserAccount.UserName;
+                this.IsAuthenticated = true;
             }
         }
         // Properties
@@ -57,29 +55,17 @@ namespace Logic_Layer
         /// <summary>
         /// Returns a value that indicates whether the user has been authenticated
         /// </summary>
-        public bool IsAuthenticated
-        {
-            get
-            {
-                return this.authenticatedValue;
-            }
-        }
+        public bool IsAuthenticated { get; private set; }
 
         /// <summary>
         /// Returns the user's name
         /// </summary>
-        public string Name
-        {
-            get
-            {
-                return this.nameValue;
-            }
-        }
+        public string Name { get; private set; }
 
         /// <summary>
         /// Gets the type of authentication used
         /// </summary>
-        string System.Security.Principal.IIdentity.AuthenticationType
+        string IIdentity.AuthenticationType
         {
             get
             {
@@ -90,20 +76,20 @@ namespace Logic_Layer
         /// <summary>
         /// Gets a value that indicates whether the user has been authenticated
         /// </summary>
-        bool System.Security.Principal.IIdentity.IsAuthenticated
+        bool IIdentity.IsAuthenticated
         {
             get
             {
-                return this.authenticatedValue;
+                return this.IsAuthenticated;
             }
         }
 
         // Gets the name of the current user
-        string System.Security.Principal.IIdentity.Name
+        string IIdentity.Name
         {
             get
             {
-                return this.nameValue;
+                return this.Name;
             }
         }
     }

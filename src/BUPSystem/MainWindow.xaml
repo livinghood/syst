@@ -12,10 +12,10 @@
         </LinearGradientBrush>
     </Window.Background>
     <Grid HorizontalAlignment="Right" Width="1016">
-        <Label Content="BUP-Systemet" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="30" Foreground="#FF013581" FontWeight="Bold" Height="46" Width="226" Opacity="0.92"/>
-        <Label x:Name="lblUsername" Content="Inloggad som: Marie" HorizontalAlignment="Right" Margin="0,10,112,0" VerticalAlignment="Top" FontSize="20" Foreground="#FF002C6C" Height="34" Width="359" FlowDirection="RightToLeft"/>
-        <Label x:Name="lblDatum" Content="Datum" HorizontalAlignment="Left" Margin="830,505,0,0" FontSize="20" Foreground="#FF002C6C" Width="176" Height="34" VerticalAlignment="Top" FlowDirection="RightToLeft"/>
-        <Button x:Name="btnLogOut" Content="Logga ut" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Width="97" Height="34" FontSize="16">
+        <Label Content="BUP-Systemet" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="30" Foreground="#FF013581" FontWeight="Bold" Height="62" Width="226" Opacity="0.92"/>
+        <Label x:Name="lblUsername" Content="Inloggad som: Marie" HorizontalAlignment="Right" Margin="0,10,112,0" VerticalAlignment="Top" FontSize="20" Foreground="#FF002C6C" Height="46" Width="359" FlowDirection="RightToLeft"/>
+        <Label x:Name="lblDatum" Content="Datum" HorizontalAlignment="Right" Margin="0,0,10,8" FontSize="20" Foreground="#FF002C6C" Width="176" FlowDirection="RightToLeft" Height="34" VerticalAlignment="Bottom"/>
+        <Button x:Name="btnLogOut" Content="Logga ut" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Width="97" Height="34" FontSize="16" Click="btnLogOut_Click">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FFEEEEEE" Offset="0"/>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +29,6 @@ namespace BUPSystem
     /// </summary>
     public partial class MainWindow : Window
     {
-
         public MainWindow()
         {
             InitializeComponent();
@@ -148,13 +148,34 @@ namespace BUPSystem
             nbp.ShowDialog();
         }
 
+        /// <summary>
+        /// Find user account of logged in user
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            lblUsername.Content = "Inloggad som: " + System.Threading.Thread.CurrentPrincipal.Identity.Name;
-            if (System.Threading.Thread.CurrentPrincipal.IsInRole("0"))
+            Logic_Layer.UserAccount userAccount = null;
+
+            foreach (var user in UserManagement.Instance.UserAccounts
+                .Where(user => user.UserName.Equals(System.Threading.Thread.CurrentPrincipal.Identity.Name))
+                .Where(user => System.Threading.Thread.CurrentPrincipal.IsInRole(user.PermissionLevel.ToString(CultureInfo.InvariantCulture))))
             {
-                // Är administrationschef
+                userAccount = user;
             }
+
+            if (userAccount == null)
+            {
+                MessageBox.Show("Denna användare saknar behörighetsnivå. Kontakta systemadministratören", "Fel");
+                Application.Current.Shutdown();
+            }
+
+            lblUsername.Content = "Inloggad som: " + System.Threading.Thread.CurrentPrincipal.Identity.Name;
+        }
+
+        private void btnLogOut_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }
