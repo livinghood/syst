@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using Logic_Layer;
 using Logic_Layer.FollowUp;
 using Microsoft.Win32;
+using System;
 
 namespace BUPSystem.Uppföljning
 {
@@ -18,7 +19,9 @@ namespace BUPSystem.Uppföljning
         private bool isManual;
         private int cbIndex;
 
-        public ObservableCollection<Forecasting> Forecasts { get; set; }
+        public ForecastMonth ForecastMonth;
+
+        public ObservableCollection<Forecasting> Forecasts { get { return ForecastingManagement.Instance.Forecasts; } }
 
         public ObservableCollection<Months> Months { get { return ForecastingManagement.Instance.GetMonths(); } }
 
@@ -29,11 +32,7 @@ namespace BUPSystem.Uppföljning
             saved = true;
             cbIndex = 0;
 
-            /* If the file IntaktProduktKund.txt has already been imported earlier during the current session,
-             * set the local list of forecasts to the one in ForecastingMangement, else create a new local list. */
-            Forecasts = ForecastingManagement.Instance.Forecasts.Count > 0
-                ? new ObservableCollection<Forecasting>(ForecastingManagement.Instance.Forecasts)
-                : new ObservableCollection<Forecasting>();
+
         }
 
         private void btnImportFile_Click(object sender, RoutedEventArgs e)
@@ -64,16 +63,18 @@ namespace BUPSystem.Uppföljning
         private void UpdateForecasts()
         {
             Forecasts.Clear();
-            ForecastingManagement.Instance.FillForecastsFromDB(cbMonth.SelectedIndex);
-            var list = ForecastingManagement.Instance.GetForecastFromMonth(cbMonth.SelectedIndex);
 
-            if (list != null)
-            {
-                foreach (var forecast in list)
-                {
-                    Forecasts.Add(forecast);
-                }
-            }
+            Months SelectedMonth;
+            Enum.TryParse<Months>(cbMonth.SelectedValue.ToString(), out SelectedMonth);
+
+            DateTime month = new DateTime((int)DateTime.Now.Year, (int)SelectedMonth, 1);
+
+            // Adda en month för att kunna låsa (addas bara om den inte finns)
+            ForecastMonth = ForecastingManagement.Instance.AddForecastMonth(month);
+
+            ForecastingManagement.Instance.GetForecastsFromMonth(month);
+
+            
         }
 
         private void cbMonth_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -87,9 +88,14 @@ namespace BUPSystem.Uppföljning
                 dgForecasts.IsEnabled = cbMonth.SelectedIndex != 0;
                 cbIndex = cbMonth.SelectedIndex;
 
+                Months SelectedMonth;
+                Enum.TryParse<Months>(cbMonth.SelectedValue.ToString(), out SelectedMonth);
+
+                DateTime month = new DateTime((int)DateTime.Now.Year, (int)SelectedMonth, 1);
+
                 if (Forecasts.Any())
                 {
-                    if (ForecastingManagement.Instance.CheckIfLocked(cbMonth.SelectedIndex.ToString(CultureInfo.InvariantCulture)))
+                    if (ForecastingManagement.Instance.CheckIfLocked(month))
                     {
                         dgForecasts.IsEnabled = false;
                         btnSave.IsEnabled = false;
@@ -156,7 +162,44 @@ namespace BUPSystem.Uppföljning
         {
             if (cbMonth.SelectedIndex > 0)
             {
-                ForecastingManagement.Instance.AddForecast(cbMonth.SelectedIndex);
+                Months SelectedMonth;
+                Enum.TryParse<Months>(cbMonth.SelectedValue.ToString(), out SelectedMonth);
+
+                DateTime month = new DateTime((int)DateTime.Now.Year, (int)SelectedMonth, 1);
+
+
+                foreach (Forecasting fc in Forecasts)
+                {
+                    ForecastMonitor fm = (ForecastingManagement.Instance.ForecastMonitorExist(fc.IeProductID, month));
+                    if (fm == null)
+                    {
+                        ForecastMonitor newfm = new ForecastMonitor
+                        {
+                            Reprocessed = fc.Reprocessed,
+                            OutcomeAcc = fc.OutcomeAcc,
+                            IeProductName = fc.IeProductName,
+                            IeProductID = fc.IeProductID,
+                            ForecastMonth = ForecastMonth,
+                            ForecastMonitorMonthID = month.ToString("yyyyMM"),
+                            ForecastBudget = fc.Budget.ToString(),
+                            Forecast = fc.Forecast
+                        };
+
+                        ForecastingManagement.Instance.AddForecastMonitor(newfm);
+
+                    }
+                    else
+                    {
+                        fm.Reprocessed = fc.Reprocessed;
+                        fm.OutcomeAcc = fc.OutcomeAcc;
+                        fm.ForecastBudget = fc.Budget.ToString();
+                        fm.Forecast = fc.Forecast;
+                    }
+                    ForecastingManagement.Instance.UpdateForecast();
+                }
+                
+                
+                //ForecastingManagement.Instance.AddForecast(cbMonth.SelectedIndex);
                 saved = true;
             }
         }
@@ -166,13 +209,16 @@ namespace BUPSystem.Uppföljning
             // Prevent locking when all months option is selected 
             if (cbMonth.SelectedIndex > 0)
             {
-                // First, save any unsaved changes 
-                ForecastingManagement.Instance.AddForecast(cbMonth.SelectedIndex);
 
-                // Call method to lock forecast for the selected month
-                ForecastingManagement.Instance.LockForecast(cbMonth.SelectedIndex);
+                Months SelectedMonth;
+                Enum.TryParse<Months>(cbMonth.SelectedValue.ToString(), out SelectedMonth);
 
-                MessageBox.Show(string.Format("Uppföljning för månad {0} har låsts", Months[cbMonth.SelectedIndex]), "Låst");
+                DateTime month = new DateTime((int)DateTime.Now.Year, (int)SelectedMonth, 1);
+
+                //Call method to lock forecast for the selected month
+                ForecastingManagement.Instance.LockForecast(month);
+
+                MessageBox.Show(string.Format("Uppföljning för månad {0} har låsts"), "Låst");
             }
             else
                 MessageBox.Show("Du måste välja en enskild månad för låsning", "Välj en månad att låsa");

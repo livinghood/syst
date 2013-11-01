@@ -14,19 +14,19 @@ namespace Logic_Layer.FollowUp
 {
     public enum Months
     {
-        Alla,
-        Januari,
-        Februari,
-        Mars,
-        April,
-        Maj,
-        Juni,
-        Juli,
-        Augusti,
-        September,
-        Oktober,
-        November,
-        December
+        Alla = 0,
+        Januari = 01,
+        Februari = 02,
+        Mars = 03,
+        April = 04,
+        Maj = 05,
+        Juni = 06,
+        Juli = 07,
+        Augusti = 08,
+        September = 09,
+        Oktober = 10,
+        November = 11,
+        December = 12
     }
 
     public class ForecastingManagement
@@ -59,66 +59,38 @@ namespace Logic_Layer.FollowUp
             Forecasts = new ObservableCollection<Forecasting>();
         }
 
-        public void FillForecastsFromDB(int month)
+        /// <summary>
+        /// Add forecast to database or save changes made to a forecast that is already added to the database
+        /// </summary>
+        public ForecastMonth AddForecastMonth(DateTime month)
         {
-            Forecasts.Clear();
-            var icps = GetIncomeProductCustomers();
-
-            foreach (var icp in icps)
+            string monthID = month.ToString("yyyyMM");
+            //Check if forecastmonth exists
+            ForecastMonth fcm = db.ForecastMonth.SingleOrDefault(f => f.ForecastMonitorMonthID == monthID);
+            if (fcm == null)
             {
-                CreateForecasting(icp, month);
+                // Create forecastmonth object
+                fcm = new ForecastMonth
+                {
+                    ForecastLock = false,
+                    ForecastMonitorMonthID = monthID
+                };
+                // Add object to db
+                db.ForecastMonth.Add(fcm);
+                
+                db.SaveChanges();
             }
+       
+
+            return fcm;
         }
 
         /// <summary>
         /// Add forecast to database or save changes made to a forecast that is already added to the database
         /// </summary>
-        public void AddForecast(int month)
+        public void AddForecastMonitor(ForecastMonitor obj)
         {
-            ForecastMonth forecastMonth = new ForecastMonth
-            {
-                ForecastLock = false,
-                ForecastMonitorMonthID = month.ToString(CultureInfo.InvariantCulture)
-            };
-
-            var mList = db.ForecastMonth.Select(m => m.ForecastMonitorMonthID);
-
-            // Add the forecastMonitor to database if not already added
-            if (!mList.Contains(forecastMonth.ForecastMonitorMonthID))
-            {
-                db.ForecastMonth.Add(forecastMonth);
-            }
-
-            foreach (var forecast in Forecasts)
-            {
-                if (forecast.Date.Month == month)
-                {
-                    ForecastMonitor fm = new ForecastMonitor
-                    {
-                        Reprocessed = forecast.Reprocessed,
-                        OutcomeAcc = forecast.OutcomeAcc,
-                        IeProductName = forecast.IeProductName,
-                        IeProductID = forecast.IeProductID,
-                        ForecastMonth = forecastMonth,
-                        ForecastMonitorMonthID = month.ToString(CultureInfo.InvariantCulture),
-                        ForecastBudget = forecast.ForecastBudget.ToString(),
-                        Forecast = forecast.Forecast
-                    };
-
-                    var flist = db.ForecastMonitor.Select(f => f.IeProductID);
-
-                    // If database already contains fm, update the attributes that a user can enter
-                    if (flist.Contains(fm.IeProductID))
-                    {
-                        var itemToUpdate = db.ForecastMonitor.Single(s => s.IeProductID.Equals(fm.IeProductID));
-                        itemToUpdate.Reprocessed = fm.Reprocessed;
-                        itemToUpdate.Forecast = fm.Forecast;
-                    }
-                    else
-                        db.ForecastMonitor.Add(fm);
-                }
-            }
-            db.SaveChanges();
+            db.ForecastMonitor.Add(obj);
         }
 
         /// <summary>
@@ -197,76 +169,152 @@ namespace Logic_Layer.FollowUp
         }
 
         /// <summary>
-        /// Allows for selection of forecasts from a specific month
+        /// Get all IPC
         /// </summary>
-        /// <param name="month"></param>
         /// <returns></returns>
-        public IEnumerable<Forecasting> GetForecastFromMonth(int month)
-        {
-            return month == 0 ? Forecasts : Forecasts.Where(m => m.Date.Month == month);
-        }
-
         public IEnumerable<IncomeProductCustomer> GetIncomeProductCustomers()
         {
             return db.IncomeProductCustomer.OrderBy(f => f.IeProductID);
         }
 
-        public void CreateForecasting(IncomeProductCustomer ipc, int chosenMonth)
+        /// <summary>
+        /// Get IPCs by month
+        /// </summary>
+        /// <param name="month"></param>
+        /// <returns></returns>
+        public IEnumerable<IncomeProductCustomer> GetIPCsByMonth(DateTime month)
         {
-            Forecasting fc = new Forecasting
-            {
-                IeProductID = ipc.IeProductID,
-                IeProductName = ipc.IeProductName,
-                CustomerID = ipc.IeCustomerID,
-                CustomerName = ipc.IeCustomerName,
-                Amount = ipc.IeAmount,
-                Date = ipc.IeIncomeDate,
-                OutcomeAcc = ~ipc.IeAmount + 1,
-                Trend = (~ipc.IeAmount + 1)/ipc.IeIncomeDate.Date.Month*12,
-                FormerPrognosis = CalculateFormerPrognosis(ipc.IeIncomeDate.Date.Month, ipc.IeProductID),
-                Forecast = GetForecastValue(ipc.IeIncomeDate.Date.Month, ipc.IeProductID),
-                OutcomeMonth = CalculateOutcomeMonth(chosenMonth, ipc.IeProductID),
-                Budget = GetBudgetFromFinancialIncome(ipc.IeProductID),
-                Reprocessed = GetReprocessed(ipc.IeProductID)
-            };
-            fc.ForecastBudget = fc.Forecast - fc.Budget;
+            var IncomeProductCustomer = from i in db.IncomeProductCustomer
+                                    where i.IeIncomeDate.Month == month.Month
+                                    where i.IeIncomeDate.Year == month.Year
+                                    select i;
 
-            // In case newly created forecast already exists, just update its properties
-            foreach (var item in Forecasts.Where(item => item.IeProductID.Equals(fc.IeProductID)
-                && item.Date.Month == fc.Date.Month))
-            {
-                item.Amount = fc.Amount;
-                item.OutcomeAcc = ~fc.Amount + 1;
-                item.Trend = (~fc.Amount + 1) / ipc.IeIncomeDate.Date.Month * 12;
-                item.FormerPrognosis = fc.FormerPrognosis;
-                item.Forecast = fc.Forecast;
-                item.Reprocessed = fc.Reprocessed;
-                item.Budget = fc.Budget;
-                item.ForecastBudget = fc.ForecastBudget;
-                item.Reprocessed = fc.Reprocessed;
-                return;
-            }
-            Forecasts.Add(fc);
+            return IncomeProductCustomer;
         }
 
-        private int? GetReprocessed(string ieProductId)
+        public void GetForecastsFromMonth(DateTime month)
         {
-            int? valueToReturn = 0;
 
-            foreach (var fm in db.ForecastMonitor)
+            var IPCs = GetIPCsByMonth(month);
+
+            // Aj, inte så fin lista på redan tillagda produkter (då ska inte IPCn läggas in igen)
+            List<string> tempProdukter = new List<string>();
+
+            foreach (var IPC in IPCs)
             {
-                if (fm.IeProductID.Equals(ieProductId))
+                if (!tempProdukter.Contains(IPC.IeProductID))
                 {
-                    valueToReturn = fm.Reprocessed;
-                }
+                    Forecasting fc = new Forecasting
+                    {
+                        IeProductID = IPC.IeProductID,
+                        IeProductName = IPC.IeProductName,
+                        OutcomeAcc = CalculateUtfallAcc(month, IPC.IeProductID),
+                        Trend = ((CalculateUtfallAcc(month, IPC.IeProductID) + GetReprocessedValue(month, IPC.IeProductID)) / month.Month) * 12,
+                        //FormerPrognosis = CalculateFormerPrognosis(IPC.IeIncomeDate.Date.Month, IPC.IeProductID),
+                        //Forecast = GetForecastValue(IPC.IeIncomeDate.Date.Month, IPC.IeProductID),
+                        OutcomeMonth = CalculateOutcomeMonth(month.Month, IPC.IeProductID),
+                        Budget = GetBudgetFromFinancialIncome(IPC.IeProductID),
+                        Reprocessed = GetReprocessedValue(month, IPC.IeProductID)
+                    };
+
+                    // Calculate the ForcastBudget
+                    fc.ForecastBudget = fc.Forecast - fc.Budget;
+
+                    // Add to the returning list
+                    Forecasts.Add(fc);
+
+                    // Vi ska inte använda den här igen
+                    tempProdukter.Add(IPC.IeProductID);
+                }  
             }
-            return valueToReturn;
+
+            //Forecasting fc = new Forecasting
+            //{
+            //    IeProductID = ipc.IeProductID,
+            //    IeProductName = ipc.IeProductName,
+            //    CustomerID = ipc.IeCustomerID,
+            //    CustomerName = ipc.IeCustomerName,
+            //    Amount = ipc.IeAmount,
+            //    Date = ipc.IeIncomeDate,
+            //    OutcomeAcc = CalculateUtfallAcc(chosenMonth, ipc.IeProductID),
+            //    Trend = ((CalculateUtfallAcc(chosenMonth, ipc.IeProductID) + GetReprocessed(ipc.IeProductID)) / chosenMonth) * 12,
+            //    FormerPrognosis = CalculateFormerPrognosis(ipc.IeIncomeDate.Date.Month, ipc.IeProductID),
+            //    Forecast = GetForecastValue(ipc.IeIncomeDate.Date.Month, ipc.IeProductID),
+            //    OutcomeMonth = CalculateOutcomeMonth(chosenMonth, ipc.IeProductID),
+            //    Budget = GetBudgetFromFinancialIncome(ipc.IeProductID),
+            //    Reprocessed = GetReprocessed(ipc.IeProductID)
+            //};
+            //fc.ForecastBudget = fc.Forecast - fc.Budget;
+
+            //// In case newly created forecast already exists, just update its properties
+            //foreach (var item in Forecasts.Where(item => item.IeProductID.Equals(fc.IeProductID)
+            //    && item.Date.Month == fc.Date.Month))
+            //{
+            //    item.Amount = fc.Amount;
+            //    item.OutcomeAcc = fc.OutcomeAcc;
+            //    item.Trend = fc.Trend;
+            //    item.FormerPrognosis = fc.FormerPrognosis;
+            //    item.Forecast = fc.Forecast;
+            //    item.Reprocessed = fc.Reprocessed;
+            //    item.Budget = fc.Budget;
+            //    item.ForecastBudget = fc.ForecastBudget;
+            //    item.Reprocessed = fc.Reprocessed;
+            //    return;
+            //}
+
+            //Forecasts.Add(fc);
+        }
+
+
+        public ForecastMonitor ForecastMonitorExist(string id, DateTime month)
+        {
+            string monthID = month.ToString("yyyyMM");
+
+            return db.ForecastMonitor.SingleOrDefault(f => f.IeProductID == id && f.ForecastMonitorMonthID == monthID);
         }
 
         private int? GetBudgetFromFinancialIncome(string productID)
         {
-            return Enumerable.Aggregate<FinancialIncome,int?>(db.FinancialIncome.Where
-                (fi => fi.ProductID.Equals(productID)), 0, (current, fi) => current + fi.Budget);
+            // Hämta alla financial incomes
+            var financialIncomes = from f in db.FinancialIncome
+                                   where f.ProductID.Equals(productID)
+                                   select f;
+
+            int budget = 0;
+
+            //Summerize the budgets
+            foreach (FinancialIncome fi in financialIncomes)
+            {
+                budget =+ (int)fi.Budget;
+            }
+
+            return budget;
+        }
+
+        // Calculate utfall acc
+        private int CalculateUtfallAcc(DateTime month, string productId)
+        {
+            int outcomeAcc = 0;
+
+            // Get all incomes
+            var icps = from d in db.IncomeProductCustomer
+                       where d.IeProductID.Equals(productId)
+                       where d.IeIncomeDate.Month <= month.Month
+                       orderby d.IeIncomeDate.Month descending
+                       select d;
+
+            List<string> tempCustomer = new List<string>();
+
+            foreach (var icp in icps)
+            {
+                if (!tempCustomer.Contains(icp.IeCustomerID))
+                {
+                    tempCustomer.Add(icp.IeCustomerID);
+                    outcomeAcc += ~icp.IeAmount + 1;
+                }
+            }
+
+            return outcomeAcc;
         }
 
         private int CalculateOutcomeMonth(int month, string productId)
@@ -320,7 +368,7 @@ namespace Logic_Layer.FollowUp
                     else
                         tempAmount.AddRange(tempICP);
 
-                    if (tempAmount.Count() >= 2)
+                    if (tempAmount.Count() == 2)
                         y = (~tempAmount[0].IeAmount + 1) - (~tempAmount[1].IeAmount + 1);
                     else
                         y = ~tempAmount[0].IeAmount + 1;
@@ -329,63 +377,39 @@ namespace Logic_Layer.FollowUp
             return y;
         }
 
-        private int? GetForecastValue(int month, string productId)
+        /// <summary>
+        /// Get saved "Prognos" values
+        /// </summary>
+        /// <param name="month"></param>
+        /// <param name="productId"></param>
+        /// <returns></returns>
+        private int? GetForecastValue(DateTime month, string productId)
         {
-            int? forecast = 0;
-
-            try
-            {
-                // Attempt to retrieve the 'former prognosis' value from the forecast value in a an item 
-                // with the same product id from the month before current month
-                string str = month.ToString(CultureInfo.InvariantCulture);
-
-                var items = from s in db.ForecastMonitor
-                            where s.ForecastMonitorMonthID.Equals(str)
-                            select s;
-
-                foreach (var item in items.Where(item => item.IeProductID.Equals(productId)))
-                {
-                    // Assign formerPrognosis the forecast value 
-                    forecast = item.Forecast;
-                }
-            }
-            catch (Exception)
-            {
-                forecast = 0;
-            }
-            return forecast;
+            //Return forecastmonitor (saved row values)
+            return db.ForecastMonitor.FirstOrDefault(f => f.IeProductID == productId && f.ForecastMonitorMonthID == month.Month.ToString("yyyymm")).Forecast;
         }
 
-        private int? CalculateFormerPrognosis(int month, string productID)
+        /// <summary>
+        /// Get saved "Upparbetat" values
+        /// </summary>
+        /// <param name="month"></param>
+        /// <param name="productId"></param>
+        /// <returns></returns>
+        private int? GetReprocessedValue(DateTime month, string productId)
         {
-            int minusMonth = 1;
-            if (month == 1)
-                minusMonth = 13;
+            string monthID = month.ToString("yyyyMM");
+            //Return forecastmonitor (saved row values)
+            ForecastMonitor test = db.ForecastMonitor.FirstOrDefault(f => f.IeProductID == productId && f.ForecastMonitorMonthID == monthID);
 
-            int? formerPrognosis = 0;
-
-            try
+            if (test != null)
             {
-                // Attempt to retrieve the 'former prognosis' value from the forecast value in a an item 
-                // with the same product id from the month before current month
-                int monthValue = month - minusMonth;
-                string str = monthValue.ToString(CultureInfo.InvariantCulture);
-
-                var items = from s in db.ForecastMonitor
-                            where s.ForecastMonitorMonthID.Equals(str)
-                            select s;
-
-                foreach (var item in items.Where(item => item.IeProductID.Equals(productID)))
-                {
-                    // Assign formerPrognosis the forecast value 
-                    formerPrognosis = item.Forecast;
-                }
+                return test.Reprocessed;
             }
-            catch (Exception)
+            else
             {
-                formerPrognosis = 0;
+                return 0;
             }
-            return formerPrognosis;
+            
         }
 
         /// <summary>
@@ -395,7 +419,7 @@ namespace Logic_Layer.FollowUp
         /// <param name="passedMonths"></param>
         public void CalculateTrend(Forecasting forecast, int passedMonths)
         {
-            forecast.Trend = (forecast.OutcomeAcc + forecast.Reprocessed) / passedMonths * 12;
+            forecast.Trend = ((forecast.OutcomeAcc + forecast.Reprocessed) / passedMonths) * 12;
             Forecasts.Single(f => f.Equals(forecast)).Trend = forecast.Trend;
         }
 
@@ -403,24 +427,25 @@ namespace Logic_Layer.FollowUp
         /// Locks a forecast
         /// </summary>
         /// <param name="month"></param>
-        public void LockForecast(int month)
+        public void LockForecast(DateTime month)
         {
-            var forecasts = db.ForecastMonitor.Select(s => s);
-            string strMonth = month.ToString(CultureInfo.InvariantCulture);
+            string monthID = month.ToString("yyyyMM");
 
-            foreach (var forecast in forecasts.Where(forecast => forecast.ForecastMonitorMonthID.Equals(strMonth) 
-                && forecast.ForecastMonth.ForecastLock == false))
-            {
-                forecast.ForecastMonth.ForecastLock = true;
-                db.SaveChanges();
-            }
+            var Forecast = db.ForecastMonth.FirstOrDefault(f => f.ForecastMonitorMonthID.Equals(monthID));
+
+            Forecast.ForecastLock = true;
+               
+            db.SaveChanges();
+             
         }
 
-        public bool CheckIfLocked(string id)
+        public bool CheckIfLocked(DateTime month)
         {
+            string monthID = month.ToString("yyyyMM");
+
             return db.ForecastMonitor.Any() && Enumerable.FirstOrDefault((
-                from item in db.ForecastMonitor 
-                where item.ForecastMonitorMonthID.Equals(id) 
+                from item in db.ForecastMonitor
+                where item.ForecastMonitorMonthID.Equals(monthID) 
                 select item.ForecastMonth.ForecastLock));
         }
     }

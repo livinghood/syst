@@ -5,26 +5,27 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="a5159bda9db24e068ab8a20d7650431d" Name="Diagram1">
-        <EntityTypeShape EntityType="BUPmodel.Account" Width="1.5" PointX="3" PointY="22" />
-        <EntityTypeShape EntityType="BUPmodel.Activity" Width="1.5" PointX="3" PointY="18.5" />
-        <EntityTypeShape EntityType="BUPmodel.ActivityPlacement" Width="1.5" PointX="5.25" PointY="18.375" />
-        <EntityTypeShape EntityType="BUPmodel.CostProduct" Width="1.5" PointX="0.75" PointY="4.625" />
-        <EntityTypeShape EntityType="BUPmodel.Customer" Width="1.5" PointX="6" PointY="5.875" />
-        <EntityTypeShape EntityType="BUPmodel.Department" Width="1.5" PointX="0.75" PointY="12" />
-        <EntityTypeShape EntityType="BUPmodel.DirectActivityCost" Width="1.5" PointX="8.25" PointY="18.375" />
-        <EntityTypeShape EntityType="BUPmodel.DirectProductCost" Width="1.5" PointX="5.25" PointY="14.75" />
-        <EntityTypeShape EntityType="BUPmodel.Employee" Width="1.5" PointX="3.75" PointY="4.5" />
-        <EntityTypeShape EntityType="BUPmodel.EmployeePlacement" Width="1.5" PointX="6" PointY="12" />
-        <EntityTypeShape EntityType="BUPmodel.ExpenseBudget" Width="1.5" PointX="3" PointY="0.75" />
-        <EntityTypeShape EntityType="BUPmodel.FinancialIncome" Width="1.5" PointX="8.25" PointY="11.25" />
-        <EntityTypeShape EntityType="BUPmodel.FinancialIncomeYear" Width="1.5" PointX="6" PointY="22.375" />
-        <EntityTypeShape EntityType="BUPmodel.ForecastMonitor" Width="1.5" PointX="11" PointY="2.875" />
-        <EntityTypeShape EntityType="BUPmodel.ForecastMonth" Width="1.5" PointX="8.75" PointY="3.375" />
-        <EntityTypeShape EntityType="BUPmodel.Product" Width="1.5" PointX="3" PointY="11.375" />
-        <EntityTypeShape EntityType="BUPmodel.ProductCategory" Width="1.5" PointX="0.75" PointY="15.25" />
-        <EntityTypeShape EntityType="BUPmodel.ProductGroup" Width="1.5" PointX="0.75" PointY="9" />
-        <EntityTypeShape EntityType="BUPmodel.ProductPlacement" Width="1.5" PointX="5.25" PointY="8.75" />
-        <EntityTypeShape EntityType="BUPmodel.UserAccount" Width="1.5" PointX="6" PointY="3" />
+        <EntityTypeShape EntityType="BUPmodel.Account" Width="1.5" PointX="10.773478656436074" PointY="13.840356266983019" />
+        <EntityTypeShape EntityType="BUPmodel.Activity" Width="1.5" PointX="10.963470769563443" PointY="6.009798350748512" />
+        <EntityTypeShape EntityType="BUPmodel.ActivityPlacement" Width="1.5" PointX="7.1891390025565114" PointY="19.17235837279463" />
+        <EntityTypeShape EntityType="BUPmodel.CostProduct" Width="1.5" PointX="7.3324903060367745" PointY="31.830917000691834" />
+        <EntityTypeShape EntityType="BUPmodel.Customer" Width="1.5" PointX="4.0422192253369" PointY="0.600358575862068" />
+        <EntityTypeShape EntityType="BUPmodel.Department" Width="1.5" PointX="7.57603387887405" PointY="3.8398440051078069" />
+        <EntityTypeShape EntityType="BUPmodel.DirectActivityCost" Width="1.5" PointX="2.1701653963747272" PointY="17.190596975940558" />
+        <EntityTypeShape EntityType="BUPmodel.DirectProductCost" Width="1.5" PointX="11.042383325771608" PointY="12.148469632560605" />
+        <EntityTypeShape EntityType="BUPmodel.Employee" Width="1.5" PointX="9.99988017883146" PointY="13.349469042080207" />
+        <EntityTypeShape EntityType="BUPmodel.EmployeePlacement" Width="1.5" PointX="10.443038764616027" PointY="14.333271703838031" />
+        <EntityTypeShape EntityType="BUPmodel.ExpenseBudget" Width="1.5" PointX="3.8546206317165028" PointY="3.9827322978445947" />
+        <EntityTypeShape EntityType="BUPmodel.FinancialIncome" Width="1.5" PointX="11.886379094741484" PointY="14.220360822146926" />
+        <EntityTypeShape EntityType="BUPmodel.FinancialIncomeYear" Width="1.5" PointX="8.7117793675101272" PointY="20.866639534415043" />
+        <EntityTypeShape EntityType="BUPmodel.ForecastMonitor" Width="1.5" PointX="2.5007047646216605" PointY="16.726208590309234" />
+        <EntityTypeShape EntityType="BUPmodel.ForecastMonth" Width="1.5" PointX="1.4107396497441176" PointY="8.3912604788277587" />
+        <EntityTypeShape EntityType="BUPmodel.IncomeProductCustomer" Width="1.5" PointX="7.2594440873989114" PointY="0.85887241403519754" />
+        <EntityTypeShape EntityType="BUPmodel.Product" Width="1.5" PointX="8.0272209979720515" PointY="10.08015279941268" />
+        <EntityTypeShape EntityType="BUPmodel.ProductCategory" Width="1.5" PointX="5.5701207097480641" PointY="8.8585688066010224" />
+        <EntityTypeShape EntityType="BUPmodel.ProductGroup" Width="1.5" PointX="9.0444428217804251" PointY="2.7347234351256504" />
+        <EntityTypeShape EntityType="BUPmodel.ProductPlacement" Width="1.5" PointX="10.274663020984578" PointY="20.993128160477209" />
+        <EntityTypeShape EntityType="BUPmodel.UserAccount" Width="1.5" PointX="0.40636303667275375" PointY="16.035350330190429" />
         <AssociationConnector Association="BUPmodel.FK_DirectActivityCost_Account" />
         <AssociationConnector Association="BUPmodel.FK_DirectProductCost_Account" />
         <AssociationConnector Association="BUPmodel.FK_Activity_Department" />
@@ -48,7 +49,6 @@
         <AssociationConnector Association="BUPmodel.FK_Product_ProductCategory" />
         <AssociationConnector Association="BUPmodel.FK_Product_ProductGroup" />
         <AssociationConnector Association="BUPmodel.FK_ProductPlacement_Product" />
-        <EntityTypeShape EntityType="BUPmodel.IncomeProductCustomer" Width="1.5" PointX="8.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

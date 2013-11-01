@@ -18,9 +18,6 @@ namespace Logic_Layer.FollowUp
 
         public string IeProductName { get; set; }
         public string IeProductID { get; set; }
-        public string CustomerName { get; set; }
-        public string CustomerID { get; set; }
-        public int Amount { get; set; }
         public int? Budget { get; set; }
         public int OutcomeMonth { get; set; }
         public int OutcomeAcc { get; set; }
@@ -28,7 +25,6 @@ namespace Logic_Layer.FollowUp
         public int? FormerPrognosis { get; set; }
         public int? Forecast { get; set; }
         public int? ForecastBudget { get; set; }
-        public DateTime Date { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
