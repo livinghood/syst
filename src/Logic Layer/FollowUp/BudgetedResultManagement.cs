@@ -124,11 +124,9 @@ namespace Logic_Layer.FollowUp
                     var product = db.Product.Single(p => p.ProductID.Equals(objectID));
                     gfu.ObjectName = product.ProductName;
 
-                    foreach (var p in db.DirectProductCost.Where(p => p.ProductID.Equals(objectID)))
-                    {
-                        gfu.Costs += p.ProductCost;
-                        gfu.Revenues += 5;     // Vart kommer denna ifrån? 
-                    }
+                    gfu.Costs = (int)GetDirectProductCost(objectID);
+                    gfu.Revenues = GetRevenueByProduct(objectID);
+               
                     gfu.Result = gfu.Revenues - gfu.Costs;
                     break;
 
@@ -219,8 +217,20 @@ namespace Logic_Layer.FollowUp
             return totalSallary;
         }
 
-        public decimal GetCalculatedDirectProductCost()
-        {
+        public decimal GetDirectProductCost(string productID)
+        {//DIREKTA KOSTNADER FÖR PRODUKT
+            decimal sum = 0;
+            foreach (DirectProductCost dp in Logic_Layer.Cost_Budgeting_Logic.DCPPDManagement.Instance.DirectProductCosts)
+            {
+                if (dp.Product.ProductID.Equals(productID))
+                    sum += dp.ProductCost;
+            }
+                
+            return sum;
+        }
+
+        public decimal GetCalculatedDirectProductCosts()
+        {//DIREKTA KOSTNADER FÖR PRODUCTER
             decimal sum = 0;
             foreach (DirectProductCost dp in Logic_Layer.Cost_Budgeting_Logic.DCPPDManagement.Instance.DirectProductCosts)
                 sum += dp.ProductCost;
@@ -229,7 +239,7 @@ namespace Logic_Layer.FollowUp
 
         public decimal GetCalculatedTotalProductionCostByDepartment(string departmentID)
         {//PRODUKTIONSKOSTNAD PER AVDELNING
-            return (GetAnnualEmployeeAtProductByDepartment(departmentID) * GetTotalCalculatedSchablonCost()) + GetEmployeeSallaryCostByDepartment(departmentID) + GetCalculatedDirectProductCost();
+            return (GetAnnualEmployeeAtProductByDepartment(departmentID) * GetTotalCalculatedSchablonCost()) + GetEmployeeSallaryCostByDepartment(departmentID) + GetCalculatedDirectProductCosts();
         }
 
         public decimal GetCalculatedTotalProductionCost()
