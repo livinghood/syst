@@ -129,5 +129,24 @@ namespace Logic_Layer
         {
             db.Entry(activity).State = EntityState.Unchanged;
         }
+
+        //--------------------------------------------------------------------------------
+
+        public void AddActivityPlacement(ActivityPlacement activityPlacement)
+        {
+            activityPlacement.ExpenseBudgetID = Cost_Budgeting_Logic.ExpenseBudgetManagement.Instance.GetExpenseBudgetID();
+            db.ActivityPlacement.Add(activityPlacement);
+            db.SaveChanges();
+        }
+
+        public IEnumerable<ActivityPlacement> GetActivityPlacementsByEmployee(Employee employee)
+        {
+            var activityplacements = from a in db.ActivityPlacement
+                                    where a.EmployeeID == employee.EmployeeID
+                                    select a;
+
+            return activityplacements;
+        }
+
     }
 }

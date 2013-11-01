@@ -3,24 +3,22 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Årsarbetere Per Aktivitet" Height="450" Width="840">
     <Grid>
-        <DataGrid AutoGenerateColumns="False" Height="318" x:Name="dataGrid1" VerticalAlignment="Top" Margin="0,46,477,0" IsSynchronizedWithCurrentItem="True">
+        <DataGrid AutoGenerateColumns="False" Height="318" x:Name="dgEmployee" VerticalAlignment="Top" Margin="0,46,475,0" ItemsSource="{Binding EmployeeList}" IsReadOnly="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Namn" MinWidth="40" Width="120" />
-                <DataGridTextColumn Header="Årsarbetare" MinWidth="40" />
-                <DataGridTextColumn Header="Diff" MinWidth="40" />
-                <DataGridTextColumn Header="Totalt" MinWidth="40" Width="120" />
+                <DataGridTextColumn Header="Namn" MinWidth="40" Width="120" Binding="{Binding EmployeeName}" />
+                <DataGridTextColumn Header="Årsarbetare" MinWidth="40" Binding="{Binding AnnualRate}" />
+                <DataGridTextColumn Header="Diff" MinWidth="40" Binding="{Binding Diff}" />
+                <DataGridTextColumn Header="Totalt" MinWidth="40" Width="120" Binding="{Binding Total}" />
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Skapa Exceldokument" Height="23" HorizontalAlignment="Left" Margin="88,380,0,0" x:Name="button3" VerticalAlignment="Top" Width="140" />
-        <Button Content="Skriv ut" Height="23" HorizontalAlignment="Left" Margin="8,380,0,0" x:Name="button5" VerticalAlignment="Top" Width="75" />
-        <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,11,369,0" x:Name="comboBox1" SelectedIndex="0" Text="Välj..." VerticalAlignment="Top" Width="230">
-            <ComboBoxItem Content="Välj..." />
-        </ComboBox>
-        <Label Content="Välj avdelning" Height="28" Margin="10,10,604,0" x:Name="label1" VerticalAlignment="Top" />
-        <DataGrid AutoGenerateColumns="False" Height="318" x:Name="dataGrid1_Copy" VerticalAlignment="Top" Margin="355,46,2,0"/>
-        <Button Content="Spara" HorizontalAlignment="Left" Margin="743,383,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="Avbryt" HorizontalAlignment="Left" Margin="663,383,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="Välj aktivitet" HorizontalAlignment="Left" Margin="468,13,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="Lås kostnadbudget" HorizontalAlignment="Left" Margin="716,10,0,0" VerticalAlignment="Top" Width="104"/>
+        <Button Content="Skapa Exceldokument" Height="23" HorizontalAlignment="Left" Margin="88,380,0,0" x:Name="button3" VerticalAlignment="Top" Width="116" IsEnabled="False" />
+        <Button Content="Skriv ut" Height="23" HorizontalAlignment="Left" Margin="8,380,0,0" x:Name="button5" VerticalAlignment="Top" Width="75" IsEnabled="False" />
+        <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,11,367,0" x:Name="cbDepartments" SelectedIndex="0" Text="Välj..." VerticalAlignment="Top" Width="230" ItemsSource="{Binding Departments}" DisplayMemberPath="DepartmentName" SelectionChanged="cbDepartments_SelectionChanged"/>
+        <Label Content="Välj avdelning" Height="28" Margin="10,10,602,0" x:Name="lblChooseDepartment" VerticalAlignment="Top" />
+        <DataGrid Height="318" x:Name="dgActivityPlacements" VerticalAlignment="Top" Margin="355,46,0,0" ItemsSource="{Binding MyList}" AutoGenerateColumns="False" CanUserAddRows="False" />
+        <Button x:Name="btnSave" Content="Spara" HorizontalAlignment="Left" Margin="743,383,0,0" VerticalAlignment="Top" Width="75" Click="btnSave_Click"/>
+        <Button x:Name="btnCancel" Content="Avbryt" HorizontalAlignment="Left" Margin="663,383,0,0" VerticalAlignment="Top" Width="75" IsCancel="True"/>
+        <Button x:Name="btnChooseActivity" Content="Välj aktivitet" HorizontalAlignment="Left" Margin="468,13,0,0" VerticalAlignment="Top" Width="75" Click="btnChooseAktivity_Click"/>
+        <Button x:Name="btnLock" Content="Lås kostnadbudget" HorizontalAlignment="Left" Margin="716,10,0,0" VerticalAlignment="Top" Width="104" Click="btnLock_Click"/>
     </Grid>
 </Window>

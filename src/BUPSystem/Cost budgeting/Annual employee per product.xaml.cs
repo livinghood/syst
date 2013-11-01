@@ -22,7 +22,6 @@ namespace BUPSystem.Kostnadsbudgetering
     /// </summary>
     public partial class AnnualEmployeeViaProduct : Window
     {
-        // List to be used in the combobox
         private ObservableCollection<Employee> m_EmployeeList = new ObservableCollection<Employee>();
         public ObservableCollection<Employee> EmployeeList { get { return m_EmployeeList; } }
 
@@ -30,7 +29,7 @@ namespace BUPSystem.Kostnadsbudgetering
 
         public ObservableCollection<ProductPlacement> ProductPlacementList { get; set; }
 
-        public ObservableCollection<DataItem> MyList { get; set; }
+        public ObservableCollection<DataItemProduct> MyList { get; set; }
 
         public ObservableCollection<Department> Departments { get { return EmployeeManagement.Instance.Departments;} }
 
@@ -43,7 +42,7 @@ namespace BUPSystem.Kostnadsbudgetering
             DataContext = this;
             Logic_Layer.Cost_Budgeting_Logic.ExpenseBudgetManagement.Instance.DoesExpenseBudgetExist();
 
-            MyList = new ObservableCollection<DataItem>();
+            MyList = new ObservableCollection<DataItemProduct>();
             ProductPlacementList = new ObservableCollection<ProductPlacement>();
             SelectedProducts = new ObservableCollection<Product>();
             //EmployeeList = new ObservableCollection<Employee>();
@@ -116,7 +115,7 @@ namespace BUPSystem.Kostnadsbudgetering
                     {
                         if (dgc.Header.Equals(p.Product.ProductName))
                         {
-                            foreach (DataItem di in MyList)
+                            foreach (DataItemProduct di in MyList)
                             {
                                 if (di.EmployeeID == e.EmployeeID)
                                 {
@@ -136,7 +135,7 @@ namespace BUPSystem.Kostnadsbudgetering
                         continue;
                     DataGridTextColumn productColumn = new DataGridTextColumn();
                     productColumn.Header = p.Product.ProductName;
-                    foreach (DataItem di in MyList)
+                    foreach (DataItemProduct di in MyList)
                     {
                         ProductPlacement pp = new ProductPlacement() { EmployeeID = di.EmployeeID, ProductID = p.ProductID, ProductAllocate = 0 };
                         if (di.EmployeeID == e.EmployeeID)
@@ -172,7 +171,7 @@ namespace BUPSystem.Kostnadsbudgetering
         {
             DataGridTextColumn productColumn = new DataGridTextColumn();
             productColumn.Header = p.ProductName;
-                foreach (DataItem di in MyList)
+                foreach (DataItemProduct di in MyList)
                 {
                     ProductPlacement pp = new ProductPlacement() { EmployeeID = di.EmployeeID, ProductID = p.ProductID, ProductAllocate = 0 };
                     di.DataList.Add(pp);
@@ -186,7 +185,7 @@ namespace BUPSystem.Kostnadsbudgetering
         {
             foreach (Employee e in EmployeeList)
             {
-                var m = new DataItem() { EmployeeID = e.EmployeeID };
+                var m = new DataItemProduct() { EmployeeID = e.EmployeeID };
                 MyList.Add(m);
             }
         }
@@ -233,16 +232,23 @@ namespace BUPSystem.Kostnadsbudgetering
                 dgProductPlacements.IsReadOnly = true;
                 btnChooseProduct.IsEnabled = false;
             }
+            else
+            {
+                btnLock.IsEnabled = true;
+                btnSave.IsEnabled = true;
+                dgActivityPlacements.IsReadOnly = false;
+                btnChooseActivity.IsEnabled = true;
+            }
         }
 
     }
 
 
-    public class DataItem
+    public class DataItemProduct
     {   //KLASS FÖR ATT LÄGGA TILL EGNA RADER
         public long EmployeeID { get; set; }
         public ObservableCollection<ProductPlacement> DataList { get; set; }
-        public DataItem()
+        public DataItemProduct()
         {
             this.DataList = new ObservableCollection<ProductPlacement>();
         }

@@ -239,6 +239,12 @@ namespace BUPSystem.Kostnadsbudgetering
                 btnSelectProduct.Visibility = Visibility.Collapsed;
                 dgDPPC.IsReadOnly = true;
             }
+            else
+            {
+                btnLock.IsEnabled = true;
+                btnSelectProduct.Visibility = Visibility.Visible;
+                dgDPPC.IsReadOnly = false;
+            }
         }
 
         private void cbDepartments_SelectionChanged(object sender, SelectionChangedEventArgs e)
