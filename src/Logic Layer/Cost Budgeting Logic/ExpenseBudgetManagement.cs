@@ -83,7 +83,7 @@ namespace Logic_Layer.Cost_Budgeting_Logic
         /// Method to lock an expense budget
         /// </summary>
         /// <returns></returns>
-        public bool LockExpenseBudget()
+        public bool LockDirectExpenseBudget(string departmentID)
         {
             int id = GetExpenseBudgetID();
             var expensbudget = db.ExpenseBudget.FirstOrDefault(e => e.ExpenseBudgetID.Equals(id));
@@ -91,8 +91,21 @@ namespace Logic_Layer.Cost_Budgeting_Logic
             // Found the expense budget
             if (expensbudget != null)
             {
-                // The first digit in production lock indicates whether DCPPD is locked or not
-                expensbudget.ProductionLock += 100;
+                switch (departmentID)
+                {
+                    case "AO":
+                        expensbudget.SellLock += 1;
+                        break;
+                    case "DA":
+                        expensbudget.SellLock += 10;
+                        break;
+                    case "FO":
+                        expensbudget.SellLock += 100;
+                        break;
+                    case "UF":
+                        expensbudget.SellLock += 1000;
+                        break;
+                }
                 db.SaveChanges();
                 return true;
             }
@@ -128,10 +141,36 @@ namespace Logic_Layer.Cost_Budgeting_Logic
             return false;
         }
 
-        public int IsExpenseBudgetLocked()
+        public bool IsDirectExpenseBudgetLocked(string departmentID)
         {
             int id = GetExpenseBudgetID();
-            return db.ExpenseBudget.FirstOrDefault(e => e.ExpenseBudgetID.Equals(id)).ProductionLock;
+            var expensbudget = db.ExpenseBudget.FirstOrDefault(e => e.ExpenseBudgetID.Equals(id));
+
+            // Found the expense budget
+            if (expensbudget != null)
+            {
+                string s_id = expensbudget.SellLock.ToString();
+                switch (departmentID)
+                {
+                    case "AO":
+                        if (s_id[0].Equals("1"))
+                            return true;
+                        break;
+                    case "DA":
+                        if (s_id[1].Equals("1"))
+                            return true;
+                        break;
+                    case "FO":
+                        if (s_id[2].Equals("1"))
+                            return true;
+                        break;
+                    case "UF":
+                        if (s_id[3].Equals("1"))
+                            return true;
+                        break;
+                }
+            }
+            return false;
         }
 
         public bool IsAnnualExpenseBudgetLocked(string departmentID)

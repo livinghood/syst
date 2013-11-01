@@ -31,6 +31,8 @@ namespace BUPSystem.Kostnadsbudgetering
             get { return AccountManagement.Instance.Accounts; }
         }
 
+        public string DepartmentID { get; set; }
+
         /// <summary>
         /// Standard constructor
         /// </summary>
@@ -52,9 +54,7 @@ namespace BUPSystem.Kostnadsbudgetering
             //brnLock är alltid låst från början. Enablas när produktionschefen loggar in, 
             //utifall den är låst i databasen(100, 101) så diseables knappen för honom också.
 
-            int isLocked = ExpenseBudgetManagement.Instance.IsExpenseBudgetLocked();
-
-            if (isLocked == 100 || isLocked == 101)
+            if (ExpenseBudgetManagement.Instance.IsDirectExpenseBudgetLocked(DepartmentID))
             {
                 btnLock.IsEnabled = false;
             }
@@ -145,8 +145,7 @@ namespace BUPSystem.Kostnadsbudgetering
 
                 if (upl == UserPermissionLevels.Driftschef)
                 {
-                    bool success = ExpenseBudgetManagement.Instance.LockExpenseBudget();
-                    if (success)
+                    if (ExpenseBudgetManagement.Instance.LockDirectExpenseBudget(DepartmentID))
                     {
                         MessageBox.Show("Kostnadsbudgeten har låsts", "Låsning lyckades");
                     }

@@ -42,25 +42,60 @@ namespace BUPSystem.Kostnadsbudgetering
             InitializeComponent();
             DataContext = this;
 
+            Logic_Layer.UserAccount userAccount = null;
 
-            // ALLT NEDANFÖR SKALL IN I EGEN OPERATION SOM ANROPAS IFRÅN COMBOBOXEN
-            // OM DET ÄR ADMIN, ANNARS SKALL DET SKE AUTOMATISKT
+            userAccount = UserManagement.Instance.GetUserAccountByUsername(System.Threading.Thread.CurrentPrincipal.Identity.Name);
 
-            DepartmentID = "UF";
+            switch (userAccount.PermissionLevel)
+            {
+                //Administrativ Chef
+                case 0:
+                    DepartmentID = "AO";
+                    cbDepartments.Visibility = Visibility.Collapsed;
+                    lblChooseDepartment.Visibility = Visibility.Collapsed;
+                    LoadEmployees();
+                    break;
+                //Drift Chef
+                case 4:
+                    DepartmentID = "DA";
+                    cbDepartments.Visibility = Visibility.Collapsed;
+                    lblChooseDepartment.Visibility = Visibility.Collapsed;
+                    LoadEmployees();
+                    break;
+                //Försäljning Chef
+                case 2:
+                    DepartmentID = "FO";
+                    cbDepartments.Visibility = Visibility.Collapsed;
+                    lblChooseDepartment.Visibility = Visibility.Collapsed;
+                    LoadEmployees();
+                    break;
+                //Utveckling Chef
+                case 7:
+                    DepartmentID = "UF";
+                    cbDepartments.Visibility = Visibility.Collapsed;
+                    lblChooseDepartment.Visibility = Visibility.Collapsed;
+                    LoadEmployees();
+                    break;
+                //System Admin
+                case 5:
+                    break;
+            }
+        }
+
+        private void LoadEmployees()
+        {
+            dgEmployee.Items.Clear();
+            dgProductPlacements.Items.Clear();
 
             MyList = new ObservableCollection<DataItem>();
-
             ProductPlacementList = new ObservableCollection<ProductPlacement>();
-
             SelectedProducts = new ObservableCollection<Product>();
 
             EmployeeList = new ObservableCollection<Employee>(EmployeeManagement.Instance.GetEmployeeByDepartment(DepartmentID));
-
+            
             CalculateAttributeForEachEmployee();
             CreateRow();
-            
             LoadExistingPlacements();
-            
         }
 
         /// <summary>
@@ -175,6 +210,7 @@ namespace BUPSystem.Kostnadsbudgetering
             if (!IsLoaded)
                 return;
             DepartmentID = Departments[cbDepartments.SelectedIndex].DepartmentID;
+            LoadEmployees();
         }
 
         private void btnLock_Click(object sender, RoutedEventArgs e)
