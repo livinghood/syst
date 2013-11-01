@@ -171,7 +171,7 @@ namespace BUPSystem.Kostnadsbudgetering
         {
             DirectProductCosts.Clear();
             account = dgAccounts.SelectedItem as Account;
-            DirectProductCosts = new ObservableCollection<DirectProductCost>(DCPPDManagement.Instance.GetAccounts(account, DepartmentID));
+            DirectProductCosts = new ObservableCollection<DirectProductCost>(DCPPDManagement.Instance.GetDirectProductCostByAccount(account, DepartmentID));
             dgDPPC.ItemsSource = DirectProductCosts;
             lblSum.Content = "Summa: " + DCPPDManagement.Instance.CalculateSum(account, DepartmentID);
             btnSelectProduct.IsEnabled = true;

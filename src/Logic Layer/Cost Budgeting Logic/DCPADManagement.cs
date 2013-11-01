@@ -72,13 +72,14 @@ namespace Logic_Layer.Cost_Budgeting_Logic
         /// </summary>
         /// <param name="account"></param>
         /// <returns></returns>
-        public IEnumerable<DirectActivityCost> GetAccounts(Account account, string departmentID)
+        public IEnumerable<DirectActivityCost> GetDirectActivityCostByAccounts(Account account, string departmentID)
         {
             return from u in db.DirectActivityCost
                    where u.AccountID == account.AccountID
                    where u.Activity.DepartmentID == departmentID
                    select u;
         }
+
 
         /// <summary>
         /// Method to check if user attempts to add an activity that is already connected to the selected account
@@ -139,7 +140,7 @@ namespace Logic_Layer.Cost_Budgeting_Logic
 
         public string CalculateSum(Account acc, string departmentID)
         {
-            var query = GetAccounts(acc, departmentID);
+            var query = GetDirectActivityCostByAccounts(acc, departmentID);
             int sum = Enumerable.Sum(query, directActivityCost => directActivityCost.ActivityCost);
             return sum.ToString(CultureInfo.InvariantCulture);
         }
