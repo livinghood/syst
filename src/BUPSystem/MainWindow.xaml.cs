@@ -201,7 +201,8 @@ namespace BUPSystem
                         btnPersonalhantering.Visibility = Visibility.Collapsed;
                         btnAnvändarhantering.Visibility = Visibility.Collapsed;
                         btnKontohantering.Visibility = Visibility.Collapsed;
-                        gKbudget.Visibility = Visibility.Collapsed;
+                        btnDKPAA.Visibility = Visibility.Collapsed;
+                        btnÅrsarbetarePerAktivitet.Visibility = Visibility.Collapsed;
                         btnNonBudgetedProducts.Visibility = Visibility.Collapsed;
                         break;
 
