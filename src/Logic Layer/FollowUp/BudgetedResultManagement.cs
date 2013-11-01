@@ -272,5 +272,20 @@ namespace Logic_Layer.FollowUp
             return GetCalculatedTotalAFFOCost() / GetCalculatedTotalProductionCost();
         }
 
+        public int GetRevenueByProduct(string productID)
+        {//RETURNERAR INTÄKT PER PRODUKT
+            return FollowUp.ForecastingManagement.Instance.GetIncomeByProduct(productID);
+        }
+
+        public int GetCalculatedTotalRevenue()
+        {//RETURNERAR INTÄKT PÅ ALLA PRODUKTER
+            int sum = 0;
+            foreach (Product product in ProductList)
+            {
+                sum += GetRevenueByProduct(product.ProductID);
+            }
+            return sum;
+        }
+
     }
 }

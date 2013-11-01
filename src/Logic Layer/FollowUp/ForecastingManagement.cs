@@ -448,5 +448,29 @@ namespace Logic_Layer.FollowUp
                 where item.ForecastMonitorMonthID.Equals(monthID) 
                 select item.ForecastMonth.ForecastLock));
         }
+
+        public int GetIncomeByProduct(string productID)
+        {
+            int outcomeAcc = 0;
+
+            var icps = from d in db.IncomeProductCustomer
+                       where d.IeProductID.Equals(productID)
+                       orderby d.IeIncomeDate.Month descending
+                       select d;
+
+            List<string> tempCustomer = new List<string>();
+
+            foreach (var icp in icps)
+            {
+                if (!tempCustomer.Contains(icp.IeCustomerID))
+                {
+                    tempCustomer.Add(icp.IeCustomerID);
+                    outcomeAcc += ~icp.IeAmount + 1;
+                }
+            }
+
+            return outcomeAcc;
+        }
+
     }
 }
