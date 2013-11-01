@@ -113,6 +113,7 @@
     <Compile Include="FinancialIncomeYear.cs">
       <DependentUpon>BUPdb.tt</DependentUpon>
     </Compile>
+    <Compile Include="FollowUp\BudgetResultManagement.cs" />
     <Compile Include="FollowUp\Forecasting.cs" />
     <Compile Include="FollowUp\ForecastingManagement.cs" />
     <Compile Include="ForecastMonitor.cs">

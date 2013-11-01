@@ -113,7 +113,7 @@ namespace BUPSystem.Kostnadsbudgetering
                 product = pr.SelectedProduct;
 
                 // Check if user attempts to add a product that is already connected to the selected account
-                bool productConnected = DCPPDManagement.Instance.CheckIfProductConnected(product.ProductID);
+                bool productConnected = DCPPDManagement.Instance.CheckIfProductConnected(product.ProductID, DepartmentID);
 
                 if (productConnected)
                 {
@@ -131,7 +131,7 @@ namespace BUPSystem.Kostnadsbudgetering
 
                 DCPPDManagement.Instance.SaveNewProduct(objToAdd, dgAccounts.SelectedItem as Account);
             }
-            lblSum.Content = "Summa: " + DCPPDManagement.Instance.CalculateSum(account);
+            lblSum.Content = "Summa: " + DCPPDManagement.Instance.CalculateSum(account, DepartmentID);
         }
 
         /// <summary>
@@ -171,9 +171,9 @@ namespace BUPSystem.Kostnadsbudgetering
         {
             DirectProductCosts.Clear();
             account = dgAccounts.SelectedItem as Account;
-            DirectProductCosts = new ObservableCollection<DirectProductCost>(DCPPDManagement.Instance.GetAccounts(account));
+            DirectProductCosts = new ObservableCollection<DirectProductCost>(DCPPDManagement.Instance.GetAccounts(account, DepartmentID));
             dgDPPC.ItemsSource = DirectProductCosts;
-            lblSum.Content = "Summa: " + DCPPDManagement.Instance.CalculateSum(account);
+            lblSum.Content = "Summa: " + DCPPDManagement.Instance.CalculateSum(account, DepartmentID);
             btnSelectProduct.IsEnabled = true;
         }
 
@@ -228,7 +228,7 @@ namespace BUPSystem.Kostnadsbudgetering
         private void dgDPPC_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
         {
             DCPPDManagement.Instance.SaveEditing(objToAdd, dgAccounts.SelectedItem as Account);
-            lblSum.Content = "Summa: " + DCPPDManagement.Instance.CalculateSum(account);
+            lblSum.Content = "Summa: " + DCPPDManagement.Instance.CalculateSum(account, DepartmentID);
         }
 
         private void LockedSettings()

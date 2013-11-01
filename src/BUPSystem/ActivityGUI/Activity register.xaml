@@ -23,9 +23,9 @@
         </ListView>
         <Button Content="Ändra" Height="23" HorizontalAlignment="Left" Margin="10,270,0,0" x:Name="btnChange" VerticalAlignment="Top" Width="88" Click="btnChange_Click" />
         <Button Content="Ta bort" Height="23" HorizontalAlignment="Left" Margin="103,270,0,0" x:Name="btnDelete" VerticalAlignment="Top" Width="80" Click="btnDelete_Click" />
-        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,270,11,10">
-            <Button Content="Lägg till" Height="23" HorizontalAlignment="Left" Margin="0,0,0,0" x:Name="btnAdd" VerticalAlignment="Top" Width="91" Click="btnAddActivity_Click" />
-            <Button Content="Välj" Height="23" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="btnSelect" VerticalAlignment="Top" Width="75"  />
+        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,270,11,5">
+            <Button Content="Lägg till" Height="22" HorizontalAlignment="Left" Margin="0,0,0,0" x:Name="btnAdd" VerticalAlignment="Top" Width="91" Click="btnAddActivity_Click" />
+            <Button Content="Välj" HorizontalAlignment="Left" Margin="5,0,0,0" x:Name="btnSelect" Width="75" Click="btnSelect_Click" Height="22" VerticalAlignment="Top"  />
         </StackPanel>
     </Grid>
 </Window>

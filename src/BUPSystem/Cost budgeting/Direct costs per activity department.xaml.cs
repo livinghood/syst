@@ -106,9 +106,9 @@ namespace BUPSystem.Kostnadsbudgetering
         {
             DirectActivityCosts.Clear();
             account = dgAccounts.SelectedItem as Account;
-            DirectActivityCosts = new ObservableCollection<DirectActivityCost>(DCPADManagement.Instance.GetAccounts(account));
+            DirectActivityCosts = new ObservableCollection<DirectActivityCost>(DCPADManagement.Instance.GetAccounts(account, DepartmentID));
             dgDCPAD.ItemsSource = DirectActivityCosts;
-            lblSum.Content = "Summa: " + DCPADManagement.Instance.CalculateSum(account);
+            lblSum.Content = "Summa: " + DCPADManagement.Instance.CalculateSum(account, DepartmentID);
             btnAddActivity.IsEnabled = true;
         }
 
@@ -150,7 +150,7 @@ namespace BUPSystem.Kostnadsbudgetering
         private void dgDCPAD_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
         {
             DCPADManagement.Instance.SaveEditing(objToAdd, dgAccounts.SelectedItem as Account);
-            lblSum.Content = "Summa: " + DCPADManagement.Instance.CalculateSum(account);
+            lblSum.Content = "Summa: " + DCPADManagement.Instance.CalculateSum(account, DepartmentID);
         }
 
         /// <summary>
@@ -200,7 +200,7 @@ namespace BUPSystem.Kostnadsbudgetering
         /// <param name="e"></param>
         private void btnAddActivity_Click(object sender, RoutedEventArgs e)
         {
-            ActivityGUI.ActivityRegister ar = new ActivityGUI.ActivityRegister();
+            ActivityGUI.ActivityRegister ar = new ActivityGUI.ActivityRegister(true);
             ar.ShowDialog();
 
             if (ar.DialogResult == true)
@@ -208,7 +208,7 @@ namespace BUPSystem.Kostnadsbudgetering
                 activity = ar.Activity;
 
                 // Check if user attempts to add a product that is already connected to the selected account
-                bool activityConnected = DCPADManagement.Instance.CheckIfActivityConnected(activity.ActivityID);
+                bool activityConnected = DCPADManagement.Instance.CheckIfActivityConnected(activity.ActivityID, DepartmentID);
 
                 if (activityConnected)
                 {
@@ -225,7 +225,7 @@ namespace BUPSystem.Kostnadsbudgetering
                 };
                 DCPADManagement.Instance.SaveNewActivity(objToAdd, dgAccounts.SelectedItem as Account);
             }
-            lblSum.Content = "Summa: " + DCPADManagement.Instance.CalculateSum(account);
+            lblSum.Content = "Summa: " + DCPADManagement.Instance.CalculateSum(account, DepartmentID);
         }
 
         private void LockedSettings()

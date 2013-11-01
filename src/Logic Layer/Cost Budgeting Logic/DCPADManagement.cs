@@ -72,10 +72,11 @@ namespace Logic_Layer.Cost_Budgeting_Logic
         /// </summary>
         /// <param name="account"></param>
         /// <returns></returns>
-        public IEnumerable<DirectActivityCost> GetAccounts(Account account)
+        public IEnumerable<DirectActivityCost> GetAccounts(Account account, string departmentID)
         {
             return from u in db.DirectActivityCost
                    where u.AccountID == account.AccountID
+                   where u.Activity.DepartmentID == departmentID
                    select u;
         }
 
@@ -84,10 +85,10 @@ namespace Logic_Layer.Cost_Budgeting_Logic
         /// </summary>
         /// <param name="activityID"></param>
         /// <returns></returns>
-        public bool CheckIfActivityConnected(string activityID)
+        public bool CheckIfActivityConnected(string activityID, string departmentID)
         {
             return DirectActivityCosts.Any
-                (directActivityCost => directActivityCost.ActivityID.Equals(activityID));
+                (directActivityCost => directActivityCost.ActivityID.Equals(activityID) && directActivityCost.Activity.DepartmentID.Equals(departmentID));
         }
 
         /// <summary>
@@ -136,9 +137,9 @@ namespace Logic_Layer.Cost_Budgeting_Logic
             CreateDirectActivityCosts(objToAdd);
         }
 
-        public string CalculateSum(Account acc)
+        public string CalculateSum(Account acc, string departmentID)
         {
-            var query = GetAccounts(acc);
+            var query = GetAccounts(acc, departmentID);
             int sum = Enumerable.Sum(query, directActivityCost => directActivityCost.ActivityCost);
             return sum.ToString(CultureInfo.InvariantCulture);
         }
