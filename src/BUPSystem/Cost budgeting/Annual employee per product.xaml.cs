@@ -23,8 +23,8 @@ namespace BUPSystem.Kostnadsbudgetering
     public partial class AnnualEmployeeViaProduct : Window
     {
         // List to be used in the combobox
-
-        public ObservableCollection<Employee> EmployeeList { get; set; }
+        private ObservableCollection<Employee> m_EmployeeList = new ObservableCollection<Employee>();
+        public ObservableCollection<Employee> EmployeeList { get { return m_EmployeeList; } }
 
         public ObservableCollection<Product> SelectedProducts { get; set; }
 
@@ -41,30 +41,23 @@ namespace BUPSystem.Kostnadsbudgetering
         {   //FÖR TESTNING SÅ SKICKAS DEPARTMENTID MED SOM UF
             InitializeComponent();
             DataContext = this;
+            Logic_Layer.Cost_Budgeting_Logic.ExpenseBudgetManagement.Instance.DoesExpenseBudgetExist();
 
+            MyList = new ObservableCollection<DataItem>();
+            ProductPlacementList = new ObservableCollection<ProductPlacement>();
+            SelectedProducts = new ObservableCollection<Product>();
+            //EmployeeList = new ObservableCollection<Employee>();
+
+            Logic_Layer.Cost_Budgeting_Logic.ExpenseBudgetManagement.Instance.DoesExpenseBudgetExist();
             Logic_Layer.UserAccount userAccount = null;
 
             userAccount = UserManagement.Instance.GetUserAccountByUsername(System.Threading.Thread.CurrentPrincipal.Identity.Name);
 
             switch (userAccount.PermissionLevel)
             {
-                //Administrativ Chef
-                case 0:
-                    DepartmentID = "AO";
-                    cbDepartments.Visibility = Visibility.Collapsed;
-                    lblChooseDepartment.Visibility = Visibility.Collapsed;
-                    LoadEmployees();
-                    break;
                 //Drift Chef
                 case 4:
                     DepartmentID = "DA";
-                    cbDepartments.Visibility = Visibility.Collapsed;
-                    lblChooseDepartment.Visibility = Visibility.Collapsed;
-                    LoadEmployees();
-                    break;
-                //Försäljning Chef
-                case 2:
-                    DepartmentID = "FO";
                     cbDepartments.Visibility = Visibility.Collapsed;
                     lblChooseDepartment.Visibility = Visibility.Collapsed;
                     LoadEmployees();
@@ -78,22 +71,33 @@ namespace BUPSystem.Kostnadsbudgetering
                     break;
                 //System Admin
                 case 5:
+                    DepartmentID = "DA";
+                    break;
+                //Ekonomichef
+                case 1:
+                    DepartmentID = "DA";
+                    btnLock.IsEnabled = false;
+                    btnSave.IsEnabled = false;
+                    dgProductPlacements.IsReadOnly = true;
+                    btnChooseProduct.IsEnabled = false;
                     break;
             }
+            LockedSettings();
         }
 
         private void LoadEmployees()
         {
-            dgEmployee.Items.Clear();
-            dgProductPlacements.Items.Clear();
+            dgProductPlacements.Columns.Clear();
+            EmployeeList.Clear();
+            MyList.Clear();
+            ProductPlacementList.Clear();
+            SelectedProducts.Clear();
 
-            MyList = new ObservableCollection<DataItem>();
-            ProductPlacementList = new ObservableCollection<ProductPlacement>();
-            SelectedProducts = new ObservableCollection<Product>();
+            foreach(Employee e in EmployeeManagement.Instance.GetEmployeeAtributes(DepartmentID))
+            {
+                m_EmployeeList.Add(e);
+            }
 
-            EmployeeList = new ObservableCollection<Employee>(EmployeeManagement.Instance.GetEmployeeByDepartment(DepartmentID));
-            
-            CalculateAttributeForEachEmployee();
             CreateRow();
             LoadExistingPlacements();
         }
@@ -143,15 +147,6 @@ namespace BUPSystem.Kostnadsbudgetering
                     productColumn.Binding = new Binding("DataList[" + dgProductPlacements.Columns.Count + "].ProductAllocate");
                     dgProductPlacements.Columns.Add(productColumn);
                 }
-            }
-        }
-
-        private void CalculateAttributeForEachEmployee()
-        {
-            if (EmployeeList != null)
-            {
-                ObservableCollection<Employee> tempEmployees = new ObservableCollection<Employee>(EmployeeList);
-                EmployeeList = EmployeeManagement.Instance.CalculateEmployeeAtributes(tempEmployees);
             }
         }
 
@@ -211,14 +206,37 @@ namespace BUPSystem.Kostnadsbudgetering
                 return;
             DepartmentID = Departments[cbDepartments.SelectedIndex].DepartmentID;
             LoadEmployees();
+            LockedSettings();
         }
 
         private void btnLock_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult mbr = MessageBox.Show("Vill du verkligen låsa denna budgeten?", "Låsa årsarbetare", MessageBoxButton.YesNo);
+            if (mbr == MessageBoxResult.Yes)
+            {
+                if (Logic_Layer.Cost_Budgeting_Logic.ExpenseBudgetManagement.Instance.LockAnnualExpenseBudget(DepartmentID))
+                {
+                    LockedSettings();
+                    MessageBox.Show("Årsarbetare per produkt är nu låst");
+                }
+                else
+                    MessageBox.Show("Låsningen misslyckades");
+            }
+        }
 
+        private void LockedSettings()
+        {
+            if (Logic_Layer.Cost_Budgeting_Logic.ExpenseBudgetManagement.Instance.IsAnnualExpenseBudgetLocked(DepartmentID))
+            {
+                btnLock.IsEnabled = false;
+                btnSave.IsEnabled = false;
+                dgProductPlacements.IsReadOnly = true;
+                btnChooseProduct.IsEnabled = false;
+            }
         }
 
     }
+
 
     public class DataItem
     {   //KLASS FÖR ATT LÄGGA TILL EGNA RADER

@@ -59,8 +59,10 @@ namespace Logic_Layer.Cost_Budgeting_Logic
         /// Creates a new expense budget
         /// </summary>
         /// <param name="eb"></param>
-        public void Create(ExpenseBudget eb)
+        private void CreateExpenseBudget()
         {
+            ExpenseBudget eb = new ExpenseBudget();
+            eb.ExpenseBudgetID = GetExpenseBudgetID();
             eb.SellLock = 10000;
             eb.ProductionLock = 10000;
             db.ExpenseBudget.Add(eb);
@@ -71,12 +73,14 @@ namespace Logic_Layer.Cost_Budgeting_Logic
         /// Checks if an expense budget exists in the database
         /// </summary>
         /// <returns></returns>
-        public bool DoesExpenseBudgetExist()
+        public void DoesExpenseBudgetExist()
         {
             int id = GetExpenseBudgetID();
 
             var query = db.ExpenseBudget.Where(p => p.ExpenseBudgetID.Equals(id));
-            return query.Any();
+            if (!query.Any())
+                CreateExpenseBudget();
+
         }
 
         /// <summary>
@@ -153,19 +157,19 @@ namespace Logic_Layer.Cost_Budgeting_Logic
                 switch (departmentID)
                 {
                     case "AO":
-                        if (s_id[0].Equals("1"))
+                        if (s_id[4] == '1')
                             return true;
                         break;
                     case "DA":
-                        if (s_id[1].Equals("1"))
+                        if (s_id[3] == '1')
                             return true;
                         break;
                     case "FO":
-                        if (s_id[2].Equals("1"))
+                        if (s_id[2] == '1')
                             return true;
                         break;
                     case "UF":
-                        if (s_id[3].Equals("1"))
+                        if (s_id[1] == '1')
                             return true;
                         break;
                 }
@@ -185,19 +189,19 @@ namespace Logic_Layer.Cost_Budgeting_Logic
                 switch (departmentID)
                 {
                     case "AO":
-                        if (s_id[0].Equals("1"))
+                        if (s_id[4] == '1')
                             return true;
                         break;
                     case "DA":
-                        if (s_id[1].Equals("1"))
+                        if (s_id[3] == '1')
                             return true;
                         break;
                     case "FO":
-                        if (s_id[2].Equals("1"))
+                        if (s_id[2] == '1')
                             return true;
                         break;
                     case "UF":
-                        if (s_id[3].Equals("1"))
+                        if (s_id[1] == '1')
                             return true;
                         break;
                 }

@@ -31,6 +31,8 @@ namespace BUPSystem.Kostnadsbudgetering
             get { return AccountManagement.Instance.Accounts; }
         }
 
+        public ObservableCollection<Department> Departments { get { return EmployeeManagement.Instance.Departments; } }
+
         public string DepartmentID { get; set; }
 
         /// <summary>
@@ -40,6 +42,41 @@ namespace BUPSystem.Kostnadsbudgetering
         {
             InitializeComponent();
             DataContext = this;
+            Logic_Layer.Cost_Budgeting_Logic.ExpenseBudgetManagement.Instance.DoesExpenseBudgetExist();
+
+            Logic_Layer.Cost_Budgeting_Logic.ExpenseBudgetManagement.Instance.DoesExpenseBudgetExist();
+            Logic_Layer.UserAccount userAccount = null;
+
+            userAccount = UserManagement.Instance.GetUserAccountByUsername(System.Threading.Thread.CurrentPrincipal.Identity.Name);
+
+            switch (userAccount.PermissionLevel)
+            {
+                //Administrativ Chef
+                case 0:
+                    DepartmentID = "AO";
+                    cbDepartments.Visibility = Visibility.Collapsed;
+                    lblChooseDepartment.Visibility = Visibility.Collapsed;
+                    break;
+                //Försäljning Chef
+                case 2:
+                    DepartmentID = "FO";
+                    cbDepartments.Visibility = Visibility.Collapsed;
+                    lblChooseDepartment.Visibility = Visibility.Collapsed;
+                    break;
+                //System Admin
+                case 5:
+                    DepartmentID = "AO";
+                    break;
+                //Ekonomichef
+                case 1:
+                    DepartmentID = "AO";
+                    btnLock.IsEnabled = false;
+                    btnAddActivity.Visibility = Visibility.Collapsed;
+                    dgDCPAD.IsReadOnly = true;
+                    break;
+            }
+            
+            LockedSettings();
         }
 
         /// <summary>
@@ -147,6 +184,7 @@ namespace BUPSystem.Kostnadsbudgetering
                 {
                     if (ExpenseBudgetManagement.Instance.LockDirectExpenseBudget(DepartmentID))
                     {
+                        LockedSettings();
                         MessageBox.Show("Kostnadsbudgeten har låsts", "Låsning lyckades");
                     }
                     else
@@ -188,6 +226,24 @@ namespace BUPSystem.Kostnadsbudgetering
                 DCPADManagement.Instance.SaveNewActivity(objToAdd, dgAccounts.SelectedItem as Account);
             }
             lblSum.Content = "Summa: " + DCPADManagement.Instance.CalculateSum(account);
+        }
+
+        private void LockedSettings()
+        {
+            if (Logic_Layer.Cost_Budgeting_Logic.ExpenseBudgetManagement.Instance.IsDirectExpenseBudgetLocked(DepartmentID))
+            {
+                btnLock.IsEnabled = false;
+                btnAddActivity.Visibility = Visibility.Collapsed;
+                dgDCPAD.IsReadOnly = true;
+            }
+        }
+
+        private void cbDepartments_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!IsLoaded)
+                return;
+            DepartmentID = Departments[cbDepartments.SelectedIndex].DepartmentID;
+            LockedSettings();
         }
     }
 }

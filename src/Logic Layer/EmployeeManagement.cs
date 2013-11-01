@@ -62,8 +62,10 @@ namespace Logic_Layer
             return employees;
         }
 
-        public ObservableCollection<Employee> CalculateEmployeeAtributes(ObservableCollection<Employee> employees)
+        public ObservableCollection<Employee> GetEmployeeAtributes(string departmentID)
         {
+            ObservableCollection<Employee> employees = new ObservableCollection<Employee>(GetEmployeeByDepartment(departmentID));
+
             foreach (Employee e in employees)
             {
                 e.AnnualRate = (e.EmployeementRate - (Convert.ToInt32(e.VacancyDeduction * 100)));
