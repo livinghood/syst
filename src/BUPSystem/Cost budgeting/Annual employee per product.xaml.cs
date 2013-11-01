@@ -236,8 +236,8 @@ namespace BUPSystem.Kostnadsbudgetering
             {
                 btnLock.IsEnabled = true;
                 btnSave.IsEnabled = true;
-                dgActivityPlacements.IsReadOnly = false;
-                btnChooseActivity.IsEnabled = true;
+                dgProductPlacements.IsReadOnly = false;
+                btnChooseProduct.IsEnabled = true;
             }
         }
 
