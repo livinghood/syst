@@ -3,18 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="BudgetedResult" Height="470.6" Width="850">
     <Grid>
-        <GroupBox Header="Välj" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="100" Width="117">
-            <Grid HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="117" Margin="0,0,-12,-22">
-                <RadioButton x:Name="rbProduct" Content="Produkt" HorizontalAlignment="Left" VerticalAlignment="Top" Checked="rbProduct_Checked"/>
-                <RadioButton x:Name="rbCompany" Content="Företag" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,60,0,0" Checked="rbCompany_Checked"/>
-                <RadioButton x:Name="rbDepartment" Content="Avdelning" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,40,0,0" Checked="rbDepartment_Checked"/>
-                <RadioButton x:Name="rbProductGroup" Content="Produktgrupp" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,20,0,0" Checked="rbProductGroup_Checked"/>
-            </Grid>
-        </GroupBox>
-        <DataGrid x:Name="dgResults" HorizontalAlignment="Left" Margin="10,115,0,0" VerticalAlignment="Top" Height="325" Width="354" IsReadOnly="True"/>
-        <Grid Margin="391,115,29,170">
-            <Label x:Name="lblName" Content="Namn" HorizontalAlignment="Left" Margin="158,0,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="lblIncomes" Content="Intäkter" HorizontalAlignment="Left" Margin="0,60,0,0" VerticalAlignment="Top"/>
+        <Grid Margin="359,50,48,0" Height="148" VerticalAlignment="Top">
+            <Label x:Name="lblRevenues" Content="Intäkter" HorizontalAlignment="Left" Margin="0,60,0,0" VerticalAlignment="Top"/>
             <Label x:Name="lblCosts" Content="Kostnader" HorizontalAlignment="Left" Margin="0,91,0,0" VerticalAlignment="Top"/>
             <Path Data="M391,201 L772.02389,206" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="4" Margin="3.384,115.923,-0.408,0" Stretch="Fill" Stroke="Black" VerticalAlignment="Top" Width="382.024" StrokeThickness="4" RenderTransformOrigin="0.5,0.5">
                 <Path.RenderTransform>
@@ -27,11 +17,29 @@
                 </Path.RenderTransform>
             </Path>
             <Label x:Name="lblResult" Content="Resultat" HorizontalAlignment="Left" Margin="0,122,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblObject" Content="Produkt" HorizontalAlignment="Left" Margin="39,29,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblRevenuesSum" Content="Siffra" HorizontalAlignment="Left" Margin="94,62,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblResultSum" Content="Siffra" HorizontalAlignment="Left" Margin="94,122,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="lblCostsSum" Content="Siffra" HorizontalAlignment="Left" Margin="94,91,0,0" VerticalAlignment="Top"/>
 
         </Grid>
-        <Button Content="Skriv ut" HorizontalAlignment="Left" Margin="757,410,0,0" VerticalAlignment="Top" Width="75" IsEnabled="False"/>
-        <Button Content="Skapa exceldokument" HorizontalAlignment="Left" Margin="617,410,0,0" VerticalAlignment="Top" Width="135" IsEnabled="False"/>
-        <Button x:Name="btnCancel" Content="Avbryt" HorizontalAlignment="Left" Margin="481,410,0,0" VerticalAlignment="Top" Width="131" IsCancel="True"/>
+        <Button x:Name="btnPrint" Content="Skriv ut" HorizontalAlignment="Left" Margin="696,355,0,0" VerticalAlignment="Top" Width="75" IsEnabled="False"/>
+        <Button x:Name="btnExcel" Content="Skapa exceldokument" HorizontalAlignment="Left" Margin="540,355,0,0" VerticalAlignment="Top" Width="135" IsEnabled="False"/>
+        <GroupBox Header="Välj" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Height="100" Width="117">
+            <Grid HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="117" Margin="0,0,-12,-22">
+                <RadioButton x:Name="rbProduct" Content="Produkt" HorizontalAlignment="Left" VerticalAlignment="Top" Checked="rbProduct_Checked"/>
+                <RadioButton x:Name="rbCompany" Content="Företag" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,60,0,0"/>
+                <RadioButton x:Name="rbDepartment" Content="Avdelning" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,40,0,0" Checked="rbDepartment_Checked"/>
+                <RadioButton x:Name="rbProductGroup" Content="Produktgrupp" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,20,0,0" Checked="rbProductGroup_Checked"/>
+            </Grid>
+        </GroupBox>
+        <DataGrid x:Name="dgItems" HorizontalAlignment="Left" Margin="10,155,0,0" VerticalAlignment="Top" Height="220" Width="344" ItemsSource="{Binding GeneralFollowUps}" AutoGenerateColumns="False" SelectionChanged="dgItems_SelectionChanged" SelectedItem="{Binding GFU}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding ObjectID}" ClipboardContentBinding="{x:Null}" Header="ID"/>
+                <DataGridTextColumn Binding="{Binding ObjectName}" ClipboardContentBinding="{x:Null}" Header="Namn"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="btnCancel" Content="Avbryt" HorizontalAlignment="Left" Margin="401,355,0,0" VerticalAlignment="Top" Width="121" IsCancel="True"/>
 
     </Grid>
 </Window>

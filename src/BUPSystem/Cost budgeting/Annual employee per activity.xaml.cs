@@ -182,7 +182,20 @@ namespace BUPSystem.Kostnadsbudgetering
 
         private void btnChooseAktivity_Click(object sender, RoutedEventArgs e)
         {
+            ActivityRegister activityRegister = new ActivityRegister(true);
 
+            if (activityRegister.ShowDialog() == true)
+            {
+                if (SelectedActivities.Contains(activityRegister.Activity))
+                {
+                    MessageBox.Show("Du kan inte välja samma produkt flera gånger");
+                }
+                else
+                {
+                    SelectedActivities.Add(activityRegister.Activity);
+                    CreateColumn(activityRegister.Activity);
+                }
+            }
         }
 
         private void btnLock_Click(object sender, RoutedEventArgs e)

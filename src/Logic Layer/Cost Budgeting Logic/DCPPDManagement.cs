@@ -72,12 +72,20 @@ namespace Logic_Layer.Cost_Budgeting_Logic
         /// </summary>
         /// <param name="account"></param>
         /// <returns></returns>
-        public IEnumerable<DirectProductCost> GetAccounts(Account account, string departmentID)
+        public IEnumerable<DirectProductCost> GetDirectProductCostByAccount(Account account, string departmentID)
         {
             return from u in db.DirectProductCost
                    where u.AccountID == account.AccountID
                    where u.Product.DepartmentID == departmentID
                    select u;
+        }
+
+        public IEnumerable<Account> GetAccountsByDepartment(string departmentID)
+        {
+            return from a in db.Account
+                   join dp in db.DirectActivityCost on departmentID equals dp.Activity.DepartmentID
+                   where a.AccountID.Equals(dp.AccountID)
+                   select a;
         }
 
         /// <summary>
@@ -139,7 +147,7 @@ namespace Logic_Layer.Cost_Budgeting_Logic
 
         public string CalculateSum(Account acc, string departmentID)
         {
-            var query = GetAccounts(acc, departmentID);
+            var query = GetDirectProductCostByAccount(acc, departmentID);
             int sum = Enumerable.Sum(query, directProductCost => directProductCost.ProductCost);
             return sum.ToString(CultureInfo.InvariantCulture);
         }
