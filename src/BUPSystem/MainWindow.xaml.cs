@@ -187,7 +187,8 @@ namespace BUPSystem
                         btnAnvändarhantering.Visibility = Visibility.Collapsed;
                         btnKontohantering.Visibility = Visibility.Collapsed;
                         gIntakt.Visibility = Visibility.Collapsed;
-                        gKbudget.Visibility = Visibility.Collapsed;
+                        btnDirektKostnadPerProdukt.Visibility = Visibility.Collapsed;
+                        btnÅrsarbetarePerProdukt.Visibility = Visibility.Collapsed;
                         break;
 
                     // Ekonomichef
@@ -201,8 +202,8 @@ namespace BUPSystem
                         btnPersonalhantering.Visibility = Visibility.Collapsed;
                         btnAnvändarhantering.Visibility = Visibility.Collapsed;
                         btnKontohantering.Visibility = Visibility.Collapsed;
-                        btnDKPAA.Visibility = Visibility.Collapsed;
-                        btnÅrsarbetarePerAktivitet.Visibility = Visibility.Collapsed;
+                        btnDirektKostnadPerProdukt.Visibility = Visibility.Collapsed;
+                        btnÅrsarbetarePerProdukt.Visibility = Visibility.Collapsed;
                         btnNonBudgetedProducts.Visibility = Visibility.Collapsed;
                         break;
 
@@ -219,10 +220,9 @@ namespace BUPSystem
                         btnPersonalhantering.Visibility = Visibility.Collapsed;
                         btnAnvändarhantering.Visibility = Visibility.Collapsed;
                         btnKontohantering.Visibility = Visibility.Collapsed;
+                        btnÅrsarbetarePerAktivitet.Visibility = Visibility.Collapsed;
+                        btnDirektKostandPerAktivitet.Visibility = Visibility.Collapsed;
                         gIntakt.Visibility = Visibility.Collapsed;
-                        // DK??
-                        btnDKPAA.Visibility = Visibility.Collapsed;
-                        btnDKPPA.Visibility = Visibility.Collapsed;
                         break;
                    
                     // Systemadministratör
@@ -244,6 +244,8 @@ namespace BUPSystem
                         btnPersonalhantering.Visibility = Visibility.Collapsed;
                         btnAnvändarhantering.Visibility = Visibility.Collapsed;
                         btnKontohantering.Visibility = Visibility.Collapsed;
+                        btnDirektKostandPerAktivitet.Visibility = Visibility.Collapsed;
+                        btnÅrsarbetarePerAktivitet.Visibility = Visibility.Collapsed;
                         gIntakt.Visibility = Visibility.Collapsed;
                         break;
 
