@@ -99,34 +99,17 @@ namespace Logic_Layer.Cost_Budgeting_Logic
         {
             ExpenseBudget eb = null;
 
-            if (!ExpenseBudgetManagement.Instance.DoesExpenseBudgetExist())
+            int id = ExpenseBudgetManagement.Instance.GetExpenseBudgetID();
+
+            var listOfExpenseBudgets = ExpenseBudgetManagement.Instance.GetExpenseBudgets();
+
+            foreach (var expenseBudget in listOfExpenseBudgets.Where(expenseBudget => expenseBudget.ExpenseBudgetID.Equals(id)))
             {
-                eb = new ExpenseBudget
-                {
-                    ExpenseBudgetID = ExpenseBudgetManagement.Instance.GetExpenseBudgetID(),
-                    ProductionLock = 0,
-                    SellLock = 0
-                };
-
-                ExpenseBudgetManagement.Instance.Create(eb);
-                objToAdd.ExpenseBudgetID = eb.ExpenseBudgetID;
-                objToAdd.AccountID = account.AccountID;
-                CreateDirectActivityCosts(objToAdd);
+                eb = expenseBudget;
             }
-            else
-            {
-                int id = ExpenseBudgetManagement.Instance.GetExpenseBudgetID();
-
-                var listOfExpenseBudgets = ExpenseBudgetManagement.Instance.GetExpenseBudgets();
-
-                foreach (var expenseBudget in listOfExpenseBudgets.Where(expenseBudget => expenseBudget.ExpenseBudgetID.Equals(id)))
-                {
-                    eb = expenseBudget;
-                }
-                objToAdd.ExpenseBudgetID = eb.ExpenseBudgetID;
-                objToAdd.AccountID = account.AccountID;
-                Update();
-            }
+            objToAdd.ExpenseBudgetID = eb.ExpenseBudgetID;
+            objToAdd.AccountID = account.AccountID;
+            Update();
         }
 
         /// <summary>
@@ -139,27 +122,13 @@ namespace Logic_Layer.Cost_Budgeting_Logic
         {
             ExpenseBudget eb = null;
 
-            if (!ExpenseBudgetManagement.Instance.DoesExpenseBudgetExist())
+            int id = ExpenseBudgetManagement.Instance.GetExpenseBudgetID();
+
+            var listOfExpenseBudgets = ExpenseBudgetManagement.Instance.GetExpenseBudgets();
+
+            foreach (var expenseBudget in listOfExpenseBudgets.Where(expenseBudget => expenseBudget.ExpenseBudgetID.Equals(id)))
             {
-                eb = new ExpenseBudget
-                {
-                    ExpenseBudgetID = ExpenseBudgetManagement.Instance.GetExpenseBudgetID(),
-                    ProductionLock = 0,
-                    SellLock = 0
-                };
-
-                ExpenseBudgetManagement.Instance.Create(eb);
-            }
-            else
-            {
-                int id = ExpenseBudgetManagement.Instance.GetExpenseBudgetID();
-
-                var listOfExpenseBudgets = ExpenseBudgetManagement.Instance.GetExpenseBudgets();
-
-                foreach (var expenseBudget in listOfExpenseBudgets.Where(expenseBudget => expenseBudget.ExpenseBudgetID.Equals(id)))
-                {
-                    eb = expenseBudget;
-                }
+                eb = expenseBudget;
             }
             objToAdd.ExpenseBudgetID = eb.ExpenseBudgetID;
             objToAdd.AccountID = account.AccountID;

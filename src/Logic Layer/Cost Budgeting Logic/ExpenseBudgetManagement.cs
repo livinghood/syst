@@ -59,8 +59,10 @@ namespace Logic_Layer.Cost_Budgeting_Logic
         /// Creates a new expense budget
         /// </summary>
         /// <param name="eb"></param>
-        public void Create(ExpenseBudget eb)
+        private void CreateExpenseBudget()
         {
+            ExpenseBudget eb = new ExpenseBudget();
+            eb.ExpenseBudgetID = GetExpenseBudgetID();
             eb.SellLock = 10000;
             eb.ProductionLock = 10000;
             db.ExpenseBudget.Add(eb);
@@ -71,19 +73,21 @@ namespace Logic_Layer.Cost_Budgeting_Logic
         /// Checks if an expense budget exists in the database
         /// </summary>
         /// <returns></returns>
-        public bool DoesExpenseBudgetExist()
+        public void DoesExpenseBudgetExist()
         {
             int id = GetExpenseBudgetID();
 
             var query = db.ExpenseBudget.Where(p => p.ExpenseBudgetID.Equals(id));
-            return query.Any();
+            if (!query.Any())
+                CreateExpenseBudget();
+
         }
 
         /// <summary>
         /// Method to lock an expense budget
         /// </summary>
         /// <returns></returns>
-        public bool LockExpenseBudget()
+        public bool LockDirectExpenseBudget(string departmentID)
         {
             int id = GetExpenseBudgetID();
             var expensbudget = db.ExpenseBudget.FirstOrDefault(e => e.ExpenseBudgetID.Equals(id));
@@ -91,8 +95,21 @@ namespace Logic_Layer.Cost_Budgeting_Logic
             // Found the expense budget
             if (expensbudget != null)
             {
-                // The first digit in production lock indicates whether DCPPD is locked or not
-                expensbudget.ProductionLock += 100;
+                switch (departmentID)
+                {
+                    case "AO":
+                        expensbudget.SellLock += 1;
+                        break;
+                    case "DA":
+                        expensbudget.SellLock += 10;
+                        break;
+                    case "FO":
+                        expensbudget.SellLock += 100;
+                        break;
+                    case "UF":
+                        expensbudget.SellLock += 1000;
+                        break;
+                }
                 db.SaveChanges();
                 return true;
             }
@@ -128,10 +145,36 @@ namespace Logic_Layer.Cost_Budgeting_Logic
             return false;
         }
 
-        public int IsExpenseBudgetLocked()
+        public bool IsDirectExpenseBudgetLocked(string departmentID)
         {
             int id = GetExpenseBudgetID();
-            return db.ExpenseBudget.FirstOrDefault(e => e.ExpenseBudgetID.Equals(id)).ProductionLock;
+            var expensbudget = db.ExpenseBudget.FirstOrDefault(e => e.ExpenseBudgetID.Equals(id));
+
+            // Found the expense budget
+            if (expensbudget != null)
+            {
+                string s_id = expensbudget.SellLock.ToString();
+                switch (departmentID)
+                {
+                    case "AO":
+                        if (s_id[4] == '1')
+                            return true;
+                        break;
+                    case "DA":
+                        if (s_id[3] == '1')
+                            return true;
+                        break;
+                    case "FO":
+                        if (s_id[2] == '1')
+                            return true;
+                        break;
+                    case "UF":
+                        if (s_id[1] == '1')
+                            return true;
+                        break;
+                }
+            }
+            return false;
         }
 
         public bool IsAnnualExpenseBudgetLocked(string departmentID)
@@ -146,19 +189,19 @@ namespace Logic_Layer.Cost_Budgeting_Logic
                 switch (departmentID)
                 {
                     case "AO":
-                        if (s_id[0].Equals("1"))
+                        if (s_id[4] == '1')
                             return true;
                         break;
                     case "DA":
-                        if (s_id[1].Equals("1"))
+                        if (s_id[3] == '1')
                             return true;
                         break;
                     case "FO":
-                        if (s_id[2].Equals("1"))
+                        if (s_id[2] == '1')
                             return true;
                         break;
                     case "UF":
-                        if (s_id[3].Equals("1"))
+                        if (s_id[1] == '1')
                             return true;
                         break;
                 }

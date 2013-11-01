@@ -22,15 +22,14 @@ namespace BUPSystem.Kostnadsbudgetering
     /// </summary>
     public partial class AnnualEmployeeViaProduct : Window
     {
-        // List to be used in the combobox
-
-        public ObservableCollection<Employee> EmployeeList { get; set; }
+        private ObservableCollection<Employee> m_EmployeeList = new ObservableCollection<Employee>();
+        public ObservableCollection<Employee> EmployeeList { get { return m_EmployeeList; } }
 
         public ObservableCollection<Product> SelectedProducts { get; set; }
 
         public ObservableCollection<ProductPlacement> ProductPlacementList { get; set; }
 
-        public ObservableCollection<DataItem> MyList { get; set; }
+        public ObservableCollection<DataItemProduct> MyList { get; set; }
 
         public ObservableCollection<Department> Departments { get { return EmployeeManagement.Instance.Departments;} }
 
@@ -41,26 +40,65 @@ namespace BUPSystem.Kostnadsbudgetering
         {   //FÖR TESTNING SÅ SKICKAS DEPARTMENTID MED SOM UF
             InitializeComponent();
             DataContext = this;
+            Logic_Layer.Cost_Budgeting_Logic.ExpenseBudgetManagement.Instance.DoesExpenseBudgetExist();
 
-
-            // ALLT NEDANFÖR SKALL IN I EGEN OPERATION SOM ANROPAS IFRÅN COMBOBOXEN
-            // OM DET ÄR ADMIN, ANNARS SKALL DET SKE AUTOMATISKT
-
-            DepartmentID = "UF";
-
-            MyList = new ObservableCollection<DataItem>();
-
+            MyList = new ObservableCollection<DataItemProduct>();
             ProductPlacementList = new ObservableCollection<ProductPlacement>();
-
             SelectedProducts = new ObservableCollection<Product>();
+            //EmployeeList = new ObservableCollection<Employee>();
 
-            EmployeeList = new ObservableCollection<Employee>(EmployeeManagement.Instance.GetEmployeeByDepartment(DepartmentID));
+            Logic_Layer.Cost_Budgeting_Logic.ExpenseBudgetManagement.Instance.DoesExpenseBudgetExist();
+            Logic_Layer.UserAccount userAccount = null;
 
-            CalculateAttributeForEachEmployee();
+            userAccount = UserManagement.Instance.GetUserAccountByUsername(System.Threading.Thread.CurrentPrincipal.Identity.Name);
+
+            switch (userAccount.PermissionLevel)
+            {
+                //Drift Chef
+                case 4:
+                    DepartmentID = "DA";
+                    cbDepartments.Visibility = Visibility.Collapsed;
+                    lblChooseDepartment.Visibility = Visibility.Collapsed;
+                    LoadEmployees();
+                    break;
+                //Utveckling Chef
+                case 7:
+                    DepartmentID = "UF";
+                    cbDepartments.Visibility = Visibility.Collapsed;
+                    lblChooseDepartment.Visibility = Visibility.Collapsed;
+                    LoadEmployees();
+                    break;
+                //System Admin
+                case 5:
+                    DepartmentID = "DA";
+                    break;
+                //Ekonomichef
+                case 1:
+                    DepartmentID = "DA";
+                    btnLock.IsEnabled = false;
+                    btnSave.IsEnabled = false;
+                    dgProductPlacements.IsReadOnly = true;
+                    btnChooseProduct.IsEnabled = false;
+                    break;
+            }
+            LockedSettings();
+        }
+
+        private void LoadEmployees()
+        {
+            dgProductPlacements.Columns.Clear();
+            EmployeeList.Clear();
+            MyList.Clear();
+            ProductPlacementList.Clear();
+            SelectedProducts.Clear();
+
+            foreach(Employee e in EmployeeManagement.Instance.GetEmployeeAtributes(DepartmentID))
+            {
+                m_EmployeeList.Add(e);
+            }
+
             CreateRow();
-            
             LoadExistingPlacements();
-            
         }
 
         /// <summary>
@@ -77,7 +115,7 @@ namespace BUPSystem.Kostnadsbudgetering
                     {
                         if (dgc.Header.Equals(p.Product.ProductName))
                         {
-                            foreach (DataItem di in MyList)
+                            foreach (DataItemProduct di in MyList)
                             {
                                 if (di.EmployeeID == e.EmployeeID)
                                 {
@@ -97,7 +135,7 @@ namespace BUPSystem.Kostnadsbudgetering
                         continue;
                     DataGridTextColumn productColumn = new DataGridTextColumn();
                     productColumn.Header = p.Product.ProductName;
-                    foreach (DataItem di in MyList)
+                    foreach (DataItemProduct di in MyList)
                     {
                         ProductPlacement pp = new ProductPlacement() { EmployeeID = di.EmployeeID, ProductID = p.ProductID, ProductAllocate = 0 };
                         if (di.EmployeeID == e.EmployeeID)
@@ -108,15 +146,6 @@ namespace BUPSystem.Kostnadsbudgetering
                     productColumn.Binding = new Binding("DataList[" + dgProductPlacements.Columns.Count + "].ProductAllocate");
                     dgProductPlacements.Columns.Add(productColumn);
                 }
-            }
-        }
-
-        private void CalculateAttributeForEachEmployee()
-        {
-            if (EmployeeList != null)
-            {
-                ObservableCollection<Employee> tempEmployees = new ObservableCollection<Employee>(EmployeeList);
-                EmployeeList = EmployeeManagement.Instance.CalculateEmployeeAtributes(tempEmployees);
             }
         }
 
@@ -142,7 +171,7 @@ namespace BUPSystem.Kostnadsbudgetering
         {
             DataGridTextColumn productColumn = new DataGridTextColumn();
             productColumn.Header = p.ProductName;
-                foreach (DataItem di in MyList)
+                foreach (DataItemProduct di in MyList)
                 {
                     ProductPlacement pp = new ProductPlacement() { EmployeeID = di.EmployeeID, ProductID = p.ProductID, ProductAllocate = 0 };
                     di.DataList.Add(pp);
@@ -156,7 +185,7 @@ namespace BUPSystem.Kostnadsbudgetering
         {
             foreach (Employee e in EmployeeList)
             {
-                var m = new DataItem() { EmployeeID = e.EmployeeID };
+                var m = new DataItemProduct() { EmployeeID = e.EmployeeID };
                 MyList.Add(m);
             }
         }
@@ -175,20 +204,51 @@ namespace BUPSystem.Kostnadsbudgetering
             if (!IsLoaded)
                 return;
             DepartmentID = Departments[cbDepartments.SelectedIndex].DepartmentID;
+            LoadEmployees();
+            LockedSettings();
         }
 
         private void btnLock_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult mbr = MessageBox.Show("Vill du verkligen låsa denna budgeten?", "Låsa årsarbetare", MessageBoxButton.YesNo);
+            if (mbr == MessageBoxResult.Yes)
+            {
+                if (Logic_Layer.Cost_Budgeting_Logic.ExpenseBudgetManagement.Instance.LockAnnualExpenseBudget(DepartmentID))
+                {
+                    LockedSettings();
+                    MessageBox.Show("Årsarbetare per produkt är nu låst");
+                }
+                else
+                    MessageBox.Show("Låsningen misslyckades");
+            }
+        }
 
+        private void LockedSettings()
+        {
+            if (Logic_Layer.Cost_Budgeting_Logic.ExpenseBudgetManagement.Instance.IsAnnualExpenseBudgetLocked(DepartmentID))
+            {
+                btnLock.IsEnabled = false;
+                btnSave.IsEnabled = false;
+                dgProductPlacements.IsReadOnly = true;
+                btnChooseProduct.IsEnabled = false;
+            }
+            else
+            {
+                btnLock.IsEnabled = true;
+                btnSave.IsEnabled = true;
+                dgActivityPlacements.IsReadOnly = false;
+                btnChooseActivity.IsEnabled = true;
+            }
         }
 
     }
 
-    public class DataItem
+
+    public class DataItemProduct
     {   //KLASS FÖR ATT LÄGGA TILL EGNA RADER
         public long EmployeeID { get; set; }
         public ObservableCollection<ProductPlacement> DataList { get; set; }
-        public DataItem()
+        public DataItemProduct()
         {
             this.DataList = new ObservableCollection<ProductPlacement>();
         }
