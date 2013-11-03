@@ -25,7 +25,7 @@
         </ListView>
         <Grid Margin="0,0,10,10" Height="24" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="487">
             <Button Content="Ändra " Height="23" HorizontalAlignment="Left" x:Name="btnChange" VerticalAlignment="Top" Width="75" Click="btnChange_Click" Margin="-3,0,0,0" />
-            <Button Content="Lägg till " Height="23" HorizontalAlignment="Left" Margin="412,1,0,0" x:Name="btnAdd" VerticalAlignment="Top" Width="75" Click="btnAdd_Click" />
+            <Button Content="Lägg till " Height="23" HorizontalAlignment="Right" Margin="0,1,0,0" x:Name="btnAdd" VerticalAlignment="Top" Width="75" Click="btnAdd_Click" />
             <Button Content="Ta bort" Height="23" HorizontalAlignment="Left" Margin="79,0,0,0" x:Name="btnDelete" VerticalAlignment="Top" Width="75" Click="btnDelete_Click" />
 
         </Grid>

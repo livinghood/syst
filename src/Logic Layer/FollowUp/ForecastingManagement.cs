@@ -77,11 +77,9 @@ namespace Logic_Layer.FollowUp
                 };
                 // Add object to db
                 db.ForecastMonth.Add(fcm);
-                
+
                 db.SaveChanges();
             }
-       
-
             return fcm;
         }
 
@@ -184,12 +182,10 @@ namespace Logic_Layer.FollowUp
         /// <returns></returns>
         public IEnumerable<IncomeProductCustomer> GetIPCsByMonth(DateTime month)
         {
-            var IncomeProductCustomer = from i in db.IncomeProductCustomer
-                                    where i.IeIncomeDate.Month == month.Month
-                                    where i.IeIncomeDate.Year == month.Year
-                                    select i;
-
-            return IncomeProductCustomer;
+            return from i in db.IncomeProductCustomer
+                   where i.IeIncomeDate.Month == month.Month
+                   where i.IeIncomeDate.Year == month.Year
+                   select i;
         }
 
         public void GetForecastsFromMonth(DateTime month)
@@ -225,7 +221,7 @@ namespace Logic_Layer.FollowUp
 
                     // Vi ska inte använda den här igen
                     tempProdukter.Add(IPC.IeProductID);
-                }  
+                }
             }
 
             //Forecasting fc = new Forecasting
@@ -285,7 +281,7 @@ namespace Logic_Layer.FollowUp
             //Summerize the budgets
             foreach (FinancialIncome fi in financialIncomes)
             {
-                budget =+ (int)fi.Budget;
+                budget = +(int)fi.Budget;
             }
 
             return budget;
@@ -305,13 +301,10 @@ namespace Logic_Layer.FollowUp
 
             List<string> tempCustomer = new List<string>();
 
-            foreach (var icp in icps)
+            foreach (var icp in icps.Where(icp => !tempCustomer.Contains(icp.IeCustomerID)))
             {
-                if (!tempCustomer.Contains(icp.IeCustomerID))
-                {
-                    tempCustomer.Add(icp.IeCustomerID);
-                    outcomeAcc += ~icp.IeAmount + 1;
-                }
+                tempCustomer.Add(icp.IeCustomerID);
+                outcomeAcc += ~icp.IeAmount + 1;
             }
 
             return outcomeAcc;
@@ -347,9 +340,9 @@ namespace Logic_Layer.FollowUp
         private int CalculateOutComeMonthCustomer(string ieCustomerId, IEnumerable<IncomeProductCustomer> icps, int month)
         {
             List<IncomeProductCustomer> tempICP = new List<IncomeProductCustomer>
-                (icps.Where(icp => icp.IeCustomerID.Equals(ieCustomerId) 
+                (icps.Where(icp => icp.IeCustomerID.Equals(ieCustomerId)
                     && icp.IeIncomeDate.Month <= month).OrderByDescending(s => s.IeIncomeDate));
-      
+
             int y = 0;
 
             if (tempICP.Any())
@@ -401,15 +394,7 @@ namespace Logic_Layer.FollowUp
             //Return forecastmonitor (saved row values)
             ForecastMonitor test = db.ForecastMonitor.FirstOrDefault(f => f.IeProductID == productId && f.ForecastMonitorMonthID == monthID);
 
-            if (test != null)
-            {
-                return test.Reprocessed;
-            }
-            else
-            {
-                return 0;
-            }
-            
+            return test != null ? test.Reprocessed : 0;
         }
 
         /// <summary>
@@ -434,9 +419,9 @@ namespace Logic_Layer.FollowUp
             var Forecast = db.ForecastMonth.FirstOrDefault(f => f.ForecastMonitorMonthID.Equals(monthID));
 
             Forecast.ForecastLock = true;
-               
+
             db.SaveChanges();
-             
+
         }
 
         public bool CheckIfLocked(DateTime month)
@@ -445,7 +430,7 @@ namespace Logic_Layer.FollowUp
 
             return db.ForecastMonitor.Any() && Enumerable.FirstOrDefault((
                 from item in db.ForecastMonitor
-                where item.ForecastMonitorMonthID.Equals(monthID) 
+                where item.ForecastMonitorMonthID.Equals(monthID)
                 select item.ForecastMonth.ForecastLock));
         }
 
@@ -460,13 +445,10 @@ namespace Logic_Layer.FollowUp
 
             List<string> tempCustomer = new List<string>();
 
-            foreach (var icp in icps)
+            foreach (var icp in icps.Where(icp => !tempCustomer.Contains(icp.IeCustomerID)))
             {
-                if (!tempCustomer.Contains(icp.IeCustomerID))
-                {
-                    tempCustomer.Add(icp.IeCustomerID);
-                    outcomeAcc += ~icp.IeAmount + 1;
-                }
+                tempCustomer.Add(icp.IeCustomerID);
+                outcomeAcc += ~icp.IeAmount + 1;
             }
 
             return outcomeAcc;

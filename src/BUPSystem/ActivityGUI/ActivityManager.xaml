@@ -5,7 +5,7 @@
         Title="Aktivitetshantering" Height="304" Width="390" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid x:Name="aktivitetshantering">
         <Label Content="Aktivitetsthantering" Height="39" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="label1" VerticalAlignment="Top" FontSize="20" />
-        <GroupBox Header="Standarduppgifter" Height="170" HorizontalAlignment="Left" Margin="12,54,0,0" x:Name="groupBox1" VerticalAlignment="Top" Width="360">
+        <GroupBox Header="Standarduppgifter" Height="170" Margin="10,54,10,0" x:Name="groupBox1" VerticalAlignment="Top">
             <Grid>
                 <TextBox Height="23" HorizontalAlignment="Left" Margin="127,10,0,0" x:Name="tbName" VerticalAlignment="Top" Width="208" >
                     <TextBox.Text>
@@ -52,7 +52,7 @@
                 <Label Content="Aktivitets-ID" Height="28" HorizontalAlignment="Left" Margin="10,109,0,0" x:Name="label2_Copy" VerticalAlignment="Top" />
             </Grid>
         </GroupBox>
-        <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="297,241,0,0" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click" >
+        <Button Content="Spara" HorizontalAlignment="Right" Margin="0,0,10,10" x:Name="btnSave" Width="75" Click="btnSave_Click" Height="23" VerticalAlignment="Bottom" >
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="IsEnabled" Value="false" />
@@ -70,7 +70,7 @@
                 </Style>
             </Button.Style>
         </Button>
-        <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="215,241,0,0" x:Name="btnCancel" VerticalAlignment="Top" Width="75" IsCancel="True" />
+        <Button Content="Avbryt" HorizontalAlignment="Right" Margin="0,0,90,10" x:Name="btnCancel" Width="75" IsCancel="True" Height="23" VerticalAlignment="Bottom" />
 
     </Grid>
 </Window>

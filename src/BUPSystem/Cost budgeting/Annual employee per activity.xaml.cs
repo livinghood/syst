@@ -47,9 +47,8 @@ namespace BUPSystem.Kostnadsbudgetering
             //EmployeeList = new ObservableCollection<Employee>();
 
             Logic_Layer.Cost_Budgeting_Logic.ExpenseBudgetManagement.Instance.DoesExpenseBudgetExist();
-            Logic_Layer.UserAccount userAccount = null;
 
-            userAccount = UserManagement.Instance.GetUserAccountByUsername(System.Threading.Thread.CurrentPrincipal.Identity.Name);
+            UserAccount userAccount = UserManagement.Instance.GetUserAccountByUsername(System.Threading.Thread.CurrentPrincipal.Identity.Name);
 
             switch (userAccount.PermissionLevel)
             {

@@ -17,7 +17,6 @@ namespace BUPSystem.Uppföljning
     {
         private bool saved;
         private bool isManual;
-        private int cbIndex;
 
         public ForecastMonth ForecastMonth;
 
@@ -30,9 +29,6 @@ namespace BUPSystem.Uppföljning
             InitializeComponent();
             DataContext = this;
             saved = true;
-            cbIndex = 0;
-
-
         }
 
         private void btnImportFile_Click(object sender, RoutedEventArgs e)
@@ -65,9 +61,9 @@ namespace BUPSystem.Uppföljning
             Forecasts.Clear();
 
             Months SelectedMonth;
-            Enum.TryParse<Months>(cbMonth.SelectedValue.ToString(), out SelectedMonth);
+            Enum.TryParse(cbMonth.SelectedValue.ToString(), out SelectedMonth);
 
-            DateTime month = new DateTime((int)DateTime.Now.Year, (int)SelectedMonth, 1);
+            DateTime month = new DateTime(DateTime.Now.Year, (int)SelectedMonth, 1);
 
             // Adda en month för att kunna låsa (addas bara om den inte finns)
             ForecastMonth = ForecastingManagement.Instance.AddForecastMonth(month);
@@ -86,12 +82,11 @@ namespace BUPSystem.Uppföljning
 
                 // Prevent user from editing when all months option is selected 
                 dgForecasts.IsEnabled = cbMonth.SelectedIndex != 0;
-                cbIndex = cbMonth.SelectedIndex;
 
                 Months SelectedMonth;
-                Enum.TryParse<Months>(cbMonth.SelectedValue.ToString(), out SelectedMonth);
+                Enum.TryParse(cbMonth.SelectedValue.ToString(), out SelectedMonth);
 
-                DateTime month = new DateTime((int)DateTime.Now.Year, (int)SelectedMonth, 1);
+                DateTime month = new DateTime(DateTime.Now.Year, (int)SelectedMonth, 1);
 
                 if (Forecasts.Any())
                 {
@@ -163,9 +158,9 @@ namespace BUPSystem.Uppföljning
             if (cbMonth.SelectedIndex > 0)
             {
                 Months SelectedMonth;
-                Enum.TryParse<Months>(cbMonth.SelectedValue.ToString(), out SelectedMonth);
+                Enum.TryParse(cbMonth.SelectedValue.ToString(), out SelectedMonth);
 
-                DateTime month = new DateTime((int)DateTime.Now.Year, (int)SelectedMonth, 1);
+                DateTime month = new DateTime(DateTime.Now.Year, (int)SelectedMonth, 1);
 
 
                 foreach (Forecasting fc in Forecasts)
@@ -184,9 +179,7 @@ namespace BUPSystem.Uppföljning
                             ForecastBudget = fc.Budget.ToString(),
                             Forecast = fc.Forecast
                         };
-
                         ForecastingManagement.Instance.AddForecastMonitor(newfm);
-
                     }
                     else
                     {
@@ -197,8 +190,7 @@ namespace BUPSystem.Uppföljning
                     }
                     ForecastingManagement.Instance.UpdateForecast();
                 }
-                
-                
+                           
                 //ForecastingManagement.Instance.AddForecast(cbMonth.SelectedIndex);
                 saved = true;
             }
@@ -209,16 +201,15 @@ namespace BUPSystem.Uppföljning
             // Prevent locking when all months option is selected 
             if (cbMonth.SelectedIndex > 0)
             {
-
                 Months SelectedMonth;
-                Enum.TryParse<Months>(cbMonth.SelectedValue.ToString(), out SelectedMonth);
+                Enum.TryParse(cbMonth.SelectedValue.ToString(), out SelectedMonth);
 
-                DateTime month = new DateTime((int)DateTime.Now.Year, (int)SelectedMonth, 1);
+                DateTime month = new DateTime(DateTime.Now.Year, (int)SelectedMonth, 1);
 
                 //Call method to lock forecast for the selected month
                 ForecastingManagement.Instance.LockForecast(month);
 
-                MessageBox.Show(string.Format("Uppföljning för månad {0} har låsts"), "Låst");
+                MessageBox.Show(string.Format("Uppföljning för månad {0} har låsts", month), "Låst");
             }
             else
                 MessageBox.Show("Du måste välja en enskild månad för låsning", "Välj en månad att låsa");

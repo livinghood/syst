@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -153,7 +154,7 @@ namespace Logic_Layer.Cost_Budgeting_Logic
             // Found the expense budget
             if (expensbudget != null)
             {
-                string s_id = expensbudget.SellLock.ToString();
+                string s_id = expensbudget.SellLock.ToString(CultureInfo.InvariantCulture);
                 switch (departmentID)
                 {
                     case "AO":
@@ -185,7 +186,7 @@ namespace Logic_Layer.Cost_Budgeting_Logic
             // Found the expense budget
             if (expensbudget != null)
             {
-                string s_id = expensbudget.SellLock.ToString();
+                string s_id = expensbudget.SellLock.ToString(CultureInfo.InvariantCulture);
                 switch (departmentID)
                 {
                     case "AO":

@@ -189,12 +189,9 @@ namespace Logic_Layer
 
         public IEnumerable<ProductPlacement> GetProductPlacementsByEmployee(Employee employee)
         {
-            var productplacements = from p in db.ProductPlacement
-                                    where p.EmployeeID == employee.EmployeeID
-                                    select p;
-
-            return productplacements;
+            return from p in db.ProductPlacement
+                   where p.EmployeeID == employee.EmployeeID
+                   select p;
         }
-
     }
 }

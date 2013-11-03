@@ -12,6 +12,8 @@ using System.Collections;
 using System.Linq;
 using System.Windows.Media;
 using System.Windows.Controls.Primitives;
+using Logic_Layer.General_Logic;
+using Microsoft.Win32;
 
 namespace BUPSystem.Revenue_budgeting
 {
@@ -283,6 +285,25 @@ namespace BUPSystem.Revenue_budgeting
                 }
             }
             return child;
+        }
+
+        private void btnExportTextFile_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog { Title = "Spara fil", Filter = @"TXT Filer | *.txt;", FileName = "BudgetProduktKund.txt" };
+            var result = sfd.ShowDialog();
+
+            if (result == true)
+            {
+                try
+                {
+                    RevenueManagement.Instance.ExportRevenueBudgetingToTextFile(sfd.FileName);
+                    MessageBox.Show("Intäktsbudgeten har sparats till textfil", "Sparad");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Error");
+                }
+            }
         }
     }
 }

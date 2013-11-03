@@ -2,7 +2,7 @@
         xmlns:local="clr-namespace:BUPSystem"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Produkthantering" Height="458" Width="390">
+        Title="Produkthantering" Height="440.932" Width="390">
     <Grid>
         <Label Content="Produkthantering" Height="42" HorizontalAlignment="Left" Margin="12,12,0,0" x:Name="label1" VerticalAlignment="Top" FontSize="20" />
         <GroupBox Header="Standarduppgifter" Height="172" HorizontalAlignment="Left" Margin="12,54,0,0" x:Name="groupBox1" VerticalAlignment="Top" Width="358">
@@ -50,7 +50,7 @@
                 </StackPanel>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Produktuppgifter" Height="156" Margin="12,242,0,0" x:Name="groupBox2" VerticalAlignment="Top" HorizontalAlignment="Left" Width="358">
+        <GroupBox Header="Produktuppgifter" Height="129" Margin="12,242,0,0" x:Name="groupBox2" VerticalAlignment="Top" HorizontalAlignment="Left" Width="358">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -58,7 +58,7 @@
 
                 <Grid x:Name="PartProductIDGrid" HorizontalAlignment="Left" Width="317" Margin="13,10,0,100">
                     <Label Content="DelproduktID" Height="28" HorizontalAlignment="Left" x:Name="lblDelID" VerticalAlignment="Top" Width="85" />
-                    <TextBox Height="23" HorizontalAlignment="Right" x:Name="tbPartProductID" VerticalAlignment="Top" Width="194" MaxLength="4" >
+                    <TextBox Height="23" HorizontalAlignment="Right" x:Name="tbPartProductID" VerticalAlignment="Bottom" Width="194" MaxLength="4" Margin="0,0,0,-23" >
                         <Binding Path="PartProductID" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
                                 <local:CheckProductIDFormatValidationRule x:Name="CheckProductIDFormatValidation" ValidatesOnTargetUpdated="True" />
@@ -90,7 +90,7 @@
                 </TextBox>
             </Grid>
         </GroupBox>
-        <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="297,403,0,0" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click">
+        <Button Content="Spara" Margin="0,0,10,10" x:Name="btnSave" Click="btnSave_Click" HorizontalAlignment="Right" Width="75" Height="23" VerticalAlignment="Bottom">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="IsEnabled" Value="false" />
@@ -110,7 +110,7 @@
                 </Style>
             </Button.Style>
         </Button>
-        <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="217,403,0,0" x:Name="btnCancel" VerticalAlignment="Top" Width="75" IsCancel="True" />
+        <Button Content="Avbryt" HorizontalAlignment="Right" Margin="0,0,90,10" x:Name="btnCancel" Width="75" IsCancel="True" Height="23" VerticalAlignment="Bottom" />
 
     </Grid>
 </Window>

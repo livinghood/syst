@@ -159,6 +159,13 @@ namespace BUPSystem
             {
                 lblUsername.Content = "Inloggad som: " + System.Threading.Thread.CurrentPrincipal.Identity.Name;
 
+                // Dessa fönster kraschar vid öppnande om man är inloggad som allmän
+                btnDirektKostandPerAktivitet.Visibility = Visibility.Collapsed;
+                btnDirektKostnadPerProdukt.Visibility = Visibility.Collapsed;
+                btnUppföljning.Visibility = Visibility.Collapsed;
+                btnÅrsarbetarePerAktivitet.Visibility = Visibility.Collapsed;
+                btnÅrsarbetarePerProdukt.Visibility = Visibility.Collapsed;
+
                 // Kommenterade för att testa (är korrekta)
 
                 //btnPersonalhantering.Visibility = Visibility.Collapsed;
@@ -169,13 +176,10 @@ namespace BUPSystem
             }
             else
             {
-                Logic_Layer.UserAccount userAccount = null;
-
-                userAccount = UserManagement.Instance.GetUserAccountByUsername(System.Threading.Thread.CurrentPrincipal.Identity.Name);
+                UserAccount userAccount = UserManagement.Instance.GetUserAccountByUsername(System.Threading.Thread.CurrentPrincipal.Identity.Name);
 
                 if (userAccount == null)
                     Application.Current.Shutdown();
-
 
                 lblUsername.Content = "Inloggad som: " + userAccount.Employee.EmployeeName;
 
@@ -249,8 +253,11 @@ namespace BUPSystem
                         gIntakt.Visibility = Visibility.Collapsed;
                         break;
 
+                    default:
+                        btnDirektKostandPerAktivitet.Visibility = Visibility.Collapsed;
+                        btnDirektKostnadPerProdukt.Visibility = Visibility.Collapsed;
+                        break;
                 }
-
             }
         }
 
