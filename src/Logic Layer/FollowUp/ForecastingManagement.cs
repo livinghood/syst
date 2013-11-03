@@ -210,8 +210,8 @@ namespace Logic_Layer.FollowUp
                         IeProductName = IPC.IeProductName,
                         OutcomeAcc = CalculateUtfallAcc(month, IPC.IeProductID),
                         Trend = ((CalculateUtfallAcc(month, IPC.IeProductID) + GetReprocessedValue(month, IPC.IeProductID)) / month.Month) * 12,
-                        //FormerPrognosis = CalculateFormerPrognosis(IPC.IeIncomeDate.Date.Month, IPC.IeProductID),
-                        //Forecast = GetForecastValue(IPC.IeIncomeDate.Date.Month, IPC.IeProductID),
+                        FormerPrognosis = GetFormerForecastValue(month, IPC.IeProductID),
+                        Forecast = GetForecastValue(month, IPC.IeProductID),
                         OutcomeMonth = CalculateOutcomeMonth(month.Month, IPC.IeProductID),
                         Budget = GetBudgetFromFinancialIncome(IPC.IeProductID),
                         Reprocessed = GetReprocessedValue(month, IPC.IeProductID)
@@ -385,8 +385,42 @@ namespace Logic_Layer.FollowUp
         /// <returns></returns>
         private int? GetForecastValue(DateTime month, string productId)
         {
+            string monthID = month.ToString("yyyyMM");
             //Return forecastmonitor (saved row values)
-            return db.ForecastMonitor.FirstOrDefault(f => f.IeProductID == productId && f.ForecastMonitorMonthID == month.Month.ToString("yyyymm")).Forecast;
+            var fm = db.ForecastMonitor.FirstOrDefault(f => f.IeProductID == productId && f.ForecastMonitorMonthID == monthID);
+
+            if (fm != null)
+            {
+                return fm.Forecast;
+            }
+            else
+            {
+                return 0;
+            }
+            
+        }
+
+        /// <summary>
+        /// Get forecast value from last month
+        /// </summary>
+        /// <param name="month"></param>
+        /// <param name="productId"></param>
+        /// <returns></returns>
+        private int? GetFormerForecastValue(DateTime month, string productId)
+        {
+            string monthID = month.AddMonths(-1).ToString("yyyyMM");
+            //Return forecastmonitor (saved row values)
+            var fm = db.ForecastMonitor.FirstOrDefault(f => f.IeProductID == productId && f.ForecastMonitorMonthID == monthID);
+
+            if (fm != null)
+            {
+                return fm.Forecast;
+            }
+            else
+            {
+                return 0;
+            }
+
         }
 
         /// <summary>
@@ -398,6 +432,7 @@ namespace Logic_Layer.FollowUp
         private int? GetReprocessedValue(DateTime month, string productId)
         {
             string monthID = month.ToString("yyyyMM");
+
             //Return forecastmonitor (saved row values)
             ForecastMonitor test = db.ForecastMonitor.FirstOrDefault(f => f.IeProductID == productId && f.ForecastMonitorMonthID == monthID);
 

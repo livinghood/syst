@@ -173,20 +173,22 @@ namespace BUPSystem.Uppföljning
                     ForecastMonitor fm = (ForecastingManagement.Instance.ForecastMonitorExist(fc.IeProductID, month));
                     if (fm == null)
                     {
-                        ForecastMonitor newfm = new ForecastMonitor
+                        if (fc.Reprocessed > 0 || fc.Forecast > 0)
                         {
-                            Reprocessed = fc.Reprocessed,
-                            OutcomeAcc = fc.OutcomeAcc,
-                            IeProductName = fc.IeProductName,
-                            IeProductID = fc.IeProductID,
-                            ForecastMonth = ForecastMonth,
-                            ForecastMonitorMonthID = month.ToString("yyyyMM"),
-                            ForecastBudget = fc.Budget.ToString(),
-                            Forecast = fc.Forecast
-                        };
+                            ForecastMonitor newfm = new ForecastMonitor
+                            {
+                                Reprocessed = fc.Reprocessed,
+                                OutcomeAcc = fc.OutcomeAcc,
+                                IeProductName = fc.IeProductName,
+                                IeProductID = fc.IeProductID,
+                                ForecastMonth = ForecastMonth,
+                                ForecastMonitorMonthID = month.ToString("yyyyMM"),
+                                ForecastBudget = fc.Budget.ToString(),
+                                Forecast = fc.Forecast
+                            };
 
-                        ForecastingManagement.Instance.AddForecastMonitor(newfm);
-
+                            ForecastingManagement.Instance.AddForecastMonitor(newfm);
+                        }
                     }
                     else
                     {
