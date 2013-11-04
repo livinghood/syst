@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -211,6 +212,21 @@ namespace Logic_Layer
         public void UpdateFinancialIncomeYear()
         {
             db.SaveChanges();
+        }
+
+        public void ExportRevenueBudgetingToTextFile(string fileName)
+        {
+            //// StreamWriter is put in 'using' statement for automatic disposal once finished
+            //using (var writer = new StreamWriter(fileName))
+            //{
+            //    // First line in textfile makes a header
+            //    writer.WriteLine("{0}\t{1}\t{2}\t{3}\t", "Konto", "Ansvar", "ProduktID", "Produkt", "KundID", "Kund", "Belopp");
+
+            //    foreach (var row in FinancialIncomeList )
+            //    {
+            //        writer.WriteLine("{0}\t{1}\t{2}\t{3}\t", row.ProductID, row.ProductName, row.ProductGroup, row.ProductGroupID);
+            //    }
+            //}
         }
     }
 }

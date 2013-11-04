@@ -172,5 +172,12 @@ namespace BUPSystem.AccountGUI
                 || item.AccountID.ToString(CultureInfo.InvariantCulture).ToLower().Contains(textFilter.ToLower());
         }
 
+        private void btnSelect_Click(object sender, RoutedEventArgs e)
+        {
+            if (lvAccounts.SelectedItem != null)
+            {
+                SelectedAccount = lvAccounts.SelectedItem as Account;
+            }            
+        }
     }
 }

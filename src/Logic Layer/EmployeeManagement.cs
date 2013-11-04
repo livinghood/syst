@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
@@ -54,31 +55,25 @@ namespace Logic_Layer
         /// <returns></returns>
         public IEnumerable<Employee> GetEmployeeByDepartment(string departmentID)
         {
-            IEnumerable<Employee> employees = from f in db.Employee
-                                              orderby f.EmployeeID
-                                              join ep in db.EmployeePlacement on departmentID equals ep.DepartmentID
-                                              where f.EmployeeID == ep.EmployeeID 
-                                              select f;
-            return employees;
+            return from f in db.Employee
+                   orderby f.EmployeeID
+                   join ep in db.EmployeePlacement on departmentID equals ep.DepartmentID
+                   where f.EmployeeID == ep.EmployeeID
+                   select f;
+
         }
 
-        public ObservableCollection<Employee> GetEmployeeAtributes(string departmentID)
+        public IEnumerable<Employee> GetEmployeeAtributes(string departmentID)
         {
             ObservableCollection<Employee> employees = new ObservableCollection<Employee>(GetEmployeeByDepartment(departmentID));
 
             foreach (Employee e in employees)
             {
                 e.AnnualRate = (e.EmployeementRate - (Convert.ToInt32(e.VacancyDeduction * 100)));
-
                 int i = e.AnnualRate;
-
                 ObservableCollection<EmployeePlacement> ePlacements = new ObservableCollection<EmployeePlacement>(GetEmployeePlacements(e));
-
-                foreach (EmployeePlacement ep in ePlacements)
-                    i = i - Convert.ToInt32(ep.EmployeeAllocate);
-
-                e.Diff = i.ToString();
-
+                i = ePlacements.Aggregate(i, (current, ep) => current - Convert.ToInt32(ep.EmployeeAllocate));
+                e.Diff = i.ToString(CultureInfo.InvariantCulture);
                 e.Total = e.AnnualRate - Convert.ToInt32(e.Diff);
             }
 
@@ -184,7 +179,7 @@ namespace Logic_Layer
         /// <param name="allocate"></param>
         public void CreateEmployeePlacement(long employeeId, string departmentId, decimal allocate)
         {
-            EmployeePlacement newEmployeePlacement = new EmployeePlacement { EmployeeID = employeeId, DepartmentID = departmentId, EmployeeAllocate = allocate};
+            EmployeePlacement newEmployeePlacement = new EmployeePlacement { EmployeeID = employeeId, DepartmentID = departmentId, EmployeeAllocate = allocate };
             db.EmployeePlacement.Add(newEmployeePlacement);
             db.SaveChanges();
         }
@@ -207,14 +202,6 @@ namespace Logic_Layer
         public void DeleteEmployeePlacement(EmployeePlacement employeePlacement)
         {
             db.EmployeePlacement.Remove(employeePlacement);
-            db.SaveChanges();
-        }
-
-        /// <summary>
-        /// Update a EmployeePlacement
-        /// </summary>
-        public void UpdateEmployeePlacement()
-        {
             db.SaveChanges();
         }
 

@@ -19,18 +19,15 @@ namespace BUPSystem.Kostnadsbudgetering
     {
 
         private DirectProductCost objToAdd;
-
         private Product product { get; set; }
-
         private Account account { get; set; }
-
         public ObservableCollection<DirectProductCost> DirectProductCosts
         {
             get { return DCPPDManagement.Instance.DirectProductCosts; }
             set { DCPPDManagement.Instance.DirectProductCosts = value; }
         }
 
-        public ObservableCollection<Account> Accounts
+        public IEnumerable<Account> Accounts
         {
             get { return AccountManagement.Instance.Accounts; }
         }
@@ -46,12 +43,8 @@ namespace BUPSystem.Kostnadsbudgetering
         {
             InitializeComponent();
             DataContext = this;
-            Logic_Layer.Cost_Budgeting_Logic.ExpenseBudgetManagement.Instance.DoesExpenseBudgetExist();
-
-            Logic_Layer.Cost_Budgeting_Logic.ExpenseBudgetManagement.Instance.DoesExpenseBudgetExist();
-            Logic_Layer.UserAccount userAccount = null;
-
-            userAccount = UserManagement.Instance.GetUserAccountByUsername(System.Threading.Thread.CurrentPrincipal.Identity.Name);
+            ExpenseBudgetManagement.Instance.DoesExpenseBudgetExist();
+            UserAccount userAccount = UserManagement.Instance.GetUserAccountByUsername(System.Threading.Thread.CurrentPrincipal.Identity.Name);
 
             switch (userAccount.PermissionLevel)
             {
@@ -233,7 +226,7 @@ namespace BUPSystem.Kostnadsbudgetering
 
         private void LockedSettings()
         {
-            if (Logic_Layer.Cost_Budgeting_Logic.ExpenseBudgetManagement.Instance.IsDirectExpenseBudgetLocked(DepartmentID))
+            if (ExpenseBudgetManagement.Instance.IsDirectExpenseBudgetLocked(DepartmentID))
             {
                 btnLock.IsEnabled = false;
                 btnSelectProduct.Visibility = Visibility.Collapsed;

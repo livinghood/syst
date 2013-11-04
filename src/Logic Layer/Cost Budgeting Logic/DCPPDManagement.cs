@@ -92,6 +92,7 @@ namespace Logic_Layer.Cost_Budgeting_Logic
         /// Method to check if user attempts to add a product that is already connected to the selected account
         /// </summary>
         /// <param name="productID"></param>
+        /// <param name="departmentID"></param>
         /// <returns></returns>
         public bool CheckIfProductConnected(string productID, string departmentID)
         {
