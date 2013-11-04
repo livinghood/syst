@@ -276,7 +276,10 @@ namespace Logic_Layer
         private string GetAmountForPrinting(string productID)
         {
             var firstOrDefault = db.FinancialIncome.FirstOrDefault(a => a.ProductID.Equals(productID));
-            return firstOrDefault != null ? firstOrDefault.Budget.ToString() : "0";
+
+            int value = (int) firstOrDefault.Budget*-1;
+
+            return firstOrDefault != null ? value.ToString(CultureInfo.InvariantCulture) : "0";
         }
 
         /// <summary>
