@@ -97,7 +97,7 @@ namespace Logic_Layer.Cost_Budgeting_Logic
         public bool CheckIfProductConnected(string productID, string departmentID)
         {
             return DirectProductCosts.Any
-                (directProductCost => directProductCost.ProductID.Equals(productID) && directProductCost.Product.DepartmentID.Equals(departmentID));
+                (directProductCost => directProductCost.ProductID.Equals(productID));
         }
 
         /// <summary>

@@ -18,13 +18,15 @@ namespace BUPSystem.ProductGUI
         /// <summary>
         /// Standard constructor
         /// </summary>
-        public ProductRegister(bool SelectingProduct = false)
+        public ProductRegister(bool SelectingProduct = false, string department = "All")
         {
             InitializeComponent();
             DataContext = this;
 
             if (!SelectingProduct)
                 btnSelect.Visibility = Visibility.Collapsed;
+
+            ProductManagement.Instance.fillProductList(department);
         }
 
         // Containing the selected customer

@@ -207,7 +207,10 @@ namespace Logic_Layer
 
         public IEnumerable<Department> GetDepartments()
         {
-            return db.Department.OrderBy(d => d.DepartmentName);
+            return from d in db.Department
+                   where d.DepartmentID == "DA" || d.DepartmentID == "UF"
+                   orderby d.DepartmentID
+                   select d;
         }
     }
 }

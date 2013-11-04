@@ -98,7 +98,8 @@ namespace BUPSystem.Kostnadsbudgetering
         /// <param name="e"></param>
         private void btnSelectProduct_Click(object sender, RoutedEventArgs e)
         {
-            ProductGUI.ProductRegister pr = new ProductGUI.ProductRegister(true);
+            Department test = (Department)cbDepartments.SelectedItem;
+            ProductGUI.ProductRegister pr = new ProductGUI.ProductRegister(true,test.DepartmentID);
             pr.ShowDialog();
 
             if (pr.DialogResult == true)
@@ -244,7 +245,17 @@ namespace BUPSystem.Kostnadsbudgetering
         {
             if (!IsLoaded)
                 return;
+
             DepartmentID = Departments[cbDepartments.SelectedIndex].DepartmentID;
+            if (dgAccounts.SelectedItem != null)
+            {
+                DirectProductCosts.Clear();
+                account = dgAccounts.SelectedItem as Account;
+                DirectProductCosts = new ObservableCollection<DirectProductCost>(DCPPDManagement.Instance.GetDirectProductCostByAccount(account, DepartmentID));
+                dgDPPC.ItemsSource = DirectProductCosts;
+                lblSum.Content = "Summa: " + DCPPDManagement.Instance.CalculateSum(account, DepartmentID);
+                btnSelectProduct.IsEnabled = true;
+            }
             LockedSettings();
         }
     }
