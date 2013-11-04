@@ -14,7 +14,7 @@ namespace BUPSystem
             string str = value as string;
             if (str != null)
             {
-                if (!Regex.IsMatch(str, @"^[a-zåäöA-ZÅÄÖ]+$"))
+                if (!Regex.IsMatch(str, @"^[a-zåäöA-ZÅÄÖ0-9]+$"))
                 {
                     return new ValidationResult(false, "Grupp-ID får bara innehålla bokstäver");
                 }
@@ -22,14 +22,7 @@ namespace BUPSystem
                 {
                     return new ValidationResult(false, "Grupp-ID ska bestå av 2 bokstäver");
                 }
-                else
-                {
-                    if (ProductGroupManagement.Instance.ProductGroupIDExist(str))
-                        return new ValidationResult(false, Message);
-                }
-
-                return ValidationResult.ValidResult;
-
+                return ProductGroupManagement.Instance.ProductGroupIDExist(str) ? new ValidationResult(false, Message) : ValidationResult.ValidResult;
             }
             return new ValidationResult(false, "Skriv in ett grupp-ID"); ;
         }
