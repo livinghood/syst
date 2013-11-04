@@ -72,6 +72,11 @@ namespace Logic_Layer
             return db.Activity.OrderBy(a => a.ActivityName);
         }
 
+        public IEnumerable<Activity> GetActivitiesByDepartment(string departmentID)
+        {
+            return db.Activity.OrderBy(p => p.DepartmentID.Equals(departmentID));
+        }
+
         /// <summary>
         /// Add new activity
         /// </summary>
