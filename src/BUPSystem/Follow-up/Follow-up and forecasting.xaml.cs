@@ -56,8 +56,10 @@ namespace BUPSystem.Uppföljning
             }
         }
 
-        private void UpdateForecasts()
+        private void UpdateForecasts(bool getAll = false)
         {
+            getAll = (bool)cbshowAll.IsChecked;
+
             Forecasts.Clear();
 
             Months SelectedMonth;
@@ -68,7 +70,25 @@ namespace BUPSystem.Uppföljning
             // Adda en month för att kunna låsa (addas bara om den inte finns)
             ForecastMonth = ForecastingManagement.Instance.AddForecastMonth(month);
 
-            ForecastingManagement.Instance.GetForecastsFromMonth(month);
+            ForecastingManagement.Instance.GetForecastsFromMonth(month,getAll);
+
+            UpdateLabels();
+
+            if (Forecasts.Any())
+            {
+                if (ForecastingManagement.Instance.CheckIfLocked(month))
+                {
+                    dgForecasts.IsEnabled = false;
+                    btnSave.IsEnabled = false;
+                    lblInfo.Content = "Uppföljning för denna månad är låst";
+                }
+                else
+                {
+                    dgForecasts.IsEnabled = true;
+                    btnSave.IsEnabled = true;
+                    lblInfo.Content = "";
+                }
+            }
 
             
         }
@@ -84,31 +104,7 @@ namespace BUPSystem.Uppföljning
                     return;
 
                 UpdateForecasts();
-                UpdateLabels();
-
-                // Prevent user from editing when all months option is selected 
-                dgForecasts.IsEnabled = cbMonth.SelectedIndex != 0;
-
-                Months SelectedMonth;
-                Enum.TryParse(cbMonth.SelectedValue.ToString(), out SelectedMonth);
-
-                DateTime month = new DateTime(DateTime.Now.Year, (int)SelectedMonth, 1);
-
-                if (Forecasts.Any())
-                {
-                    if (ForecastingManagement.Instance.CheckIfLocked(month))
-                    {
-                        dgForecasts.IsEnabled = false;
-                        btnSave.IsEnabled = false;
-                        lblInfo.Content = "Uppföljning för denna månad är låst";
-                    }
-                    else
-                    {
-                        dgForecasts.IsEnabled = true;
-                        btnSave.IsEnabled = true;
-                        lblInfo.Content = "";
-                    }
-                }
+                
             }
         }
 
@@ -242,6 +238,17 @@ namespace BUPSystem.Uppföljning
                     saved = true;
                     cbMonth.IsDropDownOpen = true;
                 }
+            }
+        }
+
+        private void cbshowAll_Checked(object sender, RoutedEventArgs e)
+        {
+            if (cbMonth.SelectedValue != null)
+            {
+                if (cbMonth.SelectedIndex == 0)
+                    return;
+
+                UpdateForecasts();
             }
         }
     }

@@ -190,13 +190,70 @@ namespace Logic_Layer.FollowUp
                    select i;
         }
 
-        public void GetForecastsFromMonth(DateTime month)
+        /// <summary>
+        /// Get IPCs by month
+        /// </summary>
+        /// <param name="month"></param>
+        /// <returns></returns>
+        public IEnumerable<IncomeProductCustomer> GetAllIPCs()
         {
+            return from i in db.IncomeProductCustomer
+                   select i;
+        }
 
-            var IPCs = GetIPCsByMonth(month);
+        /// <summary>
+        /// Get IPCs by month
+        /// </summary>
+        /// <param name="month"></param>
+        /// <returns></returns>
+        public IEnumerable<Product> GetAllProducts()
+        {
+            return from i in db.Product
+                   select i;
+        }
+
+        public void GetForecastsFromMonth(DateTime month,bool getAll)
+        {
+            List<IncomeProductCustomer> IPCs;
+            if (getAll)
+            {
+                // Hämta inte från månad utan från alla
+                IPCs = new List<IncomeProductCustomer>(GetAllIPCs());
+
+                // Lägg till produkter från vårat system
+                var AllProducts = GetAllProducts();
+
+                // Lägg till alla produkter från systemet genom att fejka tomma ICPs
+                // (Fulhack)
+                foreach (var productObj in AllProducts)
+                {
+
+
+                    IncomeProductCustomer newIPC = new IncomeProductCustomer
+                    {
+                        IeProductID = productObj.ProductID,
+                        IeCustomerID = "NULL",
+                        IeCustomerName = "NULL",
+                        IeIncomeDate = new DateTime(1973, 10, 24),
+                        IeProductName = productObj.ProductName
+                    };
+
+                    IPCs.Add(newIPC);
+                }
+
+                // Order by product name
+                IPCs = IPCs.OrderBy(p => p.IeProductName).ToList();
+            }
+            else
+            {
+                IPCs = new List<IncomeProductCustomer>(GetIPCsByMonth(month));
+            }
+            
+
 
             // Aj, inte så fin lista på redan tillagda produkter (då ska inte IPCn läggas in igen)
             List<string> tempProdukter = new List<string>();
+
 
             foreach (var IPC in IPCs)
             {
@@ -224,42 +281,6 @@ namespace Logic_Layer.FollowUp
                     tempProdukter.Add(IPC.IeProductID);
                 }
             }
-
-            //Forecasting fc = new Forecasting
-            //{
-            //    IeProductID = ipc.IeProductID,
-            //    IeProductName = ipc.IeProductName,
-            //    CustomerID = ipc.IeCustomerID,
-            //    CustomerName = ipc.IeCustomerName,
-            //    Amount = ipc.IeAmount,
-            //    Date = ipc.IeIncomeDate,
-            //    OutcomeAcc = CalculateUtfallAcc(chosenMonth, ipc.IeProductID),
-            //    Trend = ((CalculateUtfallAcc(chosenMonth, ipc.IeProductID) + GetReprocessed(ipc.IeProductID)) / chosenMonth) * 12,
-            //    FormerPrognosis = CalculateFormerPrognosis(ipc.IeIncomeDate.Date.Month, ipc.IeProductID),
-            //    Forecast = GetForecastValue(ipc.IeIncomeDate.Date.Month, ipc.IeProductID),
-            //    OutcomeMonth = CalculateOutcomeMonth(chosenMonth, ipc.IeProductID),
-            //    Budget = GetBudgetFromFinancialIncome(ipc.IeProductID),
-            //    Reprocessed = GetReprocessed(ipc.IeProductID)
-            //};
-            //fc.ForecastBudget = fc.Forecast - fc.Budget;
-
-            //// In case newly created forecast already exists, just update its properties
-            //foreach (var item in Forecasts.Where(item => item.IeProductID.Equals(fc.IeProductID)
-            //    && item.Date.Month == fc.Date.Month))
-            //{
-            //    item.Amount = fc.Amount;
-            //    item.OutcomeAcc = fc.OutcomeAcc;
-            //    item.Trend = fc.Trend;
-            //    item.FormerPrognosis = fc.FormerPrognosis;
-            //    item.Forecast = fc.Forecast;
-            //    item.Reprocessed = fc.Reprocessed;
-            //    item.Budget = fc.Budget;
-            //    item.ForecastBudget = fc.ForecastBudget;
-            //    item.Reprocessed = fc.Reprocessed;
-            //    return;
-            //}
-
-            //Forecasts.Add(fc);
         }
 
 
@@ -297,15 +318,20 @@ namespace Logic_Layer.FollowUp
             var icps = from d in db.IncomeProductCustomer
                        where d.IeProductID.Equals(productId)
                        where d.IeIncomeDate.Month <= month.Month
+                       where d.IeIncomeDate.Year <= month.Year
                        orderby d.IeIncomeDate.Month descending
                        select d;
 
             List<string> tempCustomer = new List<string>();
 
-            foreach (var icp in icps.Where(icp => !tempCustomer.Contains(icp.IeCustomerID)))
+            foreach (var icp in icps)
             {
-                tempCustomer.Add(icp.IeCustomerID);
-                outcomeAcc += ~icp.IeAmount + 1;
+                if (!tempCustomer.Contains(icp.IeCustomerID))
+                {
+                    tempCustomer.Add(icp.IeCustomerID);
+                    outcomeAcc += ~icp.IeAmount + 1;
+                }
+                
             }
 
             return outcomeAcc;
