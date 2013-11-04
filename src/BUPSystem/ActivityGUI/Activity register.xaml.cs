@@ -27,13 +27,15 @@ namespace BUPSystem.ActivityGUI
         /// <summary>
         /// Standard constructor
         /// </summary>
-        public ActivityRegister(bool SelectingActivity = false)
+        public ActivityRegister(bool SelectingActivity = false, string department = "All")
         {
             InitializeComponent();
             DataContext = this;
 
             if (!SelectingActivity)
                 btnSelect.Visibility = Visibility.Collapsed;
+
+            ActivityManagement.Instance.fillActivityList(department);
         }
 
         /// <summary>

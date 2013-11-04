@@ -31,7 +31,7 @@ namespace BUPSystem.Kostnadsbudgetering
             get { return AccountManagement.Instance.Accounts; }
         }
 
-        public ObservableCollection<Department> Departments { get { return EmployeeManagement.Instance.Departments; } }
+        public ObservableCollection<Department> Departments { get { return EmployeeManagement.Instance.AFFODepartments; } }
 
         public string DepartmentID { get; set; }
 
@@ -200,7 +200,8 @@ namespace BUPSystem.Kostnadsbudgetering
         /// <param name="e"></param>
         private void btnAddActivity_Click(object sender, RoutedEventArgs e)
         {
-            ActivityGUI.ActivityRegister ar = new ActivityGUI.ActivityRegister(true);
+
+            ActivityGUI.ActivityRegister ar = new ActivityGUI.ActivityRegister(true, DepartmentID);
             ar.ShowDialog();
 
             if (ar.DialogResult == true)
@@ -248,7 +249,19 @@ namespace BUPSystem.Kostnadsbudgetering
         {
             if (!IsLoaded)
                 return;
+
             DepartmentID = Departments[cbDepartments.SelectedIndex].DepartmentID;
+
+            if (dgAccounts.SelectedItem != null)
+            {
+                DirectActivityCosts.Clear();
+                account = dgAccounts.SelectedItem as Account;
+                DirectActivityCosts = new ObservableCollection<DirectActivityCost>(DCPADManagement.Instance.GetDirectActivityCostByAccounts(account, DepartmentID));
+                dgDCPAD.ItemsSource = DirectActivityCosts;
+                lblSum.Content = "Summa: " + DCPADManagement.Instance.CalculateSum(account, DepartmentID);
+                btnAddActivity.IsEnabled = true;
+            }
+
             LockedSettings();
         }
     }

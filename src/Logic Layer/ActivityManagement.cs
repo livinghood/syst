@@ -40,7 +40,7 @@ namespace Logic_Layer
         /// </summary>
         public ActivityManagement()
         {
-            Activities = new ObservableCollection<Activity>(GetActivities());
+            
         }
 
         /// <summary>
@@ -55,6 +55,25 @@ namespace Logic_Layer
                    select d.DepartmentID;
         }
 
+        public void fillActivityList(string departmentID)
+        {
+            switch (departmentID)
+            {
+                case "FO":
+
+                    Activities = new ObservableCollection<Activity>(GetFOActivities());
+                    break;
+                case "AO":
+
+                    Activities = new ObservableCollection<Activity>(GetAOActivities());
+                    break;
+
+                default:
+                    Activities = new ObservableCollection<Activity>(GetActivities());
+                    break;
+            }
+        }
+
         /// <summary>
         /// Check if a specific activity exists
         /// </summary>
@@ -64,7 +83,25 @@ namespace Logic_Layer
         }
 
         /// <summary>
-        /// Get a list of all activitys
+        /// Get a list of FO activities
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Activity> GetFOActivities()
+        {
+            return db.Activity.Where(a => a.DepartmentID == "FO").OrderBy(a => a.ActivityName);
+        }
+
+        /// <summary>
+        /// Get a list of FO activities
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Activity> GetAOActivities()
+        {
+            return db.Activity.Where(a => a.DepartmentID == "AO").OrderBy(a => a.ActivityName);
+        }
+
+        /// <summary>
+        /// Get a list of all activities
         /// </summary>
         /// <returns></returns>
         public IEnumerable<Activity> GetActivities()

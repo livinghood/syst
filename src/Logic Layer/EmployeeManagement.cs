@@ -20,6 +20,9 @@ namespace Logic_Layer
 
         public ObservableCollection<Department> Departments { get; set; }
 
+        public ObservableCollection<Department> AFFODepartments { get; set; }
+
+
         /// <summary>
         /// Database context
         /// </summary>
@@ -37,6 +40,7 @@ namespace Logic_Layer
         {
             EmployeeList = new ObservableCollection<Employee>(GetEmployee());
             Departments = new ObservableCollection<Department>(GetDepartments());
+            AFFODepartments = new ObservableCollection<Department>(GetDepartmentsAFFO());
         }
 
         /// <summary>
@@ -209,6 +213,13 @@ namespace Logic_Layer
         {
             return from d in db.Department
                    where d.DepartmentID == "DA" || d.DepartmentID == "UF"
+                   orderby d.DepartmentID
+                   select d;
+        }
+        public IEnumerable<Department> GetDepartmentsAFFO()
+        {
+            return from d in db.Department
+                   where d.DepartmentID == "FO" || d.DepartmentID == "AO"
                    orderby d.DepartmentID
                    select d;
         }

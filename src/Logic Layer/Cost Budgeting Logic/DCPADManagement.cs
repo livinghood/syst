@@ -89,7 +89,7 @@ namespace Logic_Layer.Cost_Budgeting_Logic
         public bool CheckIfActivityConnected(string activityID, string departmentID)
         {
             return DirectActivityCosts.Any
-                (directActivityCost => directActivityCost.ActivityID.Equals(activityID) && directActivityCost.Activity.DepartmentID.Equals(departmentID));
+                (directActivityCost => directActivityCost.ActivityID.Equals(activityID));
         }
 
         /// <summary>
