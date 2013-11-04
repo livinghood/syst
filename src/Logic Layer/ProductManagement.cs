@@ -62,11 +62,11 @@ namespace Logic_Layer
         /// <summary>
         /// Returns products in autocompletebox for ProductID
         /// </summary>
-        /// <param name="s">written text in box for autocomplete</param>
+        /// <param name="prodID">written text in box for autocomplete</param>
         /// <returns></returns>
-        public Product GetProductByID(string s)
+        public Product GetProductByID(string prodID)
         {
-            return Products.FirstOrDefault(p => p.ProductID.Equals(s));
+            return Products.FirstOrDefault(p => p.ProductID.Equals(prodID));
         }
 
         /// <summary>
