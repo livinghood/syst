@@ -26,7 +26,6 @@ namespace BUPSystem.ProductGUI
         {
             InitializeComponent();
 
-            // Ledsen för detta, riktigt skitigt
             if (isGroup)
             {
                 lblTitle.Content = "Grupphantering";

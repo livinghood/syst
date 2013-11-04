@@ -22,32 +22,28 @@
                 </TextBox>
                 <Label Content="Produktbenämning" Height="28" HorizontalAlignment="Left" Margin="10,15,0,0" x:Name="label2" VerticalAlignment="Top" />
                 <Label Content="Produktgrupp" Height="28" HorizontalAlignment="Left" Margin="10,66,0,0" x:Name="label13" VerticalAlignment="Top" />
-                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="137,64,0,60">
-                    <Button x:Name="btnProductGroup" Content="Välj grupp" HorizontalAlignment="Left" Margin="0,4,5,0" VerticalAlignment="Top" Width="65" Click="btnProductGroup_Click"/>
-                    <Label x:Name="lblProductGroup" HorizontalAlignment="Left" Margin="0,2,0,0" VerticalAlignment="Top" Height="30">
-                        <ContentControl.Content>
-                            <Binding Path="ProductGroupID">
-                                <Binding.ValidationRules>
-                                    <local:TextBoxNotEmptyValidationRule x:Name="GroupNotEmptyValidation" Message="Ingen vald produktgrupp" ValidatesOnTargetUpdated="True" />
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </ContentControl.Content>
-                    </Label>
-                </StackPanel>
                 <Label Content="Produktkategori" Height="28" HorizontalAlignment="Left" Margin="10,101,0,0" x:Name="label13_Copy" VerticalAlignment="Top" />
-                <StackPanel x:Name="spCategory"  HorizontalAlignment="Left"  Orientation="Horizontal" Margin="137
-                            ,99,0,28">
-                    <Button Content="Välj kategori" Height="20" HorizontalAlignment="Left" Margin="0,4,5,0"  x:Name="btnSelectCategory" VerticalAlignment="Top" Width="75" Click="btnSelectCategory_Click"/>
-                    <Label Height="28" HorizontalAlignment="Left" Margin="0,2,0,0" x:Name="lblProductCategory" VerticalAlignment="Top">
-                        <ContentControl.Content>
-                            <Binding Path="ProductCategoryID">
-                                <Binding.ValidationRules>
-                                    <local:TextBoxNotEmptyValidationRule x:Name="CategoryNotEmptyValidation" Message="Ingen vald kategori" ValidatesOnTargetUpdated="True" />
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </ContentControl.Content>
+                <Grid Margin="139,0,14,15" Height="23" VerticalAlignment="Bottom">
+                    <Button Content="Välj kategori" Height="23" HorizontalAlignment="Left"  x:Name="btnSelectCategory" VerticalAlignment="Top" Width="75" Click="btnSelectCategory_Click"/>
+                    <Label Height="23" HorizontalAlignment="Left" Margin="80,0,0,0" x:Name="lblProductCategory" VerticalAlignment="Top" Width="115">
+                        <Binding Path="ProductCategoryID">
+                            <Binding.ValidationRules>
+                                <local:TextBoxNotEmptyValidationRule x:Name="CategoryNotEmptyValidation" Message="Ingen vald kategori" ValidatesOnTargetUpdated="True" />
+                            </Binding.ValidationRules>
+                        </Binding>
                     </Label>
-                </StackPanel>
+
+                </Grid>
+                <Grid HorizontalAlignment="Left" Height="23" Margin="140,73,0,0" VerticalAlignment="Top" Width="194">
+                    <Label x:Name="lblProductGroup" HorizontalAlignment="Left" Margin="70,0,0,0" Width="124" RenderTransformOrigin="0.5,0.5">
+                        <Binding Path="ProductGroupID">
+                            <Binding.ValidationRules>
+                                <local:TextBoxNotEmptyValidationRule x:Name="GroupNotEmptyValidation" Message="Ingen vald produktgrupp" ValidatesOnTargetUpdated="True" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </Label>
+                    <Button x:Name="btnProductGroup" Content="Välj grupp" HorizontalAlignment="Left" VerticalAlignment="Top" Width="65" Click="btnProductGroup_Click" Height="23"/>
+                </Grid>
             </Grid>
         </GroupBox>
         <GroupBox Header="Produktuppgifter" Height="129" Margin="12,242,0,0" x:Name="groupBox2" VerticalAlignment="Top" HorizontalAlignment="Left" Width="358">
@@ -57,7 +53,6 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid x:Name="PartProductIDGrid" HorizontalAlignment="Left" Width="317" Margin="13,10,0,100">
-                    <Label Content="DelproduktID" Height="28" HorizontalAlignment="Left" x:Name="lblDelID" VerticalAlignment="Top" Width="85" />
                     <TextBox Height="23" HorizontalAlignment="Right" x:Name="tbPartProductID" VerticalAlignment="Bottom" Width="194" MaxLength="4" Margin="0,0,0,-23" >
                         <Binding Path="PartProductID" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -65,6 +60,7 @@
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox>
+                    <Label Content="DelproduktID" Height="28" HorizontalAlignment="Left" x:Name="lblDelID" VerticalAlignment="Top" Width="85" Margin="0,0,0,-28" />
                 </Grid>
                 <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,76,15,0" x:Name="cbDepartment" Text="Välj..." VerticalAlignment="Top" Width="194">
                     <ComboBox.SelectedItem>

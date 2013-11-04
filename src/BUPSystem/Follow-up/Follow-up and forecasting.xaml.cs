@@ -75,8 +75,14 @@ namespace BUPSystem.Uppföljning
 
         private void cbMonth_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cbMonth.SelectedItem != null)
+            if (!IsLoaded)
+                return;
+
+            if (cbMonth.SelectedValue != null)
             {
+                if (cbMonth.SelectedIndex == 0)
+                    return;
+
                 UpdateForecasts();
                 UpdateLabels();
 
@@ -150,6 +156,7 @@ namespace BUPSystem.Uppföljning
 
             }
             ForecastingManagement.Instance.CalculateTrend(dgForecasts.SelectedItem as Forecasting, cbMonth.SelectedIndex);
+            UpdateLabels();
             saved = false;
         }
 
@@ -168,18 +175,22 @@ namespace BUPSystem.Uppföljning
                     ForecastMonitor fm = (ForecastingManagement.Instance.ForecastMonitorExist(fc.IeProductID, month));
                     if (fm == null)
                     {
-                        ForecastMonitor newfm = new ForecastMonitor
+                        if (fc.Reprocessed > 0 || fc.Forecast > 0)
                         {
-                            Reprocessed = fc.Reprocessed,
-                            OutcomeAcc = fc.OutcomeAcc,
-                            IeProductName = fc.IeProductName,
-                            IeProductID = fc.IeProductID,
-                            ForecastMonth = ForecastMonth,
-                            ForecastMonitorMonthID = month.ToString("yyyyMM"),
-                            ForecastBudget = fc.Budget.ToString(),
-                            Forecast = fc.Forecast
-                        };
-                        ForecastingManagement.Instance.AddForecastMonitor(newfm);
+                            ForecastMonitor newfm = new ForecastMonitor
+                            {
+                                Reprocessed = fc.Reprocessed,
+                                OutcomeAcc = fc.OutcomeAcc,
+                                IeProductName = fc.IeProductName,
+                                IeProductID = fc.IeProductID,
+                                ForecastMonth = ForecastMonth,
+                                ForecastMonitorMonthID = month.ToString("yyyyMM"),
+                                ForecastBudget = fc.Budget.ToString(),
+                                Forecast = fc.Forecast
+                            };
+
+                            ForecastingManagement.Instance.AddForecastMonitor(newfm);
+                        }
                     }
                     else
                     {
