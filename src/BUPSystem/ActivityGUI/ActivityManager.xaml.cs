@@ -16,8 +16,7 @@ namespace BUPSystem.ActivityGUI
     {
         public Logic_Layer.Activity Activity { get; set; }
 
-        readonly ObservableCollection<string> departmentNames =
-            new ObservableCollection<string>(ActivityManagement.Instance.GetDepartmentNames());
+        readonly ObservableCollection<string> departmentNames = new ObservableCollection<string>(ActivityManagement.Instance.GetDepartmentNames());
 
         private string m_partActivityID;
 
