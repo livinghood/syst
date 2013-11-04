@@ -5,7 +5,7 @@
     <Grid>
         <Grid Margin="10,0,10,10" Height="23" VerticalAlignment="Bottom">
             <Button Content="Lägg till" Height="23" HorizontalAlignment="Right" Margin="0,0,80,0" x:Name="btnAdd" VerticalAlignment="Top" Width="91" Click="btnAdd_Click" />
-            <Button Content="Välj" HorizontalAlignment="Left" Margin="384,0,0,0" x:Name="btnSelect" Width="75" IsEnabled="False" Height="23" VerticalAlignment="Top" Click="btnSelect_Click" />
+            <Button Content="Välj" HorizontalAlignment="Left" Margin="384,0,0,0" x:Name="btnSelect" Width="75" Height="23" VerticalAlignment="Top" Click="btnSelect_Click" />
             <Button Content="Ändra" Height="23" x:Name="btn_Change" VerticalAlignment="Top" Click="btn_Change_Click" Width="75" HorizontalAlignment="Left" />
             <Button Content="Ta bort" Height="23" HorizontalAlignment="Left" Margin="80,0,0,0" x:Name="btnRemove" VerticalAlignment="Top" Width="76" Click="btnRemove_Click" />
         </Grid>

@@ -24,7 +24,7 @@
         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,271,11,14"/>
         <Grid Margin="10,0,10,10" Height="23" VerticalAlignment="Bottom">
             <Button Content="Lägg till" Height="23" HorizontalAlignment="Right" Margin="0,0,80,0" x:Name="btnAdd" VerticalAlignment="Top" Width="91" Click="btnAddEmployee_Click" />
-            <Button Content="Välj" HorizontalAlignment="Right" x:Name="btnSelect" Width="75" IsEnabled="False" Height="23" VerticalAlignment="Top" Click="btnSelect_Click" />
+            <Button Content="Välj" HorizontalAlignment="Right" x:Name="btnSelect" Width="75" Height="23" VerticalAlignment="Top" Click="btnSelect_Click" />
             <Button Content="Ändra" Height="23" Margin="0,0,384,0" x:Name="btn_Change" VerticalAlignment="Top" Click="btnChange_Click" Width="75" />
             <Button Content="Ta bort" Height="23" HorizontalAlignment="Left" Margin="80,0,0,0" x:Name="btnRemove" VerticalAlignment="Top" Width="76" Click="btnRemove_Click" />
         </Grid>

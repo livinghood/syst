@@ -52,7 +52,7 @@ namespace Logic_Layer
             return from d in db.Department
                    where d.DepartmentID == "FO" || d.DepartmentID == "AO"
                    orderby d.DepartmentID
-                   select d.DepartmentID;
+                   select d.DepartmentName;
         }
 
         /// <summary>

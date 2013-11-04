@@ -85,7 +85,7 @@ namespace Logic_Layer
                    orderby d.DepartmentID
                    where d.DepartmentID == "DA"
                    || d.DepartmentID == "UF"
-                   select d.DepartmentID;
+                   select d.DepartmentName;
         }
 
         /// <summary>
