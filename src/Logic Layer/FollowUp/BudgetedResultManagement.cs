@@ -71,6 +71,9 @@ namespace Logic_Layer.FollowUp
         private BudgetedResultManagement()
         {
             GeneralFollowUps = new ObservableCollection<GeneralFollowUp>();
+            EmployeeList = new ObservableCollection<Employee>();
+            ProductPlacementList = new ObservableCollection<ProductPlacement>();
+            ActivityPlacementList = new ObservableCollection<ActivityPlacement>();
         }
 
         public void FillGeneralFollowUpsWithProducts()
@@ -119,6 +122,9 @@ namespace Logic_Layer.FollowUp
         {
             GeneralFollowUps.Clear();
 
+            GeneralFollowUp gfu = new GeneralFollowUp();
+            gfu.ObjectName = "IT-Service";
+            GeneralFollowUps.Add(gfu);
             // Företaget
         }
 
@@ -151,12 +157,28 @@ namespace Logic_Layer.FollowUp
                 case CostProductOption.Department:
                     var department = db.Department.Single(p => p.DepartmentID.Equals(objectID));
                     gfu.ObjectName = department.DepartmentName;
-                    gfu.Costs = 4000; // Vart kommer denna ifrån?
-                    gfu.Revenues = 5000;  // Vart kommer denna ifrån?
+
+                    if (objectID == "DO" || objectID == "UF")
+                    {
+                        gfu.Costs = GetProductionDepartmentCostByDepartmentID(objectID);
+                        gfu.Revenues = GetProductionDepartmentIncomeByID(objectID);
+                    }
+                    if (objectID == "AO" || objectID == "FO")
+                    {
+                        gfu.Costs = GetAFFODepartmentCostByDepartmentID(objectID);
+                        gfu.Revenues = 0;
+                    }
+
                     gfu.Result = gfu.Revenues - gfu.Costs;
                     break;
 
                 case CostProductOption.Company: // Var kommer företaget ifrån?
+                    gfu.ObjectName = "IT-Service";
+
+                    gfu.Costs = GetTotalCost();
+                    gfu.Revenues = GetCalculatedTotalRevenue();
+
+                    gfu.Result = gfu.Revenues - gfu.Costs;
                     break;
             }
 
@@ -196,12 +218,17 @@ namespace Logic_Layer.FollowUp
                 // MÅSTE RÄKNA IHOP PER PRODUKT
                 ProductPlacementList.Add(productPlacement);
             }
-            decimal totalAnnualProduct =
-                (from product in ProductList
-                 from pp in ProductPlacementList
-                 where product.ProductID.Equals(pp.ProductID)
-                 select pp).Aggregate<ProductPlacement, decimal>(0, (current, pp) => current + (int)pp.ProductAllocate);
-            return totalAnnualProduct / 100;
+            decimal totalAnnualProduct = 0;
+            if (ProductPlacementList.Any())
+            {
+                totalAnnualProduct =
+                    (from product in ProductList
+                     from pp in ProductPlacementList
+                     where product.ProductID.Equals(pp.ProductID)
+                     select pp).Aggregate<ProductPlacement, decimal>(0, (current, pp) => current + (int)pp.ProductAllocate);
+                totalAnnualProduct /= 100;
+            }
+            return totalAnnualProduct;
         }
 
         private decimal GetAnnualEmployeeAtActivityByDepartment(string departmentID)
@@ -236,43 +263,12 @@ namespace Logic_Layer.FollowUp
                 .Where(dp => dp.Product.ProductID.Equals(productID)).Aggregate<DirectProductCost, decimal>(0, (current, dp) => current + dp.ProductCost);
         }
 
-        //private decimal GetCalculatedDirectProductCosts()
-        //{
-        //    //DIREKTA KOSTNADER FÖR PRODUKTER
-        //    return Cost_Budgeting_Logic.DCPPDManagement.Instance.DirectProductCosts.Aggregate<DirectProductCost, decimal>(0, (current, dp) => current + dp.ProductCost);
-        //}
-
-        //private decimal GetCalculatedTotalProductionCostByDepartment(string departmentID)
-        //{
-        //    //PRODUKTIONSKOSTNAD PER AVDELNING
-        //    return (GetAnnualEmployeeAtProductByDepartment(departmentID) * GetTotalCalculatedSchablonCost()) + GetEmployeeSallaryCostByDepartment(departmentID) + GetCalculatedDirectProductCosts();
-        //}
-
-        //private decimal GetCalculatedTotalProductionCost()
-        //{
-        //    //PRODUKTIONSKOSTNAD FÖR DA UF AVDELNINGAR
-        //    return DepartmentList.Where(department => department.DepartmentID.Equals("DA") || department.DepartmentID.Equals("UF"))
-        //        .Sum(department => GetCalculatedTotalProductionCostByDepartment(department.DepartmentID));
-        //}
-
         private decimal GetDirectActivityCostByActivityID(string activityID)
         {
+            //DIREKT KOSTNAD FÖR AKTIVITET
             return Cost_Budgeting_Logic.DCPADManagement.Instance.DirectActivityCosts
                 .Where(dp => dp.Activity.ActivityID.Equals(activityID)).Aggregate<DirectActivityCost, decimal>(0, (current, dp) => current + dp.ActivityCost);
         }
-
-        //private decimal GetAdditionCostByDepartment(string departmentID)
-        //{
-        //    //PÅLÄGGSKOSTNAD PER AVDELNING
-        //    return GetEmployeeSallaryCostByDepartment(departmentID) + GetCalculatedDepartmentSchablonCost(departmentID) + GetCalculatedDirectActivityCost();
-        //}
-
-        //private decimal GetCalculatedTotalAFFOCost()
-        //{
-        //    //PRODUKTIONSKOSTNAD FÖR AO FO AVDELNINGAR
-        //    return DepartmentList.Where(department => department.DepartmentID.Equals("AO") || department.DepartmentID.Equals("FO"))
-        //        .Sum(department => GetAdditionCostByDepartment(department.DepartmentID));
-        //}
 
         private int GetRevenueByProduct(string productID)
         {
@@ -280,13 +276,13 @@ namespace Logic_Layer.FollowUp
             return ForecastingManagement.Instance.GetIncomeByProduct(productID);
         }
 
-        public int GetCalculatedTotalRevenue()
+        private int GetCalculatedTotalRevenue()
         {
             //RETURNERAR INTÄKT PÅ ALLA PRODUKTER
             return ProductList.Sum(product => GetRevenueByProduct(product.ProductID));
         }
 
-        public int GetProductGroupInmcomeByID(string groupID)
+        private int GetProductGroupInmcomeByID(string groupID)
         {
             // RETURNERAR INKOMST PER PRODUKTGRUPP
             decimal sum = 0;
@@ -299,7 +295,7 @@ namespace Logic_Layer.FollowUp
             return (int)sum;
         }
 
-        public int GetProductGroupCostByID(string groupID)
+        private int GetProductGroupCostByID(string groupID)
         {
             // RETURNERAR KOSTNAD PER PRODUKTGRUPP
             decimal sum = 0;
@@ -311,11 +307,11 @@ namespace Logic_Layer.FollowUp
             return (int)sum;
         }
 
-        public int GetProductionDepartmentCostByID(string departmentID)
-        {
+        private decimal GetSchablonDividedAnnual()
+        {// Schablonskostnad totalt / årsarbetare totalt (ej konto 5021)
             //Schablonkostnad
             decimal sCost = (int)GetTotalCalculatedSchablonCost();
-            
+
             decimal aCost = 0; //AnnualCost
 
             //Årsarbetare för produkter
@@ -327,7 +323,21 @@ namespace Logic_Layer.FollowUp
             aCost += GetAnnualEmployeeAtActivityByDepartment("FO");
 
             // Schablonskostnad totalt / årsarbetare totalt (ej konto 5021)
-            decimal sum = sCost / aCost;
+            if (aCost == 0)
+                return sCost;
+            if (sCost == 0)
+                return 0;
+            else
+                return sCost / aCost;
+        }
+
+        private int GetProductionDepartmentCostByDepartmentID(string departmentID)
+        {
+            // Schablonskostnad totalt / årsarbetare totalt (ej konto 5021)
+            decimal sum = GetSchablonDividedAnnual();
+
+            // SUMMAN MULTIPLICERAT MED ÅRSARBETARE FÖR VALD AVDELNING
+            sum *= GetAnnualEmployeeAtProductByDepartment(departmentID);
 
             // summan + lönekostnaden för vald avdelning
             sum += GetEmployeeSallaryCostByDepartment(departmentID);
@@ -341,31 +351,48 @@ namespace Logic_Layer.FollowUp
             return (int)sum;
         }
 
-        public int GetAFFODepartmentCostByID(string departmentID)
+        private int GetAFFODepartmentCostByDepartmentID(string departmentID)
+        {
+            // Schablonskostnad totalt / årsarbetare totalt (ej konto 5021)
+            decimal sum = GetSchablonDividedAnnual();
+
+            // SUMMAN MULTIPLICERAT MED ÅRSARBETARE FÖR VALD AVDELNING
+            sum *= GetAnnualEmployeeAtActivityByDepartment(departmentID);
+
+            // summan + lönekostnaden för vald avdelning
+            sum += GetEmployeeSallaryCostByDepartment(departmentID);
+
+            // summan + direkta kostnader för varje produkt för vald avdelning
+            foreach (Activity activity in ActivityManagement.Instance.GetActivitiesByDepartment(departmentID))
+            {
+                sum += GetDirectActivityCostByActivityID(activity.ActivityID);
+            }
+
+            return (int)sum;
+        }
+
+        private int GetTB()
         {
             // LÖNEKOSTNAD PÅ AVDELNINGEN
-            int sum = (int)GetEmployeeSallaryCostByDepartment(departmentID);
+            int sum = (int)GetEmployeeSallaryCostByDepartment("AO");
+            sum += (int)GetEmployeeSallaryCostByDepartment("FO");
 
-            // OM DET ÄR MARKNADSAVDELNINGEN SÅ ÄR DET SHCABLONSKOSTNAD FRÅN KONTO 8571
-            if (departmentID == "FO")
-                sum += (int)AccountList.FirstOrDefault(a => a.AccountID.Equals(8571)).AccountCost;
-
-            // OM DET ÄR ADMINISTRATIVA AVDELNINGEN SÅ ÄR DET SCHABLONSKOSTAND FRÅN KONTONA 5025-8570
-            if (departmentID == "AO")
+            // SUMMERAR MED SCHABLONSKOSTADER FRÅN KONTONA 5025-8571
+            var list = from a in AccountList
+                        where a.AccountID > 5024
+                        where a.AccountID < 8572
+                        select a;
+            // SUMMERAR KOSTNADEN PÅ KONTONA    
+            foreach (Account a in list)
             {
-                var list = from a in AccountList
-                            where a.AccountID > 5024
-                            where a.AccountID < 8571
-                            select a;
-                // SUMMERAR KOSTNADEN PÅ KONTONA    
-                foreach (Account a in list)
-                {
+                if (a.AccountCost == null)
+                    sum += 0;
+                else
                     sum += (int)a.AccountCost;
-                }
             }
 
             // SUMMERAR ALLA DIREKTA KOSTNADER PÅ AKTIVITETER TILL AVDELNINGEN
-            foreach (Activity a in ActivityManagement.Instance.GetActivitiesByDepartment(departmentID))
+            foreach (Activity a in ActivityList)
             {
                 sum += (int)GetDirectActivityCostByActivityID(a.ActivityID);
             }
@@ -373,7 +400,7 @@ namespace Logic_Layer.FollowUp
             return sum;
         }
 
-        public int GetAddition()
+        private int GetAddition()
         {
             //RETURNERAR PÅLÄGGET
 
@@ -381,42 +408,65 @@ namespace Logic_Layer.FollowUp
             int tb = 0;
 
             // TILLVERKNINGSKOSTNAD
-            producion += GetProductionDepartmentCostByID("DA");
-            producion += GetProductionDepartmentCostByID("UF");
+            producion += GetProductionDepartmentCostByDepartmentID("DA");
+            producion += GetProductionDepartmentCostByDepartmentID("UF");
 
             //TB
-            tb += GetAFFODepartmentCostByID("AO");
-            tb += GetAFFODepartmentCostByID("FO");
+            tb += GetTB();
 
             return tb / producion;
         }
 
-        //public int GetProductionDepartmentIncomeByID(string departmentID)
-        //{ 
-        //}
+        private int GetProductionDepartmentIncomeByID(string departmentID)
+        {
+            //HÄMTAR INKOMST FÖR VARJE PRODUKT SOM TILLHÖR VALD AVDELNING
 
-        //public int GetAFFODepartmentCostByID(string departmentID)
-        //{ 
-        //}
+            int sum = 0;
 
-        //public int DecideDepartmentGroup(string departmentID)
-        //{ //SWITCH SATSEN FÅR NOG VARA DÄR UTRÄKNINGEN VISAS IST
-        //    int sum = 0;
-        //    switch (departmentID)
-        //    {
-        //        case "AO":
+            var list = ProductManagement.Instance.GetProductsByDepartment(departmentID);
+            foreach (Product product in list)
+            {
+                sum += GetRevenueByProduct(product.ProductID);
+            }
 
-        //            break;
-        //        case "DO":
+            return sum;
+        }
 
-        //            break;
-        //        case "UF":
+        public int GetTotalCost()
+        {
+            int sallary = 0;
+            int schablon = 0;
+            int directCost = 0;
+            int tillVCost = 0;
+            int tb = 0;
+            int totalCost = 0;
 
-        //            break;
-        //        case "FO":
+            // LÖNER FÖR ALLA AVDELNINGAR
+            foreach (Department department in DepartmentList)
+            {
+                sallary += GetEmployeeSallaryCostByDepartment(department.DepartmentID);
+            }
 
-        //            break;
-        //    }
-        //}
+            // SCHABLONSKOSTNADER FÖR ALLA KONTON
+            schablon = (int)GetTotalCalculatedSchablonCost();
+
+            // DIREKTA KOSTNADER FÖR ALLA PRODUKTER
+            foreach (Product product in ProductList)
+            {
+                directCost = (int)GetDirectProductCostByProductID(product.ProductID);
+            }
+
+            // SUMMERAR IHOP FÖR TOTALA TILLVERKNINGSKOSTNADEN
+            tillVCost = sallary + schablon + directCost;
+
+            // BERÄKNAR TB BELOPPET
+            tb = GetTB() * tillVCost;
+
+            // SUMMERAR IHOP TB MED TILLVERKNINGSKOSTNADEN FÖR TOTALKOSTNAD
+            totalCost = tillVCost + tb;
+
+            return totalCost;
+        }
+
     }
 }
