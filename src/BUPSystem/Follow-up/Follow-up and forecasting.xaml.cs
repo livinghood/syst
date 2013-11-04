@@ -79,13 +79,17 @@ namespace BUPSystem.Uppföljning
 
         private void cbMonth_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cbMonth.SelectedItem != null)
+            if (!IsLoaded)
+                return;
+
+            if (cbMonth.SelectedValue != null)
             {
+                if (cbMonth.SelectedIndex == 0)
+                    return;
+
                 UpdateForecasts();
                 UpdateLabels();
 
-                // Prevent user from editing when all months option is selected 
-                dgForecasts.IsEnabled = cbMonth.SelectedIndex != 0;
                 cbIndex = cbMonth.SelectedIndex;
 
                 Months SelectedMonth;
@@ -155,6 +159,7 @@ namespace BUPSystem.Uppföljning
 
             }
             ForecastingManagement.Instance.CalculateTrend(dgForecasts.SelectedItem as Forecasting, cbMonth.SelectedIndex);
+            UpdateLabels();
             saved = false;
         }
 

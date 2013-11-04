@@ -15,6 +15,7 @@ namespace Logic_Layer.FollowUp
     public class Forecasting : INotifyPropertyChanged
     {
         private int? m_trend;
+        private int? m_Forecast;
 
         public string IeProductName { get; set; }
         public string IeProductID { get; set; }
@@ -23,8 +24,7 @@ namespace Logic_Layer.FollowUp
         public int OutcomeAcc { get; set; }
         public int? Reprocessed { get; set; }
         public int? FormerPrognosis { get; set; }
-        public int? Forecast { get; set; }
-        public int? ForecastBudget { get; set; }
+        
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -33,6 +33,19 @@ namespace Logic_Layer.FollowUp
         {
             get { return m_trend;}
             set { SetField(ref m_trend, value, "Trend"); }
+        }
+
+        public int? Forecast
+        {
+            get { return m_Forecast; }
+            set { SetField(ref m_Forecast, value, "Forecast");
+            OnPropertyChanged("ForecastBudget");
+            }
+        }
+
+        public int? ForecastBudget
+        {
+            get { return m_Forecast - Budget; }
         }
 
         protected virtual void OnPropertyChanged(string propertyName)

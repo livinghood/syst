@@ -14,7 +14,7 @@ namespace Logic_Layer.FollowUp
 {
     public enum Months
     {
-        Alla = 0,
+        Välj = 0,
         Januari = 01,
         Februari = 02,
         Mars = 03,
@@ -32,6 +32,8 @@ namespace Logic_Layer.FollowUp
     public class ForecastingManagement
     {
         public ObservableCollection<Forecasting> Forecasts { get; set; }
+
+        public ObservableCollection<IncomeProductCustomer> ICPs { get; set; }
 
         /// <summary>
         /// Lazy Instance of ForecastingManagement singelton
@@ -217,8 +219,7 @@ namespace Logic_Layer.FollowUp
                         Reprocessed = GetReprocessedValue(month, IPC.IeProductID)
                     };
 
-                    // Calculate the ForcastBudget
-                    fc.ForecastBudget = fc.Forecast - fc.Budget;
+               
 
                     // Add to the returning list
                     Forecasts.Add(fc);
