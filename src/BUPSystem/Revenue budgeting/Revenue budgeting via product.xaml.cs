@@ -101,7 +101,7 @@ namespace BUPSystem.Revenue_budgeting
             {
             FinancialIncomeList = RevenueManagement.Instance.RemoveEmptyProductIncomes();
             RevenueManagement.Instance.UpdateFinancialIncome();
-            MessageBox.Show("Intäktsbudgetteringen är nu sparad");
+            MessageBox.Show("Intäktsbudgeteringen är nu sparad");
             }
             catch
             {
