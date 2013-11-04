@@ -6,13 +6,13 @@
     <Grid>
         <Button Content="Välj kund" Height="23" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="btnChoseCustomer" VerticalAlignment="Top" Width="73" Click="btnChoseCustomer_Click" />
         <Button Content="Lås intäktsbudget" Height="23" HorizontalAlignment="Left" Margin="628,10,0,0" x:Name="btnLock" VerticalAlignment="Top" Width="127" Click="btnLock_Click" />
-        <Button Content="Avbryt" Height="23" Margin="500,408,0,0" x:Name="btnCancel" VerticalAlignment="Top" IsCancel="True" HorizontalAlignment="Left" Width="73" />
-        <Button x:Name="btnDelete" Content="Ta bort" Margin="595,408,0,0" VerticalAlignment="Top" Height="23" HorizontalAlignment="Left" Width="73" Click="btnDelete_Click"/>
-        <Button Content="Spara" Height="23" HorizontalAlignment="Right" Margin="0,408,10,0" x:Name="btnSave" VerticalAlignment="Top" Width="73" Click="btnSave_Click" />
-        <Button Content="Skapa Exceldokument" Height="23" HorizontalAlignment="Left" Margin="188,408,0,0" x:Name="button3" VerticalAlignment="Top" Width="113" IsEnabled="False" />
-        <Button Content="Bildskärmsrapport" Height="23" HorizontalAlignment="Left" Margin="306,408,0,0" x:Name="button4" VerticalAlignment="Top" Width="117" IsEnabled="False" />
-        <Button Content="Skriv ut" Height="23" HorizontalAlignment="Left" Margin="110,408,0,0" x:Name="button5" VerticalAlignment="Top" Width="73" IsEnabled="False" />
-        <Button Content="Export av textfil" Height="23" HorizontalAlignment="Left" Margin="10,408,0,0" x:Name="button6" VerticalAlignment="Top" Width="95" IsEnabled="False" />
+        <Button Content="Avbryt" Height="23" Margin="500,0,0,10" x:Name="btnCancel" VerticalAlignment="Bottom" IsCancel="True" HorizontalAlignment="Left" Width="73" />
+        <Button x:Name="btnDelete" Content="Ta bort" Margin="595,0,0,10" VerticalAlignment="Bottom" Height="23" HorizontalAlignment="Left" Width="73" Click="btnDelete_Click"/>
+        <Button Content="Spara" Height="23" HorizontalAlignment="Right" Margin="0,0,10,10" x:Name="btnSave" VerticalAlignment="Bottom" Width="73" Click="btnSave_Click" />
+        <Button Content="Skapa Exceldokument" Height="23" HorizontalAlignment="Left" Margin="188,0,0,10" x:Name="button3" VerticalAlignment="Bottom" Width="113" IsEnabled="False" />
+        <Button Content="Bildskärmsrapport" Height="23" HorizontalAlignment="Left" Margin="306,0,0,10" x:Name="button4" VerticalAlignment="Bottom" Width="117" IsEnabled="False" />
+        <Button Content="Skriv ut" Height="23" HorizontalAlignment="Left" Margin="110,0,0,10" x:Name="button5" VerticalAlignment="Bottom" Width="73" IsEnabled="False" />
+        <Button Content="Export av textfil" HorizontalAlignment="Left" Margin="10,0,0,10" x:Name="btnExportToTextfile" Width="95" Height="23" VerticalAlignment="Bottom" Click="btnExportToTextfile_Click" />
         <Label x:Name="lblCustomerName" Content="kundnamn" HorizontalAlignment="Left" Margin="168,10,0,0" VerticalAlignment="Top"/>
         <Label x:Name="lblCustomerID" Content="kund id" HorizontalAlignment="Left" Margin="99,10,0,0" VerticalAlignment="Top"/>
         <Label Height="28" HorizontalAlignment="Left" Margin="226,364,0,0" x:Name="lblAgreement" VerticalAlignment="Top" Content="Summa" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -77,7 +78,11 @@ namespace Logic_Layer
             db.SaveChanges();
             return newFinancialIncome;
         }
-
+        /// <summary>
+        /// Get a list of all Financial Incomes by customers
+        /// </summary>
+        /// <param name="customerid"></param>
+        /// <returns></returns>
         public IEnumerable<FinancialIncome> GetFinancialIncomesByCustomer(string customerid)
         {
             IEnumerable<FinancialIncome> financialIncomes = from f in db.FinancialIncome
@@ -96,7 +101,11 @@ namespace Logic_Layer
 
             return financialIncomes;
         }
-
+        /// <summary>
+        /// Get a list of all Financial Incomes by products
+        /// </summary>
+        /// <param name="productid"></param>
+        /// <returns></returns>
         public IEnumerable<FinancialIncome> GetFinancialIncomesByProduct(string productid)
         {
             IEnumerable<FinancialIncome> financialIncomes = from f in db.FinancialIncome
@@ -140,6 +149,10 @@ namespace Logic_Layer
             return financialIncomes;
         }
 
+        /// <summary>
+        /// Adds financial income to db
+        /// </summary>
+        /// <param name="fiObj"></param>
         public void AddIncome(FinancialIncome fiObj)
         {
             fiObj.FinancialIncomeYearID = NewID;
@@ -166,6 +179,10 @@ namespace Logic_Layer
             db.SaveChanges();
         }
 
+        /// <summary>
+        /// Prevent empty financialincomes from being saved to db
+        /// </summary>
+        /// <returns></returns>
         public ObservableCollection<FinancialIncome> RemoveEmptyCustomerIncomes()
         {
             ObservableCollection<FinancialIncome> tempIncome = new ObservableCollection<FinancialIncome>(FinancialIncomeList);
@@ -177,6 +194,10 @@ namespace Logic_Layer
             return tempIncome;
         }
 
+        /// <summary>
+        /// Prevent empty financialincomes from being saved to db
+        /// </summary>
+        /// <returns></returns>
         public ObservableCollection<FinancialIncome> RemoveEmptyProductIncomes()
         {
             ObservableCollection<FinancialIncome> tempIncome = new ObservableCollection<FinancialIncome>(FinancialIncomeList);
@@ -209,24 +230,78 @@ namespace Logic_Layer
             return db.FinancialIncomeYear.Single(f => f.FinancialIncomeYearID == NewID);
         }
 
+        /// <summary>
+        /// Save to db
+        /// </summary>
         public void UpdateFinancialIncomeYear()
         {
             db.SaveChanges();
         }
 
+        /// <summary>
+        /// Exports revenue budget to text file
+        /// </summary>
+        /// <param name="fileName"></param>
         public void ExportRevenueBudgetingToTextFile(string fileName)
         {
-            //// StreamWriter is put in 'using' statement for automatic disposal once finished
-            //using (var writer = new StreamWriter(fileName))
-            //{
-            //    // First line in textfile makes a header
-            //    writer.WriteLine("{0}\t{1}\t{2}\t{3}\t", "Konto", "Ansvar", "ProduktID", "Produkt", "KundID", "Kund", "Belopp");
+            // StreamWriter is put in 'using' statement for automatic disposal once finished
+            using (var writer = new StreamWriter(fileName))
+            {
+                // First line in textfile makes a header
+                writer.WriteLine("{0};{1};{2};{3};{4};{5};{6};", "Konto", "Ansvar", "ProduktID", "Produkt", "KundID", "Kund", "Belopp");
 
-            //    foreach (var row in FinancialIncomeList )
-            //    {
-            //        writer.WriteLine("{0}\t{1}\t{2}\t{3}\t", row.ProductID, row.ProductName, row.ProductGroup, row.ProductGroupID);
-            //    }
-            //}
+                foreach (string str in from row
+                                       in FinancialIncomeList
+                                       let department = GetDepartmentForPrinting(row.ProductID)
+                                       let account = GetAccountForPrinting(row.ProductID)
+                                       let amount = GetAmountForPrinting(row.ProductID)
+                                       select String.Format("{0};{1};{2};{3};{4};{5};{6};",
+                                           account, department,
+                                           row.ProductID,
+                                           row.Product.ProductName,
+                                           row.CustomerID,
+                                           row.Customer.CustomerName,
+                                           amount))
+                {
+                    writer.WriteLine(str);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns amount used when printing to file
+        /// </summary>
+        /// <param name="productID"></param>
+        /// <returns></returns>
+        private string GetAmountForPrinting(string productID)
+        {
+            var firstOrDefault = db.FinancialIncome.FirstOrDefault(a => a.ProductID.Equals(productID));
+            return firstOrDefault != null ? firstOrDefault.Budget.ToString() : "0";
+        }
+
+        /// <summary>
+        /// Returns department used when printing to file
+        /// </summary>
+        /// <param name="productID"></param>
+        /// <returns></returns>
+        private string GetDepartmentForPrinting(string productID)
+        {
+            var departments = db.Product.Select(d => d);
+            var firstOrDefault = departments.FirstOrDefault(d => d.ProductID.Equals(productID));
+            return firstOrDefault != null ? firstOrDefault.Department.DepartmentName : "";
+        }
+
+        /// <summary>
+        /// Returns account used when printing to file
+        /// </summary>
+        /// <param name="productID"></param>
+        /// <returns></returns>
+        private string GetAccountForPrinting(string productID)
+        {
+            var accounts = db.DirectProductCost.Select(d => d);
+            var firstOrDefault = accounts.FirstOrDefault(d => d.ProductID.Equals(productID));
+            return firstOrDefault != null
+                ? firstOrDefault.AccountID.ToString(CultureInfo.InvariantCulture) : "";
         }
     }
 }

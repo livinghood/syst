@@ -114,7 +114,7 @@ namespace Logic_Layer.FollowUp
             db.SaveChanges();
             Forecasts.Clear();
 
-            using (var reader = new StreamReader(fileName))
+            using (var reader = new StreamReader(fileName, Encoding.Default))
             {
                 // Ignore first row since it's a header
                 reader.ReadLine();
