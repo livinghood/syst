@@ -188,5 +188,12 @@ namespace BUPSystem.ActivityGUI
             return item.ActivityID.ToLower().Contains(textFilter.ToLower())
                 || item.ActivityName.ToString(CultureInfo.InvariantCulture).ToLower().Contains(textFilter.ToLower());
         }
+
+        private void Window_Closing_1(object sender, CancelEventArgs e)
+        {
+            ICollectionView view = CollectionViewSource.GetDefaultView(lvActivityRegister.ItemsSource);
+
+            view.Filter = null;
+        }
     }
 }

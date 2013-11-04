@@ -171,5 +171,12 @@ namespace BUPSystem.CustomerGUI
             }
 
         }
+
+        private void Window_Closing_1(object sender, CancelEventArgs e)
+        {
+            ICollectionView view = CollectionViewSource.GetDefaultView(lvCustomerList.ItemsSource);
+
+            view.Filter = null;
+        }
     }
 }

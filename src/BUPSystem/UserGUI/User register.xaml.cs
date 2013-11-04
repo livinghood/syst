@@ -149,5 +149,12 @@ namespace BUPSystem.UserGUI
             view.Filter = null;
             view.Filter = FilterCustomerItem; 
         }
+
+        private void winUserRegister_Closing_1(object sender, CancelEventArgs e)
+        {
+            ICollectionView view = CollectionViewSource.GetDefaultView(lvUserList.ItemsSource);
+
+            view.Filter = null;
+        }
     }
 }

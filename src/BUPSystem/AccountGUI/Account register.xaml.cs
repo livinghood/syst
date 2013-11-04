@@ -179,5 +179,12 @@ namespace BUPSystem.AccountGUI
                 SelectedAccount = lvAccounts.SelectedItem as Account;
             }            
         }
+
+        private void Window_Closing_1(object sender, CancelEventArgs e)
+        {
+            ICollectionView view = CollectionViewSource.GetDefaultView(lvAccounts.ItemsSource);
+
+            view.Filter = null;
+        }
     }
 }
