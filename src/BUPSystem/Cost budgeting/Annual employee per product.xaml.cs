@@ -106,6 +106,9 @@ namespace BUPSystem.Kostnadsbudgetering
         /// </summary>
         private void LoadExistingPlacements()
         {
+
+            // Ber om ursäkt för dom här foreach-satserna. Dom är inte försvarbara.
+
             foreach (Employee e in EmployeeList)
             {
                 foreach (ProductPlacement p in ProductManagement.Instance.GetProductPlacementsByEmployee(e))
