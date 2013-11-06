@@ -175,7 +175,7 @@ namespace Logic_Layer.FollowUp
                 case CostProductOption.Company: // Var kommer företaget ifrån?
                     gfu.ObjectName = "IT-Service";
 
-                    gfu.Costs = GetTotalCost();
+                    gfu.Costs = (int)GetTotalCost();
                     gfu.Revenues = GetCalculatedTotalRevenue();
 
                     gfu.Result = gfu.Revenues - gfu.Costs;
@@ -371,10 +371,10 @@ namespace Logic_Layer.FollowUp
             return (int)sum;
         }
 
-        private int GetTB()
+        private decimal GetTB()
         {
             // LÖNEKOSTNAD PÅ AVDELNINGEN
-            int sum = (int)GetEmployeeSallaryCostByDepartment("AO");
+            decimal sum = (int)GetEmployeeSallaryCostByDepartment("AO");
             sum += (int)GetEmployeeSallaryCostByDepartment("FO");
 
             // SUMMERAR MED SCHABLONSKOSTADER FRÅN KONTONA 5025-8571
@@ -397,15 +397,20 @@ namespace Logic_Layer.FollowUp
                 sum += (int)GetDirectActivityCostByActivityID(a.ActivityID);
             }
 
+            decimal production = GetProductionDepartmentCostByDepartmentID("DO");
+            production += GetProductionDepartmentCostByDepartmentID("UF");
+
+            sum /= production;
+
             return sum;
         }
 
-        private int GetAddition()
+        private decimal GetAddition()
         {
             //RETURNERAR PÅLÄGGET
 
-            int producion = 0;
-            int tb = 0;
+            decimal producion = 0;
+            decimal tb = 0;
 
             // TILLVERKNINGSKOSTNAD
             producion += GetProductionDepartmentCostByDepartmentID("DA");
@@ -432,14 +437,14 @@ namespace Logic_Layer.FollowUp
             return sum;
         }
 
-        public int GetTotalCost()
+        public decimal GetTotalCost()
         {
-            int sallary = 0;
-            int schablon = 0;
-            int directCost = 0;
-            int tillVCost = 0;
-            int tb = 0;
-            int totalCost = 0;
+            decimal sallary = 0;
+            decimal schablon = 0;
+            decimal directCost = 0;
+            decimal tillVCost = 0;
+            decimal tb = 0;
+            decimal totalCost = 0;
 
             // LÖNER FÖR ALLA AVDELNINGAR
             foreach (Department department in DepartmentList)
@@ -453,7 +458,7 @@ namespace Logic_Layer.FollowUp
             // DIREKTA KOSTNADER FÖR ALLA PRODUKTER
             foreach (Product product in ProductList)
             {
-                directCost = (int)GetDirectProductCostByProductID(product.ProductID);
+                directCost += (int)GetDirectProductCostByProductID(product.ProductID);
             }
 
             // SUMMERAR IHOP FÖR TOTALA TILLVERKNINGSKOSTNADEN
