@@ -110,21 +110,21 @@ namespace Logic_Layer
         /// <summary>
         /// Returns products in autocompletebox for ProductID
         /// </summary>
-        /// <param name="s">written text in box for autocomplete</param>
+        /// <param name="prodID">written text in box for autocomplete</param>
         /// <returns></returns>
-        public Product GetProductByID(string s)
+        public Product GetProductByID(string prodID)
         {
-            return Products.FirstOrDefault(p => p.ProductID.Equals(s));
+            return Products.FirstOrDefault(p => p.ProductID.Equals(prodID));
         }
 
         /// <summary>
         /// Returns products in autocompletebox for ProductName
         /// </summary>
-        /// <param name="s">written text in box for autocomplete</param>
+        /// <param name="productName">written text in box for autocomplete</param>
         /// <returns></returns>
-        public Product GetProductByName(string s)
+        public Product GetProductByName(string productName)
         {
-            return Products.FirstOrDefault(p => p.ProductName.Equals(s));
+            return Products.FirstOrDefault(p => p.ProductName.Equals(productName));
         }
 
         public IEnumerable<string> GetProductDepartments()
@@ -134,6 +134,16 @@ namespace Logic_Layer
                    where d.DepartmentID == "DA"
                    || d.DepartmentID == "UF"
                    select d.DepartmentID;
+        }
+
+        public IEnumerable GetProductsByProductGroup(string groupID)
+        {
+            return db.Product.OrderBy(p => p.ProductGroupID.Equals(groupID));
+        }
+
+        public IEnumerable GetProductsByDepartment(string departmentID)
+        {
+            return db.Product.OrderBy(p => p.DepartmentID.Equals(departmentID));
         }
 
         /// <summary>

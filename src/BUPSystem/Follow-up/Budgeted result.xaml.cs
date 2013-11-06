@@ -42,6 +42,12 @@ namespace BUPSystem.Uppföljning
             cpo = CostProductOption.Product;
         }
 
+        private void rbCompany_Checked(object sender, RoutedEventArgs e)
+        {
+            BudgetedResultManagement.Instance.FillGeneralFollowUpsWithCompany();
+            cpo = CostProductOption.Company;
+        }
+
         private void UpdateLabels(GeneralFollowUp gfu)
         {
             lblCostsSum.Content = gfu.Costs;
@@ -58,5 +64,7 @@ namespace BUPSystem.Uppföljning
                 UpdateLabels(gfu);
             }
         }
+
+        
     }
 }

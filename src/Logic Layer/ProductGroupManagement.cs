@@ -49,6 +49,16 @@ namespace Logic_Layer
             return db.ProductGroup.OrderBy(g => g.ProductGroupID);
         }
 
+        /// <summary>
+        /// Get a productgroup by id
+        /// </summary>
+        /// <param name="groupID"></param>
+        /// <returns></returns>
+        public ProductGroup GetProductGroupByID(string groupID)
+        {
+            return db.ProductGroup.FirstOrDefault(p => p.ProductGroupID.Equals(groupID));
+        }
+
 
         /// <summary>
         /// Add created product group to database
