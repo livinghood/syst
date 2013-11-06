@@ -30,7 +30,7 @@
                 </TextBox>
                 <Label Content="Kontonamn" Height="28" HorizontalAlignment="Left" Margin="10,42,0,0" x:Name="label2" VerticalAlignment="Top" Grid.ColumnSpan="2" />
                 <Label Content="Kontonummer" Height="28" HorizontalAlignment="Left" Margin="10,9,0,0" x:Name="label3" VerticalAlignment="Top" Grid.ColumnSpan="2" />
-                <TextBox x:Name="tbAmount" HorizontalAlignment="Right" Height="23" Margin="0,79,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="229" >
+                <TextBox x:Name="tbAmount" HorizontalAlignment="Right" Height="23" Margin="0,79,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="229" MaxLength="10" >
                     <TextBox.Text>
                         <Binding Path="AccountCost"
                              UpdateSourceTrigger="PropertyChanged" TargetNullValue="">
