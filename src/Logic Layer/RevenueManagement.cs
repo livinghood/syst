@@ -92,11 +92,7 @@ namespace Logic_Layer
 
             foreach (FinancialIncome fi in financialIncomes)
             {
-                foreach (Product p in ProductList)
-                {
-                    if (fi.ProductID.Equals(p.ProductID))
-                        fi.ProductName = p.ProductName;
-                }
+                fi.ProductName = fi.Product.ProductName;
             }
 
             return financialIncomes;
@@ -115,11 +111,7 @@ namespace Logic_Layer
 
             foreach (FinancialIncome fi in financialIncomes)
             {
-                foreach (Customer p in CustomerList)
-                {
-                    if (fi.CustomerID.Equals(p.CustomerID))
-                        fi.CustomerName = p.CustomerName;
-                }
+                fi.CustomerName = fi.Customer.CustomerName;
             }
 
             return financialIncomes;
@@ -139,11 +131,7 @@ namespace Logic_Layer
 
             foreach (FinancialIncome fi in financialIncomes)
             {
-                foreach (Product p in ProductList)
-                {
-                    if (fi.ProductID.Equals(p.ProductID))
-                        fi.ProductName = p.ProductName;
-                }
+                fi.ProductName = fi.Product.ProductName;
             }
 
             return financialIncomes;
