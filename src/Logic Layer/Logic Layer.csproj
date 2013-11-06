@@ -117,6 +117,7 @@
     <Compile Include="FollowUp\Forecasting.cs" />
     <Compile Include="FollowUp\ForecastingManagement.cs" />
     <Compile Include="FollowUp\GeneralFollowUp.cs" />
+    <Compile Include="FollowUp\RevenueFollowUpManagement.cs" />
     <Compile Include="ForecastMonitor.cs">
       <DependentUpon>BUPdb.tt</DependentUpon>
     </Compile>
