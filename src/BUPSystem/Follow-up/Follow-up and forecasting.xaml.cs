@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Logic_Layer;
 using Logic_Layer.FollowUp;
+using System.Windows.Media;
 using Microsoft.Win32;
 using System;
 
@@ -165,6 +166,12 @@ namespace BUPSystem.Uppföljning
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+            if (!IsValid(dgForecasts))
+            {
+                MessageBox.Show("Det finns felaktigt inmatade fält, var god ändra");
+                return;
+            }
+
             if (cbMonth.SelectedIndex > 0)
             {
                 Months SelectedMonth;
@@ -210,6 +217,19 @@ namespace BUPSystem.Uppföljning
             }
         }
 
+        public bool IsValid(DependencyObject parent)
+        {
+            if (Validation.GetHasError(parent))
+                return false;
+
+            // Validate all the bindings on the children
+            for (int i = 0; i != VisualTreeHelper.GetChildrenCount(parent); ++i)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(parent, i);
+                if (!IsValid(child)) { return false; }
+            }
+            return true;
+        }
         private void btnLock_Click(object sender, RoutedEventArgs e)
         {
             // Prevent locking when all months option is selected 
@@ -257,6 +277,11 @@ namespace BUPSystem.Uppföljning
 
                 UpdateForecasts();
             }
+        }
+
+        private void winFollowUpAndForecasting_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            ForecastingManagement.Instance.Forecasts.Clear();
         }
     }
 }
