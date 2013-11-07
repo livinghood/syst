@@ -70,7 +70,7 @@ namespace BUPSystem.Kostnadsbudgetering
                 //Ekonomichef
                 case 1:
                     DepartmentID = "AO";
-                    btnLock.IsEnabled = false;
+                    btnLock.Visibility = Visibility.Collapsed;
                     btnAddActivity.Visibility = Visibility.Collapsed;
                     dgDCPAD.IsReadOnly = true;
                     break;

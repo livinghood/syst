@@ -54,7 +54,7 @@ namespace BUPSystem.Revenue_budgeting
             NewFinancialIncomeList = new ObservableCollection<FinancialIncome>();
             CurrentFinancialIncomeYear = RevenueManagement.Instance.CreateFinancialIncomeYear();
             InitializeComponent();
-            dgIncomeCustomer.Visibility = Visibility.Collapsed;
+            dgIncomeCustomer.IsEnabled = false;
             DataContext = this;
             btnDelete.IsEnabled = false;
             btnSave.IsEnabled = false;
@@ -80,7 +80,7 @@ namespace BUPSystem.Revenue_budgeting
                     btnSave.Visibility = Visibility.Collapsed;
                     btnDelete.Visibility = Visibility.Collapsed;
                     btnLock.Visibility = Visibility.Collapsed;
-                    dgIncomeCustomer.IsEnabled = false;
+                    dgIncomeCustomer.IsReadOnly = true;
                     break;
 
                 // Försäljningschef
@@ -118,7 +118,7 @@ namespace BUPSystem.Revenue_budgeting
                 dgIncomeCustomer.ItemsSource = FinancialIncomeList;
                 lblProductID.Content = SelectedProduct.ProductID;
                 lblProductName.Content = SelectedProduct.ProductName;
-                dgIncomeCustomer.Visibility = Visibility.Visible;
+                dgIncomeCustomer.IsEnabled = true;
                 LockPrimaryCells();
                 if (CurrentFinancialIncomeYear.FinancialIncomeLock == false)
                 {

@@ -75,8 +75,8 @@ namespace BUPSystem.Kostnadsbudgetering
                 //Ekonomichef
                 case 1:
                     DepartmentID = "DA";
-                    btnLock.IsEnabled = false;
-                    btnSave.IsEnabled = false;
+                    btnLock.Visibility = Visibility.Collapsed;
+                    btnSave.Visibility = Visibility.Collapsed;
                     dgProductPlacements.IsReadOnly = true;
                     btnChooseProduct.IsEnabled = false;
                     break;

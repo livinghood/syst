@@ -15,10 +15,10 @@
         <Button Content="Export av textfil" HorizontalAlignment="Left" Margin="10,0,0,10" x:Name="btnExportToTextfile" Width="95" Height="23" VerticalAlignment="Bottom" Click="btnExportToTextfile_Click" />
         <Label x:Name="lblCustomerName" Content="" HorizontalAlignment="Left" Margin="168,10,0,0" VerticalAlignment="Top"/>
         <Label x:Name="lblCustomerID" Content="" HorizontalAlignment="Left" Margin="99,10,0,0" VerticalAlignment="Top"/>
-        <Label Height="28" HorizontalAlignment="Left" Margin="226,364,0,0" x:Name="lblAgreement" VerticalAlignment="Top" Content="Summa" />
-        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="373,364,0,0" x:Name="lblAddition" VerticalAlignment="Top" />
-        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="474,364,0,0" x:Name="lblBudget" VerticalAlignment="Top" />
-        <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="571,364,0,0" x:Name="lblHour" VerticalAlignment="Top" />
+        <Label Height="28" HorizontalAlignment="Left" Margin="226,364,0,0" x:Name="lblAgreement" VerticalAlignment="Top" Content="" />
+        <Label Content="" Height="28" HorizontalAlignment="Left" Margin="373,364,0,0" x:Name="lblAddition" VerticalAlignment="Top" />
+        <Label Content="" Height="28" HorizontalAlignment="Left" Margin="474,364,0,0" x:Name="lblBudget" VerticalAlignment="Top" />
+        <Label Content="" Height="28" HorizontalAlignment="Left" Margin="571,364,0,0" x:Name="lblHour" VerticalAlignment="Top" />
         <DataGrid Height="316" HorizontalAlignment="Left" x:Name="dgIncomeProduct" VerticalAlignment="Top" Width="773" Margin="0,43,0,0" AutoGenerateColumns="False" InitializingNewItem="dgIncomeProduct_InitializingNewItem" CellEditEnding="dgIncomeProduct_CellEditEnding">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Produkt-ID" Width="100" >

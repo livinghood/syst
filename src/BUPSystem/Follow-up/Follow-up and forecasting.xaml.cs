@@ -30,6 +30,82 @@ namespace BUPSystem.Uppföljning
             InitializeComponent();
             DataContext = this;
             saved = true;
+
+            if (System.Threading.Thread.CurrentPrincipal.IsInRole("99"))
+            {
+                // Allmän
+                btnImportFile.Visibility = Visibility.Collapsed;
+                btnSave.Visibility = Visibility.Collapsed;
+                btnLock.Visibility = Visibility.Collapsed;
+                dgForecasts.IsReadOnly = true;
+            }
+            else
+            {
+                UserAccount userAccount = UserManagement.Instance.GetUserAccountByUsername(System.Threading.Thread.CurrentPrincipal.Identity.Name);
+
+                if (userAccount == null)
+                    Application.Current.Shutdown();
+
+
+                switch (userAccount.PermissionLevel)
+                {
+                    // Administrativchef
+                    case 0:
+                        btnImportFile.Visibility = Visibility.Collapsed;
+                        btnSave.Visibility = Visibility.Collapsed;
+                        btnLock.Visibility = Visibility.Collapsed;
+                        dgForecasts.IsReadOnly = true;
+                        break;
+
+                    // Ekonomichef
+                    case 1:
+                            btnSave.Visibility = Visibility.Collapsed;
+                            btnLock.Visibility = Visibility.Collapsed;
+                            dgForecasts.IsReadOnly = true;
+                        break;
+
+                    // Försäljningschef
+                    case 2:
+                        btnImportFile.Visibility = Visibility.Collapsed;
+                        break;
+
+                    // Personalchef
+                    case 3:
+                         btnImportFile.Visibility = Visibility.Collapsed;
+                        btnSave.Visibility = Visibility.Collapsed;
+                        btnLock.Visibility = Visibility.Collapsed;
+                        dgForecasts.IsReadOnly = true;
+                        break;
+
+                    // Driftschef
+                    case 4:
+                         btnImportFile.Visibility = Visibility.Collapsed;
+                        btnSave.Visibility = Visibility.Collapsed;
+                        btnLock.Visibility = Visibility.Collapsed;
+                        dgForecasts.IsReadOnly = true;
+                        break;
+
+                    // Systemadministratör
+                    case 5:
+                        // Kan göra allt?
+                        break;
+
+                    // Säljare
+                    case 6:
+                        btnLock.Visibility = Visibility.Collapsed;
+                        btnImportFile.Visibility = Visibility.Collapsed;
+                        break;
+
+                    // Utvecklingschef
+                    case 7:
+                        btnImportFile.Visibility = Visibility.Collapsed;
+                        btnSave.Visibility = Visibility.Collapsed;
+                        btnLock.Visibility = Visibility.Collapsed;
+                        dgForecasts.IsReadOnly = true;
+                        break;
+                }
+            }
+
         }
 
         private void btnImportFile_Click(object sender, RoutedEventArgs e)

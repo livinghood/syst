@@ -92,21 +92,6 @@
             </Button.Background>
         </Button>
         <Button x:Name="btnClose" Content="" HorizontalAlignment="Right" Style="{DynamicResource close}" Width="42" Background="#FFD5D5D5" Margin="0,0,10,382.149" BorderThickness="1,0,1,1" Click="btnClose_Click"/>
-        <TextBlock x:Name="textBlock" Text="animation" Margin="146,268,72,99" FontSize="18" FontWeight="Bold">
-            <TextBlock.Triggers>
-                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                    <BeginStoryboard>
-                        <Storyboard RepeatBehavior="Forever" AutoReverse="True">
-                            <StringAnimationUsingKeyFrames Storyboard.TargetProperty="(TextBlock.Text)" Storyboard.TargetName="textBlock" RepeatBehavior="Forever" Duration="0:0:3" >
-                                <DiscreteStringKeyFrame KeyTime="0:0:0.0" Value="( •_•)"/>
-                                <DiscreteStringKeyFrame KeyTime="0:0:0.4" Value="( •_•)>⌐■-■"/>
-                                <DiscreteStringKeyFrame KeyTime="0:0:0.8" Value="(⌐■_■) YEAAAHH!"/>
-                            </StringAnimationUsingKeyFrames>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </TextBlock.Triggers>
-        </TextBlock>
 
 
     </Grid>

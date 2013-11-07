@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using Logic_Layer.FollowUp;
+using Logic_Layer;
 using Microsoft.Win32;
 
 namespace BUPSystem.Uppföljning
@@ -27,6 +28,63 @@ namespace BUPSystem.Uppföljning
         {
             InitializeComponent();
             DataContext = this;
+            if (System.Threading.Thread.CurrentPrincipal.IsInRole("99"))
+            {
+                btnImportFile.Visibility = Visibility.Collapsed;
+
+            }
+            else
+            {
+                UserAccount userAccount = UserManagement.Instance.GetUserAccountByUsername(System.Threading.Thread.CurrentPrincipal.Identity.Name);
+
+                if (userAccount == null)
+                    Application.Current.Shutdown();
+
+
+                switch (userAccount.PermissionLevel)
+                {
+                    // Administrativchef
+                    case 0:
+                        btnImportFile.Visibility = Visibility.Collapsed;
+                        break;
+
+                    // Ekonomichef
+                    case 1:
+
+                        break;
+
+                    // Försäljningschef
+                    case 2:
+                        btnImportFile.Visibility = Visibility.Collapsed;
+                        break;
+
+                    // Personalchef
+                    case 3:
+                        btnImportFile.Visibility = Visibility.Collapsed;
+                        break;
+
+                    // Driftschef
+                    case 4:
+                        btnImportFile.Visibility = Visibility.Collapsed;
+                        break;
+
+                    // Systemadministratör
+                    case 5:
+                        // Kan göra allt
+                        break;
+
+                    // Säljare
+                    case 6:
+                        btnImportFile.Visibility = Visibility.Collapsed;
+                        break;
+
+                    // Utvecklingschef
+                    case 7:
+                        btnImportFile.Visibility = Visibility.Collapsed;
+                        break;
+                }
+            }
+
         }
 
         /// <summary>
