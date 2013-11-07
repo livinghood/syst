@@ -381,7 +381,7 @@ namespace Logic_Layer.FollowUp
             decimal sallary = DepartmentList.Aggregate<Department, decimal>(0, (current, department) => current + GetEmployeeSallaryCostByDepartment(department.DepartmentID));
 
             // SCHABLONSKOSTNADER FÖR ALLA KONTON
-            schablon = (int)GetTotalCalculatedSchablonCost();
+            schablon = GetTotalCalculatedSchablonCost();
 
             // DIREKTA KOSTNADER FÖR ALLA PRODUKTER
             decimal directCost = ProductList.Aggregate<Product, decimal>(0, (current, product) => current + (int)GetDirectProductCostByProductID(product.ProductID));
