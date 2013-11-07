@@ -221,5 +221,10 @@ namespace Logic_Layer
                    where p.EmployeeID == employee.EmployeeID
                    select p;
         }
+
+        public void ResetProductPlacement(ProductPlacement ppObj)
+        {
+            db.Entry(ppObj).State = EntityState.Unchanged;
+        }
     }
 }

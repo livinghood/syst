@@ -263,6 +263,20 @@ namespace BUPSystem.Kostnadsbudgetering
             }
         }
 
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            // För varje productplacement i listan: reset changes
+            foreach (DataItemProduct di in MyList)
+            {
+                foreach (ProductPlacement p in di.DataList)
+                {
+                    // Reset changes
+                    ProductManagement.Instance.ResetProductPlacement(p);
+                }
+            }
+          
+        }
+
     }
 
 
