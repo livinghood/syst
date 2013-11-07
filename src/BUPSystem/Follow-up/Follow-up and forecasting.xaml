@@ -1,7 +1,7 @@
 ﻿<Window x:Name="winFollowUpAndForecasting" x:Class="BUPSystem.Uppföljning.FollowUpAndForecasting"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="FollowUpAndForecasting" Height="473" Width="790" ResizeMode="CanMinimize">
+        Title="FollowUpAndForecasting" Height="473" Width="790" ResizeMode="CanMinimize" Closing="winFollowUpAndForecasting_Closing">
     <Grid>
         <DataGrid AutoGenerateColumns="False" Height="318" x:Name="dgForecasts" VerticalAlignment="Top" Margin="10,46,10,0" CanUserAddRows="False" CellEditEnding="dgForecasts_CellEditEnding" ItemsSource="{Binding Forecasts}">
             <DataGrid.Columns>
