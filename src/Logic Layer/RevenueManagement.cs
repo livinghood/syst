@@ -108,10 +108,12 @@ namespace Logic_Layer
                                                             orderby f.CustomerID
                                                             where f.ProductID == productid
                                                             select f;
-
-            foreach (FinancialIncome fi in financialIncomes)
+            if (financialIncomes.Any())
             {
-                fi.CustomerName = fi.Customer.CustomerName;
+                foreach (FinancialIncome fi in financialIncomes)
+                {
+                    fi.CustomerName = fi.Customer.CustomerName;
+                }
             }
 
             return financialIncomes;

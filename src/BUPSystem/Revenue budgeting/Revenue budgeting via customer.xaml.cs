@@ -43,11 +43,14 @@ namespace BUPSystem.Revenue_budgeting
             set { RevenueManagement.Instance.CurrentFinancialIncomeYear = value; }
         }
 
+        private ObservableCollection<FinancialIncome> NewFinancialIncomeList { get; set; }
+
         /// <summary>
         /// Constructor
         /// </summary>
         public RevenueBudgetingViaCustomer()
         {
+            NewFinancialIncomeList = new ObservableCollection<FinancialIncome>();
             CurrentFinancialIncomeYear = RevenueManagement.Instance.CreateFinancialIncomeYear();
             InitializeComponent();
             dgIncomeProduct.IsEnabled = false;
@@ -128,6 +131,10 @@ namespace BUPSystem.Revenue_budgeting
         {
             try
             {
+                if (NewFinancialIncomeList.Any())
+                    foreach (FinancialIncome fi in NewFinancialIncomeList)
+                        RevenueManagement.Instance.AddIncome(fi);
+
                 FinancialIncomeList = RevenueManagement.Instance.RemoveEmptyCustomerIncomes();
                 RevenueManagement.Instance.UpdateFinancialIncome();
                 MessageBox.Show("Intäktsbudgeteringen är nu sparad");
@@ -145,14 +152,18 @@ namespace BUPSystem.Revenue_budgeting
         /// <param name="e"></param>
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            try
+            var result = MessageBox.Show("Är du säker på att du vill ta bort denna raden helt?" + Environment.NewLine + "Detta går inte att ångra.", "Ta Bort Rad", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
             {
-                FinancialIncome fi = (FinancialIncome)dgIncomeProduct.SelectedItem;
-                RevenueManagement.Instance.DeleteFinancialIncome(fi);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
+                try
+                {
+                    FinancialIncome fi = (FinancialIncome)dgIncomeProduct.SelectedItem;
+                    RevenueManagement.Instance.DeleteFinancialIncome(fi);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
 
@@ -246,8 +257,8 @@ namespace BUPSystem.Revenue_budgeting
             FinancialIncome obj = e.NewItem as FinancialIncome;
             if (obj != null)
             {
-                RevenueManagement.Instance.AddIncome(obj);
                 obj.CustomerID = SelectedCustomer.CustomerID;
+                NewFinancialIncomeList.Add(obj);
             }
         }
 
