@@ -128,6 +128,11 @@ namespace BUPSystem.Revenue_budgeting
         /// <param name="e"></param>
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+            if (!IsValid(dgIncomeCustomer)){
+                MessageBox.Show("Det finns felaktigt inmatade fält, var god ändra");
+                return;
+            }
+
             try
             {
                 if (NewFinancialIncomeList.Any())
@@ -144,6 +149,20 @@ namespace BUPSystem.Revenue_budgeting
             }
         }
 
+        public bool IsValid(DependencyObject parent)
+        {
+            if (Validation.GetHasError(parent))
+                return false;
+
+            // Validate all the bindings on the children
+            for (int i = 0; i != VisualTreeHelper.GetChildrenCount(parent); ++i)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(parent, i);
+                if (!IsValid(child)) { return false; }
+            }
+
+            return true;
+        }
         /// <summary>
         /// Delete the selected row
         /// </summary>
