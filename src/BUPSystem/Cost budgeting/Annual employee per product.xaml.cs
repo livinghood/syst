@@ -167,7 +167,7 @@ namespace BUPSystem.Kostnadsbudgetering
 
         private void btnChooseProduct_Click(object sender, RoutedEventArgs e)
         {
-            ProductRegister productRegister = new ProductRegister(true);
+            ProductRegister productRegister = new ProductRegister(true,DepartmentID);
 
             if (productRegister.ShowDialog() == true)
             {
