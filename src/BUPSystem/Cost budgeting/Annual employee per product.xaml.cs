@@ -122,14 +122,17 @@ namespace BUPSystem.Kostnadsbudgetering
                             {
                                 if (di.EmployeeID == e.EmployeeID)
                                 {
-                                    foreach (ProductPlacement pp in di.DataList)
-                                    {
-                                        if (pp.ProductID.Equals(p.ProductID))
-                                        {
-                                            pp.ProductAllocate = p.ProductAllocate;
-                                            found = true;
-                                        }
-                                    }
+                                    di.DataList.Add(p);
+                                    //foreach (ProductPlacement pp in di.DataList)
+                                    //{
+                                    //    if (pp.ProductID.Equals(p.ProductID))
+                                    //    {
+                                    //        pp.ProductAllocate = p.ProductAllocate;
+                                    //        found = true;
+                                    //    }
+                                    //}
+
+                                    found = true;
                                 }
                             }
                         }
@@ -148,10 +151,12 @@ namespace BUPSystem.Kostnadsbudgetering
                     //För varje rad
                     foreach (DataItemProduct di in MyList)
                     {
+                        // Om det är rätt kund
                         if (di.EmployeeID == e.EmployeeID)
                         {
+                            // Lägg till product placement
                             di.DataList.Add(p);
-                        }   //VI ÄR HÄR!!!!!
+                        }
                         //else
                         //{
                         //    ProductPlacement pp = new ProductPlacement() { EmployeeID = di.EmployeeID, ProductID = p.ProductID, ProductAllocate = 0 };

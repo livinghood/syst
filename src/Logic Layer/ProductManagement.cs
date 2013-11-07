@@ -45,7 +45,20 @@ namespace Logic_Layer
 
         public void FillProductList(string departmentID)
         {
-            Products = new ObservableCollection<Product>(GetProductsByDepartment(departmentID));
+            switch (departmentID)
+            {
+                case "DA":
+
+                    Products = new ObservableCollection<Product>(GetProductsByDepartment("DA"));
+                    break;
+                case "UF":
+                    Products = new ObservableCollection<Product>(GetProductsByDepartment("UF"));
+                    break;
+
+                default:
+                    Products = new ObservableCollection<Product>(GetProducts());
+                    break;
+            }
         }
 
         /// <summary>
@@ -95,12 +108,12 @@ namespace Logic_Layer
 
         public IEnumerable<Product> GetProductsByProductGroup(string groupID)
         {
-            return db.Product.OrderBy(p => p.ProductGroupID.Equals(groupID));
+            return db.Product.Where(p => p.ProductGroupID.Equals(groupID));
         }
 
         public IEnumerable<Product> GetProductsByDepartment(string departmentID)
         {
-            return db.Product.OrderBy(p => p.DepartmentID.Equals(departmentID));
+            return db.Product.Where(p => p.DepartmentID.Equals(departmentID));
         }
 
         /// <summary>
