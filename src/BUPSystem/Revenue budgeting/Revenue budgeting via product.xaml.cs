@@ -125,6 +125,8 @@ namespace BUPSystem.Revenue_budgeting
                     btnDelete.IsEnabled = true;
                     btnSave.IsEnabled = true;
                 }
+
+                UpdateLabels();
             }
 
         }
@@ -185,6 +187,7 @@ namespace BUPSystem.Revenue_budgeting
                 {
                     FinancialIncome fi = (FinancialIncome)dgIncomeCustomer.SelectedItem;
                     RevenueManagement.Instance.DeleteFinancialIncome(fi);
+                    UpdateLabels();
                 }
                 catch (Exception ex)
                 {
@@ -231,6 +234,7 @@ namespace BUPSystem.Revenue_budgeting
                 cellID.IsEnabled = false;
                 DataGridCell cellName = GetCell(dgIncomeCustomer.SelectedIndex, 1); //Pass the row and column
                 cellName.IsEnabled = false;
+                UpdateLabels();
             }
         }
 
@@ -285,6 +289,7 @@ namespace BUPSystem.Revenue_budgeting
             {
                 NewFinancialIncomeList.Add(obj);
                 obj.ProductID = SelectedProduct.ProductID;
+                UpdateLabels();
             }
         }
 
@@ -300,6 +305,7 @@ namespace BUPSystem.Revenue_budgeting
                 DataGrid grid = (DataGrid)sender;
                 grid.CommitEdit(DataGridEditingUnit.Row, true);
                 isManualEdit = false;
+                UpdateLabels();
             }
         }
 
@@ -383,6 +389,27 @@ namespace BUPSystem.Revenue_budgeting
                 // Reset changes
                 RevenueManagement.Instance.ResetFinancialIncome(fi);
             }
+        }
+
+        private void UpdateLabels()
+        {
+            int? add = 0;
+            int? bud = 0;
+            int? agr = 0;
+            int? hour = 0;
+
+            foreach (var item in FinancialIncomeList)
+            {
+                add += item.Addition;
+                bud += item.Budget;
+                agr += item.Agreement;
+                hour += item.Hours;
+            }
+
+            lblAddition.Content = add;
+            lblBudget.Content = bud;
+            lblAgreement.Content = agr;
+            lblHour.Content = hour;
         }
     }
 }

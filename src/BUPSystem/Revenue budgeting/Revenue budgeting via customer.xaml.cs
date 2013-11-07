@@ -126,6 +126,7 @@ namespace BUPSystem.Revenue_budgeting
                     btnDelete.IsEnabled = true;
                     btnSave.IsEnabled = true;
                 }
+                UpdateLabels();
             }
 
         }
@@ -188,6 +189,7 @@ namespace BUPSystem.Revenue_budgeting
                 {
                     FinancialIncome fi = (FinancialIncome)dgIncomeProduct.SelectedItem;
                     RevenueManagement.Instance.DeleteFinancialIncome(fi);
+                    UpdateLabels();
                 }
                 catch (Exception ex)
                 {
@@ -288,6 +290,7 @@ namespace BUPSystem.Revenue_budgeting
             {
                 obj.CustomerID = SelectedCustomer.CustomerID;
                 NewFinancialIncomeList.Add(obj);
+                UpdateLabels();
             }
         }
 
@@ -303,6 +306,7 @@ namespace BUPSystem.Revenue_budgeting
                 DataGrid grid = (DataGrid)sender;
                 grid.CommitEdit(DataGridEditingUnit.Row, true);
                 isManualEdit = false;
+                UpdateLabels();
             }
         }
 
@@ -384,6 +388,28 @@ namespace BUPSystem.Revenue_budgeting
                 // Reset changes
                 RevenueManagement.Instance.ResetFinancialIncome(fi);
             }
+        }
+
+
+        private void UpdateLabels()
+        {
+            int? add = 0;
+            int? bud = 0;
+            int? agr = 0;
+            int? hour = 0;
+
+            foreach (var item in FinancialIncomeList)
+            {
+                add += item.Addition;
+                bud += item.Budget;
+                agr += item.Agreement;
+                hour += item.Hours;
+            }
+
+            lblAddition.Content = add;
+            lblBudget.Content = bud;
+            lblAgreement.Content = agr;
+            lblHour.Content = hour;
         }
     }
 }

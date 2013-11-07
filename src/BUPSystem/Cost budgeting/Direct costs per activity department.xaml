@@ -23,6 +23,6 @@
         <Label x:Name="lblAccount" Content="Markera ett konto:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <Button x:Name="btnCancel" Content="Avbryt" Margin="406,0,149,10" IsCancel="True" Height="23" VerticalAlignment="Bottom"/>
         <ComboBox Margin="226,0,240,11" Height="22" VerticalAlignment="Bottom" x:Name="cbDepartments" SelectedIndex="0" Text="Välj..." ItemsSource="{Binding Departments}" DisplayMemberPath="DepartmentName" SelectionChanged="cbDepartments_SelectionChanged" />
-        <Label x:Name="lblChooseDepartment" Content="Välj avdelning" Margin="264,0,276,33" Height="26" VerticalAlignment="Bottom"/>
+        <Label x:Name="lblChooseDepartment" Content="Välj avdelning" Margin="249,0,276,33" Height="26" VerticalAlignment="Bottom"/>
     </Grid>
 </Window>
