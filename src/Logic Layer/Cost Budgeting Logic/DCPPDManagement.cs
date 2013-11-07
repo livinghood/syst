@@ -83,7 +83,7 @@ namespace Logic_Layer.Cost_Budgeting_Logic
         public IEnumerable<Account> GetAccountsByDepartment(string departmentID)
         {
             return from a in db.Account
-                   join dp in db.DirectActivityCost on departmentID equals dp.Activity.DepartmentID
+                   join dp in db.DirectProductCost on departmentID equals dp.Product.DepartmentID
                    where a.AccountID.Equals(dp.AccountID)
                    select a;
         }
