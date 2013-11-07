@@ -158,12 +158,16 @@ namespace BUPSystem.Revenue_budgeting
 
         private void btnLock_Click(object sender, RoutedEventArgs e)
         {
-            CurrentFinancialIncomeYear.FinancialIncomeLock = true;
-            RevenueManagement.Instance.UpdateFinancialIncomeYear();
-            dgIncomeProduct.IsReadOnly = true;
-            btnLock.IsEnabled = false;
-            btnDelete.IsEnabled = false;
-            btnSave.IsEnabled = false;
+            var result = MessageBox.Show("Du kommer nu att låsa intäktsbudgetering för både via kund och via produkt." + Environment.NewLine + "Vill du fortsätta?", "Låsa intäktsbudget",MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+            {
+                CurrentFinancialIncomeYear.FinancialIncomeLock = true;
+                RevenueManagement.Instance.UpdateFinancialIncomeYear();
+                dgIncomeProduct.IsReadOnly = true;
+                btnLock.IsEnabled = false;
+                btnDelete.IsEnabled = false;
+                btnSave.IsEnabled = false;
+            }
         }
 
         /// <summary>
