@@ -11,8 +11,8 @@
                 <DataGridTextColumn Header="Produktkategori" MinWidth="40" Width="150" Binding="{Binding ProductCategoryID}" IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Skapa Exceldokument" HorizontalAlignment="Left" Margin="188,0,0,10" x:Name="btnCreateExcel" Width="134" Height="23" VerticalAlignment="Bottom" />
-        <Button Content="Skriv ut" HorizontalAlignment="Left" Margin="110,0,0,10" x:Name="btnPrint" Width="73" Height="23" VerticalAlignment="Bottom" />
+        <Button Content="Skapa Exceldokument" HorizontalAlignment="Left" Margin="188,0,0,10" x:Name="btnCreateExcel" Width="134" Height="23" VerticalAlignment="Bottom" IsEnabled="False" />
+        <Button Content="Skriv ut" HorizontalAlignment="Left" Margin="110,0,0,10" x:Name="btnPrint" Width="73" Height="23" VerticalAlignment="Bottom" IsEnabled="False" />
         <Button Content="Export av textfil" HorizontalAlignment="Left" Margin="10,0,0,10" x:Name="btnExport" Width="95" Height="23" VerticalAlignment="Bottom" Click="btnExport_Click" />
         <Label Content="Välj avdelning:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <RadioButton x:Name="rbDriftDepartment" Content="Drift" HorizontalAlignment="Left" Margin="102,16,0,0" VerticalAlignment="Top" Checked="rbDriftDepartment_Checked"/>
