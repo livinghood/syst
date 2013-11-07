@@ -17,7 +17,7 @@
         <Label Content="Välj avdelning" Height="28" Margin="10,10,602,0" x:Name="lblChooseDepartment" VerticalAlignment="Top" />
         <DataGrid Height="318" x:Name="dgActivityPlacements" VerticalAlignment="Top" Margin="355,46,0,0" ItemsSource="{Binding MyList}" AutoGenerateColumns="False" CanUserAddRows="False" />
         <Button x:Name="btnSave" Content="Spara" HorizontalAlignment="Left" Margin="743,383,0,0" VerticalAlignment="Top" Width="75" Click="btnSave_Click"/>
-        <Button x:Name="btnCancel" Content="Avbryt" HorizontalAlignment="Left" Margin="663,383,0,0" VerticalAlignment="Top" Width="75" IsCancel="True"/>
+        <Button x:Name="btnCancel" Content="Avbryt" HorizontalAlignment="Left" Margin="663,383,0,0" VerticalAlignment="Top" Width="75" IsCancel="True" Click="btnCancel_Click"/>
         <Button x:Name="btnChooseActivity" Content="Välj aktivitet" HorizontalAlignment="Left" Margin="468,13,0,0" VerticalAlignment="Top" Width="75" Click="btnChooseAktivity_Click"/>
         <Button x:Name="btnLock" Content="Lås kostnadbudget" HorizontalAlignment="Left" Margin="716,10,0,0" VerticalAlignment="Top" Width="104" Click="btnLock_Click"/>
     </Grid>

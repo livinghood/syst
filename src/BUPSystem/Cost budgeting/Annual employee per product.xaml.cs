@@ -111,7 +111,7 @@ namespace BUPSystem.Kostnadsbudgetering
 
             foreach (Employee e in EmployeeList)
             {
-                foreach (ProductPlacement p in ProductManagement.Instance.GetProductPlacementsByEmployee(e))
+                foreach (ProductPlacement p in ProductManagement.Instance.GetProductPlacementsByEmployeeAndDepartment(e,DepartmentID))
                 {
                     bool found = false;
                     foreach (DataGridColumn dgc in dgProductPlacements.Columns)
@@ -123,14 +123,6 @@ namespace BUPSystem.Kostnadsbudgetering
                                 if (di.EmployeeID == e.EmployeeID)
                                 {
                                     di.DataList.Add(p);
-                                    //foreach (ProductPlacement pp in di.DataList)
-                                    //{
-                                    //    if (pp.ProductID.Equals(p.ProductID))
-                                    //    {
-                                    //        pp.ProductAllocate = p.ProductAllocate;
-                                    //        found = true;
-                                    //    }
-                                    //}
 
                                     found = true;
                                 }
@@ -157,12 +149,7 @@ namespace BUPSystem.Kostnadsbudgetering
                             // Lägg till product placement
                             di.DataList.Add(p);
                         }
-                        //else
-                        //{
-                        //    ProductPlacement pp = new ProductPlacement() { EmployeeID = di.EmployeeID, ProductID = p.ProductID, ProductAllocate = 0 };
-                        //    di.DataList.Add(pp);
-                        //    ProductPlacementList.Add(pp);
-                        //}
+
                         SelectedProducts.Add(p.Product);
                     }
 

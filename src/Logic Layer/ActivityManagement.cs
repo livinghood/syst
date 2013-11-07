@@ -190,5 +190,19 @@ namespace Logic_Layer
             return activityplacements;
         }
 
+        public IEnumerable<ActivityPlacement> GetActivityPlacementsByEmployeeAndDepartment(Employee employee, string department)
+        {
+            var activityplacements = from a in db.ActivityPlacement
+                                     where a.EmployeeID == employee.EmployeeID
+                                     where a.Activity.DepartmentID == department
+                                     select a;
+
+            return activityplacements;
+        }
+        public void ResetActivityPlacement(ActivityPlacement ppObj)
+        {
+            db.Entry(ppObj).State = EntityState.Unchanged;
+        }
+
     }
 }

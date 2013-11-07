@@ -31,7 +31,7 @@ namespace BUPSystem.Kostnadsbudgetering
 
         public ObservableCollection<DataItemActivity> MyList { get; set; }
 
-        public ObservableCollection<Department> Departments { get { return EmployeeManagement.Instance.Departments;} }
+        public ObservableCollection<Department> Departments { get { return EmployeeManagement.Instance.AFFODepartments;} }
 
         private string DepartmentID;
 
@@ -106,7 +106,7 @@ namespace BUPSystem.Kostnadsbudgetering
         {
             foreach (Employee e in EmployeeList)
             {
-                foreach (ActivityPlacement a in ActivityManagement.Instance.GetActivityPlacementsByEmployee(e))
+                foreach (ActivityPlacement a in ActivityManagement.Instance.GetActivityPlacementsByEmployeeAndDepartment(e, DepartmentID))
                 {
                     bool found = false;
                     foreach (DataGridColumn dgc in dgActivityPlacements.Columns)
@@ -117,32 +117,38 @@ namespace BUPSystem.Kostnadsbudgetering
                             {
                                 if (di.EmployeeID == e.EmployeeID)
                                 {
-                                    foreach (ActivityPlacement ap in di.DataList)
+                                    if (di.EmployeeID == e.EmployeeID)
                                     {
-                                        if (ap.ActivityID.Equals(a.ActivityID))
-                                        {
-                                            ap.ActivityAllocate = a.ActivityAllocate;
-                                            found = true;
-                                        }
+                                        di.DataList.Add(a);
+
+                                        found = true;
                                     }
                                 }
                             }
                         }
                     }
+
                     if (found)
                         continue;
+                    
+                    //Skapa column
                     DataGridTextColumn activityColumn = new DataGridTextColumn();
                     activityColumn.Header = a.Activity.ActivityName;
-                    foreach (DataItemActivity di in MyList)
-                    {
-                        ActivityPlacement ap = new ActivityPlacement() { EmployeeID = di.EmployeeID, ActivityID = a.ActivityID, ActivityAllocate = 0 };
-                        if (di.EmployeeID == e.EmployeeID)
-                            ap.ActivityAllocate = a.ActivityAllocate;
-                        di.DataList.Add(ap);
-                        SelectedActivities.Add(a.Activity);
-                    }
                     activityColumn.Binding = new Binding("DataList[" + dgActivityPlacements.Columns.Count + "].ActivityAllocate");
                     dgActivityPlacements.Columns.Add(activityColumn);
+
+                    foreach (DataItemActivity di in MyList)
+                    {
+                        // Om det är rätt kund
+                        if (di.EmployeeID == e.EmployeeID)
+                        {
+                            // Lägg till product placement
+                            di.DataList.Add(a);
+                        }
+
+                        SelectedActivities.Add(a.Activity);
+                    }
+                    
                 }
             }
         }
@@ -181,7 +187,7 @@ namespace BUPSystem.Kostnadsbudgetering
 
         private void btnChooseAktivity_Click(object sender, RoutedEventArgs e)
         {
-            ActivityRegister activityRegister = new ActivityRegister(true);
+            ActivityRegister activityRegister = new ActivityRegister(true, DepartmentID);
 
             if (activityRegister.ShowDialog() == true)
             {
@@ -236,6 +242,19 @@ namespace BUPSystem.Kostnadsbudgetering
                 btnSave.IsEnabled = true;
                 dgActivityPlacements.IsReadOnly = false;
                 btnChooseActivity.IsEnabled = true;
+            }
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            // För varje productplacement i listan: reset changes
+            foreach (DataItemActivity di in MyList)
+            {
+                foreach (ActivityPlacement a in di.DataList)
+                {
+                    // Reset changes
+                    ActivityManagement.Instance.ResetActivityPlacement(a);
+                }
             }
         }
 
