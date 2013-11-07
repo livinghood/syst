@@ -222,6 +222,14 @@ namespace Logic_Layer
                    select p;
         }
 
+        public IEnumerable<ProductPlacement> GetProductPlacementsByEmployeeAndDepartment(Employee employee, string department)
+        {
+            return from p in db.ProductPlacement
+                   where p.EmployeeID == employee.EmployeeID
+                   where p.Product.DepartmentID == department
+                   select p;
+        }
+
         public void ResetProductPlacement(ProductPlacement ppObj)
         {
             db.Entry(ppObj).State = EntityState.Unchanged;
