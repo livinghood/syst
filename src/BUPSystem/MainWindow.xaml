@@ -85,6 +85,7 @@
                 </StackPanel>
             </Grid>
         </StackPanel>
+        <Label x:Name="lblTitle" Content="titel" HorizontalAlignment="Right" Margin="0,39,114,0" VerticalAlignment="Top" Foreground="#FF002C6C" Height="33" Width="359" FlowDirection="RightToLeft" FontSize="14"/>
     </Grid>
 
 </Window>

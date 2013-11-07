@@ -158,13 +158,14 @@ namespace BUPSystem
             if (System.Threading.Thread.CurrentPrincipal.IsInRole("99"))
             {
                 lblUsername.Content = "Inloggad som: " + System.Threading.Thread.CurrentPrincipal.Identity.Name;
+                lblTitle.Content = "";
 
                 // Dessa fönster kraschar vid öppnande om man är inloggad som allmän
-                btnDirektKostandPerAktivitet.Visibility = Visibility.Collapsed;
-                btnDirektKostnadPerProdukt.Visibility = Visibility.Collapsed;
-                btnUppföljning.Visibility = Visibility.Collapsed;
-                btnÅrsarbetarePerAktivitet.Visibility = Visibility.Collapsed;
-                btnÅrsarbetarePerProdukt.Visibility = Visibility.Collapsed;
+                btnAnvändarhantering.Visibility = Visibility.Collapsed;
+                btnKontohantering.Visibility = Visibility.Collapsed;
+                gKbudget.Visibility = Visibility.Collapsed;
+                gIntakt.Visibility = Visibility.Collapsed;
+                btnNonBudgetedProducts.Visibility = Visibility.Collapsed;
 
                 // Kommenterade för att testa (är korrekta)
 
@@ -182,6 +183,7 @@ namespace BUPSystem
                     Application.Current.Shutdown();
 
                 lblUsername.Content = "Inloggad som: " + userAccount.Employee.EmployeeName;
+                lblTitle.Content = Enum.GetName(typeof(UserPermissionLevels), userAccount.PermissionLevel);
 
                 switch (userAccount.PermissionLevel)
                 {
@@ -190,19 +192,25 @@ namespace BUPSystem
                         btnPersonalhantering.Visibility = Visibility.Collapsed;
                         btnAnvändarhantering.Visibility = Visibility.Collapsed;
                         btnKontohantering.Visibility = Visibility.Collapsed;
+                        btnProduktgrupp.Visibility = Visibility.Collapsed;
+                        btnProdukthantering.Visibility = Visibility.Collapsed;
+                        btnProduktKategori.Visibility = Visibility.Collapsed;
                         gIntakt.Visibility = Visibility.Collapsed;
                         btnDirektKostnadPerProdukt.Visibility = Visibility.Collapsed;
                         btnÅrsarbetarePerProdukt.Visibility = Visibility.Collapsed;
+                        btnNonBudgetedProducts.Visibility = Visibility.Collapsed;
                         break;
 
                     // Ekonomichef
                     case 1:
-                        btnPersonalhantering.Visibility = Visibility.Collapsed;
                         btnAnvändarhantering.Visibility = Visibility.Collapsed;
                         break;
 
                     // Försäljningschef
                     case 2:
+                        btnProduktgrupp.Visibility = Visibility.Collapsed;
+                        btnProdukthantering.Visibility = Visibility.Collapsed;
+                        btnProduktKategori.Visibility = Visibility.Collapsed;
                         btnPersonalhantering.Visibility = Visibility.Collapsed;
                         btnAnvändarhantering.Visibility = Visibility.Collapsed;
                         btnKontohantering.Visibility = Visibility.Collapsed;
@@ -213,20 +221,28 @@ namespace BUPSystem
 
                     // Personalchef
                     case 3:
+                        btnProduktgrupp.Visibility = Visibility.Collapsed;
+                        btnProdukthantering.Visibility = Visibility.Collapsed;
+                        btnProduktKategori.Visibility = Visibility.Collapsed;
+                        btnKundhantering.Visibility = Visibility.Collapsed;
+                        btnAktivitetshantering.Visibility = Visibility.Collapsed;
                         btnAnvändarhantering.Visibility = Visibility.Collapsed;
                         btnKontohantering.Visibility = Visibility.Collapsed;
                         gIntakt.Visibility = Visibility.Collapsed;
                         gKbudget.Visibility = Visibility.Collapsed;
+                        btnNonBudgetedProducts.Visibility = Visibility.Collapsed;
                         break;
 
                     // Driftschef
                     case 4:
+                        btnAktivitetshantering.Visibility = Visibility.Collapsed;
                         btnPersonalhantering.Visibility = Visibility.Collapsed;
                         btnAnvändarhantering.Visibility = Visibility.Collapsed;
                         btnKontohantering.Visibility = Visibility.Collapsed;
                         btnÅrsarbetarePerAktivitet.Visibility = Visibility.Collapsed;
                         btnDirektKostandPerAktivitet.Visibility = Visibility.Collapsed;
                         gIntakt.Visibility = Visibility.Collapsed;
+                        btnNonBudgetedProducts.Visibility = Visibility.Collapsed;
                         break;
                    
                     // Systemadministratör
@@ -236,6 +252,9 @@ namespace BUPSystem
                     
                     // Säljare
                     case 6:
+                        btnProduktgrupp.Visibility = Visibility.Collapsed;
+                        btnProdukthantering.Visibility = Visibility.Collapsed;
+                        btnProduktKategori.Visibility = Visibility.Collapsed;
                         btnPersonalhantering.Visibility = Visibility.Collapsed;
                         btnAnvändarhantering.Visibility = Visibility.Collapsed;
                         btnKontohantering.Visibility = Visibility.Collapsed;
@@ -247,15 +266,20 @@ namespace BUPSystem
                     case 7:
                         btnPersonalhantering.Visibility = Visibility.Collapsed;
                         btnAnvändarhantering.Visibility = Visibility.Collapsed;
+                        btnAktivitetshantering.Visibility = Visibility.Collapsed;
                         btnKontohantering.Visibility = Visibility.Collapsed;
                         btnDirektKostandPerAktivitet.Visibility = Visibility.Collapsed;
                         btnÅrsarbetarePerAktivitet.Visibility = Visibility.Collapsed;
                         gIntakt.Visibility = Visibility.Collapsed;
+                        btnNonBudgetedProducts.Visibility = Visibility.Collapsed;
                         break;
 
                     default:
-                        btnDirektKostandPerAktivitet.Visibility = Visibility.Collapsed;
-                        btnDirektKostnadPerProdukt.Visibility = Visibility.Collapsed;
+                        btnAnvändarhantering.Visibility = Visibility.Collapsed;
+                        btnKontohantering.Visibility = Visibility.Collapsed;
+                        gKbudget.Visibility = Visibility.Collapsed;
+                        gIntakt.Visibility = Visibility.Collapsed;
+                        btnNonBudgetedProducts.Visibility = Visibility.Collapsed;
                         break;
                 }
             }
