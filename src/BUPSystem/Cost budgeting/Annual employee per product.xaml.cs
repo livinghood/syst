@@ -136,18 +136,31 @@ namespace BUPSystem.Kostnadsbudgetering
                     }
                     if (found)
                         continue;
+                    // INTE HITTAD
+
+                    //Skapa column
                     DataGridTextColumn productColumn = new DataGridTextColumn();
                     productColumn.Header = p.Product.ProductName;
+                    productColumn.Binding = new Binding("DataList[" + dgProductPlacements.Columns.Count + "].ProductAllocate");
+                    //Lägg till column
+                    dgProductPlacements.Columns.Add(productColumn);
+                    
+                    //För varje rad
                     foreach (DataItemProduct di in MyList)
                     {
-                        ProductPlacement pp = new ProductPlacement() { EmployeeID = di.EmployeeID, ProductID = p.ProductID, ProductAllocate = 0 };
                         if (di.EmployeeID == e.EmployeeID)
-                            pp.ProductAllocate = p.ProductAllocate;
-                        di.DataList.Add(pp);
+                        {
+                            di.DataList.Add(p);
+                        }   //VI ÄR HÄR!!!!!
+                        //else
+                        //{
+                        //    ProductPlacement pp = new ProductPlacement() { EmployeeID = di.EmployeeID, ProductID = p.ProductID, ProductAllocate = 0 };
+                        //    di.DataList.Add(pp);
+                        //    ProductPlacementList.Add(pp);
+                        //}
                         SelectedProducts.Add(p.Product);
                     }
-                    productColumn.Binding = new Binding("DataList[" + dgProductPlacements.Columns.Count + "].ProductAllocate");
-                    dgProductPlacements.Columns.Add(productColumn);
+
                 }
             }
         }
@@ -199,6 +212,7 @@ namespace BUPSystem.Kostnadsbudgetering
             {
                 ProductManagement.Instance.AddProductPlacement(pp);
             }
+            ProductManagement.Instance.Update();
             MessageBox.Show("Data är sparad");
         }
 

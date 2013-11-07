@@ -31,15 +31,9 @@ namespace Logic_Layer.FollowUp
             get { return EmployeeManagement.Instance.Departments; }
         }
 
-        public IEnumerable<Product> ProductList
-        {
-            get { return ProductManagement.Instance.Products; }
-        }
+        public IEnumerable<Product> ProductList { get; set; }
 
-        public IEnumerable<Activity> ActivityList
-        {
-            get { return ActivityManagement.Instance.Activities; }
-        }
+        public IEnumerable<Activity> ActivityList { get; set; }
 
         public ObservableCollection<Employee> EmployeeList { get; set; }
 
@@ -74,6 +68,8 @@ namespace Logic_Layer.FollowUp
             EmployeeList = new ObservableCollection<Employee>();
             ProductPlacementList = new ObservableCollection<ProductPlacement>();
             ActivityPlacementList = new ObservableCollection<ActivityPlacement>();
+            ProductList = new ObservableCollection<Product>(ProductManagement.Instance.GetProducts());
+            ActivityList = new ObservableCollection<Activity>(ActivityManagement.Instance.GetActivities());
         }
 
         public void FillGeneralFollowUpsWithProducts()
@@ -275,8 +271,7 @@ namespace Logic_Layer.FollowUp
         {
             // RETURNERAR INKOMST PER PRODUKTGRUPP
             ProductGroup calculateGroup = ProductGroupManagement.Instance.GetProductGroupByID(groupID);
-            decimal sum = calculateGroup.Product.Aggregate<Product, decimal>(0, (current, p) => current + GetRevenueByProduct(p.ProductID));
-            return (int)sum;
+            return (int)calculateGroup.Product.Aggregate<Product, decimal>(0, (current, p) => current + GetRevenueByProduct(p.ProductID));
         }
 
         public int GetProductGroupCostByID(string groupID)
