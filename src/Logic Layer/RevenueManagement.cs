@@ -267,7 +267,7 @@ namespace Logic_Layer
 
             int value = (int) firstOrDefault.Budget*-1;
 
-            return firstOrDefault != null ? value.ToString(CultureInfo.InvariantCulture) : "0";
+            return value.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>

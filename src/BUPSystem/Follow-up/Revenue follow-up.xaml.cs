@@ -59,6 +59,7 @@ namespace BUPSystem.Uppföljning
         private void rbDepartment_Checked(object sender, RoutedEventArgs e)
         {
             RevenueFollowUpManagement.Instance.FillGeneralFollowUpsWithDepartments();
+            cpo = CostProductOption.Department;
         }
 
         /// <summary>
@@ -69,6 +70,7 @@ namespace BUPSystem.Uppföljning
         private void rbProductGroup_Checked(object sender, RoutedEventArgs e)
         {
             RevenueFollowUpManagement.Instance.FillGeneralFollowUpsWithProductGroups();
+            cpo = CostProductOption.Productgroup;
         }
 
         /// <summary>
@@ -79,6 +81,7 @@ namespace BUPSystem.Uppföljning
         private void rbProduct_Checked(object sender, RoutedEventArgs e)
         {
             RevenueFollowUpManagement.Instance.FillGeneralFollowUpsWithProducts();
+            cpo = CostProductOption.Product;
         }
 
         /// <summary>
@@ -89,6 +92,7 @@ namespace BUPSystem.Uppföljning
         private void rbCompany_Checked(object sender, RoutedEventArgs e)
         {
             RevenueFollowUpManagement.Instance.FillGeneralFollowUpsWithCompany();
+            cpo = CostProductOption.Company;
         }
 
         /// <summary>

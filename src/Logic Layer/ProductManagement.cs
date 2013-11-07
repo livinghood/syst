@@ -40,7 +40,7 @@ namespace Logic_Layer
         /// </summary>
         public ProductManagement()
         {
-            
+            Products = new ObservableCollection<Product>(GetProducts());
         }
 
         public void fillProductList(string departmentID)

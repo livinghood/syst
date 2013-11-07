@@ -121,9 +121,7 @@ namespace Logic_Layer.FollowUp
         public void FillGeneralFollowUpsWithCompany()
         {
             GeneralFollowUps.Clear();
-
-            GeneralFollowUp gfu = new GeneralFollowUp();
-            gfu.ObjectName = "IT-Service";
+            GeneralFollowUp gfu = new GeneralFollowUp {ObjectName = "IT-Service"};
             GeneralFollowUps.Add(gfu);
         }
 
@@ -187,18 +185,10 @@ namespace Logic_Layer.FollowUp
         public decimal GetCalculatedDepartmentSchablonCost(string departmentID)
         {
             //SCHABLONSKOSTNADER PER AVDELNING
-            decimal totalDepartmentSchablonCost = 0;
-            foreach (Account account in Cost_Budgeting_Logic.DCPPDManagement.Instance.GetAccountsByDepartment(departmentID)
-                .Where(account => account.AccountID != 5021 && account.AccountID != 9999))
-            {
-                int tempCost;
-                if (account.AccountCost == null)
-                    tempCost = 0;
-                else
-                    tempCost = (int)account.AccountCost;
-                totalDepartmentSchablonCost += tempCost;
-            }
-            return totalDepartmentSchablonCost;
+            return Cost_Budgeting_Logic.DCPPDManagement.Instance.GetAccountsByDepartment(departmentID)
+                .Where(account => account.AccountID != 5021 && account.AccountID != 9999)
+                .Select(account => account.AccountCost == null ? 0 : (int) account.AccountCost)
+                .Aggregate<int, decimal>(0, (current, tempCost) => current + tempCost);
         }
 
         public decimal GetTotalCalculatedSchablonCost()
@@ -284,8 +274,7 @@ namespace Logic_Layer.FollowUp
         public int GetProductGroupInmcomeByID(string groupID)
         {
             // RETURNERAR INKOMST PER PRODUKTGRUPP
-            ProductGroup calculateGroup = new ProductGroup();
-            calculateGroup = ProductGroupManagement.Instance.GetProductGroupByID(groupID);
+            ProductGroup calculateGroup = ProductGroupManagement.Instance.GetProductGroupByID(groupID);
             decimal sum = calculateGroup.Product.Aggregate<Product, decimal>(0, (current, p) => current + GetRevenueByProduct(p.ProductID));
             return (int)sum;
         }
@@ -293,12 +282,12 @@ namespace Logic_Layer.FollowUp
         public int GetProductGroupCostByID(string groupID)
         {
             // RETURNERAR KOSTNAD PER PRODUKTGRUPP
-            decimal sum = ProductManagement.Instance.GetProductsByProductGroup(groupID).Cast<Product>().Sum(p => GetDirectProductCostByProductID(p.ProductID));
-            return (int)sum;
+            return (int) ProductManagement.Instance.GetProductsByProductGroup(groupID).Cast<Product>().Sum(p => GetDirectProductCostByProductID(p.ProductID));
         }
 
         public decimal GetSchablonDividedAnnual()
-        {// Schablonskostnad totalt / årsarbetare totalt (ej konto 5021)
+        {
+            // Schablonskostnad totalt / årsarbetare totalt (ej konto 5021)
             //Schablonkostnad
             decimal sCost = (int)GetTotalCalculatedSchablonCost();
 
