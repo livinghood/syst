@@ -5,12 +5,12 @@
         Title="Användarhantering" Height="325" Width="390">
     <Grid>
         <Label Content="Hantering av användare" Height="41" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="label1" VerticalAlignment="Top" FontSize="20" />
-        <GroupBox Header="Standarduppgifter" Height="200" HorizontalAlignment="Left" Margin="10,56,0,0" x:Name="groupBox1" VerticalAlignment="Top" Width="362">
+        <GroupBox Header="Standarduppgifter" Height="200" Margin="10,56,10,0" x:Name="groupBox1" VerticalAlignment="Top">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <TextBox Height="23" HorizontalAlignment="Left" Margin="133,15,0,0" x:Name="tbUsername" VerticalAlignment="Top" Width="207" >
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="133,15,0,0" x:Name="tbUsername" VerticalAlignment="Top" Width="170" >
                     <TextBox.Text>
                         <local:DelayBindingExtension Path="UserName" >
                             <local:DelayBindingExtension.ValidationRules>
@@ -21,7 +21,7 @@
                 </TextBox>
                 <Label Content="Användarnamn:" Height="28" HorizontalAlignment="Left" Margin="9,13,0,0" x:Name="label2" VerticalAlignment="Top" />
                 <Label Content="Lösenord:" Height="28" HorizontalAlignment="Left" Margin="10,47,0,0" x:Name="label3" VerticalAlignment="Top" />
-                <TextBox Height="23" HorizontalAlignment="Left" Margin="133,48,0,0" x:Name="tbPassword" VerticalAlignment="Top" Width="207" >
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="133,48,0,0" x:Name="tbPassword" VerticalAlignment="Top" Width="170" >
                     <TextBox.Text>
                         <Binding Path="Password" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -30,7 +30,7 @@
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
-                <Button x:Name="btnGetEmployee" Content="Koppla anställd" HorizontalAlignment="Left" Margin="133,85,0,0" VerticalAlignment="Top" Width="81" Click="btnGetEmployee_Click"/>
+                <Button x:Name="btnGetEmployee" Content="Koppla " HorizontalAlignment="Left" Margin="133,85,0,0" VerticalAlignment="Top" Width="81" Click="btnGetEmployee_Click"/>
                 <ComboBox HorizontalAlignment="Left" Margin="133,120,0,0" x:Name="cbPermissionLevel" Text="Välj..." Width="207" Height="23" VerticalAlignment="Top" ItemsSource="{Binding PermissionLevels}">
                     <ComboBox.SelectedIndex>
                         <Binding Path="PermissionLevel" UpdateSourceTrigger="Default" Mode="TwoWay">
@@ -41,8 +41,8 @@
                     </ComboBox.SelectedIndex>
                 </ComboBox>
                 <Label Content="Välj behörighetsnivå" Height="28" HorizontalAlignment="Left" Margin="10,118,0,0" x:Name="label3_Copy1" VerticalAlignment="Top" />
-                <Label Content="Kopplad till:" HorizontalAlignment="Left" Margin="10,83,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="lblEmployee" HorizontalAlignment="Left" Margin="219,84,0,0" VerticalAlignment="Top" Width="121" Height="20">
+                <Label Content="Kopplad anställd:" HorizontalAlignment="Left" Margin="10,83,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="lblEmployee" HorizontalAlignment="Left" Margin="219,83,0,0" VerticalAlignment="Top" Width="103" Height="25">
                     <ContentControl.Content>
                         <Binding Path="EmployeeID">
                             <Binding.ValidationRules>
@@ -53,7 +53,7 @@
                 </Label>
             </Grid>
         </GroupBox>
-        <Button Content="Spara" Height="23" HorizontalAlignment="Left" Margin="297,261,0,0" x:Name="btnSave" VerticalAlignment="Top" Width="75" Click="btnSave_Click" >
+        <Button Content="Spara" Margin="0,0,10,10" x:Name="btnSave" Click="btnSave_Click" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" >
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="IsEnabled" Value="false" />
@@ -71,7 +71,7 @@
                 </Style>
             </Button.Style>
         </Button>
-        <Button Content="Avbryt" Height="23" HorizontalAlignment="Left" Margin="217,261,0,0" x:Name="btnCancel" VerticalAlignment="Top" Width="75" IsCancel="True"  />
+        <Button Content="Avbryt" HorizontalAlignment="Right" Margin="0,0,90,10" x:Name="btnCancel" Width="75" IsCancel="True" Height="23" VerticalAlignment="Bottom"  />
 
     </Grid>
 </Window>
