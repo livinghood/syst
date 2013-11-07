@@ -43,52 +43,9 @@ namespace Logic_Layer
             Products = new ObservableCollection<Product>(GetProducts());
         }
 
-        public void fillProductList(string departmentID)
+        public void FillProductList(string departmentID)
         {
-            switch (departmentID)
-            {
-                case "DA":
-                    Products = new ObservableCollection<Product>(GetDAProducts());
-                    break;
-                case "UF":
-                    Products = new ObservableCollection<Product>(GetUFProducts());
-                    break;
-
-                default:
-                    Products = new ObservableCollection<Product>(GetProducts());
-                    break;
-            }
-        }
-        /// <summary>
-        /// Get a list of all products from DA
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<Product> GetDAProducts()
-        {
-            try
-            {
-                return db.Product.Where(p => p.DepartmentID == "DA").OrderBy(p => p.ProductName);
-            }
-            catch
-            {
-                return Products;
-            }
-        }
-
-        /// <summary>
-        /// Get a list of all products from UF
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<Product> GetUFProducts()
-        {
-            try
-            {
-                return db.Product.Where(p => p.DepartmentID == "UF").OrderBy(p => p.ProductName);
-            }
-            catch
-            {
-                return Products;
-            }
+            Products = new ObservableCollection<Product>(GetProductsByDepartment(departmentID));
         }
 
         /// <summary>
@@ -136,12 +93,12 @@ namespace Logic_Layer
                    select d.DepartmentID;
         }
 
-        public IEnumerable GetProductsByProductGroup(string groupID)
+        public IEnumerable<Product> GetProductsByProductGroup(string groupID)
         {
             return db.Product.OrderBy(p => p.ProductGroupID.Equals(groupID));
         }
 
-        public IEnumerable GetProductsByDepartment(string departmentID)
+        public IEnumerable<Product> GetProductsByDepartment(string departmentID)
         {
             return db.Product.OrderBy(p => p.DepartmentID.Equals(departmentID));
         }
@@ -201,7 +158,7 @@ namespace Logic_Layer
         /// <summary>
         /// Update a product
         /// </summary>
-        public void UpdateProduct()
+        public void Update()
         {
             db.SaveChanges();
         }
