@@ -197,8 +197,7 @@ namespace Logic_Layer.FollowUp
         /// <returns></returns>
         public IEnumerable<IncomeProductCustomer> GetAllIPCs()
         {
-            return from i in db.IncomeProductCustomer
-                   select i;
+            return db.IncomeProductCustomer.Select(i => i);
         }
 
         /// <summary>
@@ -208,8 +207,7 @@ namespace Logic_Layer.FollowUp
         /// <returns></returns>
         public IEnumerable<Product> GetAllProducts()
         {
-            return from i in db.Product
-                   select i;
+            return db.Product.Select(i => i);
         }
 
         public void GetForecastsFromMonth(DateTime month,bool getAll)
@@ -225,21 +223,14 @@ namespace Logic_Layer.FollowUp
 
                 // Lägg till alla produkter från systemet genom att fejka tomma ICPs
                 // (Fulhack)
-                foreach (var productObj in AllProducts)
+                IPCs.AddRange(AllProducts.Select(productObj => new IncomeProductCustomer
                 {
-
-
-                    IncomeProductCustomer newIPC = new IncomeProductCustomer
-                    {
-                        IeProductID = productObj.ProductID,
-                        IeCustomerID = "NULL",
-                        IeCustomerName = "NULL",
-                        IeIncomeDate = new DateTime(1973, 10, 24),
-                        IeProductName = productObj.ProductName
-                    };
-
-                    IPCs.Add(newIPC);
-                }
+                    IeProductID = productObj.ProductID, 
+                    IeCustomerID = "NULL",
+                    IeCustomerName = "NULL", 
+                    IeIncomeDate = new DateTime(1973, 10, 24), 
+                    IeProductName = productObj.ProductName
+                }));
 
                 // Order by product name
                 IPCs = IPCs.OrderBy(p => p.IeProductName).ToList();
@@ -248,9 +239,7 @@ namespace Logic_Layer.FollowUp
             {
                 IPCs = new List<IncomeProductCustomer>(GetIPCsByMonth(month));
             }
-            
-
-
+           
             // Aj, inte så fin lista på redan tillagda produkter (då ska inte IPCn läggas in igen)
             List<string> tempProdukter = new List<string>();
 
@@ -270,9 +259,7 @@ namespace Logic_Layer.FollowUp
                         OutcomeMonth = CalculateOutcomeMonth(month.Month, IPC.IeProductID),
                         Budget = GetBudgetFromFinancialIncome(IPC.IeProductID),
                         Reprocessed = GetReprocessedValue(month, IPC.IeProductID)
-                    };
-
-               
+                    };        
 
                     // Add to the returning list
                     Forecasts.Add(fc);
@@ -324,16 +311,11 @@ namespace Logic_Layer.FollowUp
 
             List<string> tempCustomer = new List<string>();
 
-            foreach (var icp in icps)
+            foreach (var icp in icps.Where(icp => !tempCustomer.Contains(icp.IeCustomerID)))
             {
-                if (!tempCustomer.Contains(icp.IeCustomerID))
-                {
-                    tempCustomer.Add(icp.IeCustomerID);
-                    outcomeAcc += ~icp.IeAmount + 1;
-                }
-                
+                tempCustomer.Add(icp.IeCustomerID);
+                outcomeAcc += ~icp.IeAmount + 1;
             }
-
             return outcomeAcc;
         }
 
@@ -388,10 +370,9 @@ namespace Logic_Layer.FollowUp
                     else
                         tempAmount.AddRange(tempICP);
 
-                    if (tempAmount.Count() == 2)
-                        y = (~tempAmount[0].IeAmount + 1) - (~tempAmount[1].IeAmount + 1);
-                    else
-                        y = ~tempAmount[0].IeAmount + 1;
+                    y = tempAmount.Count() == 2
+                        ? (~tempAmount[0].IeAmount + 1) - (~tempAmount[1].IeAmount + 1)
+                        : ~tempAmount[0].IeAmount + 1;
                 }
             }
             return y;
@@ -408,16 +389,7 @@ namespace Logic_Layer.FollowUp
             string monthID = month.ToString("yyyyMM");
             //Return forecastmonitor (saved row values)
             var fm = db.ForecastMonitor.FirstOrDefault(f => f.IeProductID == productId && f.ForecastMonitorMonthID == monthID);
-
-            if (fm != null)
-            {
-                return fm.Forecast;
-            }
-            else
-            {
-                return 0;
-            }
-            
+            return fm != null ? fm.Forecast : 0;            
         }
 
         /// <summary>
@@ -431,15 +403,7 @@ namespace Logic_Layer.FollowUp
             string monthID = month.AddMonths(-1).ToString("yyyyMM");
             //Return forecastmonitor (saved row values)
             var fm = db.ForecastMonitor.FirstOrDefault(f => f.IeProductID == productId && f.ForecastMonitorMonthID == monthID);
-
-            if (fm != null)
-            {
-                return fm.Forecast;
-            }
-            else
-            {
-                return 0;
-            }
+            return fm != null ? fm.Forecast : 0;
 
         }
 
@@ -477,13 +441,9 @@ namespace Logic_Layer.FollowUp
         public void LockForecast(DateTime month)
         {
             string monthID = month.ToString("yyyyMM");
-
             var Forecast = db.ForecastMonth.FirstOrDefault(f => f.ForecastMonitorMonthID.Equals(monthID));
-
             Forecast.ForecastLock = true;
-
             db.SaveChanges();
-
         }
 
         public bool CheckIfLocked(DateTime month)
