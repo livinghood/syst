@@ -44,11 +44,14 @@ namespace BUPSystem.Revenue_budgeting
             set { RevenueManagement.Instance.CurrentFinancialIncomeYear = value; }
         }
 
+        private ObservableCollection<FinancialIncome> NewFinancialIncomeList { get; set; }
+
         /// <summary>
         /// Constructor
         /// </summary>
         public RevenueBudgetingViaProduct()
         {
+            NewFinancialIncomeList = new ObservableCollection<FinancialIncome>();
             CurrentFinancialIncomeYear = RevenueManagement.Instance.CreateFinancialIncomeYear();
             InitializeComponent();
             dgIncomeCustomer.IsEnabled = false;
@@ -60,6 +63,34 @@ namespace BUPSystem.Revenue_budgeting
             {
                 dgIncomeCustomer.IsReadOnly = true;
                 btnLock.IsEnabled = false;
+            }
+
+            Logic_Layer.UserAccount userAccount = null;
+
+            userAccount = UserManagement.Instance.GetUserAccountByUsername(System.Threading.Thread.CurrentPrincipal.Identity.Name);
+
+            switch (userAccount.PermissionLevel)
+            {
+                // Försäljningschefen
+                case 2:
+                    break;
+                // Säljare
+                case 6:
+                    btnLock.IsEnabled = false;
+                    break;
+                //System Admin
+                case 5:
+                    break;
+                //Ekonomichef
+                case 1:
+                    btnLock.IsEnabled = false;
+                    btnDelete.IsEnabled = false;
+                    btnSave.IsEnabled = false;
+                    break;
+                default: // ska inte kunna hända
+                    MessageBox.Show("Du har inte tillgång till detta");
+                    this.Close();
+                    break;
             }
         }
 
@@ -99,9 +130,13 @@ namespace BUPSystem.Revenue_budgeting
         {
             try
             {
-            FinancialIncomeList = RevenueManagement.Instance.RemoveEmptyProductIncomes();
-            RevenueManagement.Instance.UpdateFinancialIncome();
-            MessageBox.Show("Intäktsbudgeteringen är nu sparad");
+                if (NewFinancialIncomeList.Any())
+                    foreach (FinancialIncome fi in NewFinancialIncomeList)
+                        RevenueManagement.Instance.AddIncome(fi);
+
+                FinancialIncomeList = RevenueManagement.Instance.RemoveEmptyProductIncomes();
+                RevenueManagement.Instance.UpdateFinancialIncome();
+                MessageBox.Show("Intäktsbudgeteringen är nu sparad");
             }
             catch
             {
@@ -116,25 +151,33 @@ namespace BUPSystem.Revenue_budgeting
         /// <param name="e"></param>
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            try
+            var result = MessageBox.Show("Är du säker på att du vill ta bort denna raden helt?" + Environment.NewLine + "Detta går inte att ångra.", "Ta Bort Rad", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
             {
-                FinancialIncome fi = (FinancialIncome)dgIncomeCustomer.SelectedItem;
-                RevenueManagement.Instance.DeleteFinancialIncome(fi);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
+                try
+                {
+                    FinancialIncome fi = (FinancialIncome)dgIncomeCustomer.SelectedItem;
+                    RevenueManagement.Instance.DeleteFinancialIncome(fi);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
 
         private void btnLock_Click(object sender, RoutedEventArgs e)
         {
-            CurrentFinancialIncomeYear.FinancialIncomeLock = true;
-            RevenueManagement.Instance.UpdateFinancialIncomeYear();
-            dgIncomeCustomer.IsReadOnly = true;
-            btnLock.IsEnabled = false;
-            btnDelete.IsEnabled = false;
-            btnSave.IsEnabled = false;
+            var result = MessageBox.Show("Du kommer nu att låsa intäktsbudgetering för både via kund och via produkt." + Environment.NewLine + "Vill du fortsätta?", "Låsa intäktsbudget",MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+            {
+                CurrentFinancialIncomeYear.FinancialIncomeLock = true;
+                RevenueManagement.Instance.UpdateFinancialIncomeYear();
+                dgIncomeCustomer.IsReadOnly = true;
+                btnLock.IsEnabled = false;
+                btnDelete.IsEnabled = false;
+                btnSave.IsEnabled = false;
+            }
         }
 
         /// <summary>
@@ -213,7 +256,7 @@ namespace BUPSystem.Revenue_budgeting
             FinancialIncome obj = e.NewItem as FinancialIncome;
             if (obj != null)
             {
-                RevenueManagement.Instance.AddIncome(obj);
+                NewFinancialIncomeList.Add(obj);
                 obj.ProductID = SelectedProduct.ProductID;
             }
         }
