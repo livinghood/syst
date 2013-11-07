@@ -40,6 +40,26 @@ namespace BUPSystem.AccountGUI
 
             if (!SelectingAccount)
                 btnSelect.Visibility = Visibility.Collapsed;
+
+
+                UserAccount userAccount = UserManagement.Instance.GetUserAccountByUsername(System.Threading.Thread.CurrentPrincipal.Identity.Name);
+
+                if (userAccount == null)
+                    Application.Current.Shutdown();
+
+
+                switch (userAccount.PermissionLevel)
+                {
+                    // Ekonomichef
+                    case 1:
+                        btn_Change.Visibility = Visibility.Collapsed;
+                        btnRemove.Visibility = Visibility.Collapsed;
+                        break;
+
+                    // Systemadministratör
+                    case 5:
+                        break;              
+            }
         }
 
         /// <summary>

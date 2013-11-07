@@ -54,7 +54,7 @@ namespace BUPSystem.Revenue_budgeting
             NewFinancialIncomeList = new ObservableCollection<FinancialIncome>();
             CurrentFinancialIncomeYear = RevenueManagement.Instance.CreateFinancialIncomeYear();
             InitializeComponent();
-            dgIncomeCustomer.IsEnabled = false;
+            dgIncomeCustomer.Visibility = Visibility.Collapsed;
             DataContext = this;
             btnDelete.IsEnabled = false;
             btnSave.IsEnabled = false;
@@ -65,32 +65,40 @@ namespace BUPSystem.Revenue_budgeting
                 btnLock.IsEnabled = false;
             }
 
-            Logic_Layer.UserAccount userAccount = null;
 
-            userAccount = UserManagement.Instance.GetUserAccountByUsername(System.Threading.Thread.CurrentPrincipal.Identity.Name);
+            UserAccount userAccount = UserManagement.Instance.GetUserAccountByUsername(System.Threading.Thread.CurrentPrincipal.Identity.Name);
+
+            if (userAccount == null)
+                Application.Current.Shutdown();
+
 
             switch (userAccount.PermissionLevel)
             {
-                // Försäljningschefen
-                case 2:
+
+                // Ekonomichef
+                case 1:
+                    btnSave.Visibility = Visibility.Collapsed;
+                    btnDelete.Visibility = Visibility.Collapsed;
+                    btnLock.Visibility = Visibility.Collapsed;
+                    dgIncomeCustomer.IsEnabled = false;
                     break;
+
+                // Försäljningschef
+                case 2:
+                    btnExportTextFile.Visibility = Visibility.Collapsed;
+                    break;
+
+                // Systemadministratör
+                case 5:
+                    // Kan göra allt?
+                    break;
+
                 // Säljare
                 case 6:
-                    btnLock.IsEnabled = false;
+                    btnLock.Visibility = Visibility.Collapsed;
+                    btnExportTextFile.Visibility = Visibility.Collapsed;
                     break;
-                //System Admin
-                case 5:
-                    break;
-                //Ekonomichef
-                case 1:
-                    btnLock.IsEnabled = false;
-                    btnDelete.IsEnabled = false;
-                    btnSave.IsEnabled = false;
-                    break;
-                default: // ska inte kunna hända
-                    MessageBox.Show("Du har inte tillgång till detta");
-                    this.Close();
-                    break;
+                
             }
         }
 
@@ -110,7 +118,7 @@ namespace BUPSystem.Revenue_budgeting
                 dgIncomeCustomer.ItemsSource = FinancialIncomeList;
                 lblProductID.Content = SelectedProduct.ProductID;
                 lblProductName.Content = SelectedProduct.ProductName;
-                dgIncomeCustomer.IsEnabled = true;
+                dgIncomeCustomer.Visibility = Visibility.Visible;
                 LockPrimaryCells();
                 if (CurrentFinancialIncomeYear.FinancialIncomeLock == false)
                 {

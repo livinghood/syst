@@ -160,20 +160,13 @@ namespace BUPSystem
                 lblUsername.Content = "Inloggad som: " + System.Threading.Thread.CurrentPrincipal.Identity.Name;
                 lblTitle.Content = "";
 
-                // Dessa fönster kraschar vid öppnande om man är inloggad som allmän
                 btnAnvändarhantering.Visibility = Visibility.Collapsed;
                 btnKontohantering.Visibility = Visibility.Collapsed;
                 gKbudget.Visibility = Visibility.Collapsed;
                 gIntakt.Visibility = Visibility.Collapsed;
                 btnNonBudgetedProducts.Visibility = Visibility.Collapsed;
 
-                // Kommenterade för att testa (är korrekta)
 
-                //btnPersonalhantering.Visibility = Visibility.Collapsed;
-                //btnAnvändarhantering.Visibility = Visibility.Collapsed;
-                //btnKontohantering.Visibility = Visibility.Collapsed;
-                //gIntakt.Visibility = Visibility.Collapsed;
-                //gKbudget.Visibility = Visibility.Collapsed;
             }
             else
             {
@@ -270,14 +263,6 @@ namespace BUPSystem
                         btnKontohantering.Visibility = Visibility.Collapsed;
                         btnDirektKostandPerAktivitet.Visibility = Visibility.Collapsed;
                         btnÅrsarbetarePerAktivitet.Visibility = Visibility.Collapsed;
-                        gIntakt.Visibility = Visibility.Collapsed;
-                        btnNonBudgetedProducts.Visibility = Visibility.Collapsed;
-                        break;
-
-                    default:
-                        btnAnvändarhantering.Visibility = Visibility.Collapsed;
-                        btnKontohantering.Visibility = Visibility.Collapsed;
-                        gKbudget.Visibility = Visibility.Collapsed;
                         gIntakt.Visibility = Visibility.Collapsed;
                         btnNonBudgetedProducts.Visibility = Visibility.Collapsed;
                         break;

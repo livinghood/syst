@@ -35,6 +35,57 @@ namespace BUPSystem.ActivityGUI
             if (!SelectingActivity)
                 btnSelect.Visibility = Visibility.Collapsed;
 
+            if (System.Threading.Thread.CurrentPrincipal.IsInRole("99"))
+            {
+                // Allmän
+                btn_Change.Visibility = Visibility.Collapsed;
+                btnAdd.Visibility = Visibility.Collapsed;
+                btnRemove.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                UserAccount userAccount = UserManagement.Instance.GetUserAccountByUsername(System.Threading.Thread.CurrentPrincipal.Identity.Name);
+
+                if (userAccount == null)
+                    Application.Current.Shutdown();
+
+
+                switch (userAccount.PermissionLevel)
+                {
+                    // Administrativchef
+                    case 0:
+                        btnRemove.Visibility = Visibility.Collapsed;
+                        btn_Change.Visibility = Visibility.Collapsed;
+                        break;
+
+                    // Ekonomichef
+                    case 1:
+                        btn_Change.Visibility = Visibility.Collapsed;
+                        btnAdd.Visibility = Visibility.Collapsed;
+                        btnRemove.Visibility = Visibility.Collapsed;
+                        break;
+
+                    // Försäljningschef
+                    case 2:
+                        btnRemove.Visibility = Visibility.Collapsed;
+                        btn_Change.Visibility = Visibility.Collapsed;
+                        break;
+
+                    // Systemadministratör
+                    case 5:
+                        // Kan göra allt?
+                        break;
+
+                    // Säljare
+                    case 6:
+                        btn_Change.Visibility = Visibility.Collapsed;
+                        btnAdd.Visibility = Visibility.Collapsed;
+                        btnRemove.Visibility = Visibility.Collapsed;
+                        break;
+
+                }
+            }
+
             ActivityManagement.Instance.fillActivityList(department);
         }
 

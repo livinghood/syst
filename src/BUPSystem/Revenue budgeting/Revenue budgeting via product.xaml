@@ -13,8 +13,8 @@
         <Button Content="Bildskärmsrapport" Height="23" HorizontalAlignment="Left" Margin="306,408,0,0" x:Name="button4" VerticalAlignment="Top" Width="117" IsEnabled="False" />
         <Button Content="Skriv ut" Height="23" HorizontalAlignment="Left" Margin="110,408,0,0" x:Name="button5" VerticalAlignment="Top" Width="73" IsEnabled="False" />
         <Button Content="Export av textfil" Height="23" HorizontalAlignment="Left" Margin="10,408,0,0" x:Name="btnExportTextFile" VerticalAlignment="Top" Width="95" Click="btnExportTextFile_Click" />
-        <Label x:Name="lblProductName" Content="produktnamn" HorizontalAlignment="Left" Margin="168,10,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="lblProductID" Content="produkt id" HorizontalAlignment="Left" Margin="99,10,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lblProductName" Content="" HorizontalAlignment="Left" Margin="168,10,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lblProductID" Content="" HorizontalAlignment="Left" Margin="99,10,0,0" VerticalAlignment="Top"/>
         <Label Height="28" HorizontalAlignment="Left" Margin="226,364,0,0" x:Name="lblAgreement" VerticalAlignment="Top" Content="Summa" />
         <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="373,364,0,0" x:Name="lblAddition" VerticalAlignment="Top" />
         <Label Content="Summa" Height="28" HorizontalAlignment="Left" Margin="474,364,0,0" x:Name="lblBudget" VerticalAlignment="Top" />
