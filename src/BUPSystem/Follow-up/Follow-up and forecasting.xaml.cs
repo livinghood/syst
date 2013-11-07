@@ -38,20 +38,27 @@ namespace BUPSystem.Uppföljning
 
             if (mbresult == MessageBoxResult.Yes)
             {
-                OpenFileDialog ofd = new OpenFileDialog
+                try
                 {
-                    Filter = "Textfiler (.txt)|*.txt",
-                    Title = "Importera IntäktProduktKund.txt",
-                    Multiselect = false
-                };
+                    OpenFileDialog ofd = new OpenFileDialog
+                    {
+                        Filter = "Textfiler (.txt)|*.txt",
+                        Title = "Importera IntäktProduktKund.txt",
+                        Multiselect = false
+                    };
 
-                var result = ofd.ShowDialog();
+                    var result = ofd.ShowDialog();
 
-                if (result == true)
+                    if (result == true)
+                    {
+                        ForecastingManagement.Instance.CreateForecastFromFile(ofd.FileName);
+                        Forecasts.Clear();
+                        cbMonth_SelectionChanged(sender, e as SelectionChangedEventArgs);
+                    }
+                }
+                catch (Exception ex)
                 {
-                    ForecastingManagement.Instance.CreateForecastFromFile(ofd.FileName);
-                    Forecasts.Clear();
-                    cbMonth_SelectionChanged(sender, e as SelectionChangedEventArgs);
+                    MessageBox.Show(ex.Message);
                 }
             }
         }

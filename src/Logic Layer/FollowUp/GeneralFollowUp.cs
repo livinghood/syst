@@ -13,6 +13,6 @@ namespace Logic_Layer.FollowUp
         public int Revenues { get; set; }
         public int Costs { get; set; }
         public int Result { get; set; }
-        public DateTime Month { get; set; }
+        public DateTime Date { get; set; }
     }
 }
