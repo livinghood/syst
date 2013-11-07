@@ -117,10 +117,12 @@ namespace Logic_Layer.FollowUp
 
             foreach (var item in db.CostProduct)
             {
-                GeneralFollowUp gfu = new GeneralFollowUp();
-                gfu.ObjectID = item.CeProductID;
-                gfu.ObjectName = item.CeProductName;
-                gfu.Month = item.CeIncomeDate;
+                GeneralFollowUp gfu = new GeneralFollowUp
+                {
+                    ObjectID = item.CeProductID,
+                    ObjectName = item.CeProductName,
+                    Month = item.CeIncomeDate
+                };
 
                 GeneralFollowUp gfuToRemove = null;
 
@@ -131,10 +133,8 @@ namespace Logic_Layer.FollowUp
                 }
 
                 if (gfuToRemove != null)
-                {
                     GeneralFollowUps.Remove(gfuToRemove);
-                }
-               
+
                 GeneralFollowUps.Add(gfu);                   
             }
         }
