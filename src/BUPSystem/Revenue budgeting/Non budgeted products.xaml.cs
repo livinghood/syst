@@ -25,7 +25,7 @@ namespace BUPSystem.Revenue_budgeting
     {
         public ObservableCollection<Product> NonBudgetedProductsList { get; set; }
 
-        /// <summary>
+        /// <summary>z
         /// Standard constructor
         /// </summary>
         public NonBudgetedProducts()

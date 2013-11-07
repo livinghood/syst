@@ -348,5 +348,14 @@ namespace BUPSystem.Revenue_budgeting
                 }
             }
         }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (FinancialIncome fi in FinancialIncomeList)
+            {
+                // Reset changes
+                RevenueManagement.Instance.ResetFinancialIncome(fi);
+            }
+        }
     }
 }

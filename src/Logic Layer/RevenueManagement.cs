@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Data.Entity;
 
 namespace Logic_Layer
 {
@@ -198,6 +199,12 @@ namespace Logic_Layer
             }
             return tempIncome;
         }
+
+        public void ResetFinancialIncome(FinancialIncome ppObj)
+        {
+            db.Entry(ppObj).State = EntityState.Unchanged;
+        }
+
 
         //-----------------------------------------------------------------------------------------------------------
 
