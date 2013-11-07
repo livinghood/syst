@@ -61,6 +61,34 @@ namespace BUPSystem.Revenue_budgeting
                 dgIncomeCustomer.IsReadOnly = true;
                 btnLock.IsEnabled = false;
             }
+
+            Logic_Layer.UserAccount userAccount = null;
+
+            userAccount = UserManagement.Instance.GetUserAccountByUsername(System.Threading.Thread.CurrentPrincipal.Identity.Name);
+
+            switch (userAccount.PermissionLevel)
+            {
+                // Försäljningschefen
+                case 2:
+                    break;
+                // Säljare
+                case 6:
+                    btnLock.IsEnabled = false;
+                    break;
+                //System Admin
+                case 5:
+                    break;
+                //Ekonomichef
+                case 1:
+                    btnLock.IsEnabled = false;
+                    btnDelete.IsEnabled = false;
+                    btnSave.IsEnabled = false;
+                    break;
+                default: // ska inte kunna hända
+                    MessageBox.Show("Du har inte tillgång till detta");
+                    this.Close();
+                    break;
+            }
         }
 
         /// <summary>
