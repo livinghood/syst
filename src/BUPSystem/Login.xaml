@@ -92,7 +92,7 @@
             </Button.Background>
         </Button>
         <Button x:Name="btnClose" Content="" HorizontalAlignment="Right" Style="{DynamicResource close}" Width="42" Background="#FFD5D5D5" Margin="0,0,10,382.149" BorderThickness="1,0,1,1" Click="btnClose_Click"/>
-        <TextBlock x:Name="textBlock" Text="animation" Margin="161,288,57,79" FontSize="18" FontWeight="Bold">
+        <TextBlock x:Name="textBlock" Text="animation" Margin="146,268,72,99" FontSize="18" FontWeight="Bold">
             <TextBlock.Triggers>
                 <EventTrigger RoutedEvent="FrameworkElement.Loaded">
                     <BeginStoryboard>
