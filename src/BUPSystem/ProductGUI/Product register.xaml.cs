@@ -26,7 +26,7 @@ namespace BUPSystem.ProductGUI
             if (!SelectingProduct)
                 btnSelect.Visibility = Visibility.Collapsed;
 
-            ProductManagement.Instance.fillProductList(department);
+            ProductManagement.Instance.FillProductList(department);
         }
 
         // Containing the selected customer
@@ -75,7 +75,7 @@ namespace BUPSystem.ProductGUI
             if (pm.DialogResult.Equals(true))
             {
                 // Update the database context
-                ProductManagement.Instance.UpdateProduct();
+                ProductManagement.Instance.Update();
             }
             else
             {
