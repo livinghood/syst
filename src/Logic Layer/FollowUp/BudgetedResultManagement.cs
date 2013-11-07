@@ -151,7 +151,7 @@ namespace Logic_Layer.FollowUp
                     var department = db.Department.Single(p => p.DepartmentID.Equals(objectID));
                     gfu.ObjectName = department.DepartmentName;
 
-                    if (objectID == "DO" || objectID == "UF")
+                    if (objectID == "DA" || objectID == "UF")
                     {
                         gfu.Costs = GetProductionDepartmentCostByDepartmentID(objectID);
                         gfu.Revenues = GetProductionDepartmentIncomeByID(objectID);

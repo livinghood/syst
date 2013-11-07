@@ -36,19 +36,27 @@ namespace BUPSystem.Uppföljning
         /// <param name="e"></param>
         private void btnImportFile_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog
+            try
             {
-                Filter = "Textfiler (.txt)|*.txt",
-                Title = "Importera KostnadProdukt.txt",
-                Multiselect = false
-            };
+                OpenFileDialog ofd = new OpenFileDialog
+                {
+                    Filter = "Textfiler (.txt)|*.txt",
+                    Title = "Importera KostnadProdukt.txt",
+                    Multiselect = false
+                };
 
-            var result = ofd.ShowDialog();
+                var result = ofd.ShowDialog();
 
-            if (result == true)
+                if (result == true)
+                {
+                    RevenueFollowUpManagement.Instance.CreateCostProductFromFile(ofd.FileName);
+                } 
+            }
+
+            catch (System.Exception ex)
             {
-                RevenueFollowUpManagement.Instance.CreateCostProductFromFile(ofd.FileName);
-            } 
+                MessageBox.Show(ex.Message);
+            }
         }
 
         /// <summary>
@@ -107,7 +115,7 @@ namespace BUPSystem.Uppföljning
             lblRevenues.Content = gfu.Revenues;
             lblResult.Content = gfu.Result;
 
-            switch (gfu.Month.Month)
+            switch (gfu.Date.Month)
             {
                 case 1:
                     lblMonth.Content = "Januari";

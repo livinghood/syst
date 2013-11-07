@@ -121,13 +121,13 @@ namespace Logic_Layer.FollowUp
                 {
                     ObjectID = item.CeProductID,
                     ObjectName = item.CeProductName,
-                    Month = item.CeIncomeDate
+                    Date = item.CeIncomeDate
                 };
 
                 GeneralFollowUp gfuToRemove = null;
 
                 foreach (var tempGFU in GeneralFollowUps
-                    .Where(tempGFU => tempGFU.ObjectID.Equals(gfu.ObjectID) && tempGFU.Month <= gfu.Month))
+                    .Where(tempGFU => tempGFU.ObjectID.Equals(gfu.ObjectID) && tempGFU.Date <= gfu.Date))
                 {
                     gfuToRemove = tempGFU;
                 }
@@ -135,7 +135,7 @@ namespace Logic_Layer.FollowUp
                 if (gfuToRemove != null)
                     GeneralFollowUps.Remove(gfuToRemove);
 
-                GeneralFollowUps.Add(gfu);                   
+                GeneralFollowUps.Add(gfu);
             }
         }
 
@@ -160,6 +160,7 @@ namespace Logic_Layer.FollowUp
                         GeneralFollowUp gfu = new GeneralFollowUp();
                         gfu.ObjectID = product.DepartmentID;
                         gfu.ObjectName = product.Department.DepartmentName;
+                        gfu.Date = cp.CeIncomeDate;
 
                         // Prevent same department from being added more than once
                         if (!tempDepartmentsAdded.Contains(product.DepartmentID))
@@ -193,6 +194,7 @@ namespace Logic_Layer.FollowUp
                         GeneralFollowUp gfu = new GeneralFollowUp();
                         gfu.ObjectID = product.ProductGroupID;
                         gfu.ObjectName = product.ProductGroup.ProductGroupName;
+                        gfu.Date = cp.CeIncomeDate;
 
                         // Prevent same department from being added more than once
                         if (!tempGroupsAdded.Contains(product.ProductGroupID))
@@ -214,12 +216,21 @@ namespace Logic_Layer.FollowUp
 
             GeneralFollowUp gfu = new GeneralFollowUp();
 
+            DateTime date = DateTime.ParseExact("20000101", "yyyyMMdd", CultureInfo.InvariantCulture);
+
             foreach (var item in products)
             {
                 gfu.Costs += item.CeAmount;
+
+                if (item.CeIncomeDate > date)
+                {
+                    date = item.CeIncomeDate;
+                }
             }
             gfu.ObjectName = "Företag";
             gfu.ObjectID = "FÖ";
+            gfu.Date = date;
+
             GeneralFollowUps.Add(gfu);
         }
 
@@ -234,43 +245,81 @@ namespace Logic_Layer.FollowUp
         {
             GeneralFollowUp gfu = new GeneralFollowUp();
 
+            var products = from p in CostProducts
+                           where p.CeProductID.Equals(inGFU.ObjectID)
+                           orderby p.CeIncomeDate descending
+                           select p;
+
+            CostProduct product = null;
+
+            var pg = from p in ProductManagement.Instance.Products
+                     where p.ProductGroupID.Equals(inGFU.ObjectID)
+                     select p;
+
+            var pd = from p in ProductManagement.Instance.Products
+                     where p.DepartmentID.Equals(inGFU.ObjectID)
+                     select p;
+
+            var cps = from cp in CostProducts
+                      orderby cp.CeIncomeDate descending
+                      select cp;
+
+            Product productToLookFor = null;
+
+
             switch (cpo)
             {
                 case CostProductOption.Product:
-                    var products = from p in db.CostProduct
-                                   where p.CeProductID.Equals(inGFU.ObjectID)
-                                   orderby p.CeIncomeDate descending
-                                   select p;
 
-                    CostProduct product = null;
                     if (products.Any())
                         product = products.First(s => s.CeProductID.Equals(inGFU.ObjectID));
 
                     if (product != null)
                     {
                         gfu.ObjectName = product.CeProductName;
-                        gfu.Costs = (int)BudgetedResultManagement.Instance.GetDirectProductCostByProductID(inGFU.ObjectID);
-                        gfu.Revenues = BudgetedResultManagement.Instance.GetRevenueByProduct(inGFU.ObjectID);
+                        gfu.Costs = (int)BudgetedResultManagement.Instance.GetDirectProductCostByProductID(product.CeProductID);
+                        gfu.Revenues = BudgetedResultManagement.Instance.GetRevenueByProduct(product.CeProductID);
                         gfu.Result = gfu.Revenues - gfu.Costs;
-                        gfu.Month = inGFU.Month;
+                        gfu.Date = inGFU.Date;
                     }
                     break;
 
                 case CostProductOption.Productgroup:
+
+
+                    foreach (var p in pg.Where(p => p.ProductGroupID.Equals(inGFU.ObjectID)))
+                    {
+                        productToLookFor = p;
+                    }
+
+                    if (cps.Any() && productToLookFor != null)
+                        gfu.Date = cps.First(s => s.CeProductID.Equals(productToLookFor.ProductID)).CeIncomeDate;
+
                     var productGroup = db.ProductGroup.Single(p => p.ProductGroupID.Equals(inGFU.ObjectID));
                     gfu.ObjectName = productGroup.ProductGroupName;
-
                     gfu.Costs = BudgetedResultManagement.Instance.GetProductGroupCostByID(inGFU.ObjectID);
                     gfu.Revenues = BudgetedResultManagement.Instance.GetProductGroupInmcomeByID(inGFU.ObjectID);
-                    gfu.Month = inGFU.Month;
                     gfu.Result = gfu.Revenues - gfu.Costs;
+
                     break;
 
                 case CostProductOption.Department:
-                    var department = db.Department.Single(p => p.DepartmentID.Equals(inGFU.ObjectID));
+
+                    foreach (var p in from p in pd.Where(p => p.DepartmentID.Equals(inGFU.ObjectID))
+                                      from item in cps
+                                      where item.CeProductID.Equals(p.ProductID)
+                                      select p)
+                    {
+                        productToLookFor = p;
+                    }
+
+                    if (cps.Any() && productToLookFor != null)
+                        gfu.Date = cps.First(s => s.CeProductID.Equals(productToLookFor.ProductID)).CeIncomeDate;
+
+                    var department = db.Department.First(p => p.DepartmentID.Equals(inGFU.ObjectID));
                     gfu.ObjectName = department.DepartmentName;
 
-                    if (inGFU.ObjectID == "DO" || inGFU.ObjectID == "UF")
+                    if (inGFU.ObjectID == "DA" || inGFU.ObjectID == "UF")
                     {
                         gfu.Costs = BudgetedResultManagement.Instance.GetProductionDepartmentCostByDepartmentID(inGFU.ObjectID);
                         gfu.Revenues = BudgetedResultManagement.Instance.GetProductionDepartmentIncomeByID(inGFU.ObjectID);
@@ -280,7 +329,6 @@ namespace Logic_Layer.FollowUp
                         gfu.Costs = BudgetedResultManagement.Instance.GetAFFODepartmentCostByDepartmentID(inGFU.ObjectID);
                         gfu.Revenues = 0;
                     }
-                    gfu.Month = inGFU.Month;
                     gfu.Result = gfu.Revenues - gfu.Costs;
                     break;
 
@@ -289,7 +337,7 @@ namespace Logic_Layer.FollowUp
 
                     gfu.Costs = (int)BudgetedResultManagement.Instance.GetTotalCost();
                     gfu.Revenues = BudgetedResultManagement.Instance.GetCalculatedTotalRevenue();
-                    gfu.Month = inGFU.Month;
+                    gfu.Date = inGFU.Date;
                     gfu.Result = gfu.Revenues - gfu.Costs;
                     break;
             }
