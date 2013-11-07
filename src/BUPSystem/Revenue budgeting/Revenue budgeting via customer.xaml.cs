@@ -293,9 +293,7 @@ namespace BUPSystem.Revenue_budgeting
                 DataGridCell cell = (DataGridCell)presenter.ItemContainerGenerator.ContainerFromIndex(column);
 
                 return cell;
-
             }
-
             return null;
         }
 
@@ -347,6 +345,15 @@ namespace BUPSystem.Revenue_budgeting
                 {
                     MessageBox.Show(ex.ToString(), "Error");
                 }
+            }
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (FinancialIncome fi in FinancialIncomeList)
+            {
+                // Reset changes
+                RevenueManagement.Instance.ResetFinancialIncome(fi);
             }
         }
     }

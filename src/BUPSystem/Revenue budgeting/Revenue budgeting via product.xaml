@@ -6,7 +6,7 @@
     <Grid>
         <Button Content="Välj produkt" Height="23" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="btnChoseProduct" VerticalAlignment="Top" Width="73" Click="btnChoseProduct_Click" />
         <Button Content="Lås intäktsbudget" Height="23" HorizontalAlignment="Left" Margin="628,10,0,0" x:Name="btnLock" VerticalAlignment="Top" Width="127" Click="btnLock_Click" />
-        <Button Content="Avbryt" Height="23" Margin="500,408,0,0" x:Name="btnCancel" VerticalAlignment="Top" IsCancel="True" HorizontalAlignment="Left" Width="73" />
+        <Button Content="Avbryt" Height="23" Margin="500,408,0,0" x:Name="btnCancel" VerticalAlignment="Top" IsCancel="True" HorizontalAlignment="Left" Width="73" Click="btnCancel_Click" />
         <Button x:Name="btnDelete" Content="Ta bort" Margin="595,408,0,0" VerticalAlignment="Top" Height="23" HorizontalAlignment="Left" Width="73" Click="btnDelete_Click"/>
         <Button Content="Spara" Height="23" HorizontalAlignment="Right" Margin="0,408,10,0" x:Name="btnSave" VerticalAlignment="Top" Width="73" Click="btnSave_Click" />
         <Button Content="Skapa Exceldokument" Height="23" HorizontalAlignment="Left" Margin="188,408,0,0" x:Name="button3" VerticalAlignment="Top" Width="113" IsEnabled="False" />
