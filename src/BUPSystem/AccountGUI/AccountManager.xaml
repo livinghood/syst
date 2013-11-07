@@ -6,7 +6,7 @@
         Title="Kontohantering" Height="266" Width="393" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Label Content="Kontohantering" Height="41" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="label1" VerticalAlignment="Top" FontSize="20" />
-        <GroupBox Header="Standarduppgifter" Height="140" HorizontalAlignment="Left" Margin="10,56,0,0" x:Name="groupBox1" VerticalAlignment="Top" Width="367">
+        <GroupBox Header="Standarduppgifter" Margin="10,56,10,41" x:Name="groupBox1">
             <Grid>
                 <TextBox x:Name="tbNumber" HorizontalAlignment="Right" Height="23" Margin="0,9,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="229" >
                     <TextBox.Text>

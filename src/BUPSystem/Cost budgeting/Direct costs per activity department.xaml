@@ -1,7 +1,7 @@
 ﻿<Window x:Name="winDCPAD" x:Class="BUPSystem.Kostnadsbudgetering.DirectCostsPerActivityDepartment"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="DirectCostsPerActivityDepartment" Height="480" Width="638" Loaded="winDCPAD_Loaded">
+        Title="Direkta kostnader per aktivitetsavdelning" Height="480" Width="638" Loaded="winDCPAD_Loaded">
     <Grid>
         <Button Content="Skapa Exceldokument" Height="23" HorizontalAlignment="Left" Margin="74,0,0,10" x:Name="btnExcel" VerticalAlignment="Bottom" Width="135" IsEnabled="False" />
         <Button Content="Skriv ut" HorizontalAlignment="Left" Margin="10,0,0,10" x:Name="btnPrint" Width="59" Height="23" VerticalAlignment="Bottom" IsEnabled="False" />
@@ -23,6 +23,6 @@
         <Label x:Name="lblAccount" Content="Markera ett konto:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <Button x:Name="btnCancel" Content="Avbryt" Margin="406,0,149,10" IsCancel="True" Height="23" VerticalAlignment="Bottom"/>
         <ComboBox Margin="226,0,240,11" Height="22" VerticalAlignment="Bottom" x:Name="cbDepartments" SelectedIndex="0" Text="Välj..." ItemsSource="{Binding Departments}" DisplayMemberPath="DepartmentName" SelectionChanged="cbDepartments_SelectionChanged" />
-        <Label x:Name="lblChooseDepartment" Content="Välj avdelning" Margin="264,0,276,33" Height="26" VerticalAlignment="Bottom"/>
+        <Label x:Name="lblChooseDepartment" Content="Välj avdelning" Margin="249,0,276,33" Height="26" VerticalAlignment="Bottom"/>
     </Grid>
 </Window>

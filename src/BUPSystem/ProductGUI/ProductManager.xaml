@@ -5,12 +5,12 @@
         Title="Produkthantering" Height="440.932" Width="390">
     <Grid>
         <Label Content="Produkthantering" Height="42" HorizontalAlignment="Left" Margin="12,12,0,0" x:Name="label1" VerticalAlignment="Top" FontSize="20" />
-        <GroupBox Header="Standarduppgifter" Height="172" HorizontalAlignment="Left" Margin="12,54,0,0" x:Name="groupBox1" VerticalAlignment="Top" Width="358">
+        <GroupBox Header="Standarduppgifter" Height="172" Margin="12,54,10,0" x:Name="groupBox1" VerticalAlignment="Top">
             <Grid Margin="0,0,-2,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <TextBox Height="23" HorizontalAlignment="Left" Margin="140,20,0,0" x:Name="tbProductName" VerticalAlignment="Top" Width="194">
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="139,20,0,0" x:Name="tbProductName" VerticalAlignment="Top" Width="188">
                     <TextBox.Text>
                         <Binding Path="ProductName"
                                  UpdateSourceTrigger="PropertyChanged">
@@ -25,7 +25,7 @@
                 <Label Content="Produktkategori" Height="28" HorizontalAlignment="Left" Margin="10,101,0,0" x:Name="label13_Copy" VerticalAlignment="Top" />
                 <Grid Margin="139,0,14,15" Height="23" VerticalAlignment="Bottom">
                     <Button Content="Välj kategori" Height="23" HorizontalAlignment="Left"  x:Name="btnSelectCategory" VerticalAlignment="Top" Width="75" Click="btnSelectCategory_Click"/>
-                    <Label Height="23" HorizontalAlignment="Left" Margin="80,0,0,0" x:Name="lblProductCategory" VerticalAlignment="Top" Width="115">
+                    <Label Height="23" HorizontalAlignment="Left" Margin="80,0,0,0" x:Name="lblProductCategory" VerticalAlignment="Top" Width="107">
                         <Binding Path="ProductCategoryID">
                             <Binding.ValidationRules>
                                 <local:TextBoxNotEmptyValidationRule x:Name="CategoryNotEmptyValidation" Message="Ingen vald kategori" ValidatesOnTargetUpdated="True" />
@@ -34,8 +34,8 @@
                     </Label>
 
                 </Grid>
-                <Grid HorizontalAlignment="Left" Height="23" Margin="140,73,0,0" VerticalAlignment="Top" Width="194">
-                    <Label x:Name="lblProductGroup" HorizontalAlignment="Left" Margin="70,0,0,0" Width="124" RenderTransformOrigin="0.5,0.5">
+                <Grid HorizontalAlignment="Left" Height="23" Margin="139,73,0,0" VerticalAlignment="Top" Width="195">
+                    <Label x:Name="lblProductGroup" HorizontalAlignment="Left" Margin="70,0,0,0" Width="116" RenderTransformOrigin="0.5,0.5">
                         <Binding Path="ProductGroupID">
                             <Binding.ValidationRules>
                                 <local:TextBoxNotEmptyValidationRule x:Name="GroupNotEmptyValidation" Message="Ingen vald produktgrupp" ValidatesOnTargetUpdated="True" />
@@ -46,23 +46,16 @@
                 </Grid>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Produktuppgifter" Height="129" Margin="12,242,0,0" x:Name="groupBox2" VerticalAlignment="Top" HorizontalAlignment="Left" Width="358">
+        <GroupBox Header="Produktuppgifter" Margin="12,0,10,39" x:Name="groupBox2" Height="129" VerticalAlignment="Bottom">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
                 <Grid x:Name="PartProductIDGrid" HorizontalAlignment="Left" Width="317" Margin="13,10,0,100">
-                    <TextBox Height="23" HorizontalAlignment="Right" x:Name="tbPartProductID" VerticalAlignment="Bottom" Width="194" MaxLength="4" Margin="0,0,0,-23" >
-                        <Binding Path="PartProductID" UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <local:CheckProductIDFormatValidationRule x:Name="CheckProductIDFormatValidation" ValidatesOnTargetUpdated="True" />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox>
                     <Label Content="DelproduktID" Height="28" HorizontalAlignment="Left" x:Name="lblDelID" VerticalAlignment="Top" Width="85" Margin="0,0,0,-28" />
                 </Grid>
-                <ComboBox Height="23" HorizontalAlignment="Right" Margin="0,76,15,0" x:Name="cbDepartment" Text="Välj..." VerticalAlignment="Top" Width="194">
+                <ComboBox Height="23" Margin="139,76,0,0" x:Name="cbDepartment" Text="Välj..." VerticalAlignment="Top" HorizontalAlignment="Left" Width="194">
                     <ComboBox.SelectedItem>
                         <Binding Path="DepartmentID"
                              UpdateSourceTrigger="Default"
@@ -75,7 +68,7 @@
                 </ComboBox>
                 <Label Content="Avdelning" Height="28" HorizontalAlignment="Left" Margin="13,76,0,0" x:Name="label6" VerticalAlignment="Top" Width="119" />
                 <Label Content="ProduktID" Height="28" HorizontalAlignment="Left" Margin="13,43,0,0" x:Name="label5_Copy" VerticalAlignment="Top" Width="85" />
-                <TextBox x:Name="tbProductID" HorizontalAlignment="Left" Height="23" Margin="137,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="193" IsUndoEnabled="False" IsReadOnly="True" BorderThickness="2" Background="#FFF7F7F7">
+                <TextBox x:Name="tbProductID" HorizontalAlignment="Left" Height="23" Margin="139,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="193" IsUndoEnabled="False" IsReadOnly="True" BorderThickness="2" Background="#FFF7F7F7">
                     <TextBox.Text>
                         <local:DelayBindingExtension Path="ProductID" >
                             <local:DelayBindingExtension.ValidationRules>
@@ -83,6 +76,13 @@
                             </local:DelayBindingExtension.ValidationRules>
                         </local:DelayBindingExtension>
                     </TextBox.Text>
+                </TextBox>
+                <TextBox Height="23" x:Name="tbPartProductID" VerticalAlignment="Bottom" MaxLength="4" Margin="139,0,0,69" HorizontalAlignment="Left" Width="193" >
+                    <Binding Path="PartProductID" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local:CheckProductIDFormatValidationRule x:Name="CheckProductIDFormatValidation" ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
                 </TextBox>
             </Grid>
         </GroupBox>

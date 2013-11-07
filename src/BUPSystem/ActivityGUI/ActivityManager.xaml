@@ -5,7 +5,7 @@
         Title="Aktivitetshantering" Height="304" Width="390" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid x:Name="aktivitetshantering">
         <Label Content="Aktivitetsthantering" Height="39" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="label1" VerticalAlignment="Top" FontSize="20" />
-        <GroupBox Header="Standarduppgifter" Height="170" Margin="10,54,10,0" x:Name="groupBox1" VerticalAlignment="Top">
+        <GroupBox Header="Standarduppgifter" Margin="10,54,10,0" x:Name="groupBox1" Height="170" VerticalAlignment="Top">
             <Grid>
                 <TextBox Height="23" HorizontalAlignment="Left" Margin="127,10,0,0" x:Name="tbName" VerticalAlignment="Top" Width="208" >
                     <TextBox.Text>

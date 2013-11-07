@@ -3,8 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Productkategoriregister" Height="335" Width="485" Closing="Window_Closing_1">
     <Grid>
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="234,16,0,0" x:Name="tbSearch" VerticalAlignment="Top" Width="153" TextChanged="tbSearch_TextChanged" />
-        <Button Content="Sök" Height="23" HorizontalAlignment="Left" Margin="392,16,0,0" x:Name="btnSearch" VerticalAlignment="Top" Width="75" />
+        <TextBox Height="23" Margin="0,10,10,0" x:Name="tbSearch" VerticalAlignment="Top" TextChanged="tbSearch_TextChanged" HorizontalAlignment="Right" Width="153" />
         <Label Content="Produktkategorier" Height="39" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="label1" VerticalAlignment="Top" FontSize="20" />
         <ListView x:Name="lvProductCategories" Height="205" Margin="10,54,10,0" VerticalAlignment="Top" ItemsSource="{Binding CategoriesList}"  SelectedItem="{Binding SelectedProductCategory}">
             <ListView.View>
@@ -25,5 +24,6 @@
             <Button Content="Ändra" Height="23" x:Name="btn_Change" VerticalAlignment="Top" Click="btnChange_Click" Width="75" HorizontalAlignment="Left" />
             <Button Content="Ta bort" Height="23" HorizontalAlignment="Left" Margin="80,0,0,0" x:Name="btnRemove" VerticalAlignment="Top" Width="76" Click="btnDelete_Click" />
         </Grid>
+        <Label Content="Sök:" HorizontalAlignment="Right" Margin="0,10,168,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

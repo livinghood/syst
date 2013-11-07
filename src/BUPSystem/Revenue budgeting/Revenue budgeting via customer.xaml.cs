@@ -50,10 +50,46 @@ namespace BUPSystem.Revenue_budgeting
         /// </summary>
         public RevenueBudgetingViaCustomer()
         {
+            InitializeComponent();
+
+            UserAccount userAccount = UserManagement.Instance.GetUserAccountByUsername(System.Threading.Thread.CurrentPrincipal.Identity.Name);
+
+            if (userAccount == null)
+                Application.Current.Shutdown();
+
+
+            switch (userAccount.PermissionLevel)
+            {
+
+                // Ekonomichef
+                case 1:
+                    btnSave.Visibility = Visibility.Collapsed;
+                    btnDelete.Visibility = Visibility.Collapsed;
+                    btnLock.Visibility = Visibility.Collapsed;
+                    dgIncomeProduct.IsEnabled = false;
+                    break;
+
+                // Försäljningschef
+                case 2:
+                    btnExportToTextfile.Visibility = Visibility.Collapsed;
+                    break;
+
+                // Systemadministratör
+                case 5:
+                    // Kan göra allt?
+                    break;
+
+                // Säljare
+                case 6:
+                    btnLock.Visibility = Visibility.Collapsed;
+                    btnExportToTextfile.Visibility = Visibility.Collapsed;
+                    break;
+            }
+
             NewFinancialIncomeList = new ObservableCollection<FinancialIncome>();
             CurrentFinancialIncomeYear = RevenueManagement.Instance.CreateFinancialIncomeYear();
-            InitializeComponent();
-            dgIncomeProduct.IsEnabled = false;
+            
+            dgIncomeProduct.Visibility = Visibility.Collapsed;
             DataContext = this;
             btnDelete.IsEnabled = false;
             btnSave.IsEnabled = false;
@@ -62,35 +98,6 @@ namespace BUPSystem.Revenue_budgeting
             {
                 dgIncomeProduct.IsReadOnly = true;
                 btnLock.IsEnabled = false;
-            }
-
-            Logic_Layer.UserAccount userAccount = null;
-
-            userAccount = UserManagement.Instance.GetUserAccountByUsername(System.Threading.Thread.CurrentPrincipal.Identity.Name);
-
-            switch (userAccount.PermissionLevel)
-            {
-                // Försäljningschefen
-                case 2:
-                    break;
-                // Säljare
-                case 6:
-                    btnLock.IsEnabled = false;
-                    break;
-                //System Admin
-                case 5:
-
-                    break;
-                //Ekonomichef
-                case 1:
-                    btnLock.IsEnabled = false;
-                    btnDelete.IsEnabled = false;
-                    btnSave.IsEnabled = false;
-                    break;
-                default:
-                    MessageBox.Show("Du har inte tillgång till detta");
-                    this.Close();
-                    break;
             }
 
         }
@@ -106,18 +113,20 @@ namespace BUPSystem.Revenue_budgeting
 
             if (customerRegister.ShowDialog() == true)
             {
+                dgIncomeProduct.Visibility = Visibility.Visible;
                 SelectedCustomer = customerRegister.SelectedCustomer;
                 FinancialIncomeList = new ObservableCollection<FinancialIncome>(RevenueManagement.Instance.GetFinancialIncomesByCustomer(SelectedCustomer.CustomerID));
                 dgIncomeProduct.ItemsSource = FinancialIncomeList;
                 lblCustomerID.Content = SelectedCustomer.CustomerID;
                 lblCustomerName.Content = SelectedCustomer.CustomerName;
-                dgIncomeProduct.IsEnabled = true;
+                
                 LockPrimaryCells();
                 if (CurrentFinancialIncomeYear.FinancialIncomeLock == false)
                 {
                     btnDelete.IsEnabled = true;
                     btnSave.IsEnabled = true;
                 }
+                UpdateLabels();
             }
 
         }
@@ -180,6 +189,7 @@ namespace BUPSystem.Revenue_budgeting
                 {
                     FinancialIncome fi = (FinancialIncome)dgIncomeProduct.SelectedItem;
                     RevenueManagement.Instance.DeleteFinancialIncome(fi);
+                    UpdateLabels();
                 }
                 catch (Exception ex)
                 {
@@ -280,6 +290,7 @@ namespace BUPSystem.Revenue_budgeting
             {
                 obj.CustomerID = SelectedCustomer.CustomerID;
                 NewFinancialIncomeList.Add(obj);
+                UpdateLabels();
             }
         }
 
@@ -295,6 +306,7 @@ namespace BUPSystem.Revenue_budgeting
                 DataGrid grid = (DataGrid)sender;
                 grid.CommitEdit(DataGridEditingUnit.Row, true);
                 isManualEdit = false;
+                UpdateLabels();
             }
         }
 
@@ -376,6 +388,28 @@ namespace BUPSystem.Revenue_budgeting
                 // Reset changes
                 RevenueManagement.Instance.ResetFinancialIncome(fi);
             }
+        }
+
+
+        private void UpdateLabels()
+        {
+            int? add = 0;
+            int? bud = 0;
+            int? agr = 0;
+            int? hour = 0;
+
+            foreach (var item in FinancialIncomeList)
+            {
+                add += item.Addition;
+                bud += item.Budget;
+                agr += item.Agreement;
+                hour += item.Hours;
+            }
+
+            lblAddition.Content = add;
+            lblBudget.Content = bud;
+            lblAgreement.Content = agr;
+            lblHour.Content = hour;
         }
     }
 }

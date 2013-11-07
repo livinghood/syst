@@ -26,6 +26,48 @@ namespace BUPSystem.ProductGUI
             if (!SelectingProduct)
                 btnSelect.Visibility = Visibility.Collapsed;
 
+            if (System.Threading.Thread.CurrentPrincipal.IsInRole("99"))
+            {
+                btn_Change.Visibility = Visibility.Collapsed;
+                btnAdd.Visibility = Visibility.Collapsed;
+                btnRemove.Visibility = Visibility.Collapsed;
+
+            }
+            else
+            {
+                UserAccount userAccount = UserManagement.Instance.GetUserAccountByUsername(System.Threading.Thread.CurrentPrincipal.Identity.Name);
+
+                if (userAccount == null)
+                    Application.Current.Shutdown();
+
+
+                switch (userAccount.PermissionLevel)
+                {
+                    // Ekonomichef
+                    case 1:
+                        btn_Change.Visibility = Visibility.Collapsed;
+                        btnAdd.Visibility = Visibility.Collapsed;
+                        btnRemove.Visibility = Visibility.Collapsed;
+                        break;
+
+                    // Driftschef
+                    case 4:
+                        btn_Change.Visibility = Visibility.Collapsed;
+                        btnRemove.Visibility = Visibility.Collapsed;
+                        break;
+
+                    // Systemadministratör
+                    case 5:
+                        // Kan göra allt
+                        break;
+                    // Utvecklingschef
+                    case 7:
+                        btn_Change.Visibility = Visibility.Collapsed;
+                        btnRemove.Visibility = Visibility.Collapsed;
+                        break;
+                }
+            }
+
             ProductManagement.Instance.FillProductList(department);
         }
 
