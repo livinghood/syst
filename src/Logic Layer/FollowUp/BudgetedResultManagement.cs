@@ -122,7 +122,7 @@ namespace Logic_Layer.FollowUp
         public void FillGeneralFollowUpsWithCompany()
         {
             GeneralFollowUps.Clear();
-            GeneralFollowUp gfu = new GeneralFollowUp {ObjectName = "IT-Service"};
+            GeneralFollowUp gfu = new GeneralFollowUp { ObjectName = "IT-Service" };
             GeneralFollowUps.Add(gfu);
         }
 
@@ -188,7 +188,7 @@ namespace Logic_Layer.FollowUp
             //SCHABLONSKOSTNADER PER AVDELNING
             return Cost_Budgeting_Logic.DCPPDManagement.Instance.GetAccountsByDepartment(departmentID)
                 .Where(account => account.AccountID != 5021 && account.AccountID != 9999)
-                .Select(account => account.AccountCost == null ? 0 : (int) account.AccountCost)
+                .Select(account => account.AccountCost == null ? 0 : (int)account.AccountCost)
                 .Aggregate<int, decimal>(0, (current, tempCost) => current + tempCost);
         }
 
@@ -282,7 +282,7 @@ namespace Logic_Layer.FollowUp
         public int GetProductGroupCostByID(string groupID)
         {
             // RETURNERAR KOSTNAD PER PRODUKTGRUPP
-            return (int) ProductManagement.Instance.GetProductsByProductGroup(groupID).Cast<Product>().Sum(p => GetDirectProductCostByProductID(p.ProductID));
+            return (int)ProductManagement.Instance.GetProductsByProductGroup(groupID).Cast<Product>().Sum(p => GetDirectProductCostByProductID(p.ProductID));
         }
 
         public decimal GetSchablonDividedAnnual()
@@ -453,7 +453,8 @@ namespace Logic_Layer.FollowUp
             {
                 if (fi.ProductID.Equals(productID))
                 {
-                    sum += (int)fi.Budget;
+                    if (fi.Budget != null)
+                        sum += (int)fi.Budget;
                 }
             }
             return sum;
