@@ -161,6 +161,7 @@ namespace BUPSystem
                 lblTitle.Content = "";
 
                 btnAnvändarhantering.Visibility = Visibility.Collapsed;
+                btnPersonalhantering.Visibility = Visibility.Collapsed;
                 btnKontohantering.Visibility = Visibility.Collapsed;
                 gKbudget.Visibility = Visibility.Collapsed;
                 gIntakt.Visibility = Visibility.Collapsed;
