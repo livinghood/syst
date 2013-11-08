@@ -93,7 +93,13 @@ namespace Logic_Layer
 
             foreach (FinancialIncome fi in financialIncomes)
             {
-                fi.ProductName = fi.Product.ProductName;
+                if (fi.Product != null)
+                    fi.ProductName = fi.Product.ProductName;
+                else
+                {
+                    Product tempP = ProductList.Where(p => p.ProductID.Equals(fi.ProductID)).SingleOrDefault();
+                    fi.ProductName = tempP.ProductName;
+                }
             }
 
             return financialIncomes;
@@ -113,7 +119,13 @@ namespace Logic_Layer
             {
                 foreach (FinancialIncome fi in financialIncomes)
                 {
-                    fi.CustomerName = fi.Customer.CustomerName;
+                    if (fi.Customer != null)
+                        fi.CustomerName = fi.Customer.CustomerName;
+                    else
+                    {
+                        Customer tempC = CustomerList.Where(c => c.CustomerID.Equals(fi.CustomerID)).SingleOrDefault();
+                        fi.CustomerName = tempC.CustomerName;
+                    }
                 }
             }
 
