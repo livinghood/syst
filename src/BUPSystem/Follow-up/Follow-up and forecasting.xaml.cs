@@ -171,6 +171,7 @@ namespace BUPSystem.Uppföljning
                 {
                     dgForecasts.IsEnabled = true;
                     btnSave.IsEnabled = true;
+                    btnLock.IsEnabled = true;
                     lblInfo.Content = "";
                 }
             }
