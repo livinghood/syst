@@ -232,7 +232,12 @@ namespace Logic_Layer
 
         public void ResetProductPlacement(ProductPlacement ppObj)
         {
-            db.Entry(ppObj).State = EntityState.Unchanged;
+            try
+            {
+                db.Entry(ppObj).State = EntityState.Unchanged;
+            }
+            catch
+            { }
         }
     }
 }

@@ -106,9 +106,7 @@ namespace BUPSystem.Kostnadsbudgetering
         /// </summary>
         private void LoadExistingPlacements()
         {
-
             // Ber om ursäkt för dom här foreach-satserna. Dom är inte försvarbara.
-
             foreach (Employee e in EmployeeList)
             {
                 foreach (ProductPlacement p in ProductManagement.Instance.GetProductPlacementsByEmployeeAndDepartment(e,DepartmentID))
@@ -149,10 +147,33 @@ namespace BUPSystem.Kostnadsbudgetering
                             // Lägg till product placement
                             di.DataList.Add(p);
                         }
-
                         SelectedProducts.Add(p.Product);
                     }
+                }
 
+                foreach (DataGridColumn dgc in dgProductPlacements.Columns)
+                {
+                    // AKTIVITET GER NYA PÅ ALLA COLUMNER INTE PRODUKT, INGEN SPARAS TILL DATABAS
+
+                    // OM DEN ANSTÄLLDE ÄR HELT NY OCH INTE HAR NÅGRA PRODUKTPLACERINGAR
+                    if (!ProductManagement.Instance.GetProductPlacementsByEmployeeAndDepartment(e, DepartmentID).Any())
+                    {
+
+                        string prodName = dgProductPlacements.Columns.Last().Header.ToString();
+                        Product tempProduct = ProductManagement.Instance.Products.Where(p => p.ProductName.Equals(prodName)).SingleOrDefault();
+                        ProductPlacement newProductPlacement = new ProductPlacement() { EmployeeID = e.EmployeeID, ProductID = tempProduct.ProductID, ProductAllocate = 0 };
+
+                        foreach (DataItemProduct di in MyList)
+                        {
+                            // Om det är rätt kund
+                            if (di.EmployeeID == e.EmployeeID)
+                            {
+                                // Lägg till product placement
+                                di.DataList.Add(newProductPlacement);
+                            }
+                            SelectedProducts.Add(newProductPlacement.Product);
+                        }
+                    }
                 }
             }
         }

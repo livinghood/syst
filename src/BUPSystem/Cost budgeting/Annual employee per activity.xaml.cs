@@ -104,6 +104,7 @@ namespace BUPSystem.Kostnadsbudgetering
         /// </summary>
         private void LoadExistingPlacements()
         {
+            // Ber om ursäkt för dom här foreach-satserna. Dom är inte försvarbara.
             foreach (Employee e in EmployeeList)
             {
                 foreach (ActivityPlacement a in ActivityManagement.Instance.GetActivityPlacementsByEmployeeAndDepartment(e, DepartmentID))
@@ -117,26 +118,25 @@ namespace BUPSystem.Kostnadsbudgetering
                             {
                                 if (di.EmployeeID == e.EmployeeID)
                                 {
-                                    if (di.EmployeeID == e.EmployeeID)
-                                    {
-                                        di.DataList.Add(a);
+                                    di.DataList.Add(a);
 
-                                        found = true;
-                                    }
+                                    found = true;
                                 }
                             }
                         }
                     }
-
                     if (found)
                         continue;
+                    // INTE HITTAD
                     
                     //Skapa column
                     DataGridTextColumn activityColumn = new DataGridTextColumn();
                     activityColumn.Header = a.Activity.ActivityName;
                     activityColumn.Binding = new Binding("DataList[" + dgActivityPlacements.Columns.Count + "].ActivityAllocate");
+                    //Lägg till column
                     dgActivityPlacements.Columns.Add(activityColumn);
 
+                    //För varje rad
                     foreach (DataItemActivity di in MyList)
                     {
                         // Om det är rätt kund
@@ -145,10 +145,31 @@ namespace BUPSystem.Kostnadsbudgetering
                             // Lägg till product placement
                             di.DataList.Add(a);
                         }
-
                         SelectedActivities.Add(a.Activity);
                     }
-                    
+                }
+
+                foreach (DataGridColumn dgc in dgActivityPlacements.Columns)
+                {
+                    // OM DEN ANSTÄLLDE ÄR HELT NY OCH INTE HAR NÅGRA PRODUKTPLACERINGAR
+                    if (!ProductManagement.Instance.GetProductPlacementsByEmployeeAndDepartment(e, DepartmentID).Any())
+                    {
+
+                        string actName = dgActivityPlacements.Columns.Last().Header.ToString();
+                        Activity tempActivity = ActivityManagement.Instance.ActivityList.Where(a => a.ActivityName.Equals(actName)).SingleOrDefault();
+                        ActivityPlacement newActivityPlacement = new ActivityPlacement() { EmployeeID = e.EmployeeID, ActivityID = tempActivity.ActivityID, ActivityAllocate = 0 };
+
+                        foreach (DataItemActivity di in MyList)
+                        {
+                            // Om det är rätt kund
+                            if (di.EmployeeID == e.EmployeeID)
+                            {
+                                // Lägg till Activity placement
+                                di.DataList.Add(newActivityPlacement);
+                            }
+                            SelectedActivities.Add(newActivityPlacement.Activity);
+                        }
+                    }
                 }
             }
         }

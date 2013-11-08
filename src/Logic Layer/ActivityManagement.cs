@@ -35,12 +35,14 @@ namespace Logic_Layer
 
         public ObservableCollection<Activity> Activities { get; set; }
 
+        public ObservableCollection<Activity> ActivityList { get; set; }
+
         /// <summary>
         /// Standard constructor with initialization of activties list
         /// </summary>
         public ActivityManagement()
         {
-            
+            ActivityList = new ObservableCollection<Activity>(GetActivities());
         }
 
         /// <summary>
@@ -201,7 +203,12 @@ namespace Logic_Layer
         }
         public void ResetActivityPlacement(ActivityPlacement ppObj)
         {
-            db.Entry(ppObj).State = EntityState.Unchanged;
+            try
+            {
+                db.Entry(ppObj).State = EntityState.Unchanged;
+            }
+            catch 
+            { }
         }
 
     }
