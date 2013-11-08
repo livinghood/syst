@@ -31,6 +31,11 @@ namespace Logic_Layer.FollowUp
             get { return EmployeeManagement.Instance.Departments; }
         }
 
+        public IEnumerable<FinancialIncome> FinancialIncomeList
+        {
+            get { return RevenueManagement.Instance.FinancialIncomeList; }
+        }
+
         public IEnumerable<Product> ProductList { get; set; }
 
         public IEnumerable<Activity> ActivityList { get; set; }
@@ -132,7 +137,7 @@ namespace Logic_Layer.FollowUp
                     gfu.ObjectName = product.ProductName;
 
                     gfu.Costs = (int)GetDirectProductCostByProductID(objectID);
-                    gfu.Revenues = GetRevenueByProduct(objectID);
+                    gfu.Revenues = GetCalculatedIncomeBudgetByProduct(objectID);
 
                     gfu.Result = gfu.Revenues - gfu.Costs;
                     break;
@@ -142,7 +147,7 @@ namespace Logic_Layer.FollowUp
                     gfu.ObjectName = productGroup.ProductGroupName;
 
                     gfu.Costs = GetProductGroupCostByID(objectID);
-                    gfu.Revenues = GetProductGroupInmcomeByID(objectID);
+                    gfu.Revenues = GetCalculatedIncomeBudgetByGroup(objectID);
 
                     gfu.Result = gfu.Revenues - gfu.Costs;
                     break;
@@ -154,7 +159,7 @@ namespace Logic_Layer.FollowUp
                     if (objectID == "DA" || objectID == "UF")
                     {
                         gfu.Costs = GetProductionDepartmentCostByDepartmentID(objectID);
-                        gfu.Revenues = GetProductionDepartmentIncomeByID(objectID);
+                        gfu.Revenues = GetCalculatedIncomeBudgetProductByDepartment(objectID);
                     }
                     if (objectID == "AO" || objectID == "FO")
                     {
@@ -169,7 +174,7 @@ namespace Logic_Layer.FollowUp
                     gfu.ObjectName = "IT-Service";
 
                     gfu.Costs = (int)GetTotalCost();
-                    gfu.Revenues = GetCalculatedTotalRevenue();
+                    gfu.Revenues = GetCalculatedTotalIncomeBudget();
 
                     gfu.Result = gfu.Revenues - gfu.Costs;
                     break;
@@ -396,6 +401,63 @@ namespace Logic_Layer.FollowUp
             totalCost = tillVCost + tb;
 
             return totalCost;
+            //public int GetCalculatedIncomeBudget();
         }
+
+        public int GetCalculatedTotalIncomeBudget()
+        {
+            // SUMMERAR BUDGETTEN FRÅN ALLA INKOMSTBUDGETTAR
+            int sum = 0;
+            foreach (FinancialIncome fi in FinancialIncomeList)
+            {
+                if (fi.Budget != null)
+                    sum += (int)fi.Budget;
+            }
+
+            return sum;
+        }
+
+        public int GetCalculatedIncomeBudgetProductByDepartment(string departmentID)
+        {
+            // HÄMTAR ALLA BUDGETTERADE INTÄKTE UTIFRÅN AVDELNING
+            int sum = 0;
+            foreach (Product p in ProductList)
+            {
+                if (p.DepartmentID.Equals(departmentID))
+                {
+                    sum += GetCalculatedIncomeBudgetByProduct(p.ProductID);
+                }
+            }
+            return sum;
+        }
+
+        public int GetCalculatedIncomeBudgetByGroup(string groupID)
+        {
+            // HÄMTAR ALLA BUDGETTERADE INTÄKTE UTIFRÅN PRODUKTGRUPP
+            int sum = 0;
+            foreach (Product p in ProductList)
+            {
+                if (p.ProductGroupID.Equals(groupID))
+                {
+                    sum += GetCalculatedIncomeBudgetByProduct(p.ProductID);
+                }
+            }
+            return sum;
+        }
+
+        public int GetCalculatedIncomeBudgetByProduct(string productID)
+        {
+            // HÄMTAR ALLA BUDGETTERADE INTÄKTE UTIFRÅN PRODUKT
+            int sum = 0;
+            foreach (FinancialIncome fi in FinancialIncomeList)
+            {
+                if (fi.ProductID.Equals(productID))
+                {
+                    sum += (int)fi.Budget;
+                }
+            }
+            return sum;
+        }
+
     }
 }

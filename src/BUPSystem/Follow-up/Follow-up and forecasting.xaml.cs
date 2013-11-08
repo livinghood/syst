@@ -165,6 +165,7 @@ namespace BUPSystem.Uppföljning
                     dgForecasts.IsEnabled = false;
                     btnSave.IsEnabled = false;
                     lblInfo.Content = "Uppföljning för denna månad är låst";
+                    btnLock.IsEnabled = false;
                 }
                 else
                 {

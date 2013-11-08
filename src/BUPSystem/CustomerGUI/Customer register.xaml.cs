@@ -68,7 +68,7 @@ namespace BUPSystem.CustomerGUI
 
                     // Försäljningschef
                     case 2:
-                        btnAdd.Visibility = Visibility.Collapsed;
+                        btn_Change.Visibility = Visibility.Collapsed;
                         btnRemove.Visibility = Visibility.Collapsed;
                         break;
 
