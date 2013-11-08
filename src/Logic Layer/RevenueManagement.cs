@@ -266,36 +266,24 @@ namespace Logic_Layer
                     string account = GetAccountForPrinting(row.ProductID);
                     string department = GetDepartmentForPrinting(row.ProductID);
                     string amount = GetAmountForPrinting(row.ProductID);
+                    var firstOrDefault = db.Customer.FirstOrDefault(c => c.CustomerID.Equals(row.CustomerID));
 
+                    string name = "";
+                    if (firstOrDefault != null)
+                    {
+                        name = firstOrDefault.CustomerName;
+                    }
                     string str = String.Format("{0};{1};{2};{3};{4};{5};{6};",
                         account,
                         department,
                         row.ProductID,
                         row.Product.ProductName,
                         row.CustomerID,
-                        row.Customer.CustomerName,
+                        name,
                         amount);
 
                     writer.WriteLine(str);
                 }
-
-
-
-                //foreach (string str in from row
-                //                       in tempList
-                //                       let department = GetDepartmentForPrinting(row.ProductID)
-                //                       let account = GetAccountForPrinting(row.ProductID)
-                //                       let amount = GetAmountForPrinting(row.ProductID)
-                //                       select String.Format("{0};{1};{2};{3};{4};{5};{6};",
-                //                           account, department,
-                //                           row.ProductID,
-                //                           row.Product.ProductName,
-                //                           row.CustomerID,
-                //                           row.Customer.CustomerName,
-                //                           amount))
-                //{
-                //    writer.WriteLine(str);
-                //}
             }
         }
 

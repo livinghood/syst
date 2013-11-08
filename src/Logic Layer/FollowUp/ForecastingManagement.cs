@@ -118,44 +118,48 @@ namespace Logic_Layer.FollowUp
             {
                 // Ignore first row since it's a header
                 reader.ReadLine();
-                string row;
-                while ((row = reader.ReadLine()) != null)
+                while (!reader.EndOfStream)
                 {
-  
+                    string row = reader.ReadLine();
 
-                    /* IntaktProduktKund.txt is formatted in such a way that there are up to three tabs separating each
+                    if (!String.IsNullOrEmpty(row))
+                    {
+
+
+                        /* IntaktProduktKund.txt is formatted in such a way that there are up to three tabs separating each
                      * 'column' in the text file. If a row contains multiple tabs they are replaced with one. */
-                    if (row.Contains("\t\t\t"))
-                    {
-                        row = row.Replace("\t\t\t", "\t");
+                        if (row.Contains("\t\t\t"))
+                        {
+                            row = row.Replace("\t\t\t", "\t");
+                        }
+
+                        if (row.Contains("\t\t"))
+                        {
+                            row = row.Replace("\t\t", "\t");
+                        }
+
+                        if (row.Contains("  "))
+                        {
+                            row = row.Replace("  ", "\t");
+                        }
+
+                        // At this point each column is only separated by one tab which makes it easy to read the file
+                        string[] field = row.Split('\t');
+
+                        IncomeProductCustomer ipc = new IncomeProductCustomer();
+                        ipc.IeProductID = field[0];
+                        ipc.IeProductName = field[1];
+                        ipc.IeCustomerID = field[2];
+                        ipc.IeCustomerName = field[3];
+                        ipc.IeAmount = int.Parse(field[5]);
+                        ipc.IeIncomeDate = DateTime.ParseExact(field[4], "yyyyMMdd", CultureInfo.InvariantCulture);
+
+
+
+                        // Add icp to database
+                        AddIncomeProductCustomer(ipc);
+                        //CreateForecasting(ipc);
                     }
-
-                    if (row.Contains("\t\t"))
-                    {
-                        row = row.Replace("\t\t", "\t");
-                    }
-
-                    if (row.Contains("  "))
-                    {
-                        row = row.Replace("  ", "\t");
-                    }
-
-                    // At this point each column is only separated by one tab which makes it easy to read the file
-                    string[] field = row.Split('\t');
-
-                    IncomeProductCustomer ipc = new IncomeProductCustomer();
-                    ipc.IeProductID = field[0];
-                    ipc.IeProductName = field[1];
-                    ipc.IeCustomerID = field[2];
-                    ipc.IeCustomerName = field[3];
-                    ipc.IeAmount = int.Parse(field[5]);
-                    ipc.IeIncomeDate = DateTime.ParseExact(field[4], "yyyyMMdd", CultureInfo.InvariantCulture);
-
-
-
-                    // Add icp to database
-                    AddIncomeProductCustomer(ipc);
-                    //CreateForecasting(ipc);
                 }
             }
         }

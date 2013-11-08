@@ -94,8 +94,8 @@ namespace BUPSystem.Uppföljning
         /// <param name="e"></param>
         private void btnImportFile_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
+            //try
+            //{
                 OpenFileDialog ofd = new OpenFileDialog
                 {
                     Filter = "Textfiler (.txt)|*.txt",
@@ -109,12 +109,12 @@ namespace BUPSystem.Uppföljning
                 {
                     RevenueFollowUpManagement.Instance.CreateCostProductFromFile(ofd.FileName);
                 } 
-            }
+            //}
 
-            catch (System.Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            //catch (System.Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
         }
 
         /// <summary>

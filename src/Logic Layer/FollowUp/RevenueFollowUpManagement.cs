@@ -63,49 +63,54 @@ namespace Logic_Layer.FollowUp
             {
                 // Ignore first row since it's a header
                 reader.ReadLine();
-                string row;
-                while ((row = reader.ReadLine()) != null)
+                while (!reader.EndOfStream)
                 {
-                    /* KostnadProdukt.txt is formatted in such a way that there are up to three tabs separating each
-                     * 'column' in the text file. If a row contains multiple tabs they are replaced with one. */
-                    if (row.Contains("\t\t\t"))
+                    string row = reader.ReadLine();
+
+                    if (!String.IsNullOrEmpty(row))
                     {
-                        row = row.Replace("\t\t\t", "\t");
-                    }
 
-                    if (row.Contains("\t\t"))
-                    {
-                        row = row.Replace("\t\t", "\t");
-                    }
+                        /* KostnadProdukt.txt is formatted in such a way that there are up to three tabs separating each
+                         * 'column' in the text file. If a row contains multiple tabs they are replaced with one. */
+                        if (row.Contains("\t\t\t"))
+                        {
+                            row = row.Replace("\t\t\t", "\t");
+                        }
 
-                    // At this point each column is only separated by one tab which makes it easy to read the file
-                    string[] field = row.Split('\t');
+                        if (row.Contains("\t\t"))
+                        {
+                            row = row.Replace("\t\t", "\t");
+                        }
 
-                    CostProduct cp = new CostProduct
-                    {
-                        CeProductID = field[0],
-                        CeProductName = field[1],
-                        CeIncomeDate = DateTime.ParseExact(field[2], "yyyyMMdd", CultureInfo.InvariantCulture),
-                        CeAmount = int.Parse(field[3]),
-                    };
+                        // At this point each column is only separated by one tab which makes it easy to read the file
+                        string[] field = row.Split('\t');
 
-                    bool updated = false;
-                    var costProductsInDB = db.CostProduct.Select(s => s);
+                        CostProduct cp = new CostProduct
+                        {
+                            CeProductID = field[0],
+                            CeProductName = field[1],
+                            CeIncomeDate = DateTime.ParseExact(field[2], "yyyyMMdd", CultureInfo.InvariantCulture),
+                            CeAmount = int.Parse(field[3]),
+                        };
 
-                    // Update a costproduct if it already exists in db
-                    foreach (var costProduct in costProductsInDB
-                        .Where(costProduct => costProduct.CeProductID.Equals(cp.CeProductID)
-                            && costProduct.CeIncomeDate.Equals(cp.CeIncomeDate)))
-                    {
-                        costProduct.CeAmount += cp.CeAmount;
-                        db.SaveChanges();
-                        updated = true;
-                    }
+                        bool updated = false;
+                        var costProductsInDB = db.CostProduct.Select(s => s);
 
-                    if (!updated)
-                    {
-                        // Add cp to database
-                        AddCostProduct(cp);
+                        // Update a costproduct if it already exists in db
+                        foreach (var costProduct in costProductsInDB
+                            .Where(costProduct => costProduct.CeProductID.Equals(cp.CeProductID)
+                                && costProduct.CeIncomeDate.Equals(cp.CeIncomeDate)))
+                        {
+                            costProduct.CeAmount += cp.CeAmount;
+                            db.SaveChanges();
+                            updated = true;
+                        }
+
+                        if (!updated)
+                        {
+                            // Add cp to database
+                            AddCostProduct(cp);
+                        }
                     }
                 }
             }
