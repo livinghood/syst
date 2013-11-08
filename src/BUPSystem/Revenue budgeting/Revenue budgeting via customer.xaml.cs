@@ -369,15 +369,15 @@ namespace BUPSystem.Revenue_budgeting
 
             if (result == true)
             {
-                try
-                {
+                //try
+                //{
                     RevenueManagement.Instance.ExportRevenueBudgetingToTextFile(sfd.FileName);
                     MessageBox.Show("Intäktsbudgeten har sparats till textfil", "Sparad");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.ToString(), "Error");
-                }
+                //}
+                //catch (Exception ex)
+                //{
+                //    MessageBox.Show(ex.ToString(), "Error");
+                //}
             }
         }
 

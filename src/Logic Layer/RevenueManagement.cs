@@ -259,21 +259,43 @@ namespace Logic_Layer
                 // First line in textfile makes a header
                 writer.WriteLine("{0};{1};{2};{3};{4};{5};{6};", "Konto", "Ansvar", "ProduktID", "Produkt", "KundID", "Kund", "Belopp");
 
-                foreach (string str in from row
-                                       in FinancialIncomeList
-                                       let department = GetDepartmentForPrinting(row.ProductID)
-                                       let account = GetAccountForPrinting(row.ProductID)
-                                       let amount = GetAmountForPrinting(row.ProductID)
-                                       select String.Format("{0};{1};{2};{3};{4};{5};{6};",
-                                           account, department,
-                                           row.ProductID,
-                                           row.Product.ProductName,
-                                           row.CustomerID,
-                                           row.Customer.CustomerName,
-                                           amount))
+                var tempList = db.FinancialIncome.Select(s => s);
+
+                foreach (var row in tempList)
                 {
+                    string account = GetAccountForPrinting(row.ProductID);
+                    string department = GetDepartmentForPrinting(row.ProductID);
+                    string amount = GetAmountForPrinting(row.ProductID);
+
+                    string str = String.Format("{0};{1};{2};{3};{4};{5};{6};",
+                        account,
+                        department,
+                        row.ProductID,
+                        row.Product.ProductName,
+                        row.CustomerID,
+                        row.Customer.CustomerName,
+                        amount);
+
                     writer.WriteLine(str);
                 }
+
+
+
+                //foreach (string str in from row
+                //                       in tempList
+                //                       let department = GetDepartmentForPrinting(row.ProductID)
+                //                       let account = GetAccountForPrinting(row.ProductID)
+                //                       let amount = GetAmountForPrinting(row.ProductID)
+                //                       select String.Format("{0};{1};{2};{3};{4};{5};{6};",
+                //                           account, department,
+                //                           row.ProductID,
+                //                           row.Product.ProductName,
+                //                           row.CustomerID,
+                //                           row.Customer.CustomerName,
+                //                           amount))
+                //{
+                //    writer.WriteLine(str);
+                //}
             }
         }
 
@@ -286,7 +308,22 @@ namespace Logic_Layer
         {
             var firstOrDefault = db.FinancialIncome.FirstOrDefault(a => a.ProductID.Equals(productID));
 
-            int value = (int) firstOrDefault.Budget*-1;
+            if (firstOrDefault.Addition == null)
+            {
+                firstOrDefault.Addition = 0;
+            }
+
+            if (firstOrDefault.Agreement == null)
+            {
+                firstOrDefault.Agreement = 0;
+            }
+
+            if (firstOrDefault.Hours == null)
+            {
+                firstOrDefault.Hours = 0;
+            }
+
+            int value = (int)firstOrDefault.Budget * -1;
 
             return value.ToString(CultureInfo.InvariantCulture);
         }
