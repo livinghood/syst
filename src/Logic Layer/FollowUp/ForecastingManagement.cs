@@ -297,7 +297,8 @@ namespace Logic_Layer.FollowUp
             //Summerize the budgets
             foreach (FinancialIncome fi in financialIncomes)
             {
-                budget = +(int)fi.Budget;
+                if (fi.Budget != null)
+                    budget += (int)fi.Budget;
             }
 
             return budget;
