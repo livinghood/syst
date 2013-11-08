@@ -276,9 +276,33 @@ namespace Logic_Layer.FollowUp
 
                     if (product != null)
                     {
+                        var revenues = from c in db.IncomeProductCustomer
+                                       where c.IeProductID.Equals(product.CeProductID)
+                                       orderby c.IeAmount ascending
+                                       select c;
+
+                        var costs = from r in db.CostProduct
+                                    where r.CeProductID.Equals(product.CeProductID)
+                                    orderby r.CeAmount descending
+                                    select r;
+
+                        int revenue = 0, cost = 0;
+
+                        if (revenues.Any())
+                        {
+                            var p = revenues.First();
+                            revenue = ~p.IeAmount + 1;
+                        }
+
+                        if (costs.Any())
+                        {
+                            var re = costs.First();
+                            cost = re.CeAmount;
+                        }
+
                         gfu.ObjectName = product.CeProductName;
-                        gfu.Costs = (int)BudgetedResultManagement.Instance.GetDirectProductCostByProductID(product.CeProductID);
-                        gfu.Revenues = BudgetedResultManagement.Instance.GetRevenueByProduct(product.CeProductID);
+                        gfu.Costs = cost;
+                        gfu.Revenues = revenue;
                         gfu.Result = gfu.Revenues - gfu.Costs;
                         gfu.Date = inGFU.Date;
                     }
@@ -295,10 +319,12 @@ namespace Logic_Layer.FollowUp
                     if (cps.Any() && productToLookFor != null)
                         gfu.Date = cps.First(s => s.CeProductID.Equals(productToLookFor.ProductID)).CeIncomeDate;
 
+                    gfu.Revenues = GetProductGroupRevenues(productToLookFor.ProductID);
+                    gfu.Costs = GetProductGroupCosts(productToLookFor.ProductID);
+
                     var productGroup = db.ProductGroup.Single(p => p.ProductGroupID.Equals(inGFU.ObjectID));
                     gfu.ObjectName = productGroup.ProductGroupName;
-                    gfu.Costs = BudgetedResultManagement.Instance.GetProductGroupCostByID(inGFU.ObjectID);
-                    gfu.Revenues = BudgetedResultManagement.Instance.GetProductGroupInmcomeByID(inGFU.ObjectID);
+
                     gfu.Result = gfu.Revenues - gfu.Costs;
 
                     break;
@@ -316,33 +342,58 @@ namespace Logic_Layer.FollowUp
                     if (cps.Any() && productToLookFor != null)
                         gfu.Date = cps.First(s => s.CeProductID.Equals(productToLookFor.ProductID)).CeIncomeDate;
 
+
+                    gfu.Costs = GetProductGroupCosts(productToLookFor.ProductID);
+                    gfu.Revenues = GetProductGroupRevenues(productToLookFor.ProductID);
+
                     var department = db.Department.First(p => p.DepartmentID.Equals(inGFU.ObjectID));
                     gfu.ObjectName = department.DepartmentName;
 
-                    if (inGFU.ObjectID == "DA" || inGFU.ObjectID == "UF")
-                    {
-                        gfu.Costs = BudgetedResultManagement.Instance.GetProductionDepartmentCostByDepartmentID(inGFU.ObjectID);
-                        gfu.Revenues = BudgetedResultManagement.Instance.GetProductionDepartmentIncomeByID(inGFU.ObjectID);
-                    }
-                    if (inGFU.ObjectID == "AO" || inGFU.ObjectID == "FO")
-                    {
-                        gfu.Costs = BudgetedResultManagement.Instance.GetAFFODepartmentCostByDepartmentID(inGFU.ObjectID);
-                        gfu.Revenues = 0;
-                    }
                     gfu.Result = gfu.Revenues - gfu.Costs;
                     break;
 
                 case CostProductOption.Company:
                     gfu.ObjectName = "IT-Service";
 
-                    gfu.Costs = (int)BudgetedResultManagement.Instance.GetTotalCost();
-                    gfu.Revenues = BudgetedResultManagement.Instance.GetCalculatedTotalRevenue();
+
+                    foreach (var item in db.CostProduct)
+                    {
+                        gfu.Costs += item.CeAmount;
+                    }
+
+
+                    foreach (var item in db.IncomeProductCustomer)
+                    {
+                        gfu.Revenues += ~item.IeAmount +1;
+                    }
+
                     gfu.Date = inGFU.Date;
                     gfu.Result = gfu.Revenues - gfu.Costs;
                     break;
             }
 
             return gfu;
+        }
+
+        private int GetProductGroupCosts(string id)
+        {
+            var costs = from r in db.CostProduct
+                        where r.CeProductID.Equals(id)
+                        orderby r.CeAmount descending
+                        select r;
+
+            return Enumerable.Sum(costs, item => item.CeAmount);
+        }
+
+        private int GetProductGroupRevenues(string id)
+        {
+            var revenues = from c in db.IncomeProductCustomer
+                           where c.IeProductID.Equals(id)
+                           orderby c.IeAmount ascending
+                           select c;
+
+            int sum = Enumerable.Sum(revenues, item => item.IeAmount);
+            return ~sum + 1;
         }
     }
 }

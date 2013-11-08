@@ -121,6 +121,8 @@ namespace Logic_Layer.FollowUp
                 string row;
                 while ((row = reader.ReadLine()) != null)
                 {
+  
+
                     /* IntaktProduktKund.txt is formatted in such a way that there are up to three tabs separating each
                      * 'column' in the text file. If a row contains multiple tabs they are replaced with one. */
                     if (row.Contains("\t\t\t"))
@@ -133,18 +135,23 @@ namespace Logic_Layer.FollowUp
                         row = row.Replace("\t\t", "\t");
                     }
 
+                    if (row.Contains("  "))
+                    {
+                        row = row.Replace("  ", "\t");
+                    }
+
                     // At this point each column is only separated by one tab which makes it easy to read the file
                     string[] field = row.Split('\t');
 
-                    IncomeProductCustomer ipc = new IncomeProductCustomer
-                    {
-                        IeProductID = field[0],
-                        IeProductName = field[1],
-                        IeCustomerID = field[2],
-                        IeCustomerName = field[3],
-                        IeAmount = int.Parse(field[5]),
-                        IeIncomeDate = DateTime.ParseExact(field[4], "yyyyMMdd", CultureInfo.InvariantCulture)
-                    };
+                    IncomeProductCustomer ipc = new IncomeProductCustomer();
+                    ipc.IeProductID = field[0];
+                    ipc.IeProductName = field[1];
+                    ipc.IeCustomerID = field[2];
+                    ipc.IeCustomerName = field[3];
+                    ipc.IeAmount = int.Parse(field[5]);
+                    ipc.IeIncomeDate = DateTime.ParseExact(field[4], "yyyyMMdd", CultureInfo.InvariantCulture);
+
+
 
                     // Add icp to database
                     AddIncomeProductCustomer(ipc);
