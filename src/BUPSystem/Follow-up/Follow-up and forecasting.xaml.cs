@@ -288,7 +288,7 @@ namespace BUPSystem.Uppföljning
                     }
                     ForecastingManagement.Instance.UpdateForecast();
                 }
-                           
+                MessageBox.Show("Data är sparad");           
                 //ForecastingManagement.Instance.AddForecast(cbMonth.SelectedIndex);
                 saved = true;
             }
@@ -318,9 +318,18 @@ namespace BUPSystem.Uppföljning
                 DateTime month = new DateTime(DateTime.Now.Year, (int)SelectedMonth, 1);
 
                 //Call method to lock forecast for the selected month
-                ForecastingManagement.Instance.LockForecast(month);
-
-                MessageBox.Show(string.Format("Uppföljning för månad {0} har låsts", month), "Låst");
+                if (ForecastingManagement.Instance.LockForecast(month))
+                {
+                    MessageBox.Show(string.Format("Uppföljning för månad {0} har låsts", month.Month), "Låst");
+                    dgForecasts.IsEnabled = false;
+                    btnSave.IsEnabled = false;
+                    lblInfo.Content = "Uppföljning för denna månad är låst";
+                    btnLock.IsEnabled = false;
+                }
+                else
+                {
+                    MessageBox.Show(string.Format("Det gick ej att låsa, finns ingen sparad data"));
+                }
             }
             else
                 MessageBox.Show("Du måste välja en enskild månad för låsning", "Välj en månad att låsa");

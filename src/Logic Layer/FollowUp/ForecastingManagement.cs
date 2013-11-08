@@ -438,12 +438,24 @@ namespace Logic_Layer.FollowUp
         /// Locks a forecast
         /// </summary>
         /// <param name="month"></param>
-        public void LockForecast(DateTime month)
+        public bool LockForecast(DateTime month)
         {
             string monthID = month.ToString("yyyyMM");
             var Forecast = db.ForecastMonth.FirstOrDefault(f => f.ForecastMonitorMonthID.Equals(monthID));
-            Forecast.ForecastLock = true;
-            db.SaveChanges();
+
+            if (ForecastMonitorExists(Forecast))
+            {
+                Forecast.ForecastLock = true;
+                db.SaveChanges();
+                return true;
+            }
+            else
+                return false;
+        }
+
+        public bool ForecastMonitorExists(ForecastMonth forecastMonth)
+        {
+            return db.ForecastMonitor.Any(f => f.ForecastMonitorMonthID == forecastMonth.ForecastMonitorMonthID);
         }
 
         public bool CheckIfLocked(DateTime month)
