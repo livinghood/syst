@@ -187,6 +187,12 @@ namespace Logic_Layer.Cost_Budgeting_Logic
             if (expensbudget != null)
             {
                 string s_id = expensbudget.SellLock.ToString(CultureInfo.InvariantCulture);
+
+                if (s_id.Length == 1 || String.IsNullOrEmpty(s_id))
+                {
+                    return false;
+                }
+
                 switch (departmentID)
                 {
                     case "AO":
@@ -204,7 +210,7 @@ namespace Logic_Layer.Cost_Budgeting_Logic
                     case "UF":
                         if (s_id[1] == '1')
                             return true;
-                        break;
+                        break;  
                 }
             }
             return false;

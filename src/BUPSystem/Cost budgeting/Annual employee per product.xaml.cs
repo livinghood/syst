@@ -119,9 +119,8 @@ namespace BUPSystem.Kostnadsbudgetering
                             foreach (DataItemProduct di in MyList)
                             {
                                 if (di.EmployeeID == e.EmployeeID)
-                                {
+                                {               
                                     di.DataList.Add(p);
-
                                     found = true;
                                 }
                             }
@@ -160,18 +159,26 @@ namespace BUPSystem.Kostnadsbudgetering
                     {
 
                         string prodName = dgProductPlacements.Columns.Last().Header.ToString();
-                        Product tempProduct = ProductManagement.Instance.Products.Where(p => p.ProductName.Equals(prodName)).SingleOrDefault();
-                        ProductPlacement newProductPlacement = new ProductPlacement() { EmployeeID = e.EmployeeID, ProductID = tempProduct.ProductID, ProductAllocate = 0 };
-
-                        foreach (DataItemProduct di in MyList)
+                        Product tempProduct = ProductManagement.Instance.Products.SingleOrDefault(p => p.ProductName.Equals(prodName));
+                        if (tempProduct != null)
                         {
-                            // Om det är rätt kund
-                            if (di.EmployeeID == e.EmployeeID)
+                            ProductPlacement newProductPlacement = new ProductPlacement
                             {
-                                // Lägg till product placement
-                                di.DataList.Add(newProductPlacement);
+                                EmployeeID = e.EmployeeID,
+                                ProductID = tempProduct.ProductID,
+                                ProductAllocate = 0
+                            };
+
+                            foreach (DataItemProduct di in MyList)
+                            {
+                                // Om det är rätt kund
+                                if (di.EmployeeID == e.EmployeeID)
+                                {
+                                    // Lägg till product placement
+                                    di.DataList.Add(newProductPlacement);
+                                }
+                                SelectedProducts.Add(newProductPlacement.Product);
                             }
-                            SelectedProducts.Add(newProductPlacement.Product);
                         }
                     }
                 }
@@ -198,11 +205,10 @@ namespace BUPSystem.Kostnadsbudgetering
 
         private void CreateColumn(Product p)
         {
-            DataGridTextColumn productColumn = new DataGridTextColumn();
-            productColumn.Header = p.ProductName;
-                foreach (DataItemProduct di in MyList)
+            DataGridTextColumn productColumn = new DataGridTextColumn {Header = p.ProductName};
+            foreach (DataItemProduct di in MyList)
                 {
-                    ProductPlacement pp = new ProductPlacement() { EmployeeID = di.EmployeeID, ProductID = p.ProductID, ProductAllocate = 0 };
+                    ProductPlacement pp = new ProductPlacement { EmployeeID = di.EmployeeID, ProductID = p.ProductID, ProductAllocate = 0 };
                     di.DataList.Add(pp);
                     ProductPlacementList.Add(pp);
                 }

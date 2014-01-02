@@ -24,13 +24,18 @@ namespace Logic_Layer.General_Logic
                 using (var writer = new StreamWriter(path))
                 {
                     // First line in textfile makes a header
-                    writer.WriteLine("{0}\t{1}\t{2}\t{3}\t", "Produkt ID", "Produktbenämning", "Produktgrupp", "Produktkategori");
+                    writer.WriteLine("{0}\t{1}\t{2}\t{3}\t", ExtendString("Produkt ID"), ExtendString("Produktbenämning"), ExtendString("Produktgrupp"), ExtendString("Produktkategori"));
 
                     foreach (var row in listOfObjects)
                     {
-                        writer.WriteLine("{0}\t{1}\t{2}\t{3}\t", row.ProductID, row.ProductName, row.ProductGroup, row.ProductCategory);
+                        string productID = ExtendString(row.ProductID);
+                        string productName = ExtendString(row.ProductName);
+                        string productGroup = ExtendString(row.ProductGroup.ProductGroupName);
+                        string productCategory = ExtendString(row.ProductCategory.ProductCategoryName);
+
+                        writer.WriteLine("{0}\t{1}\t{2}\t{3}\t", productID, productName, productGroup, productCategory);
                     }
-                }  
+                }
                 return true;
             }
 
@@ -38,6 +43,21 @@ namespace Logic_Layer.General_Logic
             {
                 return false;
             }
+        }
+
+        private string ExtendString(string value)
+        {
+            if (value.Length < 40)
+            {
+                int spacesToAdd = 40 - value.Length;
+
+                for (int i = 0; i < spacesToAdd; i++)
+                {
+                    value += " ";
+                }
+            }
+
+            return value;
         }
     }
 }
