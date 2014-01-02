@@ -186,16 +186,46 @@ namespace Logic_Layer.FollowUp
         public decimal GetCalculatedDepartmentSchablonCost(string departmentID)
         {
             //SCHABLONSKOSTNADER PER AVDELNING
-            return Cost_Budgeting_Logic.DCPPDManagement.Instance.GetAccountsByDepartment(departmentID)
-                .Where(account => account.AccountID != 5021 && account.AccountID != 9999)
-                .Select(account => account.AccountCost == null ? 0 : (int)account.AccountCost)
-                .Aggregate<int, decimal>(0, (current, tempCost) => current + tempCost);
+            if (departmentID.Equals("DA") || departmentID.Equals("UF"))
+            {
+                return Cost_Budgeting_Logic.DCPPDManagement.Instance.GetAccountsByProductDepartment(departmentID)
+                    .Where(account => account.AccountID != 5021 && account.AccountID != 9999)
+                    .Select(account => account.AccountCost == null ? 0 : (int)account.AccountCost)
+                    .Aggregate<int, decimal>(0, (current, tempCost) => current + tempCost);
+            }
+            if (departmentID.Equals("AO") || departmentID.Equals("FO"))
+            {
+                return Cost_Budgeting_Logic.DCPPDManagement.Instance.GetAccountsByActivityDepartment(departmentID)
+                    .Where(account => account.AccountID != 5021 && account.AccountID != 9999)
+                    .Select(account => account.AccountCost == null ? 0 : (int)account.AccountCost)
+                    .Aggregate<int, decimal>(0, (current, tempCost) => current + tempCost);
+            }
+            else
+                return 0;
         }
 
-        public decimal GetTotalCalculatedSchablonCost()
-        {
-            //SCHABLONSKOSTNADER FÖR ALLA AVDELNINGAR
-            return DepartmentList.Sum(department => GetCalculatedDepartmentSchablonCost(department.DepartmentID));
+        public int GetTotalCalculatedSchablonCost()
+        {//SCHABLONSKOSTNADER
+            int sum = 0;
+            foreach (Account acc in AccountManagement.Instance.Accounts)
+            {
+                if (acc.AccountID.Equals(5021) || acc.AccountID.Equals(9999))
+                    sum += 0;
+                else
+                {
+                    if (acc.AccountCost == null)
+                        sum += 0;
+                    else
+                        sum += (int)acc.AccountCost;
+                }
+            }
+            
+            // DIREKTA KOSTNADER FÖR ALLA PRODUKTER
+            decimal directProdCost = ProductList.Aggregate<Product, decimal>(0, (current, product) => current + (int)GetDirectProductCostByProductID(product.ProductID));
+            // DIREKTA KOSTNADER FÖR ALLA AKTIVITETER
+            decimal directActCost = ActivityList.Aggregate<Activity, decimal>(0, (current, activity) => current + (int)GetDirectActivityCostByActivityID(activity.ActivityID));
+
+            return sum -= (int)(directProdCost + directActCost);
         }
 
         public double GetAnnualEmployeeAtProductByDepartment(string departmentID)
@@ -285,7 +315,7 @@ namespace Logic_Layer.FollowUp
             return (int)ProductManagement.Instance.GetProductsByProductGroup(groupID).Cast<Product>().Sum(p => GetDirectProductCostByProductID(p.ProductID));
         }
 
-        public double GetSchablonMultipliedAnnual()
+        public double GetSchablonMultipliedAnnual(string departmentID)
         {
             //Schablonkostnad
             double sCost = (int)GetTotalCalculatedSchablonCost();
@@ -293,12 +323,11 @@ namespace Logic_Layer.FollowUp
             double aCost = 0; //AnnualCost
 
             //Årsarbetare för produkter
-            aCost += GetAnnualEmployeeAtProductByDepartment("DA");
-            aCost += GetAnnualEmployeeAtProductByDepartment("UF");
-
+            if (departmentID.Equals("DA") || departmentID.Equals("UF"))
+                aCost += GetAnnualEmployeeAtProductByDepartment(departmentID);
             //Årsarbetare för aktiviteter
-            //aCost += GetAnnualEmployeeAtActivityByDepartment("AO");
-            //aCost += GetAnnualEmployeeAtActivityByDepartment("FO");
+            if (departmentID.Equals("AO") || departmentID.Equals("FO"))
+                aCost += GetAnnualEmployeeAtActivityByDepartment(departmentID);
 
             // Schablonskostnad totalt / årsarbetare totalt (ej konto 5021)
             if (aCost == 0)
@@ -310,41 +339,33 @@ namespace Logic_Layer.FollowUp
 
         public int GetProductionDepartmentCostByDepartmentID(string departmentID)
         {
-            // Schablonskostnad totalt / årsarbetare totalt (ej konto 5021)
-            double tempSum = GetSchablonMultipliedAnnual();
-
-            // SUMMAN MULTIPLICERAT MED ÅRSARBETARE FÖR VALD AVDELNING
-            //tempSum *= GetAnnualEmployeeAtProductByDepartment(departmentID);
+            // Schablonskostnad totalt * årsarbetare totalt (ej konto 5021)
+            double sum = (double)GetSchablonMultipliedAnnual(departmentID);
 
             // summan + lönekostnaden för vald avdelning
-            decimal sum = (decimal)tempSum;
             sum += GetEmployeeSallaryCostByDepartment(departmentID);
 
             // summan + direkta kostnader för varje produkt för vald avdelning
-            sum += ProductManagement.Instance.GetProductsByDepartment(departmentID).Cast<Product>().Sum(product => GetDirectProductCostByProductID(product.ProductID));
+            sum += (double)ProductManagement.Instance.GetProductsByDepartment(departmentID).Cast<Product>().Sum(product => GetDirectProductCostByProductID(product.ProductID));
 
-            return (int)tempSum;
+            return (int)sum;
         }
 
         public int GetAFFODepartmentCostByDepartmentID(string departmentID)
         {
             // Schablonskostnad totalt / årsarbetare totalt (ej konto 5021)
-            double tempSum = GetSchablonMultipliedAnnual();
-
-            // SUMMAN MULTIPLICERAT MED ÅRSARBETARE FÖR VALD AVDELNING
-            tempSum *= GetAnnualEmployeeAtActivityByDepartment(departmentID);
+            double sum = GetSchablonMultipliedAnnual(departmentID); 
 
             // summan + lönekostnaden för vald avdelning
-            decimal sum = (decimal)tempSum;
             sum += GetEmployeeSallaryCostByDepartment(departmentID);
 
             // summan + direkta kostnader för varje produkt för vald avdelning
-            sum += ActivityManagement.Instance.GetActivitiesByDepartment(departmentID).Sum(activity => GetDirectActivityCostByActivityID(activity.ActivityID));
+            sum += (double)ActivityManagement.Instance.GetActivitiesByDepartment(departmentID).Sum(activity => GetDirectActivityCostByActivityID(activity.ActivityID));
 
             return (int)sum;
         }
 
-        public decimal GetTB()
+        public decimal GetTB(decimal production)
         {
             // LÖNEKOSTNAD PÅ AVDELNINGEN
             decimal sum = GetEmployeeSallaryCostByDepartment("AO");
@@ -358,7 +379,7 @@ namespace Logic_Layer.FollowUp
             // SUMMERAR KOSTNADEN PÅ KONTONA    
             sum += list.Where(a => a.AccountCost != null).Aggregate(sum, (current, a) => current + (int)a.AccountCost);
 
-            // SUMMERAR ALLA DIREKTA KOSTNADER PÅ AKTIVITETER TILL AVDELNINGEN
+            // SUMMERAR ALLA DIREKTA KOSTNADER PÅ AKTIVITETER
             sum += ActivityList.Aggregate(sum, (current, a) => current + (int)GetDirectActivityCostByActivityID(a.ActivityID));
 
             Account tempAcc = AccountList.Where(a => a.AccountID.Equals(9999)).FirstOrDefault();
@@ -367,9 +388,6 @@ namespace Logic_Layer.FollowUp
                 tempAcc.AccountCost = 0;
 
             sum += (int)tempAcc.AccountCost;
-
-            decimal production = GetProductionDepartmentCostByDepartmentID("DA");
-            production += GetProductionDepartmentCostByDepartmentID("UF");
 
             sum /= production;
 
@@ -401,18 +419,18 @@ namespace Logic_Layer.FollowUp
             annual += GetAnnualEmployeeAtProductByDepartment("DA");
             annual += GetAnnualEmployeeAtProductByDepartment("UF");
 
-            schablon *= annual;
-
-            decimal d_schablon = (decimal)schablon;
-
             // DIREKTA KOSTNADER FÖR ALLA PRODUKTER
-            decimal directCost = ProductList.Aggregate<Product, decimal>(0, (current, product) => current + (int)GetDirectProductCostByProductID(product.ProductID));
+            decimal directProdCost = ProductList.Aggregate<Product, decimal>(0, (current, product) => current + (int)GetDirectProductCostByProductID(product.ProductID));
+
+            decimal d_schablon = (decimal)(schablon * annual);
 
             // SUMMERAR IHOP FÖR TOTALA TILLVERKNINGSKOSTNADEN
-            tillVCost = sallary + d_schablon + directCost;
+            tillVCost = sallary + d_schablon + directProdCost;
 
             // BERÄKNAR TB BELOPPET
-            tb = GetTB() * tillVCost;
+            decimal d_tb = GetTB(tillVCost);
+
+            tb = d_tb * tillVCost;
 
             // SUMMERAR IHOP TB MED TILLVERKNINGSKOSTNADEN FÖR TOTALKOSTNAD
             totalCost = tillVCost + tb;
