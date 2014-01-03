@@ -97,7 +97,7 @@ namespace Logic_Layer
                     fi.ProductName = fi.Product.ProductName;
                 else
                 {
-                    Product tempP = ProductList.Where(p => p.ProductID.Equals(fi.ProductID)).SingleOrDefault();
+                    Product tempP = db.Product.SingleOrDefault(p => p.ProductID.Equals(fi.ProductID)); // ProductList.Where(p => p.ProductID.Equals(fi.ProductID)).SingleOrDefault();
                     fi.ProductName = tempP.ProductName;
                 }
             }
