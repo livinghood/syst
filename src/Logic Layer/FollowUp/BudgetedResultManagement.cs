@@ -231,19 +231,21 @@ namespace Logic_Layer.FollowUp
         public double GetAnnualEmployeeAtProductByDepartment(string departmentID)
         {
             // ÅRSARBETARE VIA PRODUKT PER AVDELNING
+            List<ProductPlacement> tempList = new List<ProductPlacement>();
+
             EmployeeList = new ObservableCollection<Employee>(EmployeeManagement.Instance.GetEmployeeAtributes(departmentID));
             foreach (ProductPlacement productPlacement in EmployeeList.Select(employee =>
                 new ObservableCollection<ProductPlacement>(ProductManagement.Instance.GetProductPlacementsByEmployee(employee))).SelectMany(tempPlacements => tempPlacements))
             {
                 // MÅSTE RÄKNA IHOP PER PRODUKT
-                ProductPlacementList.Add(productPlacement);
+                tempList.Add(productPlacement);
             }
             double totalAnnualProduct = 0;
-            if (ProductPlacementList.Any())
+            if (tempList.Any())
             {
                 totalAnnualProduct =
                     (from product in ProductList
-                     from pp in ProductPlacementList
+                     from pp in tempList
                      where product.ProductID.Equals(pp.ProductID)
                      select pp).Aggregate<ProductPlacement, double>(0, (current, pp) => current + (int)pp.ProductAllocate);
                 totalAnnualProduct /= 100;
@@ -254,16 +256,18 @@ namespace Logic_Layer.FollowUp
         public double GetAnnualEmployeeAtActivityByDepartment(string departmentID)
         {
             // ÅRSARBETARE VIA AKTIVITET PER AVDELNING
+            List<ActivityPlacement> tempList = new List<ActivityPlacement>();
+
             EmployeeList = new ObservableCollection<Employee>(EmployeeManagement.Instance.GetEmployeeAtributes(departmentID));
             foreach (ActivityPlacement activityPlacement in EmployeeList.Select(employee =>
                 new ObservableCollection<ActivityPlacement>(ActivityManagement.Instance.GetActivityPlacementsByEmployee(employee))).SelectMany(tempPlacements => tempPlacements))
             {
                 // MÅSTE RÄKNA IHOP PER AKTIVITET
-                ActivityPlacementList.Add(activityPlacement);
+                tempList.Add(activityPlacement);
             }
             double totalAnnualActivity =
                 (from activity in ActivityList
-                 from ap in ActivityPlacementList
+                 from ap in tempList
                  where activity.ActivityID.Equals(ap.ActivityID)
                  select ap).Aggregate<ActivityPlacement, double>(0, (current, ap) => current + (int)ap.ActivityAllocate);
             return totalAnnualActivity / 100;

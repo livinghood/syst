@@ -16,13 +16,13 @@
         <Button x:Name="btnSelectProduct" Content="Lägg till en produkt" HorizontalAlignment="Right" Margin="0,10,185,0" VerticalAlignment="Top" Width="120" Click="btnSelectProduct_Click" IsEnabled="False"/>
         <Button x:Name="btnLock" Content="Lås kostnadbudget" Margin="0,0,10,10" Click="btnLock_Click" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="120"/>
         <Grid Margin="10,35,10,81">
-            <DataGrid x:Name="dgAccounts" AutoGenerateColumns="False" SelectionChanged="dgAccounts_SelectionChanged" HorizontalScrollBarVisibility="Disabled" Margin="0,0,308,0" IsReadOnly="True">
+            <DataGrid x:Name="dgAccounts" AutoGenerateColumns="False" SelectionChanged="dgAccounts_SelectionChanged" HorizontalScrollBarVisibility="Disabled" Margin="0,0,308,0" IsReadOnly="True" SelectionMode="Single">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding AccountID}" ClipboardContentBinding="{x:Null}" Header="Kontonummer" Width="150" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding AccountName}" ClipboardContentBinding="{x:Null}" Header="Kontonamn" Width="150" IsReadOnly="True"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <DataGrid x:Name="dgDPPC" AutoGenerateColumns="False" SelectionChanged="dgDPPC_SelectionChanged" CellEditEnding="dgDPPC_CellEditEnding" RowEditEnding="dgDPPC_RowEditEnding" HorizontalScrollBarVisibility="Disabled" Margin="309,0,0,0">
+            <DataGrid x:Name="dgDPPC" AutoGenerateColumns="False" SelectionChanged="dgDPPC_SelectionChanged" CellEditEnding="dgDPPC_CellEditEnding" RowEditEnding="dgDPPC_RowEditEnding" HorizontalScrollBarVisibility="Disabled" Margin="309,0,0,0" CanUserAddRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding ProductID}" ClipboardContentBinding="{x:Null}" Header="Produkt ID" IsReadOnly="True" Width="150"/>
                     <DataGridTextColumn Binding="{Binding ProductCost}" ClipboardContentBinding="{x:Null}" Header="Kostnader" Width="150"/>

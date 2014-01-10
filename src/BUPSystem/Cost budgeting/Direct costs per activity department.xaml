@@ -14,7 +14,7 @@
                 <DataGridTextColumn Binding="{Binding AccountName}" ClipboardContentBinding="{x:Null}" Header="Kontonamn" Width="150" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
-        <DataGrid x:Name="dgDCPAD" Margin="318,35,10,0" VerticalAlignment="Top" Height="333" AutoGenerateColumns="False" SelectionChanged="dgDCPAD_SelectionChanged" CellEditEnding="dgDCPAD_CellEditEnding" RowEditEnding="dgDCPAD_RowEditEnding" HorizontalScrollBarVisibility="Disabled">
+        <DataGrid x:Name="dgDCPAD" Margin="318,35,10,0" VerticalAlignment="Top" Height="333" AutoGenerateColumns="False" SelectionChanged="dgDCPAD_SelectionChanged" CellEditEnding="dgDCPAD_CellEditEnding" RowEditEnding="dgDCPAD_RowEditEnding" HorizontalScrollBarVisibility="Disabled" CanUserAddRows="False" SelectionMode="Single">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding ActivityID}" ClipboardContentBinding="{x:Null}" Header="Aktivitets ID" IsReadOnly="True" Width="150"/>
                 <DataGridTextColumn Binding="{Binding ActivityCost}" ClipboardContentBinding="{x:Null}" Header="Kostnader" Width="150"/>
