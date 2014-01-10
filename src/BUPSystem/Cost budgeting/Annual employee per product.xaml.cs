@@ -111,6 +111,9 @@ namespace BUPSystem.Kostnadsbudgetering
             {
                 foreach (ProductPlacement p in ProductManagement.Instance.GetProductPlacementsByEmployeeAndDepartment(e,DepartmentID))
                 {
+                    //-----------------------|||||||||||||||||||||||||||||||||||||||||||||||--------------------------
+                    //GÅR INTE IN I FOREACHLOPEN OM DET INTE FINNS NÅGRA PRODUKTPLACERINGAR FÖR DEN ANSTÄLLDE, LISTAN SOM LEVERERAS ÄR TOM
+                    //-----------------------|||||||||||||||||||||||||||||||||||||||||||||||--------------------------
                     bool found = false;
                     foreach (DataGridColumn dgc in dgProductPlacements.Columns)
                     {
