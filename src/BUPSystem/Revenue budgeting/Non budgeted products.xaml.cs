@@ -83,7 +83,7 @@ namespace BUPSystem.Revenue_budgeting
                 string filename = String.Format("Ej Budgeterade Produkter - {0}.txt", department);
                 bool success = pl.ExportNonBudgetedProductsToTextFile(filename, NonBudgetedProductsList);
 
-                string finalMessage = success ? "Exportering till fil är klar" : "Misslyckades att exportera till fil";
+                string finalMessage = success ? "Exportering till fil är klar. Filen sparades i " + System.IO.Path.GetFullPath(filename) : "Misslyckades att exportera till fil";
 
                 MessageBox.Show(finalMessage, "Exportering till fil");
             }        
