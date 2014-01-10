@@ -94,7 +94,7 @@ namespace Logic_Layer
         /// <returns></returns>
         public Product GetProductByName(string productName)
         {
-            return Products.FirstOrDefault(p => p.ProductName.Equals(productName));
+            return db.Product.FirstOrDefault(p => p.ProductName.Equals(productName));
         }
 
         public IEnumerable<string> GetProductDepartments()
@@ -227,6 +227,7 @@ namespace Logic_Layer
             return from p in db.ProductPlacement
                    where p.EmployeeID == employee.EmployeeID
                    where p.Product.DepartmentID == department
+                   where p.ExpenseBudgetID == DateTime.Now.Year
                    select p;
         }
 

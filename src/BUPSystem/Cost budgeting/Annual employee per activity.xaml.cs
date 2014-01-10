@@ -104,74 +104,64 @@ namespace BUPSystem.Kostnadsbudgetering
         /// </summary>
         private void LoadExistingPlacements()
         {
-            // Ber om ursäkt för dom här foreach-satserna. Dom är inte försvarbara.
             foreach (Employee e in EmployeeList)
             {
-                foreach (ActivityPlacement a in ActivityManagement.Instance.GetActivityPlacementsByEmployeeAndDepartment(e, DepartmentID))
+                foreach (ActivityPlacement ap in ActivityManagement.Instance.GetActivityPlacementsByEmployeeAndDepartment(e, DepartmentID))
                 {
-                    bool found = false;
-                    foreach (DataGridColumn dgc in dgActivityPlacements.Columns)
+                    foreach (DataItemActivity DIA in MyList)
                     {
-                        if (dgc.Header.Equals(a.Activity.ActivityName))
+                        if (DIA.EmployeeID.Equals(e.EmployeeID))
                         {
-                            foreach (DataItemActivity di in MyList)
+                            DIA.DataList.Add(ap);
+
+                            //Create column if it doesn't exist
+                            if (!ColumnExists(ap.Activity.ActivityName))
                             {
-                                if (di.EmployeeID == e.EmployeeID)
-                                {
-                                    di.DataList.Add(a);
-
-                                    found = true;
-                                }
+                                DataGridTextColumn activityColumn = new DataGridTextColumn { Header = ap.Activity.ActivityName };
+                                activityColumn.Binding = new Binding("DataList[" + dgActivityPlacements.Columns.Count + "].ActivityAllocate");
+                                dgActivityPlacements.Columns.Add(activityColumn);
+                                SelectedActivities.Add(ap.Activity);
                             }
-                        }
-                    }
-                    if (found)
-                        continue;
-                    // INTE HITTAD
-                    
-                    //Skapa column
-                    DataGridTextColumn activityColumn = new DataGridTextColumn();
-                    activityColumn.Header = a.Activity.ActivityName;
-                    activityColumn.Binding = new Binding("DataList[" + dgActivityPlacements.Columns.Count + "].ActivityAllocate");
-                    //Lägg till column
-                    dgActivityPlacements.Columns.Add(activityColumn);
 
-                    //För varje rad
-                    foreach (DataItemActivity di in MyList)
-                    {
-                        // Om det är rätt kund
-                        if (di.EmployeeID == e.EmployeeID)
-                        {
-                            // Lägg till product placement
-                            di.DataList.Add(a);
-                        }
-                        SelectedActivities.Add(a.Activity);
-                    }
-                }
-
-                foreach (DataGridColumn dgc in dgActivityPlacements.Columns)
-                {
-                    // OM DEN ANSTÄLLDE ÄR HELT NY OCH INTE HAR NÅGRA PRODUKTPLACERINGAR
-                    if (!ProductManagement.Instance.GetProductPlacementsByEmployeeAndDepartment(e, DepartmentID).Any())
-                    {
-
-                        string actName = dgActivityPlacements.Columns.Last().Header.ToString();
-                        Activity tempActivity = ActivityManagement.Instance.ActivityList.Where(a => a.ActivityName.Equals(actName)).SingleOrDefault();
-                        ActivityPlacement newActivityPlacement = new ActivityPlacement() { EmployeeID = e.EmployeeID, ActivityID = tempActivity.ActivityID, ActivityAllocate = 0 };
-
-                        foreach (DataItemActivity di in MyList)
-                        {
-                            // Om det är rätt kund
-                            if (di.EmployeeID == e.EmployeeID)
-                            {
-                                // Lägg till Activity placement
-                                di.DataList.Add(newActivityPlacement);
-                            }
-                            SelectedActivities.Add(newActivityPlacement.Activity);
                         }
                     }
                 }
             }
+
+            foreach (DataItemActivity DIA in MyList)
+            {
+                foreach (DataGridTextColumn DGTC in dgActivityPlacements.Columns)
+                {
+                    ActivityPlacement tempAP = DIA.DataList.SingleOrDefault(a => a.Activity.ActivityName.Equals(DGTC.Header.ToString()));
+
+                    if (tempAP == null)
+                    {
+                        Activity tempAct = ActivityManagement.Instance.GetActivityByName(DGTC.Header.ToString());
+                        ActivityPlacement newPlacement = new ActivityPlacement
+                        {
+                            EmployeeID = DIA.EmployeeID,
+                            Activity = tempAct,
+                            ActivityID = tempAct.ActivityID,
+                            ExpenseBudgetID = DateTime.Now.Year,
+                            ActivityAllocate = 0
+                        };
+                        DIA.DataList.Add(newPlacement);
+                        ActivityPlacementList.Add(newPlacement);
+                    }
+                }
+            }
+
+
+        }
+
+        private bool ColumnExists(string activityName)
+        {
+            foreach (DataGridColumn DGC in dgActivityPlacements.Columns)
+            {
+                if (DGC.Header.Equals(activityName))
+                    return true;
+            }
+            return false;
         }
 
         private void CreateColumn(Activity a)

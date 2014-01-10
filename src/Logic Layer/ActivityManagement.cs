@@ -102,6 +102,11 @@ namespace Logic_Layer
             return db.Activity.Where(a => a.DepartmentID == "AO").OrderBy(a => a.ActivityName);
         }
 
+        public Activity GetActivityByName(string activityName)
+        {
+            return db.Activity.FirstOrDefault(a => a.ActivityName.Equals(activityName));
+        }
+
         /// <summary>
         /// Get a list of all activities
         /// </summary>

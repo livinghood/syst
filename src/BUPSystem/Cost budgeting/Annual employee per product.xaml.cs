@@ -106,86 +106,64 @@ namespace BUPSystem.Kostnadsbudgetering
         /// </summary>
         private void LoadExistingPlacements()
         {
-            // Ber om ursäkt för dom här foreach-satserna. Dom är inte försvarbara.
             foreach (Employee e in EmployeeList)
             {
-                foreach (ProductPlacement p in ProductManagement.Instance.GetProductPlacementsByEmployeeAndDepartment(e,DepartmentID))
+                foreach (ProductPlacement pp in ProductManagement.Instance.GetProductPlacementsByEmployeeAndDepartment(e, DepartmentID))
                 {
-                    //-----------------------|||||||||||||||||||||||||||||||||||||||||||||||--------------------------
-                    //GÅR INTE IN I FOREACHLOPEN OM DET INTE FINNS NÅGRA PRODUKTPLACERINGAR FÖR DEN ANSTÄLLDE, LISTAN SOM LEVERERAS ÄR TOM
-                    //-----------------------|||||||||||||||||||||||||||||||||||||||||||||||--------------------------
-                    bool found = false;
-                    foreach (DataGridColumn dgc in dgProductPlacements.Columns)
+                    foreach (DataItemProduct DIP in MyList)
                     {
-                        if (dgc.Header.Equals(p.Product.ProductName))
+                        if (DIP.EmployeeID.Equals(e.EmployeeID))
                         {
-                            foreach (DataItemProduct di in MyList)
+                            DIP.DataList.Add(pp);
+
+                            //Create column if it doesn't exist
+                            if (!ColumnExists(pp.Product.ProductName))
                             {
-                                if (di.EmployeeID == e.EmployeeID)
-                                {               
-                                    di.DataList.Add(p);
-                                    found = true;
-                                }
+                                DataGridTextColumn productColumn = new DataGridTextColumn { Header = pp.Product.ProductName };
+                                productColumn.Binding = new Binding("DataList[" + dgProductPlacements.Columns.Count + "].ProductAllocate");
+                                dgProductPlacements.Columns.Add(productColumn);
+                                SelectedProducts.Add(pp.Product);
                             }
-                        }
-                    }
-                    if (found)
-                        continue;
-                    // INTE HITTAD
 
-                    //Skapa column
-                    DataGridTextColumn productColumn = new DataGridTextColumn();
-                    productColumn.Header = p.Product.ProductName;
-                    productColumn.Binding = new Binding("DataList[" + dgProductPlacements.Columns.Count + "].ProductAllocate");
-                    //Lägg till column
-                    dgProductPlacements.Columns.Add(productColumn);
-                    
-                    //För varje rad
-                    foreach (DataItemProduct di in MyList)
-                    {
-                        // Om det är rätt kund
-                        if (di.EmployeeID == e.EmployeeID)
-                        {
-                            // Lägg till product placement
-                            di.DataList.Add(p);
-                        }
-                        SelectedProducts.Add(p.Product);
-                    }
-                }
-
-                foreach (DataGridColumn dgc in dgProductPlacements.Columns)
-                {
-                    // AKTIVITET GER NYA PÅ ALLA COLUMNER INTE PRODUKT, INGEN SPARAS TILL DATABAS
-
-                    // OM DEN ANSTÄLLDE ÄR HELT NY OCH INTE HAR NÅGRA PRODUKTPLACERINGAR
-                    if (!ProductManagement.Instance.GetProductPlacementsByEmployeeAndDepartment(e, DepartmentID).Any())
-                    {
-
-                        string prodName = dgProductPlacements.Columns.Last().Header.ToString();
-                        Product tempProduct = ProductManagement.Instance.Products.SingleOrDefault(p => p.ProductName.Equals(prodName));
-                        if (tempProduct != null)
-                        {
-                            ProductPlacement newProductPlacement = new ProductPlacement
-                            {
-                                EmployeeID = e.EmployeeID,
-                                ProductID = tempProduct.ProductID,
-                                ProductAllocate = 0
-                            };
-
-                            foreach (DataItemProduct di in MyList)
-                            {
-                                // Om det är rätt kund
-                                if (di.EmployeeID == e.EmployeeID)
-                                {
-                                    // Lägg till product placement
-                                    di.DataList.Add(newProductPlacement);
-                                }
-                                SelectedProducts.Add(newProductPlacement.Product);
-                            }
                         }
                     }
                 }
             }
+
+            foreach (DataItemProduct DIP in MyList)
+            {
+                foreach (DataGridTextColumn DGTC in dgProductPlacements.Columns)
+                {
+                    ProductPlacement tempPP = DIP.DataList.SingleOrDefault( p => p.Product.ProductName.Equals(DGTC.Header.ToString()));
+
+                    if (tempPP == null)
+                    {
+                        Product tempProd = ProductManagement.Instance.GetProductByName(DGTC.Header.ToString());
+                        ProductPlacement newPlacement = new ProductPlacement 
+                        { 
+                            EmployeeID = DIP.EmployeeID, 
+                            Product = tempProd,
+                            ProductID = tempProd.ProductID,
+                            ExpenseBudgetID = DateTime.Now.Year, 
+                            ProductAllocate = 0 
+                        };
+                        DIP.DataList.Add(newPlacement);
+                        ProductPlacementList.Add(newPlacement);
+                    }
+                }
+            }
+
+
+        }
+
+        private bool ColumnExists(string productName)
+        {
+            foreach (DataGridColumn DGC in dgProductPlacements.Columns)
+            {
+                if (DGC.Header.Equals(productName))
+                    return true;
+            }
+            return false;
         }
 
         private void btnChooseProduct_Click(object sender, RoutedEventArgs e)
