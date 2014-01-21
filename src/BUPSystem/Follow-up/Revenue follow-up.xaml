@@ -33,7 +33,7 @@
                 <RadioButton x:Name="rbProductGroup" Content="Produktgrupp" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,20,0,0" Checked="rbProductGroup_Checked"/>
             </Grid>
         </GroupBox>
-        <DataGrid x:Name="dgItems" HorizontalAlignment="Left" Margin="10,0,0,10" Width="349" ItemsSource="{Binding GeneralFollowUps}" AutoGenerateColumns="False" SelectionMode="Single" SelectionChanged="dgItems_SelectionChanged" HorizontalScrollBarVisibility="Disabled" Height="237" VerticalAlignment="Bottom" SelectedItem="{Binding GFU}">
+        <DataGrid x:Name="dgItems" HorizontalAlignment="Left" Margin="10,0,0,10" Width="349" ItemsSource="{Binding GeneralFollowUps}" AutoGenerateColumns="False" SelectionMode="Single" SelectionChanged="dgItems_SelectionChanged" HorizontalScrollBarVisibility="Disabled" CanUserAddRows="False" IsReadOnly="True" Height="237" VerticalAlignment="Bottom" SelectedItem="{Binding GFU}">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding ObjectID}" ClipboardContentBinding="{x:Null}" Header="ID" IsReadOnly="True" Width="150"/>
                 <DataGridTextColumn Binding="{Binding ObjectName}" ClipboardContentBinding="{x:Null}" Header="Namn" IsReadOnly="True" Width="200"/>

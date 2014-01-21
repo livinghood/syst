@@ -220,12 +220,7 @@ namespace Logic_Layer.FollowUp
                 }
             }
             
-            // DIREKTA KOSTNADER FÖR ALLA PRODUKTER
-            decimal directProdCost = ProductList.Aggregate<Product, decimal>(0, (current, product) => current + (int)GetDirectProductCostByProductID(product.ProductID));
-            // DIREKTA KOSTNADER FÖR ALLA AKTIVITETER
-            decimal directActCost = ActivityList.Aggregate<Activity, decimal>(0, (current, activity) => current + (int)GetDirectActivityCostByActivityID(activity.ActivityID));
-
-            return sum -= (int)(directProdCost + directActCost);
+            return sum; 
         }
 
         public double GetAnnualEmployeeAtProductByDepartment(string departmentID)
@@ -275,23 +270,36 @@ namespace Logic_Layer.FollowUp
 
         public int GetEmployeeSallaryCostByDepartment(string departmentID)
         {
+            decimal sum = 0;
             // ANSTÄLLDAS LÖNEKOSTNADER PER AVDELNING
             EmployeeList = new ObservableCollection<Employee>(EmployeeManagement.Instance.GetEmployeeAtributes(departmentID));
-            return EmployeeList.Sum(employee => employee.MonthSallary * (employee.AnnualRate / 100));
+            foreach (Employee e in EmployeeList)
+            {
+                sum += (e.MonthSallary * (e.EmployeePlacement.Where(ep => ep.DepartmentID.Equals(departmentID)).SingleOrDefault().EmployeeAllocate) / 100);
+            }
+            return (int)sum;
         }
 
         public decimal GetDirectProductCostByProductID(string productID)
         {
             //DIREKTA KOSTNADER FÖR PRODUKT
-            return Cost_Budgeting_Logic.DCPPDManagement.Instance.DirectProductCosts
-                .Where(dp => dp.Product.ProductID.Equals(productID)).Aggregate<DirectProductCost, decimal>(0, (current, dp) => current + dp.ProductCost);
+            decimal result = 0;
+            foreach (DirectProductCost dp in db.DirectProductCost.Where(dpc => dpc.ProductID.Equals(productID)))
+            {
+                result += dp.ProductCost;
+            }
+            return result;
         }
 
         public decimal GetDirectActivityCostByActivityID(string activityID)
         {
             //DIREKT KOSTNAD FÖR AKTIVITET
-            return Cost_Budgeting_Logic.DCPADManagement.Instance.DirectActivityCosts
-                .Where(dp => dp.Activity.ActivityID.Equals(activityID)).Aggregate<DirectActivityCost, decimal>(0, (current, dp) => current + dp.ActivityCost);
+            decimal result = 0;
+            foreach (DirectActivityCost dp in db.DirectActivityCost.Where(dac => dac.ActivityID.Equals(activityID)))
+            {
+                result += dp.ActivityCost;
+            }
+            return result;
         }
 
         public int GetRevenueByProduct(string productID)
@@ -369,31 +377,40 @@ namespace Logic_Layer.FollowUp
             return (int)sum;
         }
 
-        public decimal GetTB(decimal production)
+        public decimal GetTB()
         {
             // LÖNEKOSTNAD PÅ AVDELNINGEN
             decimal sum = GetEmployeeSallaryCostByDepartment("AO");
             sum += GetEmployeeSallaryCostByDepartment("FO");
 
             // SUMMERAR MED SCHABLONSKOSTADER FRÅN KONTONA 5025-8571
-            var list = from a in AccountList
-                       where a.AccountID > 5024
-                       where a.AccountID < 8572
+            var list = from a in AccountManagement.Instance.GetAccounts()
+                       where a.AccountID > 5024 && a.AccountID < 8572
                        select a;
-            // SUMMERAR KOSTNADEN PÅ KONTONA    
-            sum += list.Where(a => a.AccountCost != null).Aggregate(sum, (current, a) => current + (int)a.AccountCost);
+            // SUMMERAR KOSTNADEN PÅ KONTONA   
+            foreach (var item in list)
+            {
+                if (item.AccountCost != null)
+                    sum += (decimal)item.AccountCost;
+            }
+            //sum += list.Where(a => a.AccountCost != null).Aggregate(sum, (current, a) => current + (int)a.AccountCost);
 
             // SUMMERAR ALLA DIREKTA KOSTNADER PÅ AKTIVITETER
-            sum += ActivityList.Aggregate(sum, (current, a) => current + (int)GetDirectActivityCostByActivityID(a.ActivityID));
+            foreach (Activity a in ActivityManagement.Instance.GetActivities())
+            {
+                sum += GetDirectActivityCostByActivityID(a.ActivityID);
+            }
+            //sum += ActivityList.Aggregate(sum, (current, a) => current + (int)GetDirectActivityCostByActivityID(a.ActivityID));
 
             Account tempAcc = AccountList.Where(a => a.AccountID.Equals(9999)).FirstOrDefault();
 
-            if (tempAcc.AccountCost == null)
-                tempAcc.AccountCost = 0;
+            if (tempAcc != null)
+            {
+                if (tempAcc.AccountCost == null)
+                    tempAcc.AccountCost = 0;
 
-            sum += (int)tempAcc.AccountCost;
-
-            sum /= production;
+                sum += (int)tempAcc.AccountCost;
+            }
 
             return sum;
         }
@@ -432,12 +449,12 @@ namespace Logic_Layer.FollowUp
             tillVCost = sallary + d_schablon + directProdCost;
 
             // BERÄKNAR TB BELOPPET
-            decimal d_tb = GetTB(tillVCost);
+            decimal d_tb = GetTB();
 
-            tb = d_tb * tillVCost;
+            tb = d_tb / tillVCost;
 
             // SUMMERAR IHOP TB MED TILLVERKNINGSKOSTNADEN FÖR TOTALKOSTNAD
-            totalCost = tillVCost + tb;
+            totalCost = tillVCost + tillVCost * tb;
 
             return totalCost;
 
