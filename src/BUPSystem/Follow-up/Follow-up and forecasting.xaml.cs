@@ -149,11 +149,11 @@ namespace BUPSystem.Uppföljning
             Months SelectedMonth;
             Enum.TryParse(cbMonth.SelectedValue.ToString(), out SelectedMonth);
 
-            string date = "01/01/2013";
+            //string date = "01/01/2013";
 
-             DateTime dt = Convert.ToDateTime(date);
+             //DateTime dt = Convert.ToDateTime(DateTime.);
 
-            DateTime month = new DateTime(2013, (int)SelectedMonth, 1);
+            DateTime month = new DateTime(DateTime.Now.Year, (int)SelectedMonth, 1);
 
             // Adda en month för att kunna låsa (addas bara om den inte finns)
             ForecastMonth = ForecastingManagement.Instance.AddForecastMonth(month);

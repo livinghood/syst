@@ -152,11 +152,13 @@ namespace BUPSystem.Revenue_budgeting
                 FinancialIncomeList = RevenueManagement.Instance.RemoveEmptyProductIncomes();
                 RevenueManagement.Instance.UpdateFinancialIncome();
                 MessageBox.Show("Intäktsbudgeteringen är nu sparad");
+                NewFinancialIncomeList.Clear();
             }
             catch
             {
                 MessageBox.Show("Du kan inte spara samma kund flera gånger på samma produkt");
             }
+            
         }
 
         public bool IsValid(DependencyObject parent)
