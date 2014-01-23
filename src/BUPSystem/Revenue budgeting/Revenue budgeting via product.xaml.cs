@@ -386,8 +386,11 @@ namespace BUPSystem.Revenue_budgeting
         {
             foreach (FinancialIncome fi in FinancialIncomeList)
             {
-                // Reset changes
-                RevenueManagement.Instance.ResetFinancialIncome(fi);
+                if (fi.CustomerID != null || fi.CustomerName != null)
+                {
+                    // Reset changes
+                    RevenueManagement.Instance.ResetFinancialIncome(fi);
+                }
             }
         }
 
